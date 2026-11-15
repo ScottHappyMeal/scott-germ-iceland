@@ -853,7 +853,7 @@
     return h;
   }
 
-  var BUILD = "20261114-duo3";
+  var BUILD = "20261114-duo4";
 
   function keptSearch() {
     try {
@@ -2652,27 +2652,30 @@
     return out === Infinity ? 0 : out;
   }
 
-  function deviceIsPortrait() {
-    /* CSS portrait, or a portrait screen.orientation type, or angle 0/180
-       on a device whose screen.width < screen.height (portrait-primary).
-       A landscape-primary screen (width > height) at 90/270 is also portrait. */
-    if (mqMatches("(orientation: portrait)")) return true;
-    var type = "";
-    var angle = 0;
-    if (window.screen && screen.orientation) {
-      type = screen.orientation.type || "";
-      if (typeof screen.orientation.angle === "number") angle = screen.orientation.angle;
-    } else if (typeof window.orientation === "number") {
-      angle = window.orientation;
+  function widestOffender() {
+    var inner = window.innerWidth || 0;
+    var worst = null;
+    var nodes = document.querySelectorAll("body *");
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (node.id === "fold-debug") continue;
+      var cs;
+      try { cs = window.getComputedStyle(node); } catch (e) { continue; }
+      if (!cs || cs.display === "none" || cs.visibility === "hidden") continue;
+      var rec = node.getBoundingClientRect();
+      var right = rec.right;
+      var sw = node.scrollWidth;
+      var score = Math.max(right, sw);
+      if (!worst || score > worst.score) {
+        var tag = node.tagName.toLowerCase();
+        var cls = (node.className && typeof node.className === "string")
+          ? node.className.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(".")
+          : "";
+        var name = tag + (node.id ? "#" + node.id : "") + (cls ? "." + cls : "");
+        worst = { name: name, right: Math.round(right), sw: sw, score: score, over: right > inner + 1 || sw > inner + 1 };
+      }
     }
-    if (type.indexOf("portrait") === 0) return true;
-    var sw = (window.screen && screen.width) || 0;
-    var sh = (window.screen && screen.height) || 0;
-    if (sw && sh) {
-      if (sw < sh && (angle === 0 || angle === 180)) return true;
-      if (sw > sh && (angle === 90 || angle === -90 || angle === 270)) return true;
-    }
-    return false;
+    return worst;
   }
 
   function foldSnapshot() {
@@ -2699,41 +2702,12 @@
     } else if (typeof window.orientation === "number") {
       angle = window.orientation;
     }
-    var isPortrait = deviceIsPortrait();
-    var curScreenW = 0, curScreenH = 0;
-    if (screenW && screenH) {
-      if (isPortrait) {
-        curScreenW = Math.min(screenW, screenH);
-        curScreenH = Math.max(screenW, screenH);
-      } else {
-        curScreenW = Math.max(screenW, screenH);
-        curScreenH = Math.min(screenW, screenH);
-      }
-    }
-    var width = positiveMin([innerW, visW, shownW, clientW, curScreenW]);
-    var height = positiveMin([innerH, visH, shownH, clientH, curScreenH]);
-    var pairs = [
-      [innerW, innerH],
-      [visW, visH],
-      [shownW, shownH],
-      [clientW, clientH],
-      [curScreenW, curScreenH]
-    ];
-    var allWide = true;
-    var anyPair = false;
-    for (var i = 0; i < pairs.length; i++) {
-      var a = pairs[i][0], b = pairs[i][1];
-      if (a > 0 && b > 0) {
-        anyPair = true;
-        if (!(a > b)) allWide = false;
-      }
-    }
-    if (!anyPair) allWide = false;
-    /* Two columns only when width is greater than height by every measure,
-       the shortest width is at least 800, and the device is not portrait.
-       Horizontal segments never force landscape on their own. */
-    var landscape = !!(allWide && width >= 800 && !isPortrait);
-    var portraitOpen = !landscape && width >= 520;
+    /* Class decision uses innerWidth vs innerHeight only. Chrome iOS on the
+       Duo can report orientation: landscape, a wide clientWidth, or a
+       small screen.width while the visible window is upright. */
+    var landscape = (innerW > innerH) && (innerW >= 800);
+    var portraitOpen = !landscape && innerW >= 520;
+    var wide = widestOffender();
     return {
       innerW: innerW, innerH: innerH,
       visW: visW, visH: visH, visScale: visScale,
@@ -2743,11 +2717,13 @@
       orientType: orientType, angle: angle,
       landscapeMq: mqMatches("(orientation: landscape)"),
       portraitMq: mqMatches("(orientation: portrait)"),
+      aspectLand: mqMatches("(min-aspect-ratio: 1/1)"),
+      aspectPort: mqMatches("(max-aspect-ratio: 1/1)"),
       hSegs: mqMatches("(horizontal-viewport-segments: 2)"),
       vSegs: mqMatches("(vertical-viewport-segments: 2)"),
-      width: width, height: height,
-      isPortrait: isPortrait,
+      width: innerW, height: innerH,
       landscape: landscape, portraitOpen: portraitOpen,
+      wide: wide,
       build: BUILD
     };
   }
@@ -2769,6 +2745,11 @@
     var classes = [];
     if (document.body.classList.contains("fold-landscape")) classes.push("fold-landscape");
     if (document.body.classList.contains("fold-portrait")) classes.push("fold-portrait");
+    var wide = snap.wide;
+    var wideLine = "widest (none)";
+    if (wide) {
+      wideLine = "widest " + wide.name + " right " + wide.right + " sw " + wide.sw + (wide.over ? " OVER" : "");
+    }
     el.textContent = [
       "inner " + snap.innerW + " x " + snap.innerH,
       "visual " + snap.visW + " x " + snap.visH + " scale " + snap.visScale,
@@ -2777,9 +2758,11 @@
       "dpr " + snap.dpr,
       "orientation " + (snap.orientType || "(none)") + " / " + snap.angle,
       "mq (orientation: landscape) " + snap.landscapeMq,
+      "mq (min-aspect-ratio: 1/1) " + snap.aspectLand,
       "mq (horizontal-viewport-segments: 2) " + snap.hSegs,
       "mq (vertical-viewport-segments: 2) " + snap.vSegs,
       "body " + (classes.length ? classes.join(" ") : "(none)"),
+      wideLine,
       "build " + snap.build
     ].join("\n");
   }
