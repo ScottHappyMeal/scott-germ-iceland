@@ -176,7 +176,10 @@
       model: "Toyota Yaris or similar, automatic 2WD",
       source: "Live Blue Car Rental quote, KEF, Dec 29, 2026 at 7:00 AM to Jan 3, 2027 at 3:00 PM.",
       daily: 57, vehicle: 342, iskVehicle: 42193, coverDaily: 44, cover: 264, trip: 606, rec: false,
-      age: "Age 20+"
+      age: "Age 20+",
+      url: "https://www.bluecarrental.is/our-cars/toyota-yaris/",
+      urlLabel: "Book it",
+      maps: "Blue Car Rental Keflavik Airport"
     },
     mid: {
       id: "mid",
@@ -185,7 +188,10 @@
       model: "Dacia Duster or similar, manual 4x4 (Sportage auto listed too)",
       source: "Live Blue Car Rental quote for the same KEF window.",
       daily: 66, vehicle: 395, iskVehicle: 48693, coverDaily: 54, cover: 324, trip: 719, rec: false,
-      age: "Age 20+ on the Duster, 23+ on the Sportage at Hertz"
+      age: "Age 20+ on the Duster, 23+ on the Sportage at Hertz",
+      url: "https://www.bluecarrental.is/our-cars/dacia-duster/",
+      urlLabel: "Book it",
+      maps: "Blue Car Rental Keflavik Airport"
     },
     premium: {
       id: "premium",
@@ -194,7 +200,12 @@
       model: "Land Rover Defender 110, 5-door automatic 4x4 (not a 90)",
       source: "From-rates, not a locked holiday quote. Holiday week can price above these. Blue Car Rental, KEF: from 37,523 ISK a day for 2026, about $304, guaranteed model or an upgrade, F-road approved. Zero Car Rental: from 42,423 ISK a day, about $344, with zero excess included (the car is supplied by Blue). Cars Iceland: from about $205 a day, with studded winter tires, CDW, and theft protection included. Saga and Lava also offer it, with a KEF shuttle. Hertz Iceland lists the Defender 110, or similar, on hertz.is (age 23+, two cards, 5 doors). Confirm a live quote when you book.",
       daily: 304, vehicle: 1824, iskVehicle: 225138, coverDaily: 54, cover: 324, trip: 2148, rec: true, est: true,
-      age: "Age 23+ at Hertz, two credit cards at pickup"
+      age: "Age 23+ at Hertz, two credit cards at pickup",
+      url: "https://www.bluecarrental.is/our-cars/land-rover-defender/",
+      urlLabel: "Book it",
+      url2: "https://www.hertz.is/vehicle_guide/pfan/",
+      url2Label: "Hertz Defender 110",
+      maps: "Blue Car Rental Keflavik Airport"
     }
   };
 
@@ -258,155 +269,185 @@
       desc: "Start slow after the overnight flight. The EDITION sits on the harbor next to Harpa, so you can walk the waterfront, duck into the glass concert hall, and let the cold air wake you up.",
       winter: "Paths can be icy. Wear shoes with grip, and keep the first morning easy.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Harpa Concert Hall Reykjavik" },
+      maps: "Harpa Concert Hall Reykjavik",
+      url: "https://www.harpa.is/", urlLabel: "Website" },
     { id: "horses", cat: "daytime", title: "Icelandic horse ride at Ishestar", photo: "ishestar", day: "Jan 1",
       desc: "Horses and Waffles is a relaxed 50-minute ride through lava fields at Ishestar in Hafnarfjordur, about 15 to 20 minutes from Reykjavik. Afterward you get a waffle and a hot drink in their cozy horse center. Ideal for beginners.",
       winter: "They run this all year. Horses wear studded winter shoes, and Ishestar gives you warm overalls and rain gear. Max 12 riders.",
       priceEach: HORSE_EACH, free: false, est: false, rec: true, defYes: true,
       maps: "Ishestar Hafnarfjordur",
+      url: "https://www.ishestar.is/en/portfolio/horses-and-waffles/", urlLabel: "Book it",
       priceNote: "16,900 ISK per person, from Ishestar." },
     { id: "grotta", cat: "evening", title: "Grotta lighthouse after dark", photo: "grotta", day: "Dec 29",
       desc: "Ten minutes from downtown, this little lighthouse on a causeway is the easiest northern-lights try of the trip. Even if the sky stays cloudy, the walk and the air are worth it.",
       winter: "The causeway can flood or ice over at high tide. Check the tide and wear spikes or careful boots. Do not climb the rocks in a storm.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Grotta lighthouse Reykjavik" },
+      maps: "Grotta lighthouse Reykjavik",
+      url: "https://visitreykjavik.is/city-areas/seltjarnarnes-grotta", urlLabel: "Website" },
     { id: "tides", cat: "food", title: "Dinner at Tides, The EDITION", photo: "tides", day: "Dec 29 or Jan 1",
       desc: "The hotel's restaurant, Tides, is the easy first or last nice dinner: seafood and Nordic plates without leaving the harbor. A calm contrast to the bigger Michelin rooms.",
       winter: "Book ahead for New Year's week. Holiday menus can run higher than the usual a-la-carte.",
       priceEach: 120, free: false, est: true, rec: false, defYes: false,
-      maps: "Tides restaurant The Reykjavik EDITION" },
+      maps: "Tides restaurant The Reykjavik EDITION",
+      url: "https://www.editionhotels.com/reykjavik/restaurants-and-bars/tides/", urlLabel: "Book it" },
     { id: "dill", cat: "food", title: "Dill (Michelin-star Nordic)", photo: "dill", day: "Flexible",
       desc: "Reykjavik's celebrated New Nordic room. A tasting-menu night if you want one serious dinner in town, built on local ingredients and a quiet, precise room.",
       winter: "Holiday week books up. Confirm the current menu and cancellation window before you pay a deposit.",
       priceEach: 250, free: false, est: true, rec: false, defYes: false,
-      maps: "Dill restaurant Reykjavik" },
+      maps: "Dill restaurant Reykjavik",
+      url: "https://www.dillrestaurant.is/", urlLabel: "Book it" },
     { id: "moss", cat: "food", title: "Moss at The Retreat (Michelin star)", photo: "moss", day: "Only with a Retreat stay",
       desc: "The Michelin-starred restaurant at The Retreat at Blue Lagoon. This only makes sense if you add a Retreat night, since dinner is not in the room rate.",
       winter: "Book the table with the room. A 2-night minimum may apply to the hotel.",
       priceEach: 280, free: false, est: true, rec: false, defYes: false,
-      maps: "Moss Restaurant Blue Lagoon" },
+      maps: "Moss Restaurant Blue Lagoon",
+      url: "https://www.bluelagoon.com/restaurant/moss", urlLabel: "Book it" },
     { id: "grillmarkadurinn", cat: "food", title: "Grillmarkadurinn", photo: "grillmarkadurinn", day: "Flexible",
       desc: "The Grill Market is a lively, reliable Reykjavik dinner: grilled lamb, fish, and a slightly more casual room than the tasting-menu spots.",
       winter: "Still worth booking for NYE week. Est. dinner price, not a live quote.",
       priceEach: 100, free: false, est: true, rec: false, defYes: false,
-      maps: "Grillmarkadurinn Reykjavik" },
+      maps: "Grillmarkadurinn Reykjavik",
+      url: "https://grillmarkadurinn.is/", urlLabel: "Book it" },
     { id: "baejarins", cat: "food", title: "Baejarins Beztu hot dog", photo: "baejarins", day: "Anytime",
       desc: "The famous downtown hot-dog stand. Go with everything (ein med ollu): remoulade, mustard, onion, crunchy fried onion. A cheap, cheerful pause between bigger meals.",
       winter: "The stand stays open in the cold. You will eat it standing outside, so keep gloves handy.",
       priceEach: 8, free: false, est: true, rec: false, defYes: false,
-      maps: "Baejarins Beztu Pylsur Reykjavik" },
+      maps: "Baejarins Beztu Pylsur Reykjavik",
+      url: "https://bbp.is/", urlLabel: "Website" },
     { id: "fridheimar", cat: "food", title: "Fridheimar tomato greenhouse lunch", photo: "fridheimar", day: "Jan 1, on a Golden Circle day",
       desc: "A greenhouse lunch of tomato soup, bread, and fresh-picked tomatoes, eaten among the vines. It sits on the Golden Circle route and is one of the most charming sit-down stops of the trip.",
       winter: "The greenhouse is warm, which feels wonderful in January. Book a table. Horse shows at the farm are separate if they are running.",
       priceEach: 35, free: false, est: true, rec: false, defYes: false,
-      maps: "Fridheimar tomato farm" },
+      maps: "Fridheimar tomato farm",
+      url: "https://fridheimar.is/", urlLabel: "Book it" },
     { id: "sky_lagoon", cat: "spas", title: "Sky Lagoon, Saman pass with the 7-step ritual", photo: "sky_lagoon", day: "Dec 29 evening or Jan 1",
       desc: "An oceanside lagoon in Kopavogur, about 15 minutes from the EDITION. The Saman pass includes the lagoon, a towel, and the Skjol ritual: a sauna with a sea window, a cold plunge, a steam, a body scrub, and a warm drink. A strong in-city spa night.",
       winter: "Winter hours are shorter (often 11 AM to 10 PM on weekdays). Book a late-afternoon slot so you watch dusk from the water. Minimum age 12.",
       priceEach: SKY_EACH, free: false, est: false, rec: true, defYes: true,
       maps: "Sky Lagoon Kopavogur",
+      url: "https://www.skylagoon.com/booking/", urlLabel: "Book it",
       priceNote: "From 14,990 ISK per person for Saman. Time slots can cost more. Ser (private changing room) starts at 17,990 ISK.", },
     { id: "blue_lagoon", cat: "spas", title: "Blue Lagoon, departure-day soak", photo: "blue_lagoon", day: "Jan 3 late morning",
       desc: "The milky, steamy lagoon is 20 minutes from the airport, which is why it works so well on the way home. The default in this plan is the Lagoon and Lava package: Premium entry (robe, a drink of your choice, extra masks) plus a two-course lunch at Lava. You can switch tiers in the cost sliders.",
       winter: "Water stays about 98 to 104 F year-round. Put conditioner in and keep hair dry. Book a late-morning slot; the flight is 4:55 PM. Check eruption status the day before.",
       priceEach: 186, free: false, est: false, rec: true, defYes: true, sync: "blue_lagoon",
-      maps: "Blue Lagoon Iceland" },
+      maps: "Blue Lagoon Iceland",
+      url: "https://www.bluelagoon.com/day-visit/the-blue-lagoon", urlLabel: "Book it" },
     { id: "retreat_massage", cat: "spas", title: "Retreat Spa in-water massage", photo: "retreat_massage", day: "Only with a Retreat booking",
       desc: "An hour-long massage in the warm lagoon water at The Retreat Spa. It is not in the room rate, and they typically book it only if you are staying or have a spa reservation.",
       winter: "A 2-night minimum may apply to Retreat rooms over the holidays.",
       priceEach: RETREAT_MASSAGE_EACH, free: false, est: false, rec: false, defYes: false,
       maps: "The Retreat at Blue Lagoon Spa",
+      url: "https://www.bluelagoon.com/experiences/in-water-massage", urlLabel: "Book it",
       priceNote: "About 28,900 ISK for 60 minutes." },
     { id: "fontana", cat: "spas", title: "Laugarvatn Fontana geothermal baths", photo: "fontana", day: "Jan 1, with the Golden Circle",
       desc: "Lakeside steam baths and warm pools on the Golden Circle, with a cold dip in the lake if you are brave. A quieter, more local-feeling stop than the big lagoons. The geothermal rye-bread tour is a separate ticket (about 3,350 ISK).",
       winter: "Open 11 AM to 9 PM from October to May. New Year's Eve hours are often shorter (last year they closed at 6 PM). Book the baths, and the bread tour if you want it.",
       priceEach: FONTANA_EACH, free: false, est: false, rec: false, defYes: false,
       maps: "Laugarvatn Fontana",
+      url: "https://fontana.is/", urlLabel: "Book it",
       priceNote: "Adult bath ticket 7,490 ISK, from Fontana's 2026 price list." },
     { id: "hvammsvik", cat: "spas", title: "Hvammsvik Hot Springs", photo: "hvammsvik", day: "A rest morning near Reykjavik",
       desc: "Eight seaside pools on Hvalfjordur, about a 45-minute drive north of Reykjavik. Quieter and more natural-feeling than the city lagoons, with a sauna, a cold plunge, and a swim-up bar. Classic is the middle tier, with private showers and lockers.",
       winter: "Winter hours often run 10:30 AM to 8:30 PM, last entry 7 PM. Book a timed slot. Age 10 and up.",
       priceEach: HVAMMSVIK_EACH, free: false, est: true, rec: false, defYes: false,
       maps: "Hvammsvik Hot Springs",
+      url: "https://hvammsvik.com/", urlLabel: "Book it",
       priceNote: "Classic is 7,900 to 11,900 ISK depending on the time slot. This plan uses a mid estimate of about $80 per person.", },
     { id: "edition_spa", cat: "spas", title: "EDITION Spa signature massage", photo: "edition_spa", day: "A quiet afternoon in town",
       desc: "The hotel has a full spa (sauna, steam, hammam, hot tub), not an in-room treatment we could verify. The 60-minute signature massage uses Swedish techniques and the hotel's Black Tea oil. Hotel guests pay 4,350 ISK (about $35) a day for spa access if they are not booking a treatment.",
       winter: "Book ahead for holiday week. Ages 18 and up for the spa.",
       priceEach: EDITION_SPA_EACH, free: false, est: false, rec: false, defYes: false,
       maps: "The Reykjavik EDITION Spa",
+      url: "https://www.editionhotels.com/reykjavik/spa-and-fitness/spa/", urlLabel: "Book it",
       priceNote: "60-minute signature massage 28,900 ISK, from the hotel's spa menu." },
     { id: "shopping_downtown", cat: "shopping", title: "Hafnartorg and Laugavegur boutiques", photo: "laugavegur", day: "Dec 29",
       desc: "The EDITION opens onto Hafnartorg, a new harbor-side cluster of shops and cafes, and Laugavegur (the main shopping street) is a short walk uphill. A gentle first-day wander, even if you buy nothing.",
       winter: "Sidewalks can be slushy. Many shops shut early on New Year's Eve and New Year's Day.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Laugavegur Reykjavik" },
+      maps: "Laugavegur Reykjavik",
+      url: "https://hafnartorg.is/", urlLabel: "Website" },
     { id: "wool_shops", cat: "shopping", title: "66 North and Rammagerdin", photo: "wool", day: "Dec 29 or Jan 2",
       desc: "66 North is the modern Icelandic outerwear house (good for a serious shell or a knit). Rammagerdin is the classic design-and-wool shop for a lopapeysa or a small gift. Walk in freely; this card does not add a shopping budget.",
       winter: "Useful if you discover a gap in your cold-weather kit. Try pieces on over a midlayer.",
       priceEach: 0, free: true, est: false, rec: false, defYes: false,
-      maps: "66 North Laugavegur Reykjavik", },
+      maps: "66 North Laugavegur Reykjavik",
+      url: "https://66north.com/", urlLabel: "Website",
+      url2: "https://rammagerdin.com/", url2Label: "Rammagerdin", },
     { id: "kolaportid", cat: "shopping", title: "Kolaportid flea market", photo: "kolaportid", day: "Sat Jan 2",
       desc: "Reykjavik's weekend flea market by the harbor: vintage wool, vinyl, candy, and fermented shark if you are brave. Entry is free. It usually runs Saturday and Sunday, so Saturday Jan 2 is your realistic window before the flight.",
       winter: "Confirm holiday hours. It may be closed or shortened around New Year's. Sunday Jan 3 is tight with the lagoon and a 4:55 PM flight.",
       priceEach: 0, free: true, est: false, rec: false, defYes: false,
-      maps: "Kolaportid Reykjavik" },
+      maps: "Kolaportid Reykjavik",
+      url: "https://kolaportid.is/", urlLabel: "Website" },
     { id: "golden_circle", cat: "sidetrips", title: "Golden Circle day", photo: "gullfoss", day: "Jan 1",
       desc: "Thingvellir, Geysir, and Gullfoss, the easiest classic day from town (Thingvellir is about 45 minutes out). Add Fridheimar and Fontana if you want lunch and a soak on the same loop.",
       winter: "Roads are usually open but can be icy. A guided tour is the low-stress version. If you self-drive, turn this card off and use the rental-car slider instead, so you do not pay twice.",
       priceEach: 120, free: false, est: true, rec: false, defYes: false,
-      maps: "Gullfoss Iceland" },
+      maps: "Gullfoss Iceland",
+      url: "https://www.visiticeland.com/article/the-golden-circle/", urlLabel: "Website" },
     { id: "south_coast", cat: "sidetrips", title: "South Coast waterfalls and black beach", photo: "skogafoss", day: "Jan 2",
       desc: "Seljalandsfoss (you can walk behind it if ice allows), Skogafoss, and Reynisfjara black beach near Vik. About 2 hours to the first falls, 2 hours 20 minutes to Skogafoss. A full, dramatic day.",
       winter: "Reynisfjara has sneaker waves. Stay well up the beach. Parking lots and spray can be icy. Same note as the Golden Circle: turn this off if you are self-driving with the car slider.",
       priceEach: 140, free: false, est: true, rec: false, defYes: false,
-      maps: "Skogafoss Iceland" },
+      maps: "Skogafoss Iceland",
+      url: "https://www.visiticeland.com/article/the-south-coast/", urlLabel: "Website" },
     { id: "jokulsarlon", cat: "sidetrips", title: "Jokulsarlon overnight: ice cave, Diamond Beach, aurora", photo: "jokulsarlon", day: "Dec 30 to Dec 31 morning",
       desc: "The signature winter add-on. Fly from Reykjavik domestic (not Keflavik) to Hofn in about 55 minutes, drive an hour, walk into a blue ice cave, watch ice on black sand around the late 11 AM sunrise, look for seals at the lagoon mouth, and hope for lights over the icebergs that night. Fly back on the 31st for New Year's Eve in town.",
       winter: "Domestic winter cancellations are common, so this is a tighter plan than going Dec 29 to 30. Book a morning cave with free cancellation. Boat tours are done for the season. This card adds the Hofn flights, a standard ice-cave tour, and one Hofn-area hotel night (and trims an EDITION night).",
       priceEach: 0, free: false, est: false, rec: true, defYes: false, sync: "jokulsarlon",
       maps: "Jokulsarlon glacier lagoon",
+      url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it",
       dynamic: "jokulsarlon" },
     { id: "katla", cat: "sidetrips", title: "Katla ice cave", photo: "katla", day: "Jan 2, if you skip the overnight",
       desc: "A year-round ice cave under Myrdalsjokull, near Vik, with ash-striped black ice. A strong backup if you do not fly to Hofn, since it sits on the South Coast day.",
       winter: "Still a guided trip with helmets and a super jeep. Weather can close the road.",
       priceEach: KATLA_EACH, free: false, est: false, rec: false, defYes: false,
       maps: "Katla ice cave",
+      url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it",
       priceNote: "From about 23,990 ISK per person." },
     { id: "silfra", cat: "sidetrips", title: "Silfra snorkel, Thingvellir", photo: "silfra", day: "Jan 1, with the Golden Circle",
       desc: "You float in a dry suit through the crack between the North American and Eurasian plates, in water so clear it looks like air. It is cold, strange, and unforgettable, and it sits right at Thingvellir.",
       winter: "The water is about 35 to 39 F year-round. Operators still run in winter with dry suits. You need to be comfortable in cold water. Price is an estimate.",
       priceEach: 180, free: false, est: true, rec: false, defYes: false,
-      maps: "Silfra Thingvellir" },
+      maps: "Silfra Thingvellir",
+      url: "https://www.dive.is/diving-snorkeling-tours/snorkeling-day-tours/silfra-snorkeling-day-tour", urlLabel: "Book it" },
     { id: "nye_bonfire", cat: "nye", title: "Neighborhood New Year's Eve bonfire", photo: "bonfire", day: "Dec 31",
       desc: "Reykjavik neighborhoods light huge bonfires in the evening, before the midnight fireworks. It is communal, smoky, and one of the most local feelings you can have here in winter.",
       winter: "Dress for standing still in the wind. The city publishes bonfire sites each year; pick one you can walk or taxi to from the EDITION.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Reykjavik New Year bonfire" },
+      maps: "Reykjavik New Year bonfire",
+      url: "https://visitreykjavik.is/mark-christmass-end-bonfires-reykavik", urlLabel: "Website" },
     { id: "nye_fireworks", cat: "nye", title: "Midnight fireworks from a viewpoint", photo: "nye_hallgrimskirkja", day: "Dec 31",
       desc: "At midnight the whole city sets off fireworks. Hallgrimskirkja's steps and the area around Perlan are classic viewpoints. The EDITION's harbor side is also close to the action if you want to stay nearby.",
       winter: "It is a late, cold, crowded hour. Perlan's paid deck may be ticketed or closed; the public hillside and the church grounds are the simple plan.",
       priceEach: 0, free: true, est: false, rec: true, defYes: true,
-      maps: "Hallgrimskirkja Reykjavik" },
+      maps: "Hallgrimskirkja Reykjavik",
+      url: "https://visitreykjavik.is/festivals-and-events-reykjavik", urlLabel: "Website" },
     { id: "nye_dinner", cat: "nye", title: "New Year's Eve dinner in Reykjavik", photo: "nye_dinner", day: "Dec 31",
       desc: "A sit-down dinner before the bonfires and fireworks. Many kitchens run a set holiday menu. Tides at the hotel is the lowest-friction option; Dill or Grillmarkadurinn if you want to go out (those cards are priced separately, so leave this one off if you pick a specific restaurant).",
       winter: "Book now. Holiday menus are prix fixe and fill up.",
       priceEach: 180, free: false, est: true, rec: false, defYes: false,
-      maps: "Reykjavik city center restaurants" },
+      maps: "Reykjavik city center restaurants",
+      url: "https://www.editionhotels.com/reykjavik/restaurants-and-bars/the-roof/", urlLabel: "Book it" },
     { id: "aramotaskaup", cat: "nye", title: "Aramotaskaup, the New Year's TV comedy", photo: "ruv", day: "Dec 31",
       desc: "Iceland's annual satirical New Year's Eve TV revue. Locals watch it before midnight, then head out for the fireworks. You can stream or catch it in a bar or at the hotel if it is on. A small, very Icelandic tradition.",
       winter: "It usually airs in the evening on Dec 31. English is not guaranteed; the room's reaction is half the fun.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Reykjavik" },
+      maps: "Reykjavik",
+      url: "https://www.ruv.is/", urlLabel: "Website" },
     { id: "nl_guided", cat: "lights", title: "Guided northern lights tour", photo: "aurora_hofn", day: "Early in the trip",
       desc: "A guide drives you to wherever the clouds are breaking. Most operators offer a free retry if you see nothing, which is why it helps to book this early in the week. Use the slider in costs to set the per-person price ($70 to $120).",
       winter: "Late December is the darkest window of the year. Clouds are the real limit. Watch vedur.is for the cloud map, not just the KP number.",
       priceEach: 95, free: false, est: false, rec: true, defYes: false, sync: "nl_tour",
-      maps: "Reykjavik northern lights tour" },
+      maps: "Reykjavik northern lights tour",
+      url: "https://www.re.is/tour/northern-lights-tour/", urlLabel: "Book it" },
     { id: "nl_self", cat: "lights", title: "Self-guided aurora watch", photo: "aurora_self", day: "Any clear night",
       desc: "If the forecast looks good, you do not need a tour. Grotta is ten minutes away. Thingvellir is darker. Jokulsarlon, if you take the overnight, is one of the best backdrops in the country. The My Aurora Forecast app is handy for alerts.",
       winter: "You need a dark, clear sky and activity around KP 2 or higher. Give it more than one night.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
-      maps: "Grotta lighthouse Reykjavik" }
+      maps: "Grotta lighthouse Reykjavik",
+      url: "https://en.vedur.is/weather/forecasts/aurora/", urlLabel: "Website" }
   ];
 
   var CAT_LABEL = {
@@ -937,6 +978,21 @@
     if (shareDrawer) shareDrawer.textContent = label;
   }
 
+
+  function placeLinks(c) {
+    var bits = [];
+    if (c.url) {
+      bits.push('<a class="btn primary" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.urlLabel || "Website") + "</a>");
+    }
+    if (c.url2) {
+      bits.push('<a class="btn" href="' + esc(c.url2) + '" target="_blank" rel="noopener">' + esc(c.url2Label || "Website") + "</a>");
+    }
+    if (c.maps) {
+      bits.push('<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.maps) + '" target="_blank" rel="noopener">Map</a>');
+    }
+    return bits.length ? '<div class="links card-links">' + bits.join("") + "</div>" : "";
+  }
+
   function pitchBodyHtml(c) {
     var kind = pitchKind(c.id);
     var pl = priceLabel(c);
@@ -950,7 +1006,7 @@
         "<p><strong>" + esc(c.title) + "</strong> · Passed</p>" +
         badge +
         '<button type="button" class="ghost" data-undo="' + c.id + '">Undo</button>' +
-        "</div>";
+        "</div>" + placeLinks(c);
     }
     if (kind === "in") {
       return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
@@ -962,7 +1018,7 @@
         '<div class="pitch-price"><strong>' + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
         '<div class="pitch-btns">' +
         '<button type="button" class="pitch-btn pass" data-pass="' + c.id + '">Remove</button>' +
-        "</div></div>" + note;
+        "</div></div>" + note + placeLinks(c);
     }
     return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
       rec + badge +
@@ -973,8 +1029,7 @@
       '<div class="pitch-btns">' +
       '<button type="button" class="pitch-btn in" data-in="' + c.id + '">' + inLabel + "</button>" +
       '<button type="button" class="pitch-btn pass" data-pass="' + c.id + '">Pass</button>' +
-      "</div></div>" + note +
-      '<p class="maplink"><a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.maps) + '" target="_blank" rel="noopener">Open in Google Maps</a></p>';
+      "</div></div>" + note + placeLinks(c);
   }
 
   function renderPitches() {
@@ -1149,6 +1204,7 @@
         "<p>" + c.blurb + "</p>" +
         "<p class='credit'>" + c.model + ". " + c.age + ". Vehicle " + c.iskVehicle.toLocaleString("en-US") + " ISK, plus Full Cover at " + money(c.coverDaily) + " a day (" + money(c.cover) + "). " + c.source + " Full Cover is Blue's zero-excess package, $44 to $54 a day depending on the car (verified Nov 14, 2026). If you book Hertz, MAX Cover is $48 a day on a 4x4 or $40 on a small car, plus a $45 airport charge.</p>" +
         '<button type="button" class="choose-car" data-car="' + id + '">' + (on ? "Added to the total" : "Add this car") + "</button>" +
+        placeLinks(c) +
         "</article>";
     }).join("");
     var hint = document.getElementById("carTotalHint");
@@ -1325,6 +1381,8 @@
     document.getElementById("flipStandin").textContent = c.photoStandin || "";
     document.getElementById("flipStandin").hidden = !c.photoStandin;
     document.getElementById("flipPrice").innerHTML = "<strong>" + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "");
+    var fl = document.getElementById("flipLinks");
+    if (fl) fl.innerHTML = placeLinks(c);
     document.getElementById("flipProgress").textContent = (flipIndex + 1) + " of " + items.length;
     document.getElementById("flipBar").style.width = ((flipIndex + 1) / items.length * 100) + "%";
     var y = document.getElementById("flipYes");

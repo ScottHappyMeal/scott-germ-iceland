@@ -17,7 +17,7 @@
   --no: #ff8a8a;
   --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   --radius: 22px;
-  --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+  --display: "Inter Tight", "Inter", "Helvetica Neue", "Arial", system-ui, sans-serif;
   --sans: "Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
@@ -31,6 +31,8 @@ html {
   overflow-x: clip;
   scroll-padding-top: calc(4.5rem + var(--safe-t, 0px));
   scroll-padding-bottom: calc(6.25rem + var(--safe-b, 0px));
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0;
 }
 html, body {
   margin: 0; padding: 0;
@@ -57,7 +59,16 @@ img { max-width: 100%; display: block; }
 a { color: var(--ice); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button, input, select { font: inherit; }
-h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; margin: 0; }
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  margin: 0;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0;
+}
+h3, h4 { font-weight: 700; letter-spacing: -0.03em; line-height: 1.12; }
 p { margin: 0 0 0.7em; }
 p:last-child { margin-bottom: 0; }
 
@@ -82,7 +93,16 @@ p:last-child { margin-bottom: 0; }
   border-bottom: 1px solid var(--line);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.brand { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+.brand {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-decoration: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
 .brand:hover { text-decoration: none; color: var(--green); }
 .nav-links { display: flex; gap: 16px; flex-wrap: wrap; }
 .nav-links a { color: var(--muted); font-size: 0.86rem; font-weight: 500; }
@@ -122,11 +142,13 @@ p:last-child { margin-bottom: 0; }
   margin-bottom: 14px;
 }
 .hero h1 {
-  font-size: clamp(2rem, 9vw, 5.2rem);
-  font-weight: 700;
+  font-size: clamp(2.15rem, 8.6vw, 4.85rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
   margin-bottom: 16px;
 }
-.hero h1 em { font-style: italic; font-weight: 600; color: var(--purple); }
+.hero h1 em { font-style: italic; font-weight: 700; letter-spacing: -0.045em; color: var(--purple); }
 .lede { font-size: clamp(1.05rem, 2.3vw, 1.3rem); color: #d5dcef; max-width: 38rem; }
 .facts {
   display: grid;
@@ -141,7 +163,16 @@ p:last-child { margin-bottom: 0; }
   padding: 12px 14px;
   backdrop-filter: blur(10px);
 }
-.fact b { display: block; font-family: var(--serif); font-size: 1.05rem; color: var(--ink); }
+.fact b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
 .fact span { color: var(--muted); font-size: 0.8rem; }
 
 /* chapters */
@@ -157,7 +188,7 @@ p:last-child { margin-bottom: 0; }
   font-weight: 600;
   margin-bottom: 8px;
 }
-.chapter h2 { font-size: clamp(1.4rem, 4.5vw, 2.7rem); margin-bottom: 8px; }
+.chapter h2 { font-size: clamp(1.45rem, 4.2vw, 2.55rem); letter-spacing: -0.04em; line-height: 1.08; margin-bottom: 8px; }
 .sub { color: var(--muted); max-width: 40rem; }
 
 /* cards / days */
@@ -179,7 +210,7 @@ p:last-child { margin-bottom: 0; }
 .day-media img, .stay-card img { width: 100%; height: 100%; object-fit: cover; }
 .day-body { padding: 22px 22px 20px; }
 .when { color: var(--green); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
-.day h3 { font-size: 1.55rem; margin-bottom: 8px; }
+.day h3 { font-size: 1.45rem; letter-spacing: -0.03em; line-height: 1.12; margin-bottom: 8px; }
 .credit, .standin { font-size: 0.72rem; color: var(--faint); margin-top: 8px; }
 .tip {
   margin-top: 12px;
@@ -192,6 +223,9 @@ p:last-child { margin-bottom: 0; }
 }
 .tip.warn { border-left-color: var(--warn); background: rgba(255, 180, 92, 0.1); color: #ffe7c4; }
 .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.card-links { margin-top: 12px; }
+.pitch.is-passed .card-links { margin-top: 8px; }
+.pitch.is-passed .card-links .btn { min-height: 2.25rem; padding: 6px 12px; }
 .links a, .ghost, .btn {
   display: inline-flex; align-items: center; gap: 6px;
   border-radius: 999px; padding: 8px 12px;
@@ -298,7 +332,7 @@ svg.imap .lab {
 }
 .stay-card .pic { aspect-ratio: 16/10; background: #10141f; }
 .stay-card .body { padding: 16px; }
-.stay-card h3 { font-size: 1.3rem; margin-bottom: 6px; }
+.stay-card h3 { font-size: 1.25rem; letter-spacing: -0.03em; line-height: 1.12; margin-bottom: 6px; }
 .price-line { color: var(--gold); font-weight: 600; font-size: 0.95rem; }
 .wry { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
 
@@ -404,7 +438,14 @@ svg.imap .lab {
   padding: 10px var(--safe-r, 0px) calc(10px + var(--safe-b)) var(--safe-l, 0px);
 }
 .stick-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.totals b { font-family: var(--serif); font-size: 1.35rem; }
+.totals b {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
 .totals small { color: var(--muted); display: block; }
 .stick-actions { display: flex; gap: 8px; }
 .btn.primary { background: var(--green); color: #062013; border-color: var(--green); font-weight: 650; }
@@ -470,7 +511,7 @@ footer h4 { color: var(--muted); font-size: 0.85rem; margin: 16px 0 6px; font-fa
     min-height: auto;
     padding: 8px 0 calc(6.75rem + var(--safe-b, 0px));
   }
-  .hero h1 { font-size: clamp(1.5rem, 5.5vw, 2.4rem); margin-bottom: 8px; }
+  .hero h1 { font-size: clamp(1.55rem, 5.4vw, 2.3rem); letter-spacing: -0.045em; line-height: 1; margin-bottom: 8px; }
   .lede { font-size: clamp(0.95rem, 2vw, 1.1rem); }
   .kicker { margin-bottom: 8px; }
   .facts { margin-top: 10px; }
@@ -571,10 +612,14 @@ footer h4 { color: var(--muted); font-size: 0.85rem; margin: 16px 0 6px; font-fa
 .pitch-body { padding: clamp(14px, 3vw, 22px); display: flex; flex-direction: column; gap: 10px; }
 .pitch-kicker { color: var(--faint); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .pitch-line {
-  font-family: var(--serif);
-  font-size: clamp(1.35rem, 4.6vw, 2.05rem);
-  line-height: 1.18;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 4.4vw, 1.95rem);
+  letter-spacing: -0.04em;
+  line-height: 1.12;
   margin: 0;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0;
 }
 .pitch-meta { color: var(--muted); font-size: 0.92rem; margin: 0; }
 .pitch-cta {
@@ -740,7 +785,14 @@ footer h4 { color: var(--muted); font-size: 0.85rem; margin: 16px 0 6px; font-fa
 .cart-list .ghost { flex: 0 0 auto; }
 .cart-empty { color: var(--muted); padding: 12px 0; }
 .cart-total { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 0 8px; flex: 0 0 auto; border-top: 1px solid var(--line); }
-.cart-total b { font-family: var(--serif); font-size: 1.4rem; }
+.cart-total b {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.03em;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
 .cart-total small { color: var(--muted); }
 .cart-actions { display: flex; flex-wrap: wrap; gap: 8px; flex: 0 0 auto; }
 
@@ -781,7 +833,15 @@ footer h4 { color: var(--muted); font-size: 0.85rem; margin: 16px 0 6px; font-fa
 .match-card ul { margin: 0; padding: 0 0 0 18px; }
 .match-card li { margin: 0 0 8px; }
 .match-totals { margin-top: 8px; }
-.match-totals b { font-family: var(--serif); font-size: clamp(1.4rem, 4vw, 1.8rem); display: block; }
+.match-totals b {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  letter-spacing: -0.03em;
+  display: block;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+}
 .match-totals small { color: var(--muted); }
 .match-wait { color: var(--muted); }
 
