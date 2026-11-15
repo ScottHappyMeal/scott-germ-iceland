@@ -1087,3 +1087,250 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
   .map-frame { height: 420px; }
   .day-map { height: 220px; }
 }
+
+/* -------------------------------------------------------------------------- */
+/* iPhone Duo and other wide/short open displays
+   Inner display: 7.6 in, 1878x2670 at ~3x = 626x890 CSS px upright,
+   890x626 in the default open (passport) pose, crease down the middle.
+   Outer display: 5.4 in, 1398x2034 at ~3x = 466x678, stays the phone layout.
+   Use viewport segments when the browser reports a vertical crease;
+   fall back to a short landscape width query. body.fold-landscape / .fold-portrait
+   are set in JS to match those queries. */
+/* -------------------------------------------------------------------------- */
+:root {
+  --crease: 24px;
+  --fold-side: 12px;
+  --bar-max: 26rem;
+  --read-col: 36rem;
+}
+
+/* Open inner display, held upright (~626x890). Also other tall mid-width screens. */
+body.fold-portrait .pad {
+  width: min(640px, calc(100% - 28px));
+}
+body.fold-portrait .deck-wrap {
+  width: min(calc(100% - 24px), 42rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+body.fold-portrait .swipe-card .photo {
+  height: min(42dvh, 380px);
+  max-height: 42dvh;
+}
+body.fold-portrait .swipe-card .body {
+  width: 100%;
+  max-width: var(--read-col);
+  margin: 0 auto;
+  padding: 16px 22px 22px;
+}
+body.fold-portrait .pitch-line {
+  font-size: clamp(1.2rem, 3.2vw, 1.65rem);
+}
+body.fold-portrait .tier-chips {
+  gap: 8px;
+}
+body.fold-portrait .tier-chip {
+  padding: 8px 12px;
+}
+/* Center the tab and action bars; keep a full-width backdrop so page content
+   does not show through, but do not stretch the buttons to 626-700px. */
+body.fold-portrait .pick-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-left: max(16px, var(--safe-l), calc((100% - var(--bar-max)) / 2));
+  padding-right: max(16px, var(--safe-r), calc((100% - var(--bar-max)) / 2));
+}
+body.fold-portrait .pick-actions .swipe-btn {
+  flex: 1 1 0;
+  width: auto;
+  max-width: 12.5rem;
+}
+body.fold-portrait .tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  padding-left: max(var(--safe-l), calc((100% - var(--bar-max)) / 2));
+  padding-right: max(var(--safe-r), calc((100% - var(--bar-max)) / 2));
+}
+body.fold-portrait .tab {
+  flex: 1 1 0;
+  max-width: 8.5rem;
+}
+
+/* If the upright inner display reports a horizontal crease, keep the photo
+   in the top pane and the details below the 24px band. */
+@media (vertical-viewport-segments: 2) {
+  body.fold-portrait .swipe-card .photo {
+    height: calc(env(viewport-segment-height 0 0) + env(viewport-segment-top 0 0) - var(--top-h) - 4.25rem);
+    max-height: none;
+    min-height: 140px;
+  }
+  body.fold-portrait .swipe-card .body {
+    padding-top: calc(12px + var(--crease));
+  }
+}
+
+/* Open landscape / passport pose (~890x626): two panes, crease in the middle. */
+body.fold-landscape.pick-tab .app {
+  padding-bottom: 0;
+}
+body.fold-landscape.pick-tab .stage {
+  overflow: hidden;
+}
+body.fold-landscape.pick-tab #view-pick {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 0;
+}
+body.fold-landscape.pick-tab #view-pick.has-actions {
+  padding-bottom: 0;
+}
+body.fold-landscape .pick-head {
+  position: absolute;
+  top: 0;
+  left: calc(50% + (var(--crease) / 2));
+  right: var(--fold-side);
+  z-index: 6;
+  padding: 4px 8px 4px 10px;
+  background: transparent;
+}
+body.fold-landscape .deck-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  margin: 0 var(--fold-side);
+}
+body.fold-landscape .deck,
+body.fold-landscape .deck-end {
+  height: 100%;
+  min-height: 0;
+}
+body.fold-landscape .swipe-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--crease) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
+  min-height: 100%;
+  align-items: stretch;
+}
+body.fold-landscape .swipe-card .photo {
+  grid-column: 1;
+  grid-row: 1;
+  height: 100%;
+  max-height: none;
+  min-height: 0;
+}
+body.fold-landscape .swipe-card .body {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  width: 100%;
+  min-height: 0;
+  height: calc(100% - var(--pick-actions-h) - var(--tab-h));
+  max-height: calc(100% - var(--pick-actions-h) - var(--tab-h));
+  overflow: auto;
+  padding: 44px 16px 16px;
+}
+body.fold-landscape .swipe-card.is-under {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+body.fold-landscape .pitch-line {
+  font-size: clamp(1.1rem, 2.1vw, 1.4rem);
+}
+body.fold-landscape .tier-chips {
+  gap: 8px;
+}
+body.fold-landscape .deck-end {
+  margin-left: calc(50% + (var(--crease) / 2) - var(--fold-side));
+  width: calc(50% - (var(--crease) / 2) - var(--fold-side));
+  height: auto;
+  max-height: calc(100% - 12px);
+  overflow: auto;
+}
+/* Actions and tabs live in the right pane, clear of the 24px crease. */
+body.fold-landscape .pick-actions {
+  left: calc(50% + (var(--crease) / 2));
+  right: 0;
+  width: auto;
+  display: flex;
+  justify-content: stretch;
+  gap: 10px;
+  padding-left: 12px;
+  padding-right: max(12px, var(--safe-r));
+  background: var(--bg);
+}
+body.fold-landscape .pick-actions .swipe-btn {
+  flex: 1 1 0;
+  width: auto;
+  max-width: none;
+}
+body.fold-landscape .tabs {
+  left: calc(50% + (var(--crease) / 2));
+  right: 0;
+  width: auto;
+  display: flex;
+  padding-left: 8px;
+  padding-right: max(8px, var(--safe-r));
+}
+body.fold-landscape .tab {
+  flex: 1 1 0;
+}
+
+/* When the browser reports two horizontal viewport segments, use the
+   real crease width and pane edges instead of a 50/50 split. */
+@media (horizontal-viewport-segments: 2) {
+  body.fold-landscape {
+    --crease: max(24px, calc(env(viewport-segment-left 1 0) - env(viewport-segment-width 0 0) - env(viewport-segment-left 0 0)));
+    --seg-1-left: env(viewport-segment-left 1 0);
+    --seg-1-width: env(viewport-segment-width 1 0);
+  }
+  body.fold-landscape .pick-head {
+    left: var(--seg-1-left);
+    right: var(--fold-side);
+  }
+  body.fold-landscape .pick-actions,
+  body.fold-landscape .tabs {
+    left: var(--seg-1-left);
+    width: var(--seg-1-width);
+    right: auto;
+  }
+  body.fold-landscape .deck-end {
+    margin-left: calc(var(--seg-1-left) - var(--fold-side));
+    width: calc(var(--seg-1-width) - var(--fold-side));
+  }
+}
+
+/* Plan and Compare: two columns of day / match cards in landscape,
+   a single centered 640px column when upright. */
+body.fold-landscape .pad {
+  width: calc(100% - 32px);
+  max-width: none;
+}
+body.fold-landscape #planDays {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px 24px;
+  align-items: start;
+}
+body.fold-landscape #planDays > .day-block {
+  margin-bottom: 0;
+}
+body.fold-landscape .us-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+body.fold-landscape .map-frame {
+  height: min(46dvh, 360px);
+}
+
+/* Outer display (~466x678) and classic phones stay on the existing
+   single-column rules. No fold-* body class is applied under 520px. */

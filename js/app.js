@@ -2568,6 +2568,14 @@
     bindSwipe();
     bindWelcomeSwipe();
     window.addEventListener("hashchange", function () { route(); render(); });
+    window.addEventListener("resize", syncFoldShell);
+    window.addEventListener("orientationchange", syncFoldShell);
+    try {
+      var segsMq = window.matchMedia("(horizontal-viewport-segments: 2)");
+      if (segsMq.addEventListener) segsMq.addEventListener("change", syncFoldShell);
+      else if (segsMq.addListener) segsMq.addListener(syncFoldShell);
+    } catch (e) {}
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", syncFoldShell);
   }
 
   function bindWelcomeSwipe() {
@@ -2589,6 +2597,19 @@
     track.addEventListener("pointercancel", function () { on = false; });
   }
 
+
+  function syncFoldShell() {
+    var segs = false;
+    var shortLand = false;
+    var tallOpen = false;
+    try { segs = window.matchMedia("(horizontal-viewport-segments: 2)").matches; } catch (e) {}
+    try { shortLand = window.matchMedia("(orientation: landscape) and (min-width: 740px) and (max-height: 760px)").matches; } catch (e) {}
+    try { tallOpen = window.matchMedia("(orientation: portrait) and (min-width: 520px)").matches; } catch (e) {}
+    var landscape = !!(segs || shortLand);
+    document.body.classList.toggle("fold-landscape", landscape);
+    document.body.classList.toggle("fold-portrait", !!(tallOpen && !landscape));
+  }
+
   function boot() {
     buildDeck();
     load();
@@ -2599,6 +2620,7 @@
       try { history.replaceState({}, "", location.pathname + "#pick"); } catch (e) {}
     }
     bind();
+    syncFoldShell();
     route();
     if (!state.welcomeSeen) openWelcome("tour");
     else if (!state.player) openWelcome("who");
