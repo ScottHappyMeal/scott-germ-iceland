@@ -26,6 +26,10 @@
   --top-h: 3.6rem;
   --tab-h: 4.15rem;
   --pick-actions-h: 4.75rem;
+  /* Width of the part of the page you can actually see. JS pins these to real
+     pixels when a browser lays the page out wider than the screen. */
+  --view-w: 100%;
+  --vw1: 1vw;
 }
 
 * { box-sizing: border-box; }
@@ -92,8 +96,8 @@ h1, h2, h3, h4, .brand, .chip b, .swipe-btn, .deck-end b, .locked-total b {
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
 }
-h1 { font-size: clamp(1.7rem, 6.2vw, 2.6rem); margin: 0 0 10px; }
-h2 { font-size: clamp(1.25rem, 3.8vw, 1.7rem); margin: 0 0 8px; }
+h1 { font-size: clamp(1.7rem, calc(var(--vw1) * 6.2), 2.6rem); margin: 0 0 10px; }
+h2 { font-size: clamp(1.25rem, calc(var(--vw1) * 3.8), 1.7rem); margin: 0 0 8px; }
 h3 { font-size: 1.15rem; margin: 0 0 6px; }
 
 .sky {
@@ -132,7 +136,7 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 .brand {
   color: var(--ink);
   text-decoration: none;
-  font-size: clamp(0.95rem, 3.4vw, 1.15rem);
+  font-size: clamp(0.95rem, calc(var(--vw1) * 3.4), 1.15rem);
   letter-spacing: -0.03em;
   min-width: 0;
   flex: 1 1 auto;
@@ -538,7 +542,7 @@ body.pick-tab .view-pick.has-actions {
 .lock-flag .icon, .plan-item .lock .icon { width: 14px; height: 14px; }
 .match-card .icon-inline { width: 14px; height: 14px; color: var(--gold); margin-left: 4px; }
 .pitch-line {
-  font-size: clamp(1.15rem, 4.4vw, 1.55rem);
+  font-size: clamp(1.15rem, calc(var(--vw1) * 4.4), 1.55rem);
   font-family: var(--display);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -591,7 +595,7 @@ body.pick-tab .view-pick.has-actions {
 .us-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .us-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 @media (min-width: 800px) {
-  .us-grid { grid-template-columns: 1fr 1fr; }
+  :where(html:not(.view-narrow)) .us-grid { grid-template-columns: 1fr 1fr; }
 }
 .match-card h3 { margin-bottom: 8px; }
 .match-card ul { margin: 0; padding: 0 0 0 18px; }
@@ -668,9 +672,9 @@ body.pick-tab .view-pick.has-actions {
   .swipe-btn { font-size: 0.95rem; }
 }
 @media (min-width: 800px) {
-  .pad { width: min(980px, calc(100% - 48px)); }
-  .swipe-card .photo { height: min(35dvh, 280px); max-height: 35dvh; }
-  svg.imap { max-height: 22rem; }
+  :where(html:not(.view-narrow)) .pad { width: min(980px, calc(100% - 48px)); }
+  :where(html:not(.view-narrow)) .swipe-card .photo { height: min(35dvh, 280px); max-height: 35dvh; }
+  :where(html:not(.view-narrow)) svg.imap { max-height: 22rem; }
 }
 @media (min-width: 1280px) {
   .pad { width: min(1080px, calc(100% - 64px)); }
@@ -765,7 +769,7 @@ body.pick-tab .view-pick.has-actions {
 .welcome-photo.is-ui img { object-fit: contain; object-position: center; }
 .welcome-slide:not(:has(.welcome-photo)) .welcome-copy { padding-top: 28px; }
 .welcome-copy { padding: 16px 18px 8px; overflow: auto; min-height: 0; }
-.welcome-copy h2 { margin: 0 0 8px; font-size: clamp(1.35rem, 5.4vw, 1.8rem); }
+.welcome-copy h2 { margin: 0 0 8px; font-size: clamp(1.35rem, calc(var(--vw1) * 5.4), 1.8rem); }
 .welcome-copy p { margin: 0 0 8px; color: var(--muted); }
 .welcome-footer {
   flex: 0 0 auto;
@@ -792,8 +796,8 @@ body.pick-tab .view-pick.has-actions {
   .tier-chip { font-size: 0.78rem; padding: 6px 9px; }
 }
 @media (min-width: 800px) {
-  .welcome-sheet { width: min(520px, 100%); }
-  .welcome-photo { height: min(40dvh, 300px); }
+  :where(html:not(.view-narrow)) .welcome-sheet { width: min(520px, 100%); }
+  :where(html:not(.view-narrow)) .welcome-photo { height: min(40dvh, 300px); }
 }
 
 /* plus batch: countdown, weather, durations, maps, packing, booking */
@@ -994,7 +998,7 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
 .day-meta { margin: 0; padding: 0 0 0; }
 .map-frame {
   position: relative;
-  height: min(52vw, 380px);
+  height: min(calc(var(--vw1) * 52), 380px);
   min-height: 220px;
   border-radius: 18px;
   overflow: hidden;
@@ -1142,14 +1146,14 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
   .day-total { font-size: 0.86rem; }
 }
 @media (min-width: 800px) {
-  .trip-status {
+  :where(html:not(.view-narrow)) .trip-status {
     flex-direction: row;
     justify-content: space-between;
     gap: 16px;
     font-size: 0.88rem;
   }
-  .map-frame { height: 420px; }
-  .day-map { height: 220px; }
+  :where(html:not(.view-narrow)) .map-frame { height: 420px; }
+  :where(html:not(.view-narrow)) .day-map { height: 220px; }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1192,7 +1196,7 @@ body.fold-portrait .swipe-card .body {
   padding: 16px 22px 22px;
 }
 body.fold-portrait .pitch-line {
-  font-size: clamp(1.2rem, 3.2vw, 1.65rem);
+  font-size: clamp(1.2rem, calc(var(--vw1) * 3.2), 1.65rem);
 }
 body.fold-portrait .tier-chips {
   gap: 8px;
@@ -1206,8 +1210,8 @@ body.fold-portrait .pick-actions {
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-left: max(16px, var(--safe-l), calc((100% - var(--bar-max)) / 2));
-  padding-right: max(16px, var(--safe-r), calc((100% - var(--bar-max)) / 2));
+  padding-left: max(16px, var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
+  padding-right: max(16px, var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
 }
 body.fold-portrait .pick-actions .swipe-btn {
   flex: 1 1 0;
@@ -1218,8 +1222,8 @@ body.fold-portrait .tabs {
   display: flex;
   justify-content: center;
   gap: 0;
-  padding-left: max(var(--safe-l), calc((100% - var(--bar-max)) / 2));
-  padding-right: max(var(--safe-r), calc((100% - var(--bar-max)) / 2));
+  padding-left: max(var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
+  padding-right: max(var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
 }
 body.fold-portrait .tab {
   flex: 1 1 0;
@@ -1324,7 +1328,7 @@ body.fold-landscape .swipe-card.is-under {
   width: 100%;
 }
 body.fold-landscape .pitch-line {
-  font-size: clamp(1.1rem, 2.1vw, 1.4rem);
+  font-size: clamp(1.1rem, calc(var(--vw1) * 2.1), 1.4rem);
 }
 body.fold-landscape .tier-chips {
   gap: 8px;
@@ -1508,8 +1512,8 @@ body.fold-landscape .map-frame {
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding-left: max(16px, var(--safe-l), calc((100% - var(--bar-max)) / 2));
-    padding-right: max(16px, var(--safe-r), calc((100% - var(--bar-max)) / 2));
+    padding-left: max(16px, var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
+    padding-right: max(16px, var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
     box-sizing: border-box;
   }
   body.fold-landscape .pick-actions .swipe-btn {
@@ -1525,8 +1529,8 @@ body.fold-landscape .map-frame {
     max-width: none;
     display: flex;
     justify-content: center;
-    padding-left: max(var(--safe-l), calc((100% - var(--bar-max)) / 2));
-    padding-right: max(var(--safe-r), calc((100% - var(--bar-max)) / 2));
+    padding-left: max(var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
+    padding-right: max(var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
     box-sizing: border-box;
   }
   body.fold-landscape .tab {
@@ -1581,4 +1585,38 @@ body.fold-landscape .map-frame {
   }
 }
 
-
+/* -------------------------------------------------------------------------- */
+/* Browser lays the page out wider than it shows.
+   Seen in Chrome on an iPhone Duo held open and upright: the visible window is
+   669px wide but the layout viewport is 871px, at zoom 1. Nothing on the page
+   causes it (hide every element and it is still 871), and the viewport tag
+   cannot shrink it, so the page fits itself to the part you can see instead.
+   JS adds html.view-pinned and sets --view-w and --vw1 in pixels only while
+   that mismatch is measured. Everywhere else these rules never apply. */
+/* -------------------------------------------------------------------------- */
+html.view-pinned,
+html.view-pinned body,
+html.view-pinned .app {
+  width: var(--view-w);
+  max-width: var(--view-w);
+}
+html.view-pinned,
+html.view-pinned body {
+  touch-action: pan-y pinch-zoom;
+}
+html.view-pinned .sky,
+html.view-pinned .who-layer,
+html.view-pinned .costs-layer,
+html.view-pinned .confirm-layer,
+html.view-pinned .welcome-layer,
+html.view-pinned .map-layer,
+html.view-pinned body:not(.fold-landscape) .tabs,
+html.view-pinned body:not(.fold-landscape) .pick-actions {
+  left: 0;
+  right: auto;
+  width: var(--view-w);
+  max-width: var(--view-w);
+}
+html.view-pinned #fold-debug {
+  max-width: min(22rem, calc(var(--view-w) - 16px));
+}

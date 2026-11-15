@@ -853,7 +853,7 @@
     return h;
   }
 
-  var BUILD = "20261114-duo4";
+  var BUILD = "20261115-duo5";
 
   function keptSearch() {
     try {
@@ -2598,6 +2598,11 @@
     window.addEventListener("hashchange", function () { route(); render(); });
     window.addEventListener("resize", syncFoldShell);
     window.addEventListener("orientationchange", syncFoldShell);
+    /* The Duo can report its sizes a beat late after a load, a rotation or a
+       return to the tab, without firing resize. Look again shortly after. */
+    window.addEventListener("pageshow", syncFoldShell);
+    setTimeout(syncFoldShell, 250);
+    setTimeout(syncFoldShell, 1200);
     try {
       var segsMq = window.matchMedia("(horizontal-viewport-segments: 2)");
       if (segsMq.addEventListener) segsMq.addEventListener("change", syncFoldShell);
@@ -2707,7 +2712,14 @@
        small screen.width while the visible window is upright. */
     var landscape = (innerW > innerH) && (innerW >= 800);
     var portraitOpen = !landscape && innerW >= 520;
-    var wide = widestOffender();
+    /* Chrome iOS on the Duo, open and upright, lays the page out wider than
+       the window it shows (clientWidth 871, innerWidth 669, zoom 1). No
+       element causes it and the viewport tag cannot undo it, so the page is
+       pinned to the visible width instead. Only judged at zoom 1: pinching in
+       also makes innerWidth smaller than clientWidth, and that is not this. */
+    var atRest = !window.visualViewport || Math.abs(visScale - 1) < 0.01;
+    var pinned = atRest ? (innerW > 0 && clientW > innerW + 1) : null;
+    var wide = hasDebugFlag() ? widestOffender() : null;
     return {
       innerW: innerW, innerH: innerH,
       visW: visW, visH: visH, visScale: visScale,
@@ -2723,6 +2735,7 @@
       vSegs: mqMatches("(vertical-viewport-segments: 2)"),
       width: innerW, height: innerH,
       landscape: landscape, portraitOpen: portraitOpen,
+      atRest: atRest, pinned: pinned,
       wide: wide,
       build: BUILD
     };
@@ -2762,15 +2775,38 @@
       "mq (horizontal-viewport-segments: 2) " + snap.hSegs,
       "mq (vertical-viewport-segments: 2) " + snap.vSegs,
       "body " + (classes.length ? classes.join(" ") : "(none)"),
+      "fit to visible width " + (document.documentElement.classList.contains("view-pinned") ? "ON at " + snap.innerW : "off"),
       wideLine,
       "build " + snap.build
     ].join("\n");
   }
 
+  function syncViewWidth(snap) {
+    var root = document.documentElement;
+    if (!root || !snap.atRest) return;
+    /* The (min-width: 800px) rules in the stylesheet read the layout width,
+       which is the wrong number when it is inflated. This class turns them
+       off whenever the visible width is under 800. */
+    root.classList.toggle("view-narrow", snap.innerW > 0 && snap.innerW < 800);
+    if (snap.pinned) {
+      root.style.setProperty("--view-w", snap.innerW + "px");
+      root.style.setProperty("--vw1", (snap.innerW / 100) + "px");
+      root.classList.add("view-pinned");
+      if (window.scrollX) window.scrollTo(0, window.scrollY);
+    } else {
+      root.style.removeProperty("--view-w");
+      root.style.removeProperty("--vw1");
+      root.classList.remove("view-pinned");
+    }
+  }
+
   function syncFoldShell() {
     var snap = foldSnapshot();
+    syncViewWidth(snap);
     document.body.classList.toggle("fold-landscape", snap.landscape);
     document.body.classList.toggle("fold-portrait", snap.portraitOpen);
+    /* Measure again for the readout, now that the classes above are applied. */
+    if (hasDebugFlag()) snap.wide = widestOffender();
     updateFoldDebug(snap);
   }
 
