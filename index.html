@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261114-taps -->
+  <!-- build: 20261114-rebuild -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm Versus Iceland</title>
-  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. About four hours of daylight, hot lagoons, and a New Year's Eve in Reykjavik.">
+  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Nothing is locked until you both say yes.">
   <meta property="og:title" content="Scott &amp; Jerm Versus Iceland">
   <meta property="og:description" content="Dec 28, 2026 to Jan 3, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM, and a lot of hot water in between.">
   <meta property="og:type" content="website">
@@ -18,50 +18,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261114-taps">
+  <link rel="stylesheet" href="css/styles.css?v=20261114-rebuild">
 </head>
 <body>
   <div class="sky" aria-hidden="true"></div>
-  <div class="page">
-    <header class="nav">
-      <div class="wrap nav-inner">
-        <a class="brand" href="#top">Scott &amp; Jerm Versus Iceland</a>
-        <nav class="nav-links" aria-label="Sections">
-          <a href="#plan">The plan</a>
-          <a href="#stays">Stays</a>
-          <a href="#cars">The car</a>
-          <a href="#picks">Picks</a>
-          <a href="#match">Match</a>
-          <a href="#costs">Costs</a>
-          <a href="#pack">Packing</a>
-        </nav>
-      </div>
+  <div class="app">
+    <header class="top">
+      <a class="brand" href="#plan">Scott &amp; Jerm Versus Iceland</a>
+      <button type="button" class="chip" id="lockedChip" aria-label="Locked total">
+        <span class="chip-lock" aria-hidden="true">🔒</span>
+        <span>
+          <b id="chipTotal">$0</b>
+          <small>locked</small>
+        </span>
+      </button>
     </header>
 
-    <section class="hero" id="top">
-      <div class="hero-photo" style="background-image:url('images/hero-aurora.jpg')" role="img" aria-label="Northern lights over snow in Iceland, Flames in the sky, AstroAnthony, Wikimedia Commons, CC BY 4.0"></div>
-      <div class="wrap hero-copy">
-        <div class="kicker">Dec 28, 2026 to Jan 3, 2027</div>
-        <h1>Scott &amp; Jerm <em>Versus</em> Iceland</h1>
-        <p class="lede">Late December, right around the winter solstice. The sun clocks in around 11:20 AM and clocks out around 3:35 PM. You get a little more than four hours of daylight, temps around -3 to 3 C, and nights long enough to go looking for trouble in the sky.</p>
-        <div class="facts">
-          <div class="fact"><b>11:20 AM to 3:35 PM</b><span>Reykjavik light, about 4 hours 15 minutes</span></div>
-          <div class="fact"><b>-3 to 3 C</b><span>Wind, snow, and ice are all on the guest list</span></div>
-          <div class="fact"><b>Long dark nights</b><span>Aurora season is excellent. Clouds are the real gate.</span></div>
-          <div class="fact"><b>Two people</b><span>Default plan lands at $17,368, or $8,684 each</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" id="plan">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">01 / The route</div>
-          <h2>A small island, a short week, a lot of steam.</h2>
-          <p class="sub">Green lines are drives. The purple dash is the optional Reykjavik-to-Hofn hop, about 55 minutes, from the domestic airport, not Keflavik.</p>
-        </div>
-        <div class="map-wrap">
-          <svg class="imap" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized map of Iceland with the trip route">
+    <main class="stage">
+      <section class="view" id="view-plan" data-view="plan" hidden>
+        <div class="pad">
+          <p class="kicker">The plan</p>
+          <h1>The week that is actually locked.</h1>
+          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Nothing sits in this plan until you both say yes, or until you pick for both. Undecided slots wait patiently, and a little sarcastically.</p>
+          <div id="planEmpty" class="empty-card">
+            <p>The calendar is a beautiful white field. Start in Pick, swipe a few things in, and meet back here when something locks.</p>
+            <a class="btn primary" href="#pick">Start picking</a>
+          </div>
+          <div id="planDays"></div>
+          <div class="map-block" id="mapBlock">
+            <h2>The island, roughly.</h2>
+            <p class="sub">Green lines are drives. The purple dash is the optional Reykjavik-to-Hofn hop, about 55 minutes, from the domestic airport, not Keflavik.</p>
+            <div class="map-wrap">
+              <svg class="imap" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized map of Iceland with the trip route">
             <rect class="sea" x="-200" y="-200" width="1400" height="1000"/>
             <polygon class="land" points="128.7,436.8 139.1,417.6 173.9,400.0 191.3,382.4 180.9,356.8 187.8,320.0 139.1,292.8 83.5,288.0 51.5,280.0 97.4,260.8 139.1,240.0 173.9,216.0 104.3,192.0 24.3,168.0 62.6,136.0 48.7,112.0 104.3,88.0 118.3,48.0 142.6,14.4 173.9,56.0 222.6,88.0 271.3,64.0 313.0,16.0 410.4,64.0 521.7,56.0 567.0,3.2 612.2,48.0 688.7,48.0 709.6,128.0 754.8,160.0 751.3,232.0 723.5,280.0 681.7,336.0 660.9,376.0 619.1,400.0 591.3,432.0 535.7,456.0 466.1,480.0 410.4,504.0 361.7,499.2 313.0,480.0 243.5,448.0 201.7,432.0 153.0,436.8"/>
             <path class="route drive" d="M 145.7 410.4 L 156.6 427.2 L 192.0 384.6" fill="none"/>
@@ -83,432 +71,79 @@
             <circle class="pin" cx="592.8" cy="401.0" r="5"/><text class="lab" x="600" y="422">Diamond B.</text>
             <circle class="pin" cx="660.2" cy="367.5" r="5"/><text class="lab" x="667.2" y="360.5">Hofn</text>
           </svg>
-          <div class="map-legend"><span><i class="d"></i> Drive</span><span><i class="f"></i> Optional Hofn flight</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" id="days">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">02 / The week</div>
-          <h2>Seven dates, four usable hours of sun, zero interest in November.</h2>
-          <p class="sub">You land at dawn on Dec 29, so the hotel stay is five nights, Dec 29 to Jan 3, unless you add the optional Dec 28 hold.</p>
-        </div>
-
-        <article class="day">
-          <div class="day-media">
-            <a class="card-photo" href="https://www.icelandair.com/flights/from-denver-to-reykjavik/" target="_blank" rel="noopener"><img src="images/places/icelandair.jpg" alt="An Icelandair Boeing 737 MAX, Sandro Koechli, Wikimedia Commons, CC0" loading="lazy"></a>
-          </div>
-          <div class="day-body">
-            <div class="when">Dec 28, Monday</div>
-            <h3><a class="card-title" href="https://www.icelandair.com/flights/from-denver-to-reykjavik/" target="_blank" rel="noopener">Denver lets you go at 3:40 PM</a></h3>
-            <p>Icelandair FI670, a 737 MAX, overnight to Keflavik. You leave in the afternoon and skip an entire night of sleep on purpose.</p>
-            <p class="tip">Delta's JFK, MSP, and DTW flights to KEF are summer-only. Late December is Icelandair weather: a year-round DEN nonstop, about 7 hours, which is why this flight is already in the plan.</p>
-            <p class="credit">Photo: Sandro Koechli, Wikimedia Commons, CC0.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.icelandair.com/flights/from-denver-to-reykjavik/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Keflavik%20Airport" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-        </article>
-
-        <article class="day day-alt">
-          <div class="day-body">
-            <div class="when">Dec 29, Tuesday</div>
-            <h3><a class="card-title" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">A 6:05 AM landing, then the harbor</a></h3>
-            <p>Check in at The Reykjavik EDITION, wander Hafnartorg and Laugavegur, and take the evening to Grotta. Sky Lagoon is the optional warm ending, 15 minutes from the hotel.</p>
-            <p>The sun shows up around 11:20 AM, so the morning is streetlights and coffee. Sidewalks can be ice rinks in nicer clothes.</p>
-            <div class="vids" data-videos="edition,sky"></div>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=The%20Reykjavik%20EDITION" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-          <div class="day-media">
-            <a class="card-photo" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener"><img src="images/places/edition-entrance.jpg" alt="The entrance courtyard at The Reykjavik EDITION, official photo, editionhotels.com" loading="lazy"></a>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-media">
-            <a class="card-photo" href="https://glacieradventure.is/tour/crystal-ice-cave-adventure/" target="_blank" rel="noopener"><img src="images/places/ice-cave.jpg" alt="Inside a guided ice cave in Iceland, Eric Kilby, Wikimedia Commons, CC BY-SA 2.0" loading="lazy"></a>
-          </div>
-          <div class="day-body">
-            <div class="when">Dec 30, Wednesday</div>
-            <h3><a class="card-title" href="https://glacieradventure.is/tour/crystal-ice-cave-adventure/" target="_blank" rel="noopener">Optional glacier overnight, if the weather plays nice</a></h3>
-            <p>Fly Reykjavik domestic (RKV, not KEF) to Hofn in about 55 minutes. Walk a blue ice cave, watch Diamond Beach around the late 11 AM sunrise, look for seals, and hope the lights show up over the icebergs.</p>
-            <div class="tip warn">Winter cancellations happen. The safer buffer is a Dec 29 to 30 hop, then back for New Year's Eve. Check flight status, and check <a href="https://www.road.is" target="_blank" rel="noopener">road.is</a> plus <a href="https://www.safetravel.is" target="_blank" rel="noopener">safetravel.is</a> before you drive.</div>
-            <div class="vids" data-videos="jokulsarlon,ice"></div>
-            <p class="links card-links">
-              <a class="btn primary" href="https://glacieradventure.is/tour/crystal-ice-cave-adventure/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.icelandair.com/flights/domestic/" target="_blank" rel="noopener">Flights</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Jokulsarlon%20glacier%20lagoon" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-        </article>
-
-        <article class="day day-alt">
-          <div class="day-body">
-            <div class="when">Dec 31, Thursday</div>
-            <h3><a class="card-title" href="https://visitreykjavik.is/mark-christmass-end-bonfires-reykavik" target="_blank" rel="noopener">Back in town for bonfires, a comedy hour, and fireworks</a></h3>
-            <p>If you flew east, come back for New Year's Eve in Reykjavik. Neighborhood bonfires first, then Aramotaskaup on TV, then midnight fireworks from Hallgrimskirkja, the Perlan hillside, or the EDITION's harbor door.</p>
-            <p>It is a late, cold, crowded hour. Dress like you plan to stand still in the wind, because you will.</p>
-            <div class="vids" data-videos="nye"></div>
-            <p class="links card-links">
-              <a class="btn primary" href="https://visitreykjavik.is/mark-christmass-end-bonfires-reykavik" target="_blank" rel="noopener">Website</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hallgrimskirkja%20Reykjavik" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-          <div class="day-media">
-            <a class="card-photo" href="https://visitreykjavik.is/mark-christmass-end-bonfires-reykavik" target="_blank" rel="noopener"><img src="images/places/nye-fireworks.jpg" alt="Fireworks over Reykjavik on New Year's Eve, Borkur Sigurbjornsson, Wikimedia Commons, CC BY 2.0" loading="lazy"></a>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-media">
-            <a class="card-photo" href="https://www.ishestar.is/en/portfolio/horses-and-waffles/" target="_blank" rel="noopener"><img src="images/places/horses-winter.jpg" alt="An Icelandic horse in winter, Guislin, Wikimedia Commons, CC BY 4.0" loading="lazy"></a>
-          </div>
-          <div class="day-body">
-            <div class="when">Jan 1, Friday</div>
-            <h3><a class="card-title" href="https://www.ishestar.is/en/portfolio/horses-and-waffles/" target="_blank" rel="noopener">Horses first, Golden Circle if anything is open</a></h3>
-            <p>Ishestar's Horses and Waffles ride in Hafnarfjordur: 50 minutes through lava fields, overalls and studded shoes included, waffle after. Then an optional Golden Circle if roads and energy allow.</p>
-            <div class="tip warn">Jan 1, a lot of Reykjavik sleeps in and stays closed. The horses do not take bank holidays as seriously as the cafes. Eat before you leave, or pack a snack that is not your pride.</div>
-            <div class="vids" data-videos="horses,golden"></div>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.ishestar.is/en/portfolio/horses-and-waffles/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Ishestar%20Hafnarfjordur" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-        </article>
-
-        <article class="day day-alt">
-          <div class="day-body">
-            <div class="when">Jan 2, Saturday</div>
-            <h3><a class="card-title" href="https://www.visiticeland.com/article/the-south-coast/" target="_blank" rel="noopener">South Coast drama, or a glass box in a field</a></h3>
-            <p>Seljalandsfoss, Skogafoss, and Reynisfjara near Vik, or a night in a glass lodge or bubble if you want the sky as a ceiling. Kolaportid flea market is the in-town backup, usually a weekend thing. Confirm holiday hours.</p>
-            <div class="tip">Before any South Coast drive, check <a href="https://www.road.is" target="_blank" rel="noopener">road.is</a> and <a href="https://www.safetravel.is" target="_blank" rel="noopener">safetravel.is</a>. The waterfalls do not care about your itinerary. Stay well up the beach at Reynisfjara. Sneaker waves are not a metaphor.</div>
-            <div class="vids" data-videos="south,panorama,buubble"></div>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.visiticeland.com/article/the-south-coast/" target="_blank" rel="noopener">Website</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Seljalandsfoss%20Iceland" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-          <div class="day-media">
-            <a class="card-photo" href="https://www.visiticeland.com/article/the-south-coast/" target="_blank" rel="noopener"><img src="images/places/seljalandsfoss.jpg" alt="Seljalandsfoss waterfall, Jakub Halun, Wikimedia Commons, CC BY 4.0" loading="lazy"></a>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-media">
-            <a class="card-photo" href="https://www.bluelagoon.com/day-visit/the-blue-lagoon" target="_blank" rel="noopener"><img src="images/stays/retreat-lagoon.jpg" alt="The Retreat lagoon at Blue Lagoon" loading="lazy"></a>
-          </div>
-          <div class="day-body">
-            <div class="when">Jan 3, Sunday</div>
-            <h3><a class="card-title" href="https://www.bluelagoon.com/day-visit/the-blue-lagoon" target="_blank" rel="noopener">One last soak, then a 4:55 PM flight home</a></h3>
-            <p>Blue Lagoon late morning, 20 minutes from the airport, then Keflavik at 4:55 PM and Denver at 6:00 PM. The water stays about 98 to 104 F year-round. Put conditioner in, keep your hair dry, and check eruption status the day before.</p>
-            <div class="vids" data-videos="blue,retreat"></div>
-            <p class="credit">Lagoon photo: The Retreat at Blue Lagoon, official.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.bluelagoon.com/day-visit/the-blue-lagoon" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.icelandair.com/flights/from-denver-to-reykjavik/" target="_blank" rel="noopener">Flights</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Blue%20Lagoon%20Iceland" target="_blank" rel="noopener">Map</a>
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="chapter" id="stays">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">03 / The beds</div>
-          <h2>Where you sleep, if the wind allows.</h2>
-          <p class="sub">Home base is The Reykjavik EDITION. The others are optional swaps, priced per room or cabin for two, and they trim EDITION nights when you add them.</p>
-        </div>
-        <div class="stay-grid">
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener"><img src="images/stays/edition-ext.jpg" alt="The Reykjavik EDITION entrance at dusk" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">The Reykjavik EDITION</a></h3>
-              <p class="price-line">Superior King $1,160 a night. Deluxe Suite $2,210 to $2,670, default $2,340 on Stay Longer on Us.</p>
-              <p class="wry">Yes, the suite number is real. So is the harbor view, and the free-cancel window through Nov 28, 2026.</p>
-              <p>Harbor-side, next to Harpa. Default is five Deluxe Suite nights, check-in Dec 29, checkout Jan 3.</p>
-              <p class="credit">Official photos, editionhotels.com.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=The%20Reykjavik%20EDITION" target="_blank" rel="noopener">Map</a>
-            </p>
+              <div class="map-legend"><span><i class="d"></i> Drive</span><span><i class="f"></i> Optional Hofn flight</span></div>
             </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener"><img src="images/stays/edition-room.jpg" alt="An EDITION room with a harbor view" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">The room, if you stay put</a></h3>
-              <p>Soft light, a soaking tub, and enough blackout curtain to pretend 11:20 AM is a civilized hour.</p>
-              <p class="credit">Official photo, editionhotels.com.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.editionhotels.com/reykjavik/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=The%20Reykjavik%20EDITION" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://www.bluelagoon.com/accommodation/retreat-hotel" target="_blank" rel="noopener"><img src="images/stays/retreat-hero.jpg" alt="The Retreat at Blue Lagoon, rooms along the lagoon in a lava field" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://www.bluelagoon.com/accommodation/retreat-hotel" target="_blank" rel="noopener">The Retreat at Blue Lagoon</a></h3>
-              <p class="price-line">$2,350 to $2,840 a night. Default $2,840 for a lagoon-view junior suite.</p>
-              <p class="wry">A 2-night minimum may apply. The lagoon is included. The in-water massage is not, and it is $234 an hour.</p>
-              <p class="credit">Official photo, bluelagoon.com.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.bluelagoon.com/accommodation/retreat-hotel" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=The%20Retreat%20at%20Blue%20Lagoon" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://panoramaglasslodge.com/" target="_blank" rel="noopener"><img src="images/stays/panorama-drone.jpg" alt="A Panorama Glass Lodge cabin in open countryside" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://panoramaglasslodge.com/" target="_blank" rel="noopener">Panorama Glass Lodge</a></h3>
-              <p class="price-line">Standard $817 or Premium $1,104, per cabin for the night, not per person.</p>
-              <p class="wry">You are paying to sleep under the sky. The sky, being Icelandic, may just send clouds.</p>
-              <p class="credit">Official photo, panoramaglasslodge.com.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://panoramaglasslodge.com/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Panorama%20Glass%20Lodge%20Iceland" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://buubble.com/" target="_blank" rel="noopener"><img src="images/stays/buubble-aurora.jpg" alt="A Buubble transparent suite under the northern lights" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://buubble.com/" target="_blank" rel="noopener">Buubble</a></h3>
-              <p class="price-line">$253 per cabin for the night.</p>
-              <p class="wry">A clear plastic dome in a dark field. Bring humility, and maybe a beanie for the walk to the bathroom.</p>
-              <p class="credit">Official photo, buubble.com.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://buubble.com/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Buubble%20Iceland" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://auroraigloo.is/" target="_blank" rel="noopener"><img src="images/stays/aurora-igloo.jpg" alt="An Aurora Igloo glass dome at sunset" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://auroraigloo.is/" target="_blank" rel="noopener">Aurora Igloo</a></h3>
-              <p class="price-line">Editable estimate, default $350 per cabin. We did not find a researched holiday quote.</p>
-              <p class="credit">Official photo, auroraigloo.is.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://auroraigloo.is/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Aurora%20Igloo%20Iceland" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-          <article class="stay-card">
-            <div class="pic"><a class="card-photo" href="https://www.hotelhofn.is/" target="_blank" rel="noopener"><img src="images/stays/hofn-room.jpg" alt="A guest room at Hotel Hofn" loading="lazy"></a></div>
-            <div class="body">
-              <h3><a class="card-title" href="https://www.hotelhofn.is/" target="_blank" rel="noopener">Hotel Hofn</a></h3>
-              <p class="price-line">Placeholder $250 a night, editable, for the optional glacier overnight.</p>
-              <p>A practical bed near the lagoon and the ice. The room photo is official. The exterior we found is an older photo of the actual hotel, credited below.</p>
-              <p class="credit">Room: official, hotelhofn.is. Exterior (in credits): Tommy Bee, Wikimedia Commons, CC BY-SA 3.0.</p>
-            <p class="links card-links">
-              <a class="btn primary" href="https://www.hotelhofn.is/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hotel%20Hofn" target="_blank" rel="noopener">Map</a>
-            </p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="chapter" id="cars">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">05 / The car</div>
-          <h2>A 4x4, a Gold card, and a firm grip on the door.</h2>
-          <p class="sub">Pickup and dropoff at Keflavik, after the 6:05 AM landing on Dec 29 and before the 4:55 PM flight on Jan 3. That is a 6-day rental, not a padded 7-day week. Vehicle prices below are a live Blue Car Rental quote for those exact times, converted at 123.4 ISK per USD. Hertz Iceland is the featured desk, inside arrivals, because you already have Gold Plus Rewards.</p>
-        </div>
-
-        <aside class="hertz-box">
-          <p class="kicker">Featured desk</p>
-          <h3><a class="card-title" href="https://www.hertz.is/rent-a-car-in-iceland/" target="_blank" rel="noopener">Hertz Iceland, the local franchise at KEF</a></h3>
-          <p>This is Bílaleiga Flugleiða on hertz.is, not a generic Hertz.com counter in Ohio. The desk sits in the arrivals hall, no shuttle, winter hours 5:30 AM to 1:00 AM, which means a 6:05 AM landing is legally civilized.</p>
-          <p class="wry">Bring the Gold card, leave the member number off this page, and let the desk do the recognizing.</p>
-          <p class="links card-links">
-              <a class="btn primary" href="https://www.hertz.is/rent-a-car-in-iceland/" target="_blank" rel="noopener">Book it</a>
-              <a class="btn" href="https://www.hertz.is/vehicle_guide/pfan/" target="_blank" rel="noopener">Defender 110</a>
-              <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hertz%20Keflavik%20Airport" target="_blank" rel="noopener">Map</a>
-            </p>
-          <ul>
-            <li>Winter fleet on this desk includes a Dacia Duster 4x4, a Kia Sportage automatic 4x4, a Toyota Land Cruiser 250, a Land Rover Defender 110, and a guaranteed Range Rover Sport PHEV (age 25, two credit cards, no F-roads). Hertz lists the Defender as a 5-door 110, or similar, age 23+, two cards. A 3-door Defender 90 did not show up on Hertz or on the other desks we checked. F-roads are closed in winter anyway.</li>
-            <li>Winter tires are standard from Nov 1 to April 15 (verified). Studded tires are allowed and recommended for ice, but at Hertz they are an option on request, not automatic. Ask at the desk.</li>
-            <li>Included in the rate: CDW and third-party liability, plus VAT and unlimited mileage. A US license is fine if it is the original physical card, in English or Roman script, held for at least a year.</li>
-            <li>Add the cover that actually matters here: gravel, sand and ash, theft, glass, and zero excess. Hertz MAX Cover is 5,950 ISK ($48) a day on a 4x4, or 4,950 ISK ($40) on a small car, and drops the excess to zero for covered damage. Medium Cover is 3,850 ISK ($31) a day on a 4x4, with a 65,000 ISK ($527) excess. Underbody, river crossings, and off-road driving are never covered. Roadside help is 990 ISK ($8) a day with MAX, or 1,990 ISK ($16) alone.</li>
-            <li>They do not take a cash deposit. They place a hold on a physical card in the main driver's name. Luxury and the Land Cruiser 250 want two cards. Airport service charge is 5,500 ISK ($45) per rental. Extra driver is 1,150 ISK ($9) a day, capped at 8,050 ISK ($65), unless the desk waives it.</li>
-            <li>Gold Plus Rewards points cannot be earned in Iceland right now (verified on hertz.is). Ask for Icelandair Saga Club points instead. The Gold page still lists a 5% rate discount, expedited pickup, and a free additional driver for a spouse or partner. The local price list still shows the extra-driver fee, so treat those perks as "check at the counter."</li>
-            <li>This is a KEF-to-KEF loop, so skip one-way fees. A live Hertz quote for these exact dates was not locked here; their published winter ranges sit in the same neighborhood as the Blue numbers below. Book on hertz.is and add your Hertz number there, not on this page.</li>
-          </ul>
-        </aside>
-
-        <div class="slider-head">
-          <h3>Three ways to get around the ice</h3>
-          <div class="arrows">
-            <button type="button" class="slide-prev" data-slider="cars" aria-label="Previous car">‹</button>
-            <button type="button" class="slide-next" data-slider="cars" aria-label="Next car">›</button>
+          </div>
+          <div class="winter-notes">
+            <h2>Winter, in one breath.</h2>
+            <p>Sunrise around 11:20 AM, sunset around 3:35 to 3:45 PM, about four usable hours of sun. Temperatures often sit between -3 and 3 C, with wind, snow, and ice invited to every scene. Check road.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
+          </div>
+          <div id="planVideos" class="vid-block" hidden>
+            <h2>Watch a little, then book.</h2>
+            <p class="sub">Click-to-play YouTube facades for whatever you have locked. Thumbnails from i.ytimg.com. The player loads from youtube-nocookie.com only after you press play.</p>
+            <div id="videoRow" class="video-row"></div>
+          </div>
+          <div class="ready-block" id="readyBlock">
+            <h2>Ready to book</h2>
+            <p class="sub">Locked items only, with the official page for each. Check them off as you actually book, on your own phone, in a new tab.</p>
+            <div id="readyList"></div>
           </div>
         </div>
-        <div class="slider" id="carSlider"></div>
-        <p class="note" id="carTotalHint"></p>
+      </section>
 
-        <div class="watch">
-          <h3>Winter driving, the unromantic version</h3>
-          <ul>
-            <li>Ice and wind: hold the door when you open it, or the Atlantic will take it as a souvenir.</li>
-            <li>Gravel shoulders and one-lane bridges are not optional scenery. Slow down and yield like a guest.</li>
-            <li>F-roads are closed in winter. Your insurance agrees, loudly.</li>
-            <li>Speed cameras have no holiday spirit.</li>
-            <li>Check <a href="https://www.road.is" target="_blank" rel="noopener">road.is</a> and <a href="https://www.safetravel.is" target="_blank" rel="noopener">safetravel.is</a> before you leave the hotel, not after the first closed pass.</li>
-            <li>Many gas pumps want a card with a PIN, not a hopeful tap.</li>
-            <li>You get a little more than four hours of daylight. Leave early. Be in before the dark does the driving.</li>
-            <li>Do not stop on the Ring Road for photos. The glacier is not going anywhere. The truck behind you might.</li>
-          </ul>
+      <section class="view view-pick" id="view-pick" data-view="pick" hidden>
+        <div class="pick-head">
+          <p class="progress" id="pickProg">0 of 0</p>
+          <button type="button" class="ghost" id="undoBtn">Undo</button>
         </div>
-      </div>
-    </section>
+        <div class="deck-wrap" id="deckWrap">
+          <div class="deck" id="deck" aria-live="polite"></div>
+          <div class="deck-end" id="deckEnd" hidden></div>
+        </div>
+        <div class="pick-actions" id="pickActions">
+          <button type="button" class="swipe-btn pass" id="btnPass">Pass</button>
+          <button type="button" class="swipe-btn in" id="btnIn">I'm in</button>
+        </div>
+      </section>
 
-    <section class="chapter" id="picks">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">04 / The menu</div>
-          <h2>Twenty-nine ideas, pitched one at a time as you scroll.</h2>
-          <p class="sub">We fish them to you with a big photo, a one-line pitch, and the price for two. Tap I'm in or Pass. Ten start in the cart, including horses, Sky Lagoon, Blue Lagoon, and the New Year's fireworks. Six carry an "Our recommendation" badge. Rooms are shared. Tours, flights, and tickets are per person.</p>
-        </div>
-        <p class="who-now" id="whoNow"></p>
-        <div class="pitch-list" id="pitchList"></div>
-        <p class="links pitch-alt">
-          <button type="button" class="ghost" id="openFlip">Prefer a full-screen flip?</button>
-        </p>
-      </div>
-    </section>
-
-    <section class="chapter" id="match">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">04 / The scoreboard</div>
-          <h2>The match, the splits, and a little negotiation.</h2>
-          <p class="sub" id="matchLead">Send your picks to the other phone. When their link comes back, this page turns into a scoreboard.</p>
-        </div>
-        <div id="matchBoard"></div>
-      </div>
-    </section>
-
-    <section class="chapter" id="costs-sec">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">06 / The damage</div>
-          <h2>A live total, with sliders hiding until you are ready to flinch.</h2>
-        </div>
-        <div id="costs" data-open="false">
-          <button type="button" class="costs-top" id="toggleCosts" aria-expanded="false">
-            <span>Open the cost sliders</span>
-            <strong id="costsPreview"></strong>
-          </button>
-          <div class="panel">
-            <p class="wry-suite">Yes, the Deluxe Suite is $2,340 a night on the Stay Longer on Us rate. The number is real. So is the harbor view.</p>
-            <div class="grid-form" id="costFields"></div>
-            <div class="breakdown" id="breakdown"></div>
-            <p class="note" id="nightsNote"></p>
-            <div class="delta" id="deltaBox" hidden></div>
-            <div class="picks-sum" id="picksSummary"></div>
-            <p class="links"><button type="button" class="ghost" id="resetBtn">Reset to defaults</button></p>
+      <section class="view" id="view-us" data-view="us" hidden>
+        <div class="pad">
+          <p class="kicker">Us</p>
+          <h1>Scott, Jerm, or both of you on one phone.</h1>
+          <div id="usWho" class="us-who"></div>
+          <div class="us-actions">
+            <button type="button" class="btn primary js-share" id="shareBtn">Send my picks</button>
+            <button type="button" class="btn" id="editCostsBtn">Edit costs</button>
+            <button type="button" class="btn ghost" id="switchPlayer">Switch player</button>
           </div>
+          <p class="toast-slot" id="toast" hidden></p>
+          <div id="usBoard"></div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section class="chapter" id="pack">
-      <div class="wrap">
-        <div class="chapter-head">
-          <div class="num">07 / The armor</div>
-          <h2>Pack for ice, wind, and a swimsuit you will not regret.</h2>
-        </div>
-        <div class="pack">
-          <div class="stay-card"><div class="body">
-            <h3>Winter packing, no debates</h3>
-            <ul>
-              <li>Crampons or microspikes. Reykjavik sidewalks in late December are a contact sport.</li>
-              <li>A waterproof shell. "Water resistant" is a suggestion the Atlantic will ignore.</li>
-              <li>Wool base layers. Cotton is a sad souvenir.</li>
-              <li>A swimsuit for the lagoons, plus a cheap conditioner you can sacrifice to Blue Lagoon silica.</li>
-              <li>Warm gloves, a hat that stays on in wind, and boots with actual grip.</li>
-            </ul>
-          </div></div>
-          <div class="stay-card"><div class="body">
-            <h3>Season notes that matter</h3>
-            <p>Reykjavik sunrise sits around 11:20 AM, sunset around 3:35 to 3:45 PM, a little more than four hours of daylight. Typical air is about -3 to 3 C, with wind, snow, and ice in the mix.</p>
-            <p>Northern lights love these long dark nights. Cloud cover is the real gate. Watch the cloud map on vedur.is, not just the KP number.</p>
-            <p>Dec 31 is fireworks night. Jan 1, many shops and restaurants are closed. Before the South Coast, check road.is and safetravel.is.</p>
-            <div class="vids" data-videos="lights"></div>
-          </div></div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="wrap">
-        <p>Prices in US dollars, converted at ISK 123.4 per USD and EUR 1.10 as of Nov 14, 2026. Rooms and cabins are priced per room for two. Tours, flights, and admissions are per person. This is a planning page, not a booking confirmation.</p>
-        <h4>Photo credits</h4>
-        <p>Stay photos are self-hosted. The Reykjavik EDITION: official press photos, editionhotels.com. The Retreat at Blue Lagoon: official, bluelagoon.com. Panorama Glass Lodge: official, panoramaglasslodge.com. Buubble: official, buubble.com. Aurora Igloo: official, auroraigloo.is. Hotel Hofn room: official, hotelhofn.is. Hotel Hofn exterior: Tommy Bee, Wikimedia Commons, CC BY-SA 3.0, an older photo of the actual hotel.</p>
-        <p>Hero aurora: "Flames in the sky," AstroAnthony, Wikimedia Commons, CC BY 4.0. Stay photos are official, from the hotels' own sites, except the Hotel Hofn exterior credit below. Activity and day photos are self-hosted; authors and licenses are listed in the README. Every place card now uses a photo of that actual place or business. No stand-in photos remain.</p>
-        <h4>Videos</h4>
-        <p>Click-to-play YouTube facades. Each title is labeled visitor review or official, with the channel name. Thumbnails load from i.ytimg.com. The player loads from youtube-nocookie.com only after you press play.</p>
-        <p>Built as a shareable trip page for two people, Dec 28, 2026 to Jan 3, 2027. Late December, around the winter solstice. Not November.</p>
-      </div>
-    </footer>
-  </div>
-
-  <div class="stick">
-    <div class="wrap stick-inner">
-      <button type="button" class="stick-cart" id="openCart" aria-expanded="false" aria-controls="cartDrawer">
-        <div class="totals">
-          <b id="totalTwo">$17,368</b>
-          <small><span id="totalEach">$8,684</span> per person</small>
-        </div>
-        <span class="cart-pill"><span id="cartCount">10</span> in the cart</span>
-      </button>
-      <div class="stick-actions">
-        <button type="button" class="btn js-share" id="shareBtn">Send my picks to Jerm</button>
-        <a class="btn primary stick-edit" href="#costs-sec">Edit costs</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="cart-layer" id="cartDrawer" hidden>
-    <button type="button" class="cart-backdrop" id="closeCart" aria-label="Close the cart"></button>
-    <div class="cart-sheet" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-      <div class="cart-head">
-        <h2 id="cartTitle">Your cart</h2>
-        <button type="button" class="ghost" id="closeCartBtn">Close</button>
-      </div>
-      <ul class="cart-list" id="cartList"></ul>
-      <div class="cart-total">
-        <b id="cartTotalTwo">$17,368</b>
-        <small><span id="cartTotalEach">$8,684</span> per person</small>
-      </div>
-      <div class="cart-actions">
-        <button type="button" class="btn js-share" id="shareBtnDrawer">Send my picks to Jerm</button>
-        <a class="btn" href="#match" id="cartMatchLink">See the match</a>
-        <a class="btn primary" href="#costs-sec" id="cartCostsLink">Edit costs</a>
-      </div>
-    </div>
+    <nav class="tabs" aria-label="App">
+      <a class="tab" href="#plan" data-tab="plan">
+        <span class="tab-ico" aria-hidden="true">🗓</span>
+        <span>Plan</span>
+      </a>
+      <a class="tab" href="#pick" data-tab="pick">
+        <span class="tab-ico" aria-hidden="true">♡</span>
+        <span>Pick</span>
+      </a>
+      <a class="tab" href="#us" data-tab="us">
+        <span class="tab-ico" aria-hidden="true">✌</span>
+        <span>Us</span>
+      </a>
+    </nav>
   </div>
 
   <div class="who-layer" id="who" hidden>
-    <div class="who-card" role="dialog" aria-modal="true" aria-labelledby="whoTitle">
-      <p class="kicker">Before the pitches</p>
-      <h2 id="whoTitle">Who's holding the phone?</h2>
-      <p id="whoBlurb">Each of you can pick on your own phone, then swap links. Or pick for both of you on one screen. We will remember your choice on this device.</p>
-      <div class="who-actions">
+    <div class="who-card" role="dialog" aria-labelledby="whoTitle">
+      <p class="kicker">First, who is holding the phone?</p>
+      <h2 id="whoTitle">I'm Scott, I'm Jerm, or we are picking together.</h2>
+      <p>We remember the choice on this phone. Send a link when you want the other person to vote too. Nothing is locked until you both say yes, unless you pick for both.</p>
+      <div class="who-btns">
         <button type="button" class="btn primary" data-who="scott">I'm Scott</button>
         <button type="button" class="btn primary" data-who="jerm">I'm Jerm</button>
         <button type="button" class="btn" data-who="both">Pick for both</button>
@@ -516,31 +151,17 @@
     </div>
   </div>
 
-  <div class="flip-layer" id="flip" hidden>
-    <div class="flip-card" id="flipCard">
-      <div class="flip-photo ph" id="flipPhoto"></div>
-      <div class="flip-body">
-        <p class="idea-cat" id="flipKicker"></p>
-        <span class="rec" id="flipRec" hidden>Our recommendation</span>
-        <h3 id="flipTitle"></h3>
-        <p id="flipDesc"></p>
-        <p class="tip" id="flipWinter"></p>
-        <p class="standin" id="flipStandin" hidden></p>
-        <div class="idea-price" id="flipPrice"></div>
-        <div class="links card-links" id="flipLinks"></div>
-        <div class="bar"><span id="flipBar"></span></div>
-        <p class="credit" id="flipProgress"></p>
-        <div class="flip-nav">
-          <button type="button" class="ghost" id="flipPrev">Back</button>
-          <button type="button" class="yn no" id="flipNo">Pass</button>
-          <button type="button" class="yn yes" id="flipYes">I'm in</button>
-          <button type="button" class="ghost" id="flipNext">Next</button>
-        </div>
-        <p class="links"><button type="button" class="ghost" id="closeFlip">Close</button></p>
+  <div class="costs-layer" id="costs" hidden>
+    <div class="costs-sheet" role="dialog" aria-labelledby="costsTitle">
+      <div class="costs-head">
+        <h2 id="costsTitle">Edit costs</h2>
+        <button type="button" class="ghost" id="closeCosts">Close</button>
       </div>
+      <div class="costs-body" id="costsBody"></div>
     </div>
   </div>
-  <div class="toast" id="toast" hidden>Link copied. Anyone with it will see your picks.</div>
-  <script src="js/app.js?v=20261114-taps"></script>
+
+  <script src="js/data.js?v=20261114-rebuild"></script>
+  <script src="js/app.js?v=20261114-rebuild"></script>
 </body>
 </html>
