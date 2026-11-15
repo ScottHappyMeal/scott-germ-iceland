@@ -41,7 +41,10 @@ html, body {
   min-height: 100%;
   min-height: 100svh;
   min-height: 100dvh;
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
 body {
@@ -1113,8 +1116,10 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
    Inner display: 7.6 in, 1878x2670 at ~3x = 626x890 CSS px upright,
    890x626 in the default open (passport) pose, crease down the middle.
    Outer display: 5.4 in, 1398x2034 at ~3x = 466x678, stays the phone layout.
-   Two-column layout only when the viewport is landscape and at least 800px
-   wide, or when segments are reported AND width is greater than height.
+   Two-column layout only when the device is genuinely landscape: width greater
+   than height by every measure, width at least 800px, and not portrait.
+   body.fold-landscape rules are gated by (orientation: landscape). A portrait
+   override resets them if the class is set while upright.
    Segment env() values are used only for the crease gap, never for column widths. */
 /* -------------------------------------------------------------------------- */
 :root {
@@ -1192,6 +1197,8 @@ body.fold-portrait .tab {
 }
 
 /* Open landscape / passport pose (~890x626): two panes, crease in the middle. */
+@media (orientation: landscape) {
+
 body.fold-landscape.pick-tab .app {
   padding-bottom: 0;
 }
@@ -1355,6 +1362,179 @@ body.fold-landscape .us-grid {
 body.fold-landscape .map-frame {
   height: min(46dvh, 360px);
 }
+}
+
+/* If JS still sets fold-landscape while the device is upright, CSS alone
+   must fall back to the single-column layout. */
+@media (orientation: portrait) {
+  body.fold-landscape.pick-tab .app {
+    padding-bottom: calc(var(--tab-h) + var(--safe-b));
+  }
+  body.fold-landscape.pick-tab .stage {
+    overflow: auto;
+    overflow-x: clip;
+  }
+  body.fold-landscape.pick-tab #view-pick,
+  body.fold-landscape.pick-tab #view-pick.has-actions {
+    position: relative;
+    height: auto;
+    display: block;
+    min-height: 0;
+    padding-bottom: calc(var(--pick-actions-h) + var(--tab-h) + var(--safe-b) + 8px);
+  }
+  body.fold-landscape .pick-head {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    z-index: auto;
+    padding: 6px 16px 0;
+    background: transparent;
+  }
+  body.fold-landscape .deck-wrap {
+    position: relative;
+    flex: none;
+    width: min(calc(100% - 24px), 42rem);
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  body.fold-landscape .deck,
+  body.fold-landscape .deck-end {
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
+  }
+  body.fold-landscape .swipe-card {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
+    align-items: stretch;
+  }
+  body.fold-landscape .swipe-card .photo {
+    grid-column: auto;
+    grid-row: auto;
+    height: min(42dvh, 380px, calc(100dvh - 30rem));
+    max-height: min(42dvh, calc(100dvh - 30rem));
+    min-height: 0;
+    min-width: 0;
+    max-width: 100%;
+  }
+  body.fold-landscape .swipe-card .body {
+    grid-column: auto;
+    grid-row: auto;
+    align-self: auto;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    max-width: var(--read-col);
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    margin: 0 auto;
+    padding: 16px 22px 22px;
+  }
+  body.fold-landscape .swipe-card.is-under {
+    left: 0;
+    right: 0;
+    top: auto;
+    height: auto;
+    width: 100%;
+  }
+  body.fold-landscape .deck-end {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+  }
+  body.fold-landscape .pick-actions {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-left: max(16px, var(--safe-l), calc((100% - var(--bar-max)) / 2));
+    padding-right: max(16px, var(--safe-r), calc((100% - var(--bar-max)) / 2));
+    box-sizing: border-box;
+  }
+  body.fold-landscape .pick-actions .swipe-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: 12.5rem;
+  }
+  body.fold-landscape .tabs {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+    display: flex;
+    justify-content: center;
+    padding-left: max(var(--safe-l), calc((100% - var(--bar-max)) / 2));
+    padding-right: max(var(--safe-r), calc((100% - var(--bar-max)) / 2));
+    box-sizing: border-box;
+  }
+  body.fold-landscape .tab {
+    flex: 1 1 0;
+    max-width: 8.5rem;
+  }
+  body.fold-landscape .pad {
+    width: min(640px, calc(100% - 28px));
+    max-width: 100%;
+    min-width: 0;
+  }
+  body.fold-landscape #planDays {
+    display: block;
+    grid-template-columns: none;
+  }
+  body.fold-landscape #planDays > .day-block {
+    margin-bottom: 22px;
+  }
+  body.fold-landscape .us-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Outer display (~466x678) and classic phones stay on the existing
+   single-column rules. No fold-* body class is applied under 520px. *//* Outer display (~466x678) and classic phones stay on the existing
    single-column rules. No fold-* body class is applied under 520px. */
+
+/* Viewport debug readout, shown only when JS adds #fold-debug for ?debug=1. */
+#fold-debug {
+  position: fixed;
+  left: 8px;
+  bottom: calc(var(--tab-h) + var(--pick-actions-h) + var(--safe-b) + 8px);
+  z-index: 99999;
+  margin: 0;
+  max-width: calc(100% - 16px);
+  max-height: 45vh;
+  overflow: auto;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.82);
+  color: #c8f5d4;
+  font: 11px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+@media (orientation: landscape) {
+  body.fold-landscape #fold-debug {
+    bottom: 8px;
+  }
+}
+
+

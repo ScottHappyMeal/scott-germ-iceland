@@ -853,11 +853,39 @@
     return h;
   }
 
+  var BUILD = "20261114-duo3";
+
+  function keptSearch() {
+    try {
+      var params = new URLSearchParams(location.search);
+      if (params.has("debug")) {
+        return "?debug=" + encodeURIComponent(params.get("debug") || "1");
+      }
+    } catch (e) {}
+    return "";
+  }
+
+  function hasDebugFlag() {
+    try {
+      if (new URLSearchParams(location.search).get("debug") === "1") return true;
+    } catch (e) {}
+    try {
+      var hash = location.hash || "";
+      if (/(?:^|[?&#])debug=1(?:&|$)/.test(hash)) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  function pageUrl(hash) {
+    return location.pathname + keptSearch() + (hash || location.hash || "#pick");
+  }
+
   function cleanQs() {
     try {
-      if (location.search && history.replaceState) {
-        history.replaceState({}, "", location.pathname + (location.hash || "#pick"));
-      }
+      if (!history.replaceState) return;
+      var next = keptSearch();
+      if (location.search === next) return;
+      history.replaceState({}, "", location.pathname + next + (location.hash || "#pick"));
     } catch (e) {}
   }
 
@@ -2575,7 +2603,20 @@
       if (segsMq.addEventListener) segsMq.addEventListener("change", syncFoldShell);
       else if (segsMq.addListener) segsMq.addListener(syncFoldShell);
     } catch (e) {}
-    if (window.visualViewport) window.visualViewport.addEventListener("resize", syncFoldShell);
+    try {
+      var portraitMqEv = window.matchMedia("(orientation: portrait)");
+      if (portraitMqEv.addEventListener) portraitMqEv.addEventListener("change", syncFoldShell);
+      else if (portraitMqEv.addListener) portraitMqEv.addListener(syncFoldShell);
+    } catch (e) {}
+    try {
+      if (window.screen && screen.orientation && screen.orientation.addEventListener) {
+        screen.orientation.addEventListener("change", syncFoldShell);
+      }
+    } catch (e) {}
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", syncFoldShell);
+      window.visualViewport.addEventListener("scroll", syncFoldShell);
+    }
   }
 
   function bindWelcomeSwipe() {
@@ -2598,25 +2639,156 @@
   }
 
 
-  function syncFoldShell() {
-    var segs = false;
-    var landMq = false;
-    try { segs = window.matchMedia("(horizontal-viewport-segments: 2)").matches; } catch (e) {}
-    try { landMq = window.matchMedia("(orientation: landscape) and (min-width: 800px)").matches; } catch (e) {}
-    var w = window.innerWidth || 0;
-    var h = window.innerHeight || 0;
-    if (window.visualViewport) {
-      if (window.visualViewport.width) w = Math.min(w, window.visualViewport.width);
-      if (window.visualViewport.height) h = Math.min(h, window.visualViewport.height);
+  function mqMatches(query) {
+    try { return window.matchMedia(query).matches; } catch (e) { return false; }
+  }
+
+  function positiveMin(nums) {
+    var out = Infinity;
+    for (var i = 0; i < nums.length; i++) {
+      var n = Number(nums[i]);
+      if (n > 0 && n < out) out = n;
     }
-    /* Two columns only when the viewport is actually landscape, or when
-       segments are reported AND the viewport is wider than it is tall.
-       An upright Duo can still report two horizontal segments; do not
-       treat that as landscape. */
-    var landscape = !!(landMq || (segs && w > h));
-    var portraitOpen = !landscape && w >= 520;
-    document.body.classList.toggle("fold-landscape", landscape);
-    document.body.classList.toggle("fold-portrait", portraitOpen);
+    return out === Infinity ? 0 : out;
+  }
+
+  function deviceIsPortrait() {
+    /* CSS portrait, or a portrait screen.orientation type, or angle 0/180
+       on a device whose screen.width < screen.height (portrait-primary).
+       A landscape-primary screen (width > height) at 90/270 is also portrait. */
+    if (mqMatches("(orientation: portrait)")) return true;
+    var type = "";
+    var angle = 0;
+    if (window.screen && screen.orientation) {
+      type = screen.orientation.type || "";
+      if (typeof screen.orientation.angle === "number") angle = screen.orientation.angle;
+    } else if (typeof window.orientation === "number") {
+      angle = window.orientation;
+    }
+    if (type.indexOf("portrait") === 0) return true;
+    var sw = (window.screen && screen.width) || 0;
+    var sh = (window.screen && screen.height) || 0;
+    if (sw && sh) {
+      if (sw < sh && (angle === 0 || angle === 180)) return true;
+      if (sw > sh && (angle === 90 || angle === -90 || angle === 270)) return true;
+    }
+    return false;
+  }
+
+  function foldSnapshot() {
+    var innerW = window.innerWidth || 0;
+    var innerH = window.innerHeight || 0;
+    var clientW = (document.documentElement && document.documentElement.clientWidth) || 0;
+    var clientH = (document.documentElement && document.documentElement.clientHeight) || 0;
+    var visW = 0, visH = 0, visScale = 1;
+    if (window.visualViewport) {
+      visW = window.visualViewport.width || 0;
+      visH = window.visualViewport.height || 0;
+      visScale = window.visualViewport.scale || 1;
+    }
+    /* Visible CSS pixels, if the layout viewport is zoomed out to fit. */
+    var shownW = visW && visScale ? visW * visScale : 0;
+    var shownH = visH && visScale ? visH * visScale : 0;
+    var screenW = (window.screen && screen.width) || 0;
+    var screenH = (window.screen && screen.height) || 0;
+    var angle = 0;
+    var orientType = "";
+    if (window.screen && screen.orientation) {
+      if (typeof screen.orientation.angle === "number") angle = screen.orientation.angle;
+      orientType = screen.orientation.type || "";
+    } else if (typeof window.orientation === "number") {
+      angle = window.orientation;
+    }
+    var isPortrait = deviceIsPortrait();
+    var curScreenW = 0, curScreenH = 0;
+    if (screenW && screenH) {
+      if (isPortrait) {
+        curScreenW = Math.min(screenW, screenH);
+        curScreenH = Math.max(screenW, screenH);
+      } else {
+        curScreenW = Math.max(screenW, screenH);
+        curScreenH = Math.min(screenW, screenH);
+      }
+    }
+    var width = positiveMin([innerW, visW, shownW, clientW, curScreenW]);
+    var height = positiveMin([innerH, visH, shownH, clientH, curScreenH]);
+    var pairs = [
+      [innerW, innerH],
+      [visW, visH],
+      [shownW, shownH],
+      [clientW, clientH],
+      [curScreenW, curScreenH]
+    ];
+    var allWide = true;
+    var anyPair = false;
+    for (var i = 0; i < pairs.length; i++) {
+      var a = pairs[i][0], b = pairs[i][1];
+      if (a > 0 && b > 0) {
+        anyPair = true;
+        if (!(a > b)) allWide = false;
+      }
+    }
+    if (!anyPair) allWide = false;
+    /* Two columns only when width is greater than height by every measure,
+       the shortest width is at least 800, and the device is not portrait.
+       Horizontal segments never force landscape on their own. */
+    var landscape = !!(allWide && width >= 800 && !isPortrait);
+    var portraitOpen = !landscape && width >= 520;
+    return {
+      innerW: innerW, innerH: innerH,
+      visW: visW, visH: visH, visScale: visScale,
+      clientW: clientW, clientH: clientH,
+      screenW: screenW, screenH: screenH,
+      dpr: window.devicePixelRatio || 1,
+      orientType: orientType, angle: angle,
+      landscapeMq: mqMatches("(orientation: landscape)"),
+      portraitMq: mqMatches("(orientation: portrait)"),
+      hSegs: mqMatches("(horizontal-viewport-segments: 2)"),
+      vSegs: mqMatches("(vertical-viewport-segments: 2)"),
+      width: width, height: height,
+      isPortrait: isPortrait,
+      landscape: landscape, portraitOpen: portraitOpen,
+      build: BUILD
+    };
+  }
+
+  function updateFoldDebug(snap) {
+    if (!hasDebugFlag()) {
+      var stale = document.getElementById("fold-debug");
+      if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+      return;
+    }
+    snap = snap || foldSnapshot();
+    var el = document.getElementById("fold-debug");
+    if (!el) {
+      el = document.createElement("pre");
+      el.id = "fold-debug";
+      el.setAttribute("aria-hidden", "true");
+      document.body.appendChild(el);
+    }
+    var classes = [];
+    if (document.body.classList.contains("fold-landscape")) classes.push("fold-landscape");
+    if (document.body.classList.contains("fold-portrait")) classes.push("fold-portrait");
+    el.textContent = [
+      "inner " + snap.innerW + " x " + snap.innerH,
+      "visual " + snap.visW + " x " + snap.visH + " scale " + snap.visScale,
+      "clientWidth " + snap.clientW,
+      "screen " + snap.screenW + " x " + snap.screenH,
+      "dpr " + snap.dpr,
+      "orientation " + (snap.orientType || "(none)") + " / " + snap.angle,
+      "mq (orientation: landscape) " + snap.landscapeMq,
+      "mq (horizontal-viewport-segments: 2) " + snap.hSegs,
+      "mq (vertical-viewport-segments: 2) " + snap.vSegs,
+      "body " + (classes.length ? classes.join(" ") : "(none)"),
+      "build " + snap.build
+    ].join("\n");
+  }
+
+  function syncFoldShell() {
+    var snap = foldSnapshot();
+    document.body.classList.toggle("fold-landscape", snap.landscape);
+    document.body.classList.toggle("fold-portrait", snap.portraitOpen);
+    updateFoldDebug(snap);
   }
 
   function boot() {
@@ -2624,9 +2796,9 @@
     load();
     cleanQs();
     if (location.hash === "#us") {
-      try { history.replaceState({}, "", location.pathname + "#compare"); } catch (e) {}
+      try { history.replaceState({}, "", pageUrl("#compare")); } catch (e) {}
     } else if (!location.hash || location.hash === "#") {
-      try { history.replaceState({}, "", location.pathname + "#pick"); } catch (e) {}
+      try { history.replaceState({}, "", pageUrl("#pick")); } catch (e) {}
     }
     bind();
     syncFoldShell();
@@ -2643,6 +2815,8 @@
     setInterval(renderCountdown, 30000);
   }
 
+  window.__icelandBuild = BUILD;
+  window.__icelandFoldSnapshot = foldSnapshot;
   window.__icelandSetPlayer = setPlayer;
   window.__icelandSetTier = setTier;
   window.__icelandOpenWelcome = openWelcome;
