@@ -2,30 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261114-bar -->
+  <!-- build: 20261114-rev -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Scott &amp; Jerm Versus Iceland</title>
-  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Nothing is locked until you both say yes.">
-  <meta property="og:title" content="Scott &amp; Jerm Versus Iceland">
-  <meta property="og:description" content="Dec 28, 2026 to Jan 3, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM, and a lot of hot water in between.">
+  <title>Scott &amp; Jerm's Iceland</title>
+  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Items lock when you both say yes.">
+  <meta property="og:title" content="Scott &amp; Jerm's Iceland">
+  <meta property="og:description" content="Dec 28, 2026 to Jan 3, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="images/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Scott &amp; Jerm Versus Iceland">
-  <meta name="twitter:description" content="A winter-solstice week in Iceland for two. Late December, not November.">
+  <meta name="twitter:title" content="Scott &amp; Jerm's Iceland">
+  <meta name="twitter:description" content="A winter week in Iceland for two, Dec 28, 2026 to Jan 3, 2027.">
   <meta name="twitter:image" content="images/og.jpg">
   <link rel="icon" href="images/og.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261114-bar">
+  <link rel="stylesheet" href="css/styles.css?v=20261114-rev">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
   <div class="sky" aria-hidden="true"></div>
   <div class="app">
     <header class="top">
-      <a class="brand" href="#plan">Scott &amp; Jerm Versus Iceland</a>
+      <a class="brand" href="#plan">Scott &amp; Jerm's Iceland</a>
       <div class="top-actions">
       <button type="button" class="help-btn" id="helpBtn" aria-label="How this works">?</button>
       <button type="button" class="chip" id="lockedChip" aria-label="Locked total">
@@ -38,41 +38,41 @@
       </div>
     </header>
     <div class="trip-status" id="tripStatus">
-      <p id="countdown">Counting down to wheels up at 3:40 PM MT, Dec 28.</p>
-      <p id="weather">Checking the Reykjavik sky.</p>
+      <p id="countdown">Time until departure at 3:40 PM MT, Dec 28.</p>
+      <p id="weather">Loading weather for Reykjavik now.</p>
     </div>
 
     <main class="stage">
       <section class="view" id="view-plan" data-view="plan" hidden>
         <div class="pad">
           <p class="kicker">The plan</p>
-          <h1>The week that is actually locked.</h1>
-          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Nothing sits in this plan until you both say yes, or until you pick for both. Undecided slots wait patiently, and a little sarcastically.</p>
+          <h1>The locked plan</h1>
+          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Items appear here after you both say yes, or after you pick for both.</p>
           <div id="planEmpty" class="empty-card">
-            <p>The calendar is a beautiful white field. Start in Pick, swipe a few things in, and meet back here when something locks.</p>
+            <p>Nothing is locked yet. Open Pick to start.</p>
             <a class="btn primary" href="#pick">Start picking</a>
           </div>
           <div id="planDays"></div>
           <div class="map-block" id="mapBlock">
-            <h2>The island, for real this time.</h2>
-            <p class="sub">Pins are the stops. The green line is the drive, pre-baked so this page does not need a live routing API. Tap the map to explore, so a one-finger scroll still scrolls the page.</p>
+            <h2>Map</h2>
+            <p class="sub">Pins mark the stops. The green line is the driving route. Tap the map to move it. That keeps one-finger scrolling on the page.</p>
             <div class="map-frame" id="overviewMapWrap">
               <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
               <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
             </div>
           </div>
           <div class="winter-notes">
-            <h2>Winter, in one breath.</h2>
-            <p>Sunrise around 11:20 AM, sunset around 3:35 to 3:45 PM, about four usable hours of sun. Temperatures often sit between -3 and 3 C, with wind, snow, and ice invited to every scene. Check road.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
+            <h2>Winter conditions</h2>
+            <p>Sunrise is around 11:20 AM, and sunset is around 3:35 to 3:45 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
           </div>
           <div id="planVideos" class="vid-block" hidden>
-            <h2>Watch a little, then book.</h2>
-            <p class="sub">Click-to-play YouTube facades for whatever you have locked. Thumbnails from i.ytimg.com. The player loads from youtube-nocookie.com only after you press play.</p>
+            <h2>Videos</h2>
+            <p class="sub">Videos for locked items. The player loads only after you press play.</p>
             <div id="videoRow" class="video-row"></div>
           </div>
           <div class="ready-block" id="readyBlock">
             <h2>Ready to book</h2>
-            <p class="sub">Locked items only, with the official page, a deadline when we have a real one, and a checkbox once you have actually booked, on your own phone, in a new tab.</p>
+            <p class="sub">Locked items, with the official booking page, a deadline when there is one, and a checkbox to mark after you book.</p>
             <div id="readyList"></div>
           </div>
         </div>
@@ -96,7 +96,7 @@
       <section class="view" id="view-us" data-view="us" hidden>
         <div class="pad">
           <p class="kicker">Us</p>
-          <h1>Scott, Jerm, or both of you on one phone.</h1>
+          <h1>Who is using this phone?</h1>
           <div id="howCard" class="how-card"></div>
           <div id="usWho" class="us-who"></div>
           <div class="us-actions">
@@ -159,8 +159,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261114-bar"></script>
-  <script src="js/trip.js?v=20261114-bar"></script>
-  <script src="js/app.js?v=20261114-bar"></script>
+  <script src="js/data.js?v=20261114-rev"></script>
+  <script src="js/trip.js?v=20261114-rev"></script>
+  <script src="js/app.js?v=20261114-rev"></script>
 </body>
 </html>

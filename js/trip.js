@@ -38,20 +38,20 @@ window.ICELAND_TRIP = (function () {
   var DURATIONS = {
     flight: { mins: 420, official: true, text: "about 7 hrs in the air, official block time" },
     harpa_walk: { mins: 45, official: false, text: "about 45 min, approx, and you can see the hotel from the doors" },
-    shopping_downtown: { mins: 60, official: false, text: "about 1 hr of wandering, approx, plus whatever wool does to you" },
+    shopping_downtown: { mins: 60, official: false, text: "about 1 hr of wandering, approx" },
     grotta: { mins: 60, official: false, text: "about 1 hr incl. the short drive, approx" },
     sky_lagoon: { mins: 135, official: false, text: "about 2 hrs 15 min incl. the 15 min drive, approx" },
     tides: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
-    wool_shops: { mins: 45, official: false, text: "about 45 min, approx, which is a lie if the sweaters win" },
-    baejarins: { mins: 20, official: false, text: "about 20 min, approx, unless the line has opinions" },
+    wool_shops: { mins: 45, official: false, text: "about 45 min, approx" },
+    baejarins: { mins: 20, official: false, text: "about 20 min, approx" },
     nl_guided: { mins: 210, official: true, text: "max 3.5 hrs official, incl. pickup, from Reykjavik Excursions" },
-    nl_self: { mins: 120, official: false, text: "about 2 hrs of standing around looking up, approx" },
+    nl_self: { mins: 120, official: false, text: "about 2 hrs, approx" },
     "ice-plan:jokulsarlon": { mins: 180, official: true, text: "3 hrs official for the Crystal Ice Cave, plus the lagoon and a night in Hofn" },
     "ice-plan:katla": { mins: 165, official: true, text: "2.5 to 3 hrs official for the Katla Fast Track" },
     "ice-plan:skip": { mins: 0, official: false, text: "" },
-    nye_dinner: { mins: 120, official: false, text: "about 2 hrs, approx, before the fireworks negotiations begin" },
-    nye_bonfire: { mins: 60, official: false, text: "about 1 hr, approx, after dark and happily so" },
-    aramotaskaup: { mins: 60, official: false, text: "about 1 hr, approx, on the couch, which counts" },
+    nye_dinner: { mins: 120, official: false, text: "about 2 hrs, approx" },
+    nye_bonfire: { mins: 60, official: false, text: "about 1 hr after dark, approx" },
+    aramotaskaup: { mins: 60, official: false, text: "about 1 hr, approx, starting at 10:30 PM" },
     nye_fireworks: { mins: 60, official: false, text: "about 1 hr around midnight, approx" },
     dill: { mins: 150, official: false, text: "about 2 hrs 30 min, approx" },
     grillmarkadurinn: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
@@ -239,11 +239,11 @@ window.ICELAND_TRIP = (function () {
   };
 
   var DAY_ROADS = {
-    dec28: { drive: "", risk: "The only road today is the jetway, which is a relief." },
+    dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver." },
     dec29: { drive: "KEF to the harbor is about 51 km and 52 min, approx, if you skip the lagoon on the way.", risk: "Reykjanesbraut can glaze over. Take it slow after an overnight flight." },
-    dec30: { drive: "A Hofn overnight is a serious eastbound day, about 381 km and 5 hrs 33 min to the lagoon, approx, unless you take the short flight.", risk: "Wind between Vik and Jokulsarlon is the usual villain. Check the forecast twice." },
-    dec31: { drive: "This is a town day. Walking is the plan, and the fireworks do not take a car.", risk: "Downtown gets lively. Leave the Defender where it is." },
-    jan1: { drive: "The Golden Circle loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a horse or a hot spring.", risk: "Watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
+    dec30: { drive: "A Hofn overnight is a long eastbound day, about 381 km and 5 hrs 33 min to the lagoon, approx, unless you take the short flight.", risk: "Wind between Vik and Jokulsarlon can be strong. Check the forecast twice." },
+    dec31: { drive: "This is a town day. Walking is the plan.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked." },
+    jan1: { drive: "The Golden Circle loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a horse ride or a hot spring.", risk: "Watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
     jan2: { drive: "The South Coast out and back is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. If you keep going east, watch the wind between Vik and Jokulsarlon." },
     jan3: { drive: "The harbor to the Blue Lagoon is about 51 km and 52 min, approx, then 23 km and 25 min on to KEF.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
@@ -281,12 +281,12 @@ window.ICELAND_TRIP = (function () {
   var NYE_IDS = ["nye_dinner", "nye_bonfire", "nye_fireworks"];
 
   var PACK_BASE = [
-    { id: "layers", label: "Base layers. The glamorous kind that nobody sees, and everybody needs." },
-    { id: "boots", label: "Waterproof boots with actual grip. Fashion is a summer sport." },
-    { id: "hat", label: "A warm hat that stays on in the wind. Good luck." },
-    { id: "gloves", label: "Insulated gloves for ordinary walking around." },
-    { id: "shell", label: "A shell that shrugs off sleet, which is not optional." },
-    { id: "socks", label: "Warm socks, more pairs than you think, and then one more." }
+    { id: "layers", label: "Base layers." },
+    { id: "boots", label: "Waterproof boots with grip." },
+    { id: "hat", label: "A warm hat." },
+    { id: "gloves", label: "Insulated gloves." },
+    { id: "shell", label: "A waterproof shell." },
+    { id: "socks", label: "Warm socks, extra pairs." }
   ];
 
   var DEPART = "2026-12-28T15:40:00-07:00";

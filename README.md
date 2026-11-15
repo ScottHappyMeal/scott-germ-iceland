@@ -1,4 +1,4 @@
-# Scott and Jerm Versus Iceland
+# Scott & Jerm's Iceland
 
 A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 3, 2027.
 
@@ -20,7 +20,7 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 - Seljalandsfoss day photo: Jakub Halun, Wikimedia Commons, File:Seljalandsfoss Waterfall, Iceland, 20240720 1500 3096.jpg, CC BY 4.0.
 - Jan 3 Retreat lagoon: official, bluelagoon.com.
 - Harpa: Manuelarosi, Wikimedia Commons, File:Harpa (concert hall).jpg, CC BY-SA 4.0.
-- Ishestar horse ride: official, ishestar.is.
+- Ishestar horse ride: official, ishestar.is, cropped so the horses stay in the frame.
 - Grotta lighthouse: Olga Ernst, Wikimedia Commons, File:Lighthouse on Grótta Island.jpg, CC BY-SA 4.0.
 - Tides dining room: official, editionhotels.com.
 - Dill: City Foodsters, Wikimedia Commons, File:DILL IMG 2911 (30924863540).jpg, CC BY 2.0, a meal at Dill in Reykjavik.
