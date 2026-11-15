@@ -85,7 +85,7 @@
       { id: "flight", kind: "flight", day: "Dec 28", title: "Icelandair, DEN to KEF",
         defaultTier: "standard",
         desc: "Icelandair FI670, a 737 MAX, about 7 hours. You land at 6:05 AM on Dec 29. The return is Jan 3 at 4:55 PM, back in Denver at 6:00 PM.",
-        winter: "Delta's JFK, MSP, and DTW flights to KEF are summer-only. Late December is Icelandair weather.",
+        winter: "Delta's JFK, MSP, and DTW flights to KEF are summer-only. In late December, Icelandair is the only nonstop from Denver.",
         url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
         maps: "Denver International Airport",
         tiers: [
@@ -322,6 +322,7 @@
   var reviewId = null;
   var lastChip = null;
   var drag = { on: false };
+  var lastPickShown = null;
 
   function playerName(id) {
     if (id === "jerm") return "Jerm";
@@ -916,6 +917,8 @@
     if (tab === "plan" && overviewMap) {
       setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 60);
     }
+    renderCountdown();
+    renderWeather();
   }
 
   /* ---------- render ---------- */
@@ -1502,17 +1505,32 @@
   function renderCountdown() {
     var el = document.getElementById("countdown");
     if (!el) return;
+    var wx = document.getElementById("weather");
+    var compact = currentTab() === "pick";
     var target = new Date(T.DEPART).getTime();
     var now = Date.now();
     var diff = target - now;
+    var mins = Math.floor(Math.max(0, diff) / 60000);
+    var days = Math.floor(mins / (60 * 24));
+    var hours = Math.floor((mins - days * 60 * 24) / 60);
+    var minutes = mins - days * 60 * 24 - hours * 60;
+    if (compact) {
+      var short;
+      if (diff <= 0) short = "Departure time has passed";
+      else if (days) short = days + " day" + (days === 1 ? "" : "s") + " to Dec 28";
+      else short = hours + " hr" + (hours === 1 ? "" : "s") + ", " + minutes + " min to departure";
+      if (weatherCache && isFinite(weatherCache.temp)) {
+        short += ". Reykjavik " + Math.round(weatherCache.temp) + " C";
+      }
+      el.textContent = short + ".";
+      if (wx) wx.hidden = true;
+      return;
+    }
+    if (wx) wx.hidden = false;
     if (diff <= 0) {
       el.textContent = "The Dec 28 departure time has passed.";
       return;
     }
-    var mins = Math.floor(diff / 60000);
-    var days = Math.floor(mins / (60 * 24));
-    var hours = Math.floor((mins - days * 60 * 24) / 60);
-    var minutes = mins - days * 60 * 24 - hours * 60;
     var parts = [];
     if (days) parts.push(days + " day" + (days === 1 ? "" : "s"));
     parts.push(hours + " hr" + (hours === 1 ? "" : "s"));
@@ -1523,6 +1541,12 @@
   function renderWeather() {
     var el = document.getElementById("weather");
     if (!el) return;
+    if (currentTab() === "pick") {
+      el.hidden = true;
+      renderCountdown();
+      return;
+    }
+    el.hidden = false;
     if (!weatherCache) {
       el.textContent = "Reykjavik weather is unavailable right now.";
       return;
@@ -1932,21 +1956,31 @@
     btn.outerHTML = '<div class="yt"><iframe src="' + src + '" allow="autoplay; encrypted-media" allowfullscreen title="YouTube video"></iframe></div>';
   }
 
+  function scrollPickTop() {
+    var stage = document.querySelector(".stage");
+    if (stage) stage.scrollTop = 0;
+    try { if (document.scrollingElement) document.scrollingElement.scrollTop = 0; } catch (e) {}
+  }
+
   function renderPick() {
     var prog = document.getElementById("pickProg");
     var deck = document.getElementById("deck");
     var end = document.getElementById("deckEnd");
     var actions = document.getElementById("pickActions");
+    var view = document.getElementById("view-pick");
     var voted = DECK.filter(function (c) { return myYes(c.id) || myPass(c.id); }).length;
     if (prog) prog.textContent = Math.min(voted + (currentCard() ? 1 : 0), DECK.length) + " of " + DECK.length;
     var card = currentCard();
     if (!card) {
       if (deck) deck.innerHTML = "";
       if (actions) actions.hidden = true;
+      if (view) view.classList.remove("has-actions");
       if (end) { end.hidden = false; end.innerHTML = endHtml(); }
+      if (lastPickShown !== "") { lastPickShown = ""; scrollPickTop(); }
       return;
     }
     if (actions) actions.hidden = false;
+    if (view) view.classList.add("has-actions");
     if (end) end.hidden = true;
     var next = remainingCards().filter(function (c) { return c.id !== card.id; })[0];
     var html = "";
@@ -1955,6 +1989,10 @@
     if (deck) deck.innerHTML = html;
     var inBtn = document.getElementById("btnIn");
     if (inBtn) inBtn.textContent = state.player === "both" ? "We're in" : "I'm in";
+    if (lastPickShown !== card.id) {
+      lastPickShown = card.id;
+      scrollPickTop();
+    }
   }
 
   function tierChipsHtml(c) {

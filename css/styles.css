@@ -25,6 +25,7 @@
   --safe-r: env(safe-area-inset-right, 0px);
   --top-h: 3.6rem;
   --tab-h: 4.15rem;
+  --pick-actions-h: 4.75rem;
 }
 
 * { box-sizing: border-box; }
@@ -375,35 +376,36 @@ svg.imap .lab {
 }
 .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
-/* pick / deck */
+/* pick / deck: card grows with its content; the page (.stage) scrolls */
 .view-pick {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: block;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
+  padding-bottom: 12px;
 }
-#view-plan, #view-compare { min-height: 100%; }
+body.pick-tab .view-pick.has-actions {
+  padding-bottom: calc(var(--pick-actions-h) + 24px);
+}
+#view-plan, #view-compare { min-height: 100%; overflow: visible; }
 .pick-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 8px max(16px, var(--safe-r)) 6px max(16px, var(--safe-l));
+  padding: 4px max(12px, var(--safe-r)) 8px max(12px, var(--safe-l));
   flex: 0 0 auto;
 }
-.progress { margin: 0; color: var(--muted); font-size: 0.88rem; font-weight: 600; }
+.progress { margin: 0; color: var(--muted); font-size: 0.84rem; font-weight: 600; }
 .pick-head-actions { display: flex; align-items: center; gap: 6px; }
-.pick-head-actions .ghost { min-height: 40px; padding: 8px 12px; }
+.pick-head-actions .ghost { min-height: 32px; padding: 4px 10px; }
 .deck-wrap {
-  flex: 1 1 auto;
-  min-height: 0;
   position: relative;
   margin: 0 12px;
 }
 .deck, .deck-end {
-  position: absolute; inset: 0;
+  position: relative;
 }
 .deck { touch-action: pan-y; }
 .swipe-card {
-  position: absolute; inset: 0;
+  position: relative;
+  z-index: 1;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -411,14 +413,23 @@ svg.imap .lab {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
-.swipe-card.is-under { transform: scale(0.97); opacity: 0.7; }
+.swipe-card.is-top { z-index: 2; }
+.swipe-card.is-under {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  transform: scale(0.97);
+  opacity: 0.7;
+}
 .swipe-card .photo {
   position: relative;
   flex: 0 0 auto;
-  height: min(42dvh, 46%);
-  min-height: 140px;
+  height: 35dvh;
+  max-height: 35dvh;
+  min-height: 120px;
   background: #10141f;
 }
 .swipe-card .photo img, .swipe-card .photo .ph-fallback {
@@ -438,11 +449,10 @@ svg.imap .lab {
 .stamp.in { left: 16px; color: var(--green); border-color: var(--green); }
 .stamp.out { right: 16px; color: var(--no); border-color: var(--no); transform: rotate(12deg); }
 .swipe-card .body {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
-  overflow: auto;
-  padding: 14px 16px 12px;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
+  padding: 14px 16px 18px;
 }
 .mate-badge {
   display: inline-block;
@@ -464,14 +474,17 @@ svg.imap .lab {
 .price-line small { display: block; color: var(--muted); font-weight: 500; margin-top: 2px; }
 .pitch-meta { color: var(--muted); font-size: 0.92rem; margin: 0 0 8px; }
 .pick-actions {
-  flex: 0 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  position: relative;
-  z-index: 5;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--tab-h) + var(--safe-b));
+  z-index: 35;
   background: var(--bg);
-  padding: 10px max(16px, var(--safe-r)) 12px max(16px, var(--safe-l));
+  border-top: 1px solid var(--line);
+  padding: 10px max(16px, var(--safe-r)) 10px max(16px, var(--safe-l));
 }
 .pick-actions[hidden] { display: none !important; }
 .swipe-btn { min-height: 52px; font-size: 1.05rem; width: 100%; }
@@ -482,7 +495,7 @@ svg.imap .lab {
   border: 1px solid var(--line);
   border-radius: 24px;
   padding: 22px 18px;
-  overflow: auto;
+  overflow: visible;
 }
 .deck-end b { display: block; font-size: 2rem; margin: 8px 0 4px; }
 .deck-end ul { margin: 8px 0 16px; padding: 0 0 0 18px; }
@@ -572,7 +585,7 @@ svg.imap .lab {
 }
 @media (min-width: 800px) {
   .pad { width: min(980px, calc(100% - 48px)); }
-  .swipe-card .photo { height: min(48dvh, 52%); }
+  .swipe-card .photo { height: min(35dvh, 280px); max-height: 35dvh; }
   svg.imap { max-height: 22rem; }
 }
 @media (min-width: 1280px) {
@@ -713,6 +726,24 @@ body.map-open { overflow: hidden; }
   font-size: 0.82rem;
   line-height: 1.35;
 }
+body.pick-tab .top {
+  min-height: 0;
+  padding-top: calc(4px + var(--safe-t));
+  padding-bottom: 4px;
+}
+body.pick-tab .brand { font-size: 0.95rem; }
+body.pick-tab .help-btn { width: 32px; height: 32px; }
+body.pick-tab .chip { padding: 3px 8px 3px 6px; gap: 6px; }
+body.pick-tab .chip b { font-size: 0.88rem; }
+body.pick-tab .trip-status {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px max(16px, var(--safe-r)) 4px max(16px, var(--safe-l));
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .trip-status p { margin: 0; }
 #countdown { color: var(--ice); font-weight: 600; }
 .sync-note { color: var(--gold); font-weight: 600; }
