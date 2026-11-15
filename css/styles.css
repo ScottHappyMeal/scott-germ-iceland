@@ -51,6 +51,27 @@ body {
 }
 body.who-open, body.welcome-open, body.costs-open, body.confirm-open, body.pick-tab { overflow: hidden; }
 img { max-width: 100%; display: block; }
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  fill: none;
+  overflow: visible;
+}
+.icon-inline {
+  display: inline-block;
+  vertical-align: -0.15em;
+  width: 14px;
+  height: 14px;
+}
 a { color: var(--ice); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button, input, select { font: inherit; }
@@ -126,7 +147,8 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 }
 .chip small { display: block; color: var(--muted); font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--sans); font-weight: 600; }
 .chip b { font-size: 0.95rem; letter-spacing: -0.03em; display: block; }
-.chip-lock { font-size: 0.9rem; }
+.chip-lock { display: inline-flex; align-items: center; color: var(--gold); }
+.chip-lock .icon { width: 16px; height: 16px; }
 .chip.is-bump { animation: totalBump 0.35s ease; }
 @keyframes totalBump { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
 
@@ -179,7 +201,11 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 body[data-tab="plan"] .tab[data-tab="plan"],
 body[data-tab="pick"] .tab[data-tab="pick"],
 body[data-tab="compare"] .tab[data-tab="compare"] { color: var(--green); }
-.tab-ico { font-size: 1.05rem; line-height: 1; }
+.tab-ico {
+  display: flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; line-height: 0;
+}
+.tab-ico .icon { width: 20px; height: 20px; }
 
 /* buttons */
 .btn, .ghost, .swipe-btn {
@@ -427,7 +453,12 @@ svg.imap .lab {
   padding: 2px 8px;
   margin: 0 6px 6px 0;
 }
-.lock-flag { color: var(--gold); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 6px; }
+.lock-flag {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--gold); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 6px;
+}
+.lock-flag .icon, .plan-item .lock .icon { width: 14px; height: 14px; }
+.match-card .icon-inline { width: 14px; height: 14px; color: var(--gold); margin-left: 4px; }
 .pitch-line { font-size: clamp(1.15rem, 4.4vw, 1.55rem); font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 8px; }
 .price-line { color: var(--gold); font-weight: 600; margin: 0 0 4px; }
 .price-line small { display: block; color: var(--muted); font-weight: 500; margin-top: 2px; }

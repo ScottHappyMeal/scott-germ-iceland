@@ -32,6 +32,9 @@
       return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
     });
   }
+  function icon(name, extraClass) {
+    return '<svg class="icon' + (extraClass ? " " + extraClass : "") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-' + name + '"></use></svg>';
+  }
   function money(n) {
     n = Math.round(Number(n) || 0);
     return "$" + n.toLocaleString("en-US");
@@ -1811,7 +1814,7 @@
     if (!c.url) thumb = PHOTO_URLS[imgKey] ? '<img src="' + PHOTO_URLS[imgKey] + '" alt="' + esc(c.title) + '">' : '<div class="ph"></div>';
     var change = raw.tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "";
     return '<div class="plan-item" data-locked="' + esc(id) + '">' + thumb + "<div>" +
-      '<p class="lock">🔒 Locked' + (c.tierLabel ? " · " + esc(c.tierLabel) : "") + change + "</p>" +
+      '<p class="lock">' + icon("lock") + " Locked" + (c.tierLabel ? " · " + esc(c.tierLabel) : "") + change + "</p>" +
       "<h3>" + (c.url ? '<a class="card-title" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.title) + "</a>" : esc(c.title)) + "</h3>" +
       '<p class="price">' + pl.big + "</p>" +
       durationLine(id) +
@@ -1853,7 +1856,7 @@
         if (chosen && (slot.key !== "ice" || chosen === "ice-plan")) {
           if (slot.key === "ice" && chosen === "ice-plan" && hotelForNight(day.id, locked) === "ice-plan") return;
           if (slot.key === "hotel" && chosen === lastHotel && (chosen === "stay-edition" || chosen === "stay-retreat")) {
-            html += '<div class="plan-item compact"><div></div><div><p class="lock">🔒 Locked</p><h3>' + esc(displayName(chosen)) + "</h3><p class='pitch-meta'>Your hotel for this night. Already counted in the total.</p></div></div>";
+            html += '<div class="plan-item compact"><div></div><div><p class="lock">' + icon("lock") + ' Locked</p><h3>' + esc(displayName(chosen)) + "</h3><p class='pitch-meta'>Your hotel for this night. Already counted in the total.</p></div></div>";
           } else {
             html += renderPlanItem(chosen);
           }
@@ -1975,7 +1978,7 @@
       '<p class="kicker">' + esc(c.day || "") + (c.kind ? " · " + esc(c.kind) : "") + "</p>" +
       (v.rec ? '<span class="rec">Recommended</span> ' : "") +
       mateBadge(c.id) +
-      (locked ? '<p class="lock-flag">🔒 Locked. It is on the plan.</p>' : "") +
+      (locked ? '<p class="lock-flag">' + icon("lock") + ' Locked. It is on the plan.</p>' : "") +
       (split ? '<p class="tier-note">Same yes, different tier. This goes to Negotiate.</p>' : "") +
       '<p class="pitch-line">' + (v.url ? '<a class="card-title" href="' + esc(v.url) + '" target="_blank" rel="noopener">' + esc(v.pitch) + "</a>" : esc(v.pitch)) + "</p>" +
       tierChipsHtml(c) +
@@ -2054,7 +2057,7 @@
       '<div class="match-card"><h3>Negotiate</h3>' + (splits.length ? "<ul>" + splits.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "<p>No differences right now.</p>") + "</div>" +
       '<div class="match-card"><h3>' + (state.player === "both" ? "Picks on this phone" : (esc(playerName(state.player || "You")) + "'s picks")) + "</h3>" + (mine.length ? "<ul>" + mine.map(function (id) {
         var line = displayName(id);
-        return "<li>" + esc(line) + (isLocked(id) ? " 🔒" : "") + (DECK_MAP[id] && DECK_MAP[id].tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "") + "</li>";
+        return "<li>" + esc(line) + (isLocked(id) ? icon("lock", "icon-inline") : "") + (DECK_MAP[id] && DECK_MAP[id].tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "") + "</li>";
       }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
       '<div class="match-card"><h3>' + esc(otherName + "'s picks") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(displayName(id, "mate")) + "</li>"; }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
       '<div class="match-card match-totals"><h3>Locked total for two</h3><b>' + money(tLock.total) + "</b><small>" + money(tLock.each) + " per person</small>" +

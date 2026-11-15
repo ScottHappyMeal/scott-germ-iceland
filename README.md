@@ -48,3 +48,7 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 - RUV headquarters (Aramotaskaup): Haukurth, Wikimedia Commons, File:Ruv headquarters.jpg, CC BY-SA 3.0, the broadcaster of Aramotaskaup.
 - Guided northern lights, Hofn: Giuseppe Milo, Wikimedia Commons, CC BY 3.0.
 - Self-guided aurora: Nico Carver, Wikimedia Commons, File:Aurora Borealis- Iceland (Nico Carver).jpg, CC BY-SA 2.0.
+
+## Icons
+
+UI icons are Lucide, vendored in `icons/` under the ISC License.
