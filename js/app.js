@@ -180,12 +180,12 @@
     },
     premium: {
       id: "premium",
-      title: "Land Rover Defender, the recommended 4x4",
-      blurb: "Automatic 4x4, high enough to look down on the weather. A Toyota Land Cruiser 250 on the same Blue quote is $235 a day, $1,411 for 6 days, before cover. Hertz also rents a Range Rover Sport PHEV (age 25, two cards, no F-roads).",
-      model: "Land Rover Defender or similar, automatic 4x4",
-      source: "Live Blue Car Rental quote for the same KEF window. Hertz published winter ranges sit nearby. Confirm on hertz.is.",
-      daily: 266, vehicle: 1595, iskVehicle: 196851, coverDaily: 54, cover: 324, trip: 1919, rec: true,
-      age: "Often 23+ or 25+ on luxury 4x4s"
+      title: "Land Rover Defender 110, the recommended 4x4",
+      blurb: "The 5-door automatic 4x4, F-road approved in summer (those roads are closed this week anyway). The Defender 90, the 3-door, is a no-show in Iceland. The 110 has five doors and, more importantly, room for Germ's luggage.",
+      model: "Land Rover Defender 110, 5-door automatic 4x4 (not a 90)",
+      source: "From-rates, not a locked holiday quote. Holiday week can price above these. Blue Car Rental, KEF: from 37,523 ISK a day for 2026, about $304, guaranteed model or an upgrade, F-road approved. Zero Car Rental: from 42,423 ISK a day, about $344, with zero excess included (the car is supplied by Blue). Cars Iceland: from about $205 a day, with studded winter tires, CDW, and theft protection included. Saga and Lava also offer it, with a KEF shuttle. Hertz Iceland lists the Defender 110, or similar, on hertz.is (age 23+, two cards, 5 doors). Confirm a live quote when you book.",
+      daily: 304, vehicle: 1824, iskVehicle: 225138, coverDaily: 54, cover: 324, trip: 2148, rec: true, est: true,
+      age: "Age 23+ at Hertz, two credit cards at pickup"
     }
   };
 
@@ -721,8 +721,8 @@
       return '<article class="car-card' + (on ? " is-on" : "") + (c.rec ? " is-rec" : "") + '">' +
         rec +
         "<h3>" + c.title + "</h3>" +
-        "<p class='price-line'>" + money(c.daily) + " a day · " + money(c.vehicle) + " for 6 days</p>" +
-        "<p class='trip'>With recommended Full Cover: " + money(c.trip) + " for the trip</p>" +
+        "<p class='price-line'>" + (c.est ? "est. " : "") + money(c.daily) + " a day · " + (c.est ? "est. " : "") + money(c.vehicle) + " for 6 days</p>" +
+        "<p class='trip'>With recommended Full Cover: " + (c.est ? "est. " : "") + money(c.trip) + " for the trip</p>" +
         "<p>" + c.blurb + "</p>" +
         "<p class='credit'>" + c.model + ". " + c.age + ". Vehicle " + c.iskVehicle.toLocaleString("en-US") + " ISK, plus Full Cover at " + money(c.coverDaily) + " a day (" + money(c.cover) + "). " + c.source + " Full Cover is Blue's zero-excess package, $44 to $54 a day depending on the car (verified Nov 14, 2026). If you book Hertz, MAX Cover is $48 a day on a 4x4 or $40 on a small car, plus a $45 airport charge.</p>" +
         '<button type="button" class="choose-car" data-car="' + id + '">' + (on ? "Added to the total" : "Add this car") + "</button>" +
@@ -732,10 +732,10 @@
     var t = compute();
     if (hint) {
       if (state.carId === "none") {
-        hint.textContent = "No car is in the total yet. Add the recommended Defender, with Full Cover, and the trip total goes from " + money(t.total) + " to " + money(t.total + CARS.premium.trip) + ".";
+        hint.textContent = "No car is in the total yet. Add the recommended Defender 110, with Full Cover, and the trip total goes from " + money(t.total) + " to " + money(t.total + CARS.premium.trip) + ", est. Holiday week can price above the published from-rates.";
       } else {
         var c = CARS[state.carId];
-        hint.textContent = "The " + c.title + " with Full Cover adds " + money(c.trip) + ". The trip total is now " + money(t.total) + ".";
+        hint.textContent = "The " + c.title + " with Full Cover adds " + (c.est ? "est. " : "") + money(c.trip) + ". The trip total is now " + (c.est ? "est. " : "") + money(t.total) + ".";
       }
     }
   }
@@ -839,7 +839,7 @@
       '<div class="field"><label>Guided northern lights tour</label><button type="button" class="tog" id="nlTourBtn">Add the tour</button>' + fieldNum("nlCount", "Tour nights", 1, 3) + fieldRange("nlRate", "Tour rate pp", 70, 120) + "</div>" +
       fieldRange("foodRate", "Food per person per day", 60, 300) +
       fieldNum("foodDays", "Food days", 1, 8) +
-      '<div class="field"><label>Car in the total</label><p class="credit">Pick a car in the car chapter. The recommended Defender is shown there, not preselected. The number includes Blue Full Cover for 6 days.</p></div>';
+      '<div class="field"><label>Car in the total</label><p class="credit">Pick a car in the car chapter. The recommended Defender 110 is shown there, not preselected. The number includes Full Cover for 6 days and is est. for the holiday week.</p></div>';
     root.setAttribute("data-ready", "1");
   }
 
