@@ -1620,3 +1620,257 @@ html.view-pinned body:not(.fold-landscape) .pick-actions {
 html.view-pinned #fold-debug {
   max-width: min(22rem, calc(var(--view-w) - 16px));
 }
+
+/* -------------------------------------------------------------------------- */
+/* Motion
+   Timings, curves and patterns from transitions.dev (modal, panel reveal, page
+   side-by-side, tabs sliding, texts reveal, toast, like button, number subtle
+   change, text states swap). Only transform and opacity move, plus a 2-3px
+   blur on a few short text lines. The reduced-motion rule earlier in this file
+   switches all of it off. */
+/* -------------------------------------------------------------------------- */
+:root {
+  --duration-stagger: 40ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-pop: cubic-bezier(0.34, 1.96, 0.64, 1);
+  --ease-exit: cubic-bezier(0.36, 0, 0.78, 0.62);
+  --distance-micro: 4px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --scale-large: 0.96;
+}
+
+@keyframes m-fade-in { from { opacity: 0; } }
+@keyframes m-modal-in { from { opacity: 0; transform: scale(var(--scale-large)); } }
+@keyframes m-sheet-in { from { opacity: 0; transform: translateY(48px); } }
+@keyframes m-page-in { from { opacity: 0; transform: translateX(calc(var(--m-dir, 1) * 14px)); } }
+@keyframes m-rise { from { opacity: 0; transform: translateY(var(--distance-medium)); } }
+@keyframes m-rise-blur { from { opacity: 0; transform: translateY(var(--distance-medium)); filter: blur(var(--blur-medium)); } }
+@keyframes m-swap { from { opacity: 0; transform: translateY(var(--distance-micro)); filter: blur(var(--blur-small)); } }
+@keyframes m-pop { 0% { transform: scale(1); } 30% { transform: scale(0.94); } 100% { transform: scale(1); } }
+@keyframes m-ico-pop { 0% { transform: scale(1); } 30% { transform: scale(0.8); } 100% { transform: scale(1); } }
+
+/* Press feedback on everything you can tap. */
+.btn, .ghost, .swipe-btn, .chip, .help-btn, .tier-chip, .link-out, .welcome-dot {
+  transition:
+    transform var(--duration-quick) var(--ease-smooth-out),
+    background-color var(--duration-quick) var(--ease-smooth-out),
+    border-color var(--duration-quick) var(--ease-smooth-out),
+    color var(--duration-quick) var(--ease-smooth-out);
+}
+.btn:active, .ghost:active, .swipe-btn:active, .chip:active, .help-btn:active, .tier-chip:active, .link-out:active {
+  transform: scale(0.96);
+}
+
+/* Sheets and pop-ups (modal open / close). Opening replays whenever the layer
+   stops being hidden; closing is the faster clock, driven by .is-closing. */
+.welcome-layer, .who-layer, .costs-layer, .confirm-layer, .map-layer {
+  animation: m-fade-in var(--duration-fast) var(--ease-smooth-out);
+}
+.welcome-sheet, .who-card, .confirm-sheet {
+  animation: m-modal-in var(--duration-fast) var(--ease-smooth-out);
+}
+.costs-sheet {
+  animation: m-sheet-in var(--duration-slow) var(--ease-smooth-out);
+}
+.welcome-layer.is-closing, .costs-layer.is-closing, .confirm-layer.is-closing {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-quick) var(--ease-smooth-out);
+}
+.is-closing > .welcome-sheet, .is-closing > .confirm-sheet {
+  transform: scale(var(--scale-large));
+  transition: transform var(--duration-quick) var(--ease-smooth-out);
+}
+.is-closing > .costs-sheet {
+  transform: translateY(32px);
+  transition: transform var(--duration-quick) var(--ease-smooth-out);
+}
+
+/* Welcome screens slide in from the side you are heading to (page side-by-side),
+   and the words rise in one after another (texts reveal). */
+.welcome-slide { animation: m-page-in var(--duration-fast) var(--ease-smooth-out); }
+.welcome-copy > * { animation: m-rise-blur var(--duration-very-slow) var(--ease-smooth-out) backwards; }
+.welcome-copy > *:nth-child(2) { animation-delay: var(--duration-stagger); }
+.welcome-copy > *:nth-child(3) { animation-delay: calc(var(--duration-stagger) * 2); }
+.welcome-copy .who-btns .btn { animation: m-rise var(--duration-very-slow) var(--ease-smooth-out) backwards; animation-delay: calc(var(--duration-stagger) * 2); }
+.welcome-copy .who-btns .btn:nth-child(2) { animation-delay: calc(var(--duration-stagger) * 4); }
+.welcome-dot.is-on { animation: m-dot var(--duration-fast) var(--ease-smooth-out); }
+@keyframes m-dot { from { width: 8px; opacity: 0.5; } }
+
+/* Background video behind the welcome sheet (MotionSites). It fades in only
+   once it is really playing, so a slow or blocked video leaves no hole. */
+.welcome-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1200ms ease;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 45%, transparent 92%);
+  mask-image: linear-gradient(to top, #000 0%, #000 45%, transparent 92%);
+}
+.welcome-video.is-on { opacity: 0.6; }
+.welcome-sheet { position: relative; z-index: 1; }
+
+/* Changing tabs: the new screen slides in a few pixels from its side of the
+   tab bar, and its blocks rise in order. */
+/* Never transform the whole Pick screen: its Pass / I'm in bar is pinned to the
+   window, and a moving parent would drag the bar along with it. */
+.view.is-entering > .pad,
+.view-pick.is-entering > .pick-head,
+.view-pick.is-entering > .deck-wrap { animation: m-page-in var(--duration-fast) var(--ease-smooth-out); }
+.view.is-entering > .pad > * { animation: m-rise var(--duration-very-slow) var(--ease-smooth-out) backwards; }
+.view.is-entering > .pad > h1 { animation-name: m-rise-blur; }
+.view.is-entering > .pad > *:nth-child(2) { animation-delay: var(--duration-stagger); }
+.view.is-entering > .pad > *:nth-child(3) { animation-delay: calc(var(--duration-stagger) * 2); }
+.view.is-entering > .pad > *:nth-child(4) { animation-delay: calc(var(--duration-stagger) * 3); }
+.view.is-entering > .pad > *:nth-child(5) { animation-delay: calc(var(--duration-stagger) * 4); }
+.view.is-entering > .pad > *:nth-child(n+6) { animation-delay: calc(var(--duration-stagger) * 5); }
+
+/* Tab bar: a soft pill slides under the tab you are on (tabs sliding). */
+.tabs-pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(125, 255, 168, 0.16), rgba(125, 255, 168, 0.04));
+  box-shadow: inset 0 1px 0 rgba(125, 255, 168, 0.38);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    transform var(--duration-fast) var(--ease-smooth-out),
+    width var(--duration-fast) var(--ease-smooth-out),
+    opacity var(--duration-fast) var(--ease-smooth-out);
+}
+.tabs-pill.is-set { opacity: 1; }
+.tab { position: relative; z-index: 1; transition: color var(--duration-fast) var(--ease-smooth-out); }
+.tab[aria-current="page"] .tab-ico { animation: m-ico-pop var(--duration-medium) var(--ease-pop); }
+
+/* The deck. A card you let go of springs back; a card you vote on flies off
+   its side while the next one comes forward. */
+.swipe-card { transition: transform var(--duration-medium) var(--ease-bounce), opacity var(--duration-fast) ease; }
+.swipe-card.is-dragging { transition: none; }
+.swipe-card.is-leaving {
+  pointer-events: none;
+  transition: transform 280ms var(--ease-exit), opacity 280ms var(--ease-exit);
+}
+.swipe-card.is-under.is-promoting {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 280ms var(--ease-smooth-out), opacity 280ms var(--ease-smooth-out);
+}
+.stamp { transition: opacity var(--duration-quick) var(--ease-smooth-out); }
+.swipe-card.is-dragging .stamp { transition: none; }
+@keyframes m-card-rise { from { opacity: 0.7; transform: scale(0.97); } }
+@keyframes m-under-in { from { opacity: 0; transform: scale(0.94); } }
+.swipe-card.is-top.is-entering { animation: m-card-rise var(--duration-slow) var(--ease-smooth-out); }
+.swipe-card.is-under.is-entering { animation: m-under-in var(--duration-very-slow) var(--ease-smooth-out) backwards; animation-delay: var(--duration-quick); }
+/* The words on a new card rise in one after another (texts reveal). */
+.swipe-card.is-top.is-entering .body > * {
+  animation: m-rise var(--duration-very-slow) var(--ease-smooth-out) backwards;
+}
+.swipe-card.is-top.is-entering .body > .pitch-line { animation-name: m-rise-blur; }
+.swipe-card.is-top .body > *:nth-child(2) { animation-delay: var(--duration-stagger); }
+.swipe-card.is-top .body > *:nth-child(3) { animation-delay: calc(var(--duration-stagger) * 2); }
+.swipe-card.is-top .body > *:nth-child(4) { animation-delay: calc(var(--duration-stagger) * 3); }
+.swipe-card.is-top .body > *:nth-child(5) { animation-delay: calc(var(--duration-stagger) * 4); }
+.swipe-card.is-top .body > *:nth-child(6) { animation-delay: calc(var(--duration-stagger) * 5); }
+.swipe-card.is-top .body > *:nth-child(n+7) { animation-delay: calc(var(--duration-stagger) * 6); }
+.deck-end:not([hidden]) { animation: m-rise var(--duration-very-slow) var(--ease-smooth-out); }
+
+/* The photo on a new card settles into place. Only on a new card: the deck is
+   redrawn on every change, and the photo must not wobble each time. */
+.swipe-card.is-top.is-entering .photo img,
+.welcome-photo img { animation: m-photo-settle 1400ms var(--ease-smooth-out); }
+@keyframes m-photo-settle { from { transform: scale(1.06); } }
+
+/* "I'm in": the button pops and a few sparks fly (like button). */
+.swipe-btn.is-pop { animation: m-pop var(--duration-medium) var(--ease-pop); }
+.m-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.m-burst i {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  opacity: 0;
+  animation: m-burst var(--pdur, 600ms) ease-out var(--pdelay, 0ms) forwards;
+}
+.m-burst.is-gold i { background: var(--gold); }
+@keyframes m-burst {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  20%  { opacity: 1; transform: translate(calc(var(--px) * 0.25), calc(var(--py) * 0.25)) scale(1); }
+  100% { opacity: 0; transform: translate(var(--px), var(--py)) scale(var(--p-end-scale, 0.6)); }
+}
+
+/* Locked total: only the digits that changed roll (number subtle change). */
+.t-subtle-number { font-variant-numeric: tabular-nums; }
+.t-subtle-slot { position: relative; display: inline-block; }
+.t-subtle-new { display: inline-block; }
+.t-subtle-old { position: absolute; inset: 0; text-align: center; pointer-events: none; opacity: 0; }
+.t-subtle-number.is-animating .t-subtle-new { animation: t-subtle-in 455ms var(--ease-smooth-out) both; }
+.t-subtle-number.is-animating .t-subtle-old { animation: t-subtle-out 455ms var(--ease-smooth-out) both; }
+@keyframes t-subtle-in {
+  from { transform: translateY(calc(0.3em * var(--subtle-dir, 1))); opacity: 0; filter: blur(0.06em); }
+}
+@keyframes t-subtle-out {
+  from { opacity: 1; }
+  to { transform: translateY(calc(0.3em * var(--subtle-dir, 1) * -1)); opacity: 0; filter: blur(0.06em); }
+}
+
+/* Small text that changes in place (text states swap, toast). */
+.is-swap { animation: m-swap var(--duration-fast) ease-in-out; }
+.toast-slot:not([hidden]) { animation: m-toast-in var(--duration-medium) var(--ease-smooth-out); }
+@keyframes m-toast-in { from { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(var(--blur-small)); } }
+
+/* The sky: two soft lights drift like a slow aurora. Plain gradients moved by
+   transform, no blur filter, so it stays cheap on a phone. */
+.sky { overflow: hidden; }
+.sky::before, .sky::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+.sky::before {
+  width: 110vmax; height: 70vmax;
+  left: -45vmax; top: -38vmax;
+  background: radial-gradient(closest-side, rgba(125, 255, 168, 0.13), rgba(125, 255, 168, 0.04) 55%, transparent 72%);
+  animation: m-aurora-a 34s ease-in-out infinite alternate;
+}
+.sky::after {
+  width: 100vmax; height: 64vmax;
+  right: -42vmax; top: -34vmax;
+  background: radial-gradient(closest-side, rgba(195, 166, 255, 0.15), rgba(159, 212, 255, 0.05) 55%, transparent 72%);
+  animation: m-aurora-b 43s ease-in-out infinite alternate;
+}
+@keyframes m-aurora-a { to { transform: translate3d(34vmax, 9vmax, 0) scale(1.25) rotate(8deg); } }
+@keyframes m-aurora-b { to { transform: translate3d(-30vmax, 12vmax, 0) scale(1.2) rotate(-10deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .welcome-video { display: none; }
+}

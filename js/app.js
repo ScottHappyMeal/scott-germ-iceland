@@ -128,6 +128,7 @@
   function showToast(msg) {
     var el = document.getElementById("toast");
     if (!el) return;
+    if (!el.hidden) { el.hidden = true; void el.offsetWidth; }
     el.hidden = false;
     el.textContent = msg;
     clearTimeout(showToast._t);
@@ -418,6 +419,173 @@
   var lastChip = null;
   var drag = { on: false };
   var lastPickShown = null;
+
+  /* ---------- motion ----------
+     The moving parts live in the Motion section of styles.css. This is only
+     the timing glue. Everything here is skipped when the phone asks for
+     reduced motion. */
+  /* Background loop behind the welcome sheet, from the MotionSites library. */
+  var MOTION_VIDEO = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261022_235442_c62146c2-3f2f-46c0-ab51-649a4aa26cf5.mp4";
+  var TAB_ORDER = { pick: 0, plan: 1, compare: 2 };
+  var lastTab = null;
+  var leaving = false;
+  var justFlew = false;
+  var welcomeDir = 1;
+
+  function reducedMotion() {
+    try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
+  }
+  function replay(el, cls) {
+    if (!el) return;
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+  function swapText(el, text) {
+    if (!el || el.textContent === text) return;
+    var had = el.textContent !== "";
+    el.textContent = text;
+    if (had) replay(el, "is-swap");
+  }
+  function showLayer(el) {
+    if (!el) return;
+    clearTimeout(el._closeT);
+    el.classList.remove("is-closing");
+    el.hidden = false;
+  }
+  function hideLayer(el) {
+    if (!el || el.hidden) return;
+    clearTimeout(el._closeT);
+    if (reducedMotion()) { el.classList.remove("is-closing"); el.hidden = true; return; }
+    el.classList.add("is-closing");
+    el._closeT = setTimeout(function () {
+      el.hidden = true;
+      el.classList.remove("is-closing");
+    }, 160);
+  }
+  /* A few sparks out of the middle of `target`, drawn inside `host`. */
+  function burst(target, host, gold) {
+    if (!target || !host || reducedMotion()) return;
+    var t = target.getBoundingClientRect();
+    var h = host.getBoundingClientRect();
+    if (!t.width || !h.width) return;
+    var wrap = document.createElement("span");
+    wrap.className = "m-burst" + (gold ? " is-gold" : "");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.style.left = (t.left - h.left + t.width / 2) + "px";
+    wrap.style.top = (t.top - h.top + t.height / 2) + "px";
+    var n = 12;
+    for (var i = 0; i < n; i++) {
+      var dot = document.createElement("i");
+      var a = (Math.PI * 2 * i) / n + (Math.random() - 0.5) * 0.5;
+      var reach = 12 + Math.random() * 22;
+      dot.style.setProperty("--px", (Math.cos(a) * (t.width / 2 + reach)).toFixed(1) + "px");
+      dot.style.setProperty("--py", (Math.sin(a) * (t.height / 2 + reach)).toFixed(1) + "px");
+      dot.style.setProperty("--pdur", Math.round(520 + Math.random() * 260) + "ms");
+      dot.style.setProperty("--pdelay", Math.round(Math.random() * 70) + "ms");
+      dot.style.setProperty("--p-end-scale", (0.4 + Math.random() * 0.5).toFixed(2));
+      wrap.appendChild(dot);
+    }
+    host.appendChild(wrap);
+    setTimeout(function () { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 1100);
+  }
+  /* Only the digits that changed roll; up when the number rises, down when it falls. */
+  function setRollingNumber(el, text, dir) {
+    var prev = el.getAttribute("data-shown");
+    if (prev === text) return;
+    el.setAttribute("data-shown", text);
+    if (prev === null || reducedMotion()) { el.textContent = text; return; }
+    var same = prev.length === text.length;
+    el.classList.add("t-subtle-number");
+    el.classList.remove("is-animating");
+    el.style.setProperty("--subtle-dir", dir < 0 ? "-1" : "1");
+    el.textContent = "";
+    for (var i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      if (same && prev.charAt(i) === ch) { el.appendChild(document.createTextNode(ch)); continue; }
+      var slot = document.createElement("span");
+      slot.className = "t-subtle-slot";
+      if (same) {
+        var old = document.createElement("span");
+        old.className = "t-subtle-old";
+        old.setAttribute("aria-hidden", "true");
+        old.textContent = prev.charAt(i);
+        slot.appendChild(old);
+      }
+      var fresh = document.createElement("span");
+      fresh.className = "t-subtle-new";
+      fresh.textContent = ch;
+      slot.appendChild(fresh);
+      el.appendChild(slot);
+    }
+    void el.offsetHeight;
+    el.classList.add("is-animating");
+  }
+  /* The pill under the tab you are on. Measured from the tab itself, so it
+     follows every layout (phone, Duo upright, Duo two-pane). */
+  function moveTabsPill(animate) {
+    var pill = document.getElementById("tabsPill");
+    var tab = document.querySelector('.tab[aria-current="page"]');
+    if (!pill || !tab || !tab.offsetWidth) return;
+    var w = Math.min(tab.offsetWidth - 12, 124);
+    var h = tab.offsetHeight - 2;
+    var x = tab.offsetLeft + (tab.offsetWidth - w) / 2;
+    var y = tab.offsetTop + 1;
+    var first = !pill.classList.contains("is-set");
+    if (!animate || first) pill.style.transition = "none";
+    pill.style.width = w + "px";
+    pill.style.height = h + "px";
+    pill.style.transform = "translate(" + x.toFixed(1) + "px, " + y.toFixed(1) + "px)";
+    pill.classList.add("is-set");
+    if (!animate || first) { void pill.offsetWidth; pill.style.transition = ""; }
+  }
+  /* The voted card flies off its side, the next one comes forward, then the
+     vote is recorded. Without a card on screen it just records the vote. */
+  function flyAndVote(id, yes) {
+    if (leaving) return;
+    var deck = document.getElementById("deck");
+    var card = deck ? deck.querySelector(".swipe-card.is-top") : null;
+    if (!card || card.getAttribute("data-id") !== id || reducedMotion()) { vote(id, yes); return; }
+    leaving = true;
+    if (yes) {
+      var inBtn = document.getElementById("btnIn");
+      replay(inBtn, "is-pop");
+      burst(inBtn, document.getElementById("pickActions"), false);
+    }
+    var stamp = card.querySelector(yes ? ".stamp.in" : ".stamp.out");
+    card.classList.remove("is-dragging");
+    void card.offsetWidth;
+    card.classList.add("is-leaving");
+    if (stamp) stamp.style.opacity = 1;
+    card.style.transform = "translateX(" + ((yes ? 1 : -1) * ((card.offsetWidth || 320) + 140)) + "px) rotate(" + (yes ? 14 : -14) + "deg)";
+    card.style.opacity = "0.2";
+    var under = deck.querySelector(".swipe-card.is-under");
+    if (under) under.classList.add("is-promoting");
+    setTimeout(function () {
+      leaving = false;
+      justFlew = true;
+      try { vote(id, yes); } finally { justFlew = false; }
+    }, 285);
+  }
+  function startWelcomeVideo() {
+    var v = document.getElementById("welcomeVideo");
+    if (!v || reducedMotion()) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    if (!v.getAttribute("src")) {
+      v.muted = true;
+      v.addEventListener("playing", function () { v.classList.add("is-on"); });
+      v.addEventListener("error", function () { v.classList.remove("is-on"); });
+      v.setAttribute("src", MOTION_VIDEO);
+    }
+    try {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+  function stopWelcomeVideo() {
+    var v = document.getElementById("welcomeVideo");
+    if (v) { try { v.pause(); } catch (e) {} }
+  }
 
   function playerName(id) {
     if (id === "jerm") return "Jerm";
@@ -853,7 +1021,7 @@
     return h;
   }
 
-  var BUILD = "20261115-duo5";
+  var BUILD = "20261115-motion1";
 
   function keptSearch() {
     try {
@@ -993,14 +1161,14 @@
 
   function openResetConfirm() {
     var el = document.getElementById("resetConfirm");
-    if (el) el.hidden = false;
+    showLayer(el);
     document.body.classList.add("confirm-open");
     var ok = document.getElementById("resetOk");
     if (ok) ok.focus();
   }
   function closeResetConfirm() {
     var el = document.getElementById("resetConfirm");
-    if (el) el.hidden = true;
+    hideLayer(el);
     document.body.classList.remove("confirm-open");
   }
   function startOver() {
@@ -1039,6 +1207,17 @@
     if (tab === "plan" && overviewMap) {
       setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 60);
     }
+    if (lastTab && lastTab !== tab) {
+      var entering = document.getElementById("view-" + tab);
+      if (entering) {
+        entering.style.setProperty("--m-dir", TAB_ORDER[tab] > TAB_ORDER[lastTab] ? "1" : "-1");
+        replay(entering, "is-entering");
+        clearTimeout(entering._enterT);
+        entering._enterT = setTimeout(function () { entering.classList.remove("is-entering"); }, 900);
+      }
+    }
+    moveTabsPill(lastTab !== null);
+    lastTab = tab;
     renderCountdown();
     renderWeather();
   }
@@ -1060,12 +1239,14 @@
   function renderChip() {
     var t = computeFrom(lockedIds());
     var el = document.getElementById("chipTotal");
-    if (el) el.textContent = money(t.total);
+    if (el) setRollingNumber(el, money(t.total), lastChip === null ? 1 : t.total - lastChip);
     var chip = document.getElementById("lockedChip");
     if (chip && lastChip !== null && lastChip !== t.total) {
       chip.classList.remove("is-bump");
       void chip.offsetWidth;
       chip.classList.add("is-bump");
+      /* Something new just locked: gold sparks off the total. */
+      if (t.total > lastChip) burst(chip, chip.closest(".top"), true);
     }
     lastChip = t.total;
   }
@@ -2090,8 +2271,11 @@
     var end = document.getElementById("deckEnd");
     var actions = document.getElementById("pickActions");
     var view = document.getElementById("view-pick");
+    /* A card is mid-flight. Its vote redraws the deck in a moment; a redraw
+       now (a sync landing, say) would snap it away. */
+    if (leaving) return;
     var voted = DECK.filter(function (c) { return myYes(c.id) || myPass(c.id); }).length;
-    if (prog) prog.textContent = Math.min(voted + (currentCard() ? 1 : 0), DECK.length) + " of " + DECK.length;
+    if (prog) swapText(prog, Math.min(voted + (currentCard() ? 1 : 0), DECK.length) + " of " + DECK.length);
     var card = currentCard();
     if (!card) {
       if (deck) deck.innerHTML = "";
@@ -2109,6 +2293,15 @@
     if (next) html += swipeCardHtml(next, false);
     html += swipeCardHtml(card, true);
     if (deck) deck.innerHTML = html;
+    if (deck && lastPickShown !== card.id) {
+      /* A different card is up. After a fly-off the next card is already in
+         place, so only a card that arrives another way (first load, Undo,
+         a jump from Plan) rises in. */
+      var topEl = deck.querySelector(".swipe-card.is-top");
+      var underEl = deck.querySelector(".swipe-card.is-under");
+      if (topEl && !justFlew) topEl.classList.add("is-entering");
+      if (underEl) underEl.classList.add("is-entering");
+    }
     var inBtn = document.getElementById("btnIn");
     if (inBtn) inBtn.textContent = state.player === "both" ? "We're in" : "I'm in";
     if (lastPickShown !== card.id) {
@@ -2325,6 +2518,7 @@
     if (slide.photo) {
       photo = '<div class="welcome-photo is-ui"><img src="' + esc(slide.photo) + '" alt="' + esc(slide.alt || "") + '"></div>';
     }
+    track.style.setProperty("--m-dir", String(welcomeDir));
     track.innerHTML = '<div class="welcome-slide">' + photo +
       '<div class="welcome-copy"><h2 id="welcomeTitle">' + esc(slide.title) + "</h2>" + whoBtns + "</div></div>";
     if (dots) {
@@ -2341,16 +2535,19 @@
     welcomeMode = mode || "tour";
     welcomeIndex = 0;
     welcomeOpen = true;
+    welcomeDir = 1;
     renderWelcome();
     var el = document.getElementById("welcome");
-    if (el) el.hidden = false;
+    showLayer(el);
     document.body.classList.add("welcome-open");
+    startWelcomeVideo();
   }
   function closeWelcome() {
     welcomeOpen = false;
     state.welcomeSeen = true;
     var el = document.getElementById("welcome");
-    if (el) el.hidden = true;
+    hideLayer(el);
+    stopWelcomeVideo();
     document.body.classList.remove("welcome-open");
     skipNextPush = true;
     afterChange();
@@ -2362,16 +2559,18 @@
       if (!state.player) {
         var whoAt = -1;
         slides.forEach(function (s, i) { if (s.who) whoAt = i; });
-        if (whoAt >= 0) { welcomeIndex = whoAt; renderWelcome(); return; }
+        if (whoAt >= 0) { welcomeDir = whoAt < welcomeIndex ? -1 : 1; welcomeIndex = whoAt; renderWelcome(); return; }
       }
       closeWelcome();
       return;
     }
+    welcomeDir = 1;
     welcomeIndex++;
     renderWelcome();
   }
   function welcomePrev() {
     if (welcomeIndex <= 0) return;
+    welcomeDir = -1;
     welcomeIndex--;
     renderWelcome();
   }
@@ -2380,7 +2579,7 @@
     if (!state.player) {
       var whoAt = -1;
       slides.forEach(function (s, i) { if (s.who) whoAt = i; });
-      if (whoAt >= 0 && welcomeIndex !== whoAt) { welcomeIndex = whoAt; renderWelcome(); return; }
+      if (whoAt >= 0 && welcomeIndex !== whoAt) { welcomeDir = whoAt < welcomeIndex ? -1 : 1; welcomeIndex = whoAt; renderWelcome(); return; }
       return;
     }
     closeWelcome();
@@ -2405,6 +2604,7 @@
         closeWelcome();
         return;
       }
+      welcomeDir = 1;
       welcomeIndex++;
       renderWelcome();
       skipNextPush = true;
@@ -2419,7 +2619,8 @@
   function showWho() { openWelcome("who"); }
   function hideWho() {
     var el = document.getElementById("welcome");
-    if (el) el.hidden = true;
+    hideLayer(el);
+    stopWelcomeVideo();
     document.body.classList.remove("welcome-open");
     welcomeOpen = false;
   }
@@ -2427,12 +2628,12 @@
   function openCosts() {
     renderCosts();
     var el = document.getElementById("costs");
-    if (el) el.hidden = false;
+    showLayer(el);
     document.body.classList.add("costs-open");
   }
   function closeCosts() {
     var el = document.getElementById("costs");
-    if (el) el.hidden = true;
+    hideLayer(el);
     document.body.classList.remove("costs-open");
   }
 
@@ -2440,6 +2641,7 @@
   function applyDrag(dx, card) {
     if (!card) return;
     var rot = dx / 18;
+    card.classList.add("is-dragging");
     card.style.transform = "translateX(" + dx + "px) rotate(" + rot + "deg)";
     var inn = card.querySelector(".stamp.in");
     var out = card.querySelector(".stamp.out");
@@ -2448,6 +2650,8 @@
   }
   function clearDrag(card) {
     if (!card) return;
+    /* Dropping the class first lets the card spring back instead of snapping. */
+    card.classList.remove("is-dragging");
     card.style.transform = "";
     var inn = card.querySelector(".stamp.in");
     var out = card.querySelector(".stamp.out");
@@ -2483,8 +2687,8 @@
       var card = drag.card, dx = drag.dx, axis = drag.axis, id = drag.id;
       var voted = false;
       if (axis === "x" && id) {
-        if (dx > 80) { voted = true; vote(id, true); }
-        else if (dx < -80) { voted = true; vote(id, false); }
+        if (dx > 80) { voted = true; flyAndVote(id, true); }
+        else if (dx < -80) { voted = true; flyAndVote(id, false); }
       }
       if (!voted) clearDrag(card);
       if (voted || (axis === "x" && Math.abs(dx) > 12)) {
@@ -2521,15 +2725,21 @@
       if (e.target.closest("#welcomeNext")) { welcomeNext(); return; }
       if (e.target.closest("#welcomeSkip")) { welcomeSkip(); return; }
       var wdot = e.target.closest("[data-welcome-dot]");
-      if (wdot) { welcomeIndex = Number(wdot.getAttribute("data-welcome-dot")) || 0; renderWelcome(); return; }
+      if (wdot) {
+        var wNext = Number(wdot.getAttribute("data-welcome-dot")) || 0;
+        welcomeDir = wNext < welcomeIndex ? -1 : 1;
+        welcomeIndex = wNext;
+        renderWelcome();
+        return;
+      }
       if (e.target.closest("#btnIn")) {
         var c = currentCard();
-        if (c) vote(c.id, true);
+        if (c) flyAndVote(c.id, true);
         return;
       }
       if (e.target.closest("#btnPass")) {
         var c2 = currentCard();
-        if (c2) vote(c2.id, false);
+        if (c2) flyAndVote(c2.id, false);
         return;
       }
       if (e.target.closest("#undoBtn")) { undo(); return; }
@@ -2807,6 +3017,7 @@
     document.body.classList.toggle("fold-portrait", snap.portraitOpen);
     /* Measure again for the readout, now that the classes above are applied. */
     if (hasDebugFlag()) snap.wide = widestOffender();
+    moveTabsPill(false);
     updateFoldDebug(snap);
   }
 
