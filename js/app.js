@@ -1008,6 +1008,20 @@
     el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: "smooth" });
   }
 
+  function relayout() {
+    document.querySelectorAll(".slider, #carSlider, svg.imap").forEach(function (el) {
+      el.classList.add("is-relayout");
+      void el.offsetWidth;
+      el.classList.remove("is-relayout");
+    });
+  }
+
+  var relayoutTimer = 0;
+  function scheduleRelayout() {
+    clearTimeout(relayoutTimer);
+    relayoutTimer = setTimeout(relayout, 120);
+  }
+
   function bind() {
     document.body.addEventListener("click", function (e) {
       var yt = e.target.closest("[data-yt]");
@@ -1144,6 +1158,8 @@
     bind();
     syncForm();
     render();
+    window.addEventListener("resize", scheduleRelayout, { passive: true });
+    window.addEventListener("orientationchange", scheduleRelayout, { passive: true });
   }
 
   if (typeof document !== "undefined") {
