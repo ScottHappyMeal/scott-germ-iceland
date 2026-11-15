@@ -13,16 +13,16 @@ window.ICELAND_TRIP = (function () {
     thingvellir: { lat: 64.2550, lon: -21.1292, name: "Thingvellir", photo: "silfra", url: "https://www.thingvellir.is/en", urlLabel: "Website", maps: "Thingvellir National Park" },
     geysir: { lat: 64.3140, lon: -20.3010, name: "Geysir", photo: "gullfoss", url: "https://guidetoiceland.is/travel-iceland/drive/geysir", urlLabel: "Website", maps: "Geysir Iceland" },
     gullfoss: { lat: 64.3271, lon: -20.1199, name: "Gullfoss", photo: "gullfoss", url: "https://www.south.is/en/place/gullfoss-waterfall", urlLabel: "Website", maps: "Gullfoss" },
-    fridheimar: { lat: 64.1417, lon: -20.4728, name: "Fridheimar", photo: "fridheimar", url: "https://fridheimar.is/en", urlLabel: "Book it", maps: "Fridheimar" },
+    fridheimar: { lat: 64.1417, lon: -20.4728, name: "Fridheimar", photo: "fridheimar", url: "https://fridheimar.is/", urlLabel: "Book it", maps: "Fridheimar" },
     fontana: { lat: 64.2160, lon: -20.7300, name: "Laugarvatn Fontana", photo: "fontana", url: "https://www.fontana.is/", urlLabel: "Book it", maps: "Laugarvatn Fontana" },
-    silfra: { lat: 64.2525, lon: -21.1167, name: "Silfra, Thingvellir", photo: "silfra", url: "https://www.dive.is/diving-snorkeling-tours/snorkeling-tours/silfra-snorkeling-day-tour", urlLabel: "Book it", maps: "Silfra at Thingvellir" },
+    silfra: { lat: 64.2525, lon: -21.1167, name: "Silfra, Thingvellir", photo: "silfra", url: "https://www.dive.is/diving-snorkeling-tours/snorkeling-day-tours/silfra-snorkeling-day-tour", urlLabel: "Book it", maps: "Silfra at Thingvellir" },
     seljalandsfoss: { lat: 63.6156, lon: -19.9886, name: "Seljalandsfoss", photo: "seljalandsfoss", url: "https://www.south.is/en/place/seljalandsfoss-waterfall", urlLabel: "Website", maps: "Seljalandsfoss" },
     skogafoss: { lat: 63.5321, lon: -19.5112, name: "Skogafoss", photo: "skogafoss", url: "https://www.south.is/en/place/skogafoss-waterfall", urlLabel: "Website", maps: "Skogafoss" },
     vik: { lat: 63.4186, lon: -19.0060, name: "Vik", photo: "skogafoss", url: "https://www.visitvik.is/", urlLabel: "Website", maps: "Vik Iceland" },
-    reynisfjara: { lat: 63.4045, lon: -19.0434, name: "Reynisfjara black beach", photo: "skogafoss", url: "https://www.south.is/en/place/reynisfjara-black-sand-beach", urlLabel: "Website", maps: "Reynisfjara" },
+    reynisfjara: { lat: 63.4045, lon: -19.0434, name: "Reynisfjara black beach", photo: "skogafoss", url: "https://www.south.is/en/place/reynisfjara-reynisfjall-og-reynisdrangar", urlLabel: "Website", maps: "Reynisfjara" },
     katla: { lat: 63.4900, lon: -19.0700, name: "Katla ice cave", photo: "katla", url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it", maps: "Katla ice cave Iceland" },
     jokulsarlon: { lat: 64.0483, lon: -16.1810, name: "Jokulsarlon glacier lagoon", photo: "jokulsarlon", url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it", maps: "Jokulsarlon" },
-    diamond: { lat: 64.0414, lon: -16.1776, name: "Diamond Beach", photo: "jokulsarlon", url: "https://www.visitvatnajokull.is/diamond-beach", urlLabel: "Website", maps: "Diamond Beach Iceland" },
+    diamond: { lat: 64.0414, lon: -16.1776, name: "Diamond Beach", photo: "jokulsarlon", url: "https://www.vatnajokulsthjodgardur.is/en/areas/jokulsarlon/afangastadur-fellsfjara", urlLabel: "Website", maps: "Diamond Beach Iceland" },
     hofn: { lat: 64.2536, lon: -15.2082, name: "Hotel Hofn", photo: "hofn", url: "https://www.hotelhofn.is/", urlLabel: "Book it", maps: "Hotel Hofn Iceland" },
     panorama: { lat: 63.8506, lon: -20.3839, name: "Panorama Glass Lodge", photo: "panorama", url: "https://www.panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland" },
     buubble: { lat: 63.7510, lon: -20.1330, name: "Buubble", photo: "buubble", url: "https://buubble.com/", urlLabel: "Book it", maps: "Buubble Iceland" },
@@ -36,7 +36,7 @@ window.ICELAND_TRIP = (function () {
   };
 
   var DURATIONS = {
-    flight: { mins: 420, official: true, text: "about 7 hrs in the air, official block time" },
+    flight: { mins: 445, official: true, text: "7 hrs 25 min outbound, 8 hrs 5 min return, official block times" },
     harpa_walk: { mins: 45, official: false, text: "about 45 min, approx, and you can see the hotel from the doors" },
     shopping_downtown: { mins: 60, official: false, text: "about 1 hr of wandering, approx" },
     grotta: { mins: 60, official: false, text: "about 1 hr incl. the short drive, approx" },
@@ -254,8 +254,8 @@ window.ICELAND_TRIP = (function () {
   ];
 
   var BOOKING = {
-    "stay-edition": { text: "Stay Longer rate: free cancellation until Nov 28, 2026.", urgency: "deadline" },
-    "hold-dec28": { text: "Same EDITION Stay Longer window: free cancellation until Nov 28, 2026.", urgency: "deadline" },
+    "stay-edition": { text: "Earlier plan note: Stay Longer free cancellation until Nov 28, 2026. Confirm this date when you book.", urgency: "deadline" },
+    "hold-dec28": { text: "Earlier plan note: the same EDITION Stay Longer window, free cancellation until Nov 28, 2026. Confirm this date when you book.", urgency: "deadline" },
     "ice-plan": { text: "Ice caves sell out around the holidays. Book early.", urgency: "early" },
     horses: { text: "Holiday rides book up. Book ASAP.", urgency: "asap" },
     silfra: { text: "Holiday tours book up. Book ASAP.", urgency: "asap" },

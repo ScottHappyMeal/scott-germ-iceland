@@ -225,6 +225,31 @@ body[data-tab="compare"] .tab[data-tab="compare"] { color: var(--green); }
 .btn.primary { background: var(--green); color: #062013; border-color: var(--green); font-weight: 700; }
 .btn.ghost, .ghost { background: transparent; }
 .card-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; position: relative; z-index: 3; }
+.link-out {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  touch-action: manipulation;
+}
+.link-out:hover, .link-out:focus-visible {
+  text-decoration: none;
+  border-color: var(--ice);
+  color: var(--ice);
+}
+.link-out .icon { width: 14px; height: 14px; }
+.ready-item .link-out, .map-pop-links .link-out {
+  padding: 6px 10px;
+  font-size: 0.86rem;
+}
 a.card-title {
   color: inherit;
   text-decoration: underline;

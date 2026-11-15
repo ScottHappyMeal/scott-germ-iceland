@@ -6,13 +6,18 @@
   var TRIP_NIGHTS = D.TRIP_NIGHTS;
   var BL = D.BL;
   var FLIGHT = D.FLIGHT;
-  /* Official Icelandair fare families (icelandair.com/en-us/support/on-board/classes-of-service/).
-     Standard and Saga Premium keep the plan's existing per-person figures ($1,490 and $3,190).
-     Flex is estimated. A live fare-family quote for DEN-KEF Dec 28, 2026 to Jan 3, 2027 was not available. */
+  /* Official Icelandair fare families: Economy Light, Economy Standard, Economy Flex,
+     Saga Premium, and Saga Premium Flex.
+     Source: https://www.icelandair.com/en-us/support/on-board/classes-of-service/
+     No live family quote was obtained for DEN-KEF Dec 28, 2026 to Jan 3, 2027.
+     Dollar figures are planning estimates only. Light and Saga Premium Flex use
+     rounded figures so the trip total is not blank; they are not quotes. */
   var FLIGHT_FARES = {
+    light: { each: 1290, two: 2580, est: true, label: "Economy Light" },
     standard: { each: FLIGHT.economy, two: FLIGHT.economy * 2, est: true, label: "Economy Standard" },
     flex: { each: 1890, two: 3780, est: true, label: "Economy Flex" },
-    saga: { each: FLIGHT.business, two: FLIGHT.business * 2, est: true, label: "Saga Premium" }
+    saga: { each: FLIGHT.business, two: FLIGHT.business * 2, est: true, label: "Saga Premium" },
+    "saga-flex": { each: 3590, two: 7180, est: true, label: "Saga Premium Flex" }
   };
   var PANO = D.PANO;
   var BUUBBLE_RATE = D.BUUBBLE_RATE;
@@ -35,6 +40,86 @@
   function icon(name, extraClass) {
     return '<svg class="icon' + (extraClass ? " " + extraClass : "") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-' + name + '"></use></svg>';
   }
+
+  var PROVIDER_NAMES = {
+    "icelandair.com": "Icelandair",
+    "editionhotels.com": "EDITION",
+    "bluelagoon.com": "Blue Lagoon",
+    "ishestar.is": "Ishestar",
+    "skylagoon.com": "Sky Lagoon",
+    "bluecarrental.is": "Blue Car Rental",
+    "hertz.is": "Hertz",
+    "panoramaglasslodge.com": "Panorama Glass Lodge",
+    "buubble.com": "Buubble",
+    "auroraigloo.is": "Aurora Igloo",
+    "hotelhofn.is": "Hotel Hofn",
+    "glacieradventure.is": "Glacier Adventure",
+    "katlatrack.is": "Katla Track",
+    "dive.is": "Dive.is",
+    "fontana.is": "Fontana",
+    "fridheimar.is": "Fridheimar",
+    "hvammsvik.com": "Hvammsvik",
+    "harpa.is": "Harpa",
+    "thingvellir.is": "Thingvellir",
+    "south.is": "South Iceland",
+    "visitreykjavik.is": "Visit Reykjavik",
+    "visiticeland.com": "Visit Iceland",
+    "visitvik.is": "Visit Vik",
+    "visitvatnajokull.is": "Visit Vatnajokull",
+    "vatnajokulsthjodgardur.is": "Vatnajokull National Park",
+    "guidetoiceland.is": "Guide to Iceland",
+    "hallgrimskirkja.is": "Hallgrimskirkja",
+    "bbp.is": "Baejarins Beztu",
+    "dillrestaurant.is": "Dill",
+    "grillmarkadurinn.is": "Grillmarkadurinn",
+    "hafnartorg.is": "Hafnartorg",
+    "kolaportid.is": "Kolaportid",
+    "rammagerdin.com": "Rammagerdin",
+    "re.is": "Reykjavik Excursions",
+    "ruv.is": "RUV",
+    "safetravel.is": "SafeTravel",
+    "umferdin.is": "Umferdin",
+    "66north.com": "66 North",
+    "vedur.is": "Vedur"
+  };
+
+  function hostOf(url) {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "").toLowerCase();
+    } catch (e) { return ""; }
+  }
+
+  function providerName(url) {
+    var host = hostOf(url);
+    if (!host) return "";
+    if (PROVIDER_NAMES[host]) return PROVIDER_NAMES[host];
+    var parts = host.split(".");
+    var i;
+    for (i = 1; i < parts.length - 1; i++) {
+      var suffix = parts.slice(i).join(".");
+      if (PROVIDER_NAMES[suffix]) return PROVIDER_NAMES[suffix];
+    }
+    return "";
+  }
+
+  function siteLinkLabel(url) {
+    var name = providerName(url);
+    return name ? name + " website" : "Website";
+  }
+
+  function siteLinkHtml(url) {
+    if (!url) return "";
+    return '<a class="link-out" href="' + esc(url) + '" target="_blank" rel="noopener">' +
+      icon("external-link", "icon-inline") + " " + esc(siteLinkLabel(url)) + "</a>";
+  }
+
+  function mapLinkHtml(query) {
+    if (!query) return "";
+    var href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+    return '<a class="link-out" href="' + href + '" target="_blank" rel="noopener">' +
+      icon("map-pin", "icon-inline") + " Map</a>";
+  }
+
   function money(n) {
     n = Math.round(Number(n) || 0);
     return "$" + n.toLocaleString("en-US");
@@ -84,26 +169,36 @@
     return [
       { id: "flight", kind: "flight", day: "Dec 28", title: "Icelandair, DEN to KEF",
         defaultTier: "standard",
-        desc: "Icelandair FI670, a 737 MAX, about 7 hours. You land at 6:05 AM on Dec 29. The return is Jan 3 at 4:55 PM, back in Denver at 6:00 PM.",
+        desc: "Icelandair FI670, a Boeing 737 MAX 8, leaves Denver at 3:40 PM on Dec 28 and lands at Keflavik at 6:05 AM on Dec 29. The outbound flight is 7 hours 25 minutes. The return is FI671 on Jan 3, leaving Keflavik at 4:55 PM and landing in Denver at 6:00 PM, 8 hours 5 minutes. Icelandair sells five fare families on this route. Light only books with Light. Standard can mix with Saga Premium. Flex can mix with Saga Premium Flex.",
         winter: "Delta's JFK, MSP, and DTW flights to KEF are summer-only. In late December, Icelandair is the only nonstop from Denver.",
         url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
         maps: "Denver International Airport",
         tiers: [
+          { id: "light", label: "Economy Light", title: "Icelandair, Economy Light", photoKey: "economy_row",
+            credit: "Photo: Simply Aviation, Wikimedia Commons.",
+            pitch: "Economy Light on the overnight flight. Depart Denver at 3:40 PM, land at Keflavik at 6:05 AM.",
+            sub: "Planning estimate, not a live quote. No checked bag. Changes are not allowed. Official Icelandair fare family.",
+            two: FLIGHT_FARES.light.two, each: FLIGHT_FARES.light.each, est: true },
           { id: "standard", label: "Economy Standard", title: "Icelandair, Economy Standard", rec: true, photoKey: "economy_aisle",
             credit: "Photo: Simply Aviation, Wikimedia Commons.",
             pitch: "Economy Standard on the overnight flight. Depart Denver at 3:40 PM, land at Keflavik at 6:05 AM.",
-            sub: "Round trip for two. One checked bag each. Official Icelandair fare family.",
+            sub: "Planning estimate, not a live quote. One checked bag, 23 kg / 50 lb. Changes cost a fee (USD 250 on this route). Not refundable, except taxes. Official Icelandair fare family.",
             two: FLIGHT_FARES.standard.two, each: FLIGHT_FARES.standard.each, est: true },
           { id: "flex", label: "Economy Flex", title: "Icelandair, Economy Flex", photoKey: "economy_row",
             credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Same overnight flight, Economy Flex. Changes and refunds have no fare fee.",
-            sub: "Round trip for two. Free changes and a refundable fare. Official Icelandair fare family.",
+            pitch: "Same overnight flight, Economy Flex. Changes have no fare fee, though a fare difference may apply. The fare is refundable.",
+            sub: "Planning estimate, not a live quote. One checked bag, 23 kg / 50 lb. No change fee. Refundable. Official Icelandair fare family.",
             two: FLIGHT_FARES.flex.two, each: FLIGHT_FARES.flex.each, est: true },
           { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", photoKey: "saga_seat",
             credit: "Photo: Simply Aviation, Wikimedia Commons.",
             pitch: "Saga Premium in the front cabin. A wider seat, meals, and priority, on the same 6:05 AM arrival.",
-            sub: "Round trip for two. Meals, priority, and the Saga cabin. Official Icelandair fare family.",
-            two: FLIGHT_FARES.saga.two, each: FLIGHT_FARES.saga.each, est: true }
+            sub: "Planning estimate, not a live quote. One checked bag, 32 kg / 70 lb. Meals and priority. Changes cost a fee (USD 300 on this route). Not refundable, except taxes. Official Icelandair fare family.",
+            two: FLIGHT_FARES.saga.two, each: FLIGHT_FARES.saga.each, est: true },
+          { id: "saga-flex", label: "Saga Premium Flex", title: "Icelandair, Saga Premium Flex", photoKey: "saga_seat",
+            credit: "Photo: Simply Aviation, Wikimedia Commons.",
+            pitch: "Saga Premium Flex in the front cabin, on the same 6:05 AM arrival. Seat selection is included, and the fare is refundable.",
+            sub: "Planning estimate, not a live quote. Two checked bags, 32 kg / 70 lb each. No change fee. Refundable. Official Icelandair fare family.",
+            two: FLIGHT_FARES["saga-flex"].two, each: FLIGHT_FARES["saga-flex"].each, est: true }
         ] },
       { id: "hold-dec28", kind: "stay", day: "Dec 28", title: "Arrive a day early, Dec 28",
         pitch: "An optional EDITION room on Dec 28, so there is a bed after the 6:05 AM landing.",
@@ -114,7 +209,7 @@
         maps: "The Reykjavik EDITION",
         priceFn: function (ctx) {
           var rate = ctx.suiteOn ? ctx.suiteRate : (ctx.superiorOn ? SUPERIOR_RATE : ctx.suiteRate);
-          return { two: rate, each: rate / PEOPLE, est: false, sub: "Per room for the night, at the " + (ctx.superiorOn && !ctx.suiteOn ? "Superior King" : "Deluxe Suite") + " rate." };
+          return { two: rate, each: rate / PEOPLE, est: true, sub: "Per room for the night, at the " + (ctx.superiorOn && !ctx.suiteOn ? "Superior King" : "Deluxe Suite") + " rate. Planning estimate, not a live quote this week." };
         } },
       { id: "stay-edition", kind: "stay", day: "Dec 29 to Jan 3", title: "The Reykjavik EDITION, five nights",
         defaultTier: "suite",
@@ -126,20 +221,20 @@
           { id: "superior", label: "Superior King", title: "EDITION Superior King, five nights", photoKey: "edition_superior",
             credit: "Official photo, The Reykjavik EDITION.",
             pitch: "A Superior King at the EDITION for five nights. The hotel is on the harbor.",
-            priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: false, sub: money(SUPERIOR_RATE) + " a night for the room. Away nights trim the total." }; } },
+            priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: true, sub: money(SUPERIOR_RATE) + " a night for the room, a planning estimate. Away nights trim the total." }; } },
           { id: "suite", label: "Deluxe Suite", title: "EDITION Deluxe Suite, five nights", rec: true, photoKey: "edition_suite",
             credit: "Official photo, The Reykjavik EDITION.",
-            pitch: "A Deluxe Suite at the EDITION, with a harbor window, for five nights. Free cancellation through Nov 28.",
-            priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: false, sub: money(ctx.suiteRate) + " a night for the room, not per person. Away nights trim the total." }; } }
+            pitch: "A Deluxe Suite at the EDITION, with a scenic view, for five nights. Confirm the current free-cancel date when you book.",
+            priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: true, sub: money(ctx.suiteRate) + " a night for the room, not per person. Planning estimate, not a live quote this week. Away nights trim the total." }; } }
         ] },
       { id: "stay-retreat", kind: "stay", day: "Jan 1 and Jan 2", title: "The Retreat at Blue Lagoon, two nights",
         pitch: "Two nights at The Retreat. Lagoon access is included. An in-water massage is not.",
-        desc: "A lagoon-view junior suite at the default $2,840 a night. A 2-night minimum may apply. These two nights replace two EDITION nights near the end of the week.",
+        desc: "A lagoon-view suite at the default $2,840 a night, a planning estimate, not a live quote this week. A 2-night minimum may apply. These two nights replace two EDITION nights near the end of the week.",
         winter: "The lagoon stays about 98 to 104 F. Outdoor temperatures will be much lower.",
         photoKey: "retreat_suite", rec: false,
         url: "https://www.bluelagoon.com/accommodation/retreat-hotel", urlLabel: "Book it",
         maps: "The Retreat at Blue Lagoon",
-        priceFn: function (ctx) { return { two: 2 * ctx.retreatRate, each: (2 * ctx.retreatRate) / PEOPLE, est: false, sub: money(ctx.retreatRate) + " a night for the suite. The lagoon is included." }; } },
+        priceFn: function (ctx) { return { two: 2 * ctx.retreatRate, each: (2 * ctx.retreatRate) / PEOPLE, est: true, sub: money(ctx.retreatRate) + " a night for the suite, a planning estimate. The lagoon is included." }; } },
       { id: "sky-cabin", kind: "stay", day: "Jan 2", title: "A glass cabin, or stay in town",
         defaultTier: "pano-standard",
         desc: "A one-night swap for Jan 2. Stay in town leaves you at the EDITION, already in that total.",
@@ -148,15 +243,15 @@
           { id: "pano-standard", label: "Panorama Standard", title: "Panorama Glass Lodge, Standard", rec: true, photoKey: "panorama",
             pitch: "A standard glass cabin for one night.",
             url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
-            two: PANO.standard, each: PANO.standard / PEOPLE, est: false, sub: "Per cabin for the night, not per person." },
+            two: PANO.standard, each: PANO.standard / PEOPLE, est: true, sub: "Per cabin for the night, not per person. Planning estimate, not a live quote this week." },
           { id: "pano-premium", label: "Panorama Premium", title: "Panorama Glass Lodge, Premium", photoKey: "panorama_premium",
             pitch: "A Premium glass cabin for one night.",
             url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
-            two: PANO.premium, each: PANO.premium / PEOPLE, est: false, sub: "Per cabin for the night, not per person." },
+            two: PANO.premium, each: PANO.premium / PEOPLE, est: true, sub: "Per cabin for the night, not per person. Planning estimate, not a live quote this week." },
           { id: "buubble", label: "Buubble", title: "Buubble, one night", photoKey: "buubble",
             pitch: "A clear plastic dome for one night.",
             url: "https://buubble.com/", urlLabel: "Book it", maps: "Buubble Iceland",
-            two: BUUBBLE_RATE, each: BUUBBLE_RATE / PEOPLE, est: false, sub: "Per cabin for the night." },
+            two: BUUBBLE_RATE, each: BUUBBLE_RATE / PEOPLE, est: true, sub: "Per cabin for the night. Planning estimate, not a live quote this week." },
           { id: "aurora", label: "Aurora Igloo", title: "Aurora Igloo, one night", photoKey: "aurora_igloo",
             pitch: "An aurora igloo for one night. The price is an estimate, not a researched holiday quote.",
             url: "https://auroraigloo.is/", urlLabel: "Book it", maps: "Aurora Igloo Iceland",
@@ -168,7 +263,7 @@
         ] },
       { id: "car", kind: "car", day: "The whole week", title: "The rental car",
         defaultTier: "premium",
-        winter: "Winter tires are standard on these desks from Nov 1 to April 15. Studded tires help on ice, and often need a request.",
+        winter: "Winter tires are standard on these desks from Nov 1 to April 15. Studded tires help on ice, and often need a request. Blue Car Rental still lists the Yaris, the Duster 4x4, and the Defender 110. The Yaris is front-wheel drive, a weaker winter choice outside the city.",
         tiers: [
           { id: "none", label: "No car", title: "No rental car", photoKey: "car_none",
             pitch: "No rental car. Use tours, walking, and taxis.",
@@ -207,18 +302,18 @@
         winter: "Caves and lagoon ice depend on the weather. A guided trip is the simpler option.",
         tiers: [
           { id: "jokulsarlon", label: "Hofn overnight", title: "Hotel Hofn, for the glacier overnight", rec: true, photoKey: "jokulsarlon",
-            pitch: "Fly east for one night. This includes an ice cave and Diamond Beach.",
+            pitch: "Fly east for one night. This includes the Crystal Ice Cave Adventure and Diamond Beach.",
             url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it",
             maps: "Hotel Hofn Iceland",
             priceFn: function (ctx) {
               var two = 115 * 2 * PEOPLE + ((ctx.iceCave === "long" ? 290 : (ctx.iceCaveRate || 175)) * PEOPLE) + (ctx.hofnRate || 250);
-              return { two: two, each: two / PEOPLE, est: false, sub: "Includes the Hofn hotel night, domestic flights, and a standard ice cave for two." };
+              return { two: two, each: two / PEOPLE, est: true, sub: "Planning estimate. Includes the Hofn hotel night, domestic flights, and Glacier Adventure's Crystal Ice Cave Adventure (3 hours, meet at Hali, no pickup from Hofn)." };
             } },
-          { id: "katla", label: "Katla day cave", title: "A Katla ice cave on January 2", photoKey: "katla",
-            pitch: "A Katla ice cave on January 2, if you do not take the glacier overnight.",
+          { id: "katla", label: "Katla day cave", title: "Katla Fast Track ice cave on January 2", photoKey: "katla",
+            pitch: "Katla Track's Fast Track Katla Ice Cave tour on January 2, if you do not take the glacier overnight. The official tour is 2.5 to 3 hours. You meet in Vik. Pickup from Reykjavik is not included. Helmets, crampons, and headlamps are included.",
             url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it",
             maps: "Katla ice cave Iceland",
-            two: KATLA, each: KATLA / PEOPLE, est: false, sub: "From about 23,990 ISK per person." },
+            two: KATLA, each: KATLA / PEOPLE, est: true, sub: "From about 23,990 ISK per person, a planning figure. Confirm the current price on Katla Track." },
           { id: "skip", label: "Skip the caves", title: "Skip the ice caves", photoKey: "edition_ext",
             pitch: "Skip the ice caves and stay closer to town.",
             two: 0, each: 0, est: false, sub: "Nothing added for a cave or a Hofn night." }
@@ -420,7 +515,7 @@
     var r = state.rates;
     var sim = clone(r);
     var flightT = has("flight") ? tierOf("flight", "standard") : "";
-    sim.flightClass = flightT === "saga" ? "saga" : flightT === "flex" ? "flex" : (flightT ? "standard" : "");
+    sim.flightClass = (flightT && FLIGHT_FARES[flightT]) ? flightT : (flightT ? "standard" : "");
     sim.holdDec28 = has("hold-dec28");
     var roomT = has("stay-edition") ? tierOf("stay-edition", "suite") : "";
     sim.suiteNights = roomT === "suite" ? 5 : 0;
@@ -474,8 +569,7 @@
   function computeFrom(ids) {
     var sim = applyChoices(ids);
     var flightsIntl = 0;
-    if (sim.flightClass === "saga") flightsIntl = FLIGHT_FARES.saga.two;
-    else if (sim.flightClass === "flex") flightsIntl = FLIGHT_FARES.flex.two;
+    if (sim.flightClass && FLIGHT_FARES[sim.flightClass]) flightsIntl = FLIGHT_FARES[sim.flightClass].two;
     else if (sim.flightClass) flightsIntl = FLIGHT_FARES.standard.two;
     var flightsHofn = sim.hofnFlights ? 115 * 2 * PEOPLE : 0;
     var holdCost = sim.holdDec28 ? ((sim.superiorNights && !sim.suiteNights) ? SUPERIOR_RATE : (sim.suiteRate || 2340)) : 0;
@@ -524,9 +618,9 @@
 
   function placeLinks(c) {
     var bits = [];
-    if (c.url) bits.push('<a class="btn primary" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.urlLabel || "Website") + "</a>");
-    if (c.url2) bits.push('<a class="btn" href="' + esc(c.url2) + '" target="_blank" rel="noopener">' + esc(c.url2Label || "Website") + "</a>");
-    if (c.maps) bits.push('<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.maps) + '" target="_blank" rel="noopener">Map</a>');
+    if (c.url) bits.push(siteLinkHtml(c.url));
+    if (c.url2) bits.push(siteLinkHtml(c.url2));
+    if (c.maps) bits.push(mapLinkHtml(c.maps));
     return bits.length ? '<div class="links card-links">' + bits.join("") + "</div>" : "";
   }
 
@@ -1610,8 +1704,8 @@
     var photo = (window.ICELAND_DATA && ICELAND_DATA.PHOTO_URLS && ICELAND_DATA.PHOTO_URLS[place.photo]) || PHOTO_URLS[place.photo] || "";
     var img = photo ? '<img src="' + photo + '" alt="' + esc(place.name) + '">' : "";
     var links = [];
-    if (place.url) links.push('<a href="' + esc(place.url) + '" target="_blank" rel="noopener">' + esc(place.urlLabel || "Book it") + "</a>");
-    if (place.maps) links.push('<a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(place.maps) + '" target="_blank" rel="noopener">Map</a>');
+    if (place.url) links.push(siteLinkHtml(place.url));
+    if (place.maps) links.push(mapLinkHtml(place.maps));
     return '<div class="map-pop">' + img + "<strong>" + esc(place.name) + "</strong>" +
       (links.length ? '<div class="map-pop-links">' + links.join(" ") + "</div>" : "") + "</div>";
   }
@@ -1913,7 +2007,7 @@
         var raw = DECK_MAP[id];
         var c = viewCard(raw);
         var book = bookingFor(id);
-        var link = c.url ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.urlLabel || "Official site") + "</a>" : "<span>No official booking page for this one.</span>";
+        var link = c.url ? siteLinkHtml(c.url) : "<span>No official booking page for this one.</span>";
         var due = book ? '<br><em class="deadline">' + esc(book.text) + "</em>" : "";
         var cls = "ready-item" + (book ? " due-" + book.urgency : "") + (state.booked && state.booked[id] ? " is-done" : "");
         var chk = (state.booked && state.booked[id]) ? " checked" : "";
@@ -2336,7 +2430,7 @@
     var wrap = document.getElementById("deck");
     if (!wrap) return;
     wrap.addEventListener("pointerdown", function (e) {
-      if (e.target.closest("button, a.btn, a.card-title, a.card-links, .tier-chip, .tier-chips")) return;
+      if (e.target.closest("button, a.btn, a.card-title, a.link-out, a[href], .card-links, .tier-chip, .tier-chips")) return;
       var card = e.target.closest(".swipe-card.is-top");
       if (!card) return;
       drag = { on: true, x0: e.clientX, y0: e.clientY, dx: 0, axis: null, card: card, id: card.getAttribute("data-id"), swiped: false };
