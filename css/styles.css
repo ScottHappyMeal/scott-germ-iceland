@@ -49,7 +49,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-body.who-open, body.costs-open, body.pick-tab { overflow: hidden; }
+body.who-open, body.welcome-open, body.costs-open, body.pick-tab { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { color: var(--ice); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -99,6 +99,20 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
   min-width: 0;
 }
 .brand:hover { text-decoration: none; color: var(--green); }
+.top-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.help-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  flex: 0 0 auto;
+}
+.help-btn:hover, .help-btn:focus-visible { border-color: var(--green); color: var(--green); }
 .chip {
   display: inline-flex; align-items: center; gap: 8px;
   border: 1px solid var(--line);
@@ -508,4 +522,116 @@ svg.imap .lab {
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
+}
+
+/* tier chips */
+.tier-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 10px;
+  position: relative;
+  z-index: 4;
+}
+.tier-chip {
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  line-height: 1.2;
+}
+.tier-chip[aria-pressed="true"] {
+  background: var(--green);
+  color: #062013;
+  border-color: var(--green);
+}
+.tier-note { color: var(--muted); font-size: 0.82rem; margin: 0 0 8px; }
+.change-link {
+  background: none;
+  border: 0;
+  color: var(--ice);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  touch-action: manipulation;
+}
+
+/* how this works (Us) */
+.how-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px 16px;
+  margin: 0 0 16px;
+}
+.how-card p { margin: 0 0 10px; color: var(--muted); }
+.how-card p:last-child { margin-bottom: 0; }
+
+/* welcome / onboarding */
+.welcome-layer {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(4, 6, 12, 0.88);
+  display: grid;
+  place-items: center;
+  padding: max(12px, var(--safe-t)) max(12px, var(--safe-r)) max(12px, var(--safe-b)) max(12px, var(--safe-l));
+}
+.welcome-layer[hidden] { display: none !important; }
+.welcome-sheet {
+  width: min(440px, 100%);
+  max-height: min(92dvh, 760px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.welcome-track { flex: 1 1 auto; min-height: 0; overflow: hidden; position: relative; touch-action: pan-y; }
+.welcome-slide { display: flex; flex-direction: column; min-height: 0; height: 100%; }
+.welcome-photo {
+  position: relative;
+  height: min(38dvh, 260px);
+  flex: 0 0 auto;
+  background: #10141f;
+}
+.welcome-photo img { width: 100%; height: 100%; object-fit: cover; }
+.welcome-copy { padding: 16px 18px 8px; overflow: auto; min-height: 0; }
+.welcome-copy h2 { margin: 0 0 8px; font-size: clamp(1.35rem, 5.4vw, 1.8rem); }
+.welcome-copy p { margin: 0 0 8px; color: var(--muted); }
+.welcome-footer {
+  flex: 0 0 auto;
+  padding: 8px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--card);
+}
+.welcome-dots { display: flex; justify-content: center; gap: 7px; }
+.welcome-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 0; padding: 0;
+  background: var(--line);
+  cursor: pointer;
+}
+.welcome-dot.is-on { background: var(--green); width: 18px; border-radius: 999px; }
+.welcome-nav { display: flex; justify-content: space-between; gap: 10px; }
+.welcome-nav .btn, .welcome-nav .ghost { min-height: 44px; min-width: 96px; }
+.welcome-slide .who-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.welcome-slide .who-btns .btn { width: 100%; min-height: 48px; }
+@media (max-width: 360px) {
+  .welcome-photo { height: min(32dvh, 200px); }
+  .tier-chip { font-size: 0.78rem; padding: 6px 9px; }
+}
+@media (min-width: 800px) {
+  .welcome-sheet { width: min(520px, 100%); }
+  .welcome-photo { height: min(40dvh, 300px); }
 }

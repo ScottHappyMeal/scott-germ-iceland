@@ -6,6 +6,14 @@
   var TRIP_NIGHTS = D.TRIP_NIGHTS;
   var BL = D.BL;
   var FLIGHT = D.FLIGHT;
+  /* Official Icelandair fare families (icelandair.com/en-us/support/on-board/classes-of-service/).
+     Standard and Saga Premium keep the plan's existing per-person figures ($1,490 and $3,190).
+     Flex is estimated. A live fare-family quote for DEN-KEF Dec 28, 2026 to Jan 3, 2027 was not available. */
+  var FLIGHT_FARES = {
+    standard: { each: FLIGHT.economy, two: FLIGHT.economy * 2, est: true, label: "Economy Standard" },
+    flex: { each: 1890, two: 3780, est: true, label: "Economy Flex" },
+    saga: { each: FLIGHT.business, two: FLIGHT.business * 2, est: true, label: "Saga Premium" }
+  };
   var PANO = D.PANO;
   var BUUBBLE_RATE = D.BUUBBLE_RATE;
   var SUPERIOR_RATE = D.SUPERIOR_RATE;
@@ -49,24 +57,48 @@
   };
   var CATALOG_GROUP = { jokulsarlon: "ice-plan", katla: "ice-plan" };
 
+  var FOLDED = { jokulsarlon: true, katla: true };
+  var LEGACY_TIER = {
+    "flight-economy": ["flight", "standard"],
+    "flight-business": ["flight", "saga"],
+    "stay-edition-suite": ["stay-edition", "suite"],
+    "stay-edition-superior": ["stay-edition", "superior"],
+    "stay-panorama-standard": ["sky-cabin", "pano-standard"],
+    "stay-panorama-premium": ["sky-cabin", "pano-premium"],
+    "stay-buubble": ["sky-cabin", "buubble"],
+    "stay-aurora": ["sky-cabin", "aurora"],
+    "car-none": ["car", "none"],
+    "car-budget": ["car", "budget"],
+    "car-mid": ["car", "mid"],
+    "car-premium": ["car", "premium"],
+    jokulsarlon: ["ice-plan", "jokulsarlon"],
+    katla: ["ice-plan", "katla"]
+  };
+  var DEFAULT_TIERS = { flight: "standard", "stay-edition": "suite", "sky-cabin": "pano-standard", car: "premium", "ice-plan": "jokulsarlon" };
+
   function coreCards() {
+    var KATLA = (D.KATLA_EACH || 194) * PEOPLE;
     return [
-      { id: "flight-economy", kind: "flight", group: "flight-cabin", day: "Dec 28", title: "Icelandair in economy",
-        pitch: "The overnight coach seat. Denver at 3:40 PM, Keflavik at dawn. Sleep is optional. Iceland is not.",
+      { id: "flight", kind: "flight", day: "Dec 28", title: "Icelandair, DEN to KEF",
+        defaultTier: "standard",
         desc: "Icelandair FI670, a 737 MAX, about 7 hours. You land at 6:05 AM on Dec 29. The return is Jan 3 at 4:55 PM, back in Denver at 6:00 PM.",
         winter: "Delta's JFK, MSP, and DTW flights to KEF are summer-only. Late December is Icelandair weather.",
-        photoKey: "icelandair", rec: true,
         url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
         maps: "Denver International Airport",
-        priceFn: function () { return { two: FLIGHT.economy * PEOPLE, each: FLIGHT.economy, est: false }; } },
-      { id: "flight-business", kind: "flight", group: "flight-cabin", day: "Dec 28", title: "Icelandair in business",
-        pitch: "Same FI670, a better seat, and a slightly more civilized 6:05 AM landing.",
-        desc: "Same dates and aircraft, just more horizontal. The return is still Jan 3 at 4:55 PM.",
-        winter: "Still an overnight flight. Business just makes the dawn less theatrical.",
-        photoKey: "icelandair", rec: false,
-        url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
-        maps: "Denver International Airport",
-        priceFn: function () { return { two: FLIGHT.business * PEOPLE, each: FLIGHT.business, est: false }; } },
+        tiers: [
+          { id: "standard", label: "Economy Standard", title: "Icelandair, Economy Standard", rec: true, photoKey: "icelandair",
+            pitch: "The overnight Economy Standard seat. Denver at 3:40 PM, Keflavik at dawn. Sleep is optional. Iceland is not.",
+            sub: "Round trip for two. One checked bag each. Official Icelandair fare family.",
+            two: FLIGHT_FARES.standard.two, each: FLIGHT_FARES.standard.each, est: true },
+          { id: "flex", label: "Economy Flex", title: "Icelandair, Economy Flex", photoKey: "icelandair",
+            pitch: "Same overnight flight, Economy Flex, so you can change the ticket without a fee if the weather, or Jerm, has other ideas.",
+            sub: "Round trip for two. Free changes and a refundable fare. Official Icelandair fare family.",
+            two: FLIGHT_FARES.flex.two, each: FLIGHT_FARES.flex.each, est: true },
+          { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", photoKey: "icelandair",
+            pitch: "Saga Premium, the front cabin, a wider seat, and a slightly more civilized 6:05 AM landing.",
+            sub: "Round trip for two. Meals, priority, and the Saga cabin. Official Icelandair fare family.",
+            two: FLIGHT_FARES.saga.two, each: FLIGHT_FARES.saga.each, est: true }
+        ] },
       { id: "hold-dec28", kind: "stay", day: "Dec 28", title: "Arrive a day early, Dec 28",
         pitch: "Hold a room on Dec 28, and greet the 6:05 AM version of yourselves with an actual bed?",
         desc: "The published plan lands at dawn on Dec 29. This is the optional extra night, priced at whatever EDITION room you lock.",
@@ -78,22 +110,20 @@
           var rate = ctx.suiteOn ? ctx.suiteRate : (ctx.superiorOn ? SUPERIOR_RATE : ctx.suiteRate);
           return { two: rate, each: rate / PEOPLE, est: false, sub: "Per room for the night, at the " + (ctx.superiorOn && !ctx.suiteOn ? "Superior King" : "Deluxe Suite") + " rate." };
         } },
-      { id: "stay-edition-suite", kind: "stay", group: "edition-room", day: "Dec 29 to Jan 3", title: "EDITION Deluxe Suite, five nights",
-        pitch: "A Deluxe Suite at the EDITION, a harbor window, five nights, and a free-cancel window through Nov 28.",
-        desc: "Check in Dec 29, check out Jan 3. Harbor-side, next to Harpa. A night away, like Hofn or a glass cabin, trims this automatically so you do not pay twice.",
-        winter: "Yes, the suite number is real. Sidewalks can be ice rinks in nicer clothes.",
-        photoKey: "edition_room", rec: true,
+      { id: "stay-edition", kind: "stay", day: "Dec 29 to Jan 3", title: "The Reykjavik EDITION, five nights",
+        defaultTier: "suite",
+        desc: "Check in Dec 29, check out Jan 3. Harbor-side, next to Harpa. A night away trims this automatically so you do not pay twice.",
+        winter: "Sidewalks can be ice rinks in nicer clothes. The free-cancel window still matters.",
         url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
         maps: "The Reykjavik EDITION",
-        priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: false, sub: money(ctx.suiteRate) + " a night for the room, not per person. Away nights trim the total." }; } },
-      { id: "stay-edition-superior", kind: "stay", group: "edition-room", day: "Dec 29 to Jan 3", title: "EDITION Superior King, five nights",
-        pitch: "Same hotel, a Superior King, and about half the nightly bill. The harbor is still right there.",
-        desc: "Five nights, Dec 29 to Jan 3, in the smaller room at the same address. Away nights trim this too.",
-        winter: "The free-cancel window still matters. So does a shoe with grip.",
-        photoKey: "edition_ext", rec: false,
-        url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
-        maps: "The Reykjavik EDITION",
-        priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: false, sub: money(SUPERIOR_RATE) + " a night for the room. Away nights trim the total." }; } },
+        tiers: [
+          { id: "superior", label: "Superior King", title: "EDITION Superior King, five nights", photoKey: "edition_ext",
+            pitch: "Same hotel, a Superior King, and about half the nightly bill. The harbor is still right there.",
+            priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: false, sub: money(SUPERIOR_RATE) + " a night for the room. Away nights trim the total." }; } },
+          { id: "suite", label: "Deluxe Suite", title: "EDITION Deluxe Suite, five nights", rec: true, photoKey: "edition_room",
+            pitch: "A Deluxe Suite at the EDITION, a harbor window, five nights, and a free-cancel window through Nov 28.",
+            priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: false, sub: money(ctx.suiteRate) + " a night for the room, not per person. Away nights trim the total." }; } }
+        ] },
       { id: "stay-retreat", kind: "stay", day: "Jan 1 and Jan 2", title: "The Retreat at Blue Lagoon, two nights",
         pitch: "Two nights at The Retreat, lagoon included, in-water massage very much not.",
         desc: "A lagoon-view junior suite at the default $2,840 a night. A 2-night minimum may apply. These two nights replace two EDITION nights near the end of the week.",
@@ -102,73 +132,58 @@
         url: "https://www.bluelagoon.com/accommodation/retreat-hotel", urlLabel: "Book it",
         maps: "The Retreat at Blue Lagoon",
         priceFn: function (ctx) { return { two: 2 * ctx.retreatRate, each: (2 * ctx.retreatRate) / PEOPLE, est: false, sub: money(ctx.retreatRate) + " a night for the suite. The lagoon is included." }; } },
-      { id: "stay-panorama-standard", kind: "stay", group: "sky-cabin", day: "Jan 2", title: "Panorama Glass Lodge, Standard",
-        pitch: "A glass cabin in a field, one night, under a sky that may just send clouds.",
-        desc: "Priced per cabin, not per person. This would replace one EDITION night, on Jan 2, the South Coast evening.",
-        winter: "It will be dark, and it may be windy. That is rather the point.",
-        photoKey: "panorama", rec: true,
-        url: "https://panoramaglasslodge.com/", urlLabel: "Book it",
-        maps: "Panorama Glass Lodge Iceland",
-        priceFn: function () { return { two: PANO.standard, each: PANO.standard / PEOPLE, est: false, sub: "Per cabin for the night, not per person." }; } },
-      { id: "stay-panorama-premium", kind: "stay", group: "sky-cabin", day: "Jan 2", title: "Panorama Glass Lodge, Premium",
-        pitch: "Same glass box, Premium, because if you are paying to sleep under the sky, you might as well go in.",
-        desc: "Still one cabin, one night, still not per person. Also a Jan 2 swap for an EDITION night.",
-        winter: "The sky, being Icelandic, may just send clouds. The Premium cabin will not bribe it.",
-        photoKey: "panorama_premium", rec: false,
-        url: "https://panoramaglasslodge.com/", urlLabel: "Book it",
-        maps: "Panorama Glass Lodge Iceland",
-        priceFn: function () { return { two: PANO.premium, each: PANO.premium / PEOPLE, est: false, sub: "Per cabin for the night, not per person." }; } },
-      { id: "stay-buubble", kind: "stay", group: "sky-cabin", day: "Jan 2", title: "Buubble, one night",
-        pitch: "A clear plastic dome in a dark field. Bring humility, and maybe a beanie for the walk to the bathroom.",
-        desc: "One cabin for the night, a Jan 2 alternative to the glass lodge or staying in town.",
-        winter: "The walk to the bathroom is part of the lore. Dress for it.",
-        photoKey: "buubble", rec: false,
-        url: "https://buubble.com/", urlLabel: "Book it",
-        maps: "Buubble Iceland",
-        priceFn: function () { return { two: BUUBBLE_RATE, each: BUUBBLE_RATE / PEOPLE, est: false, sub: "Per cabin for the night." }; } },
-      { id: "stay-aurora", kind: "stay", group: "sky-cabin", day: "Jan 2", title: "Aurora Igloo, one night",
-        pitch: "An aurora igloo night. We do not have a researched holiday quote, so this is an honest estimate.",
-        desc: "One night, editable in Edit costs, another Jan 2 sky-ceiling option.",
-        winter: "Treat the estimate as a placeholder until you have a real quote.",
-        photoKey: "aurora_igloo", rec: false,
-        url: "https://auroraigloo.is/", urlLabel: "Book it",
-        maps: "Aurora Igloo Iceland",
-        priceFn: function (ctx) { return { two: ctx.auroraRate, each: ctx.auroraRate / PEOPLE, est: true, sub: "Estimated, per cabin. Edit the rate in Us." }; } },
-      { id: "car-none", kind: "car", group: "car", day: "The whole week", title: "No rental car",
-        pitch: "No rental car. Tours, walking, and the occasional very confident taxi.",
-        desc: "Fine for a Reykjavik-heavy week. Tighter if you want the South Coast or the Golden Circle on your own clock.",
-        winter: "Sidewalks can be ice. Tours still run, slowly.",
-        photoKey: "car_none", rec: false,
-        url: "", urlLabel: "", maps: "Reykjavik city center",
-        priceFn: function () { return { two: 0, each: 0, est: false, sub: "Zero on the car line, on purpose." }; } },
-      { id: "car-budget", kind: "car", group: "car", day: "The whole week", title: "Toyota Yaris, the honest little car",
-        pitch: "Automatic, front-wheel drive, and perfectly fine until the wind starts auditioning.",
-        desc: "Blue Car Rental, KEF, Dec 29 at 7:00 AM to Jan 3 at 3:00 PM, with recommended Full Cover. Age 20+.",
-        winter: "Not our pick for the South Coast in late December. Winter tires are standard on these desks from Nov 1 to April 15.",
-        photoKey: "car_yaris", rec: false,
-        url: "https://www.bluecarrental.is/our-cars/toyota-yaris/", urlLabel: "Book it",
-        maps: "Blue Car Rental Keflavik Airport",
-        credit: "Photo: Kevauto, Wikimedia Commons.",
-        priceFn: function () { return { two: CARS.budget.trip, each: CARS.budget.trip / PEOPLE, est: false, sub: money(CARS.budget.daily) + " a day, plus Full Cover, for 6 days." }; } },
-      { id: "car-mid", kind: "car", group: "car", day: "The whole week", title: "Dacia Duster 4x4, the mid-size workhorse",
-        pitch: "A manual 4x4 compact SUV, the classic Iceland winter rental, and used to this weather.",
-        desc: "Same KEF window, with Full Cover. The Kia Sportage automatic 4x4 is the comfier sibling on the same quote.",
-        winter: "Winter tires are standard. Studded tires help on ice, and often need a request.",
-        photoKey: "car_duster", rec: false,
-        url: "https://www.bluecarrental.is/our-cars/dacia-duster/", urlLabel: "Book it",
-        maps: "Blue Car Rental Keflavik Airport",
-        credit: "Photo: (G)jabz, Wikimedia Commons.",
-        priceFn: function () { return { two: CARS.mid.trip, each: CARS.mid.trip / PEOPLE, est: false, sub: money(CARS.mid.daily) + " a day, plus Full Cover, for 6 days." }; } },
-      { id: "car-premium", kind: "car", group: "car", day: "The whole week", title: "Land Rover Defender 110, the recommended 4x4",
-        pitch: "The 5-door automatic 4x4, and room for Jerm's luggage. The Defender 90 did not show up in Iceland.",
-        desc: "From-rates, not a locked holiday quote. Holiday week can price above these. Hertz Gold is useful at the KEF desk, and the member number stays off this page. Full Cover is the package that matters: gravel, sand and ash, theft, glass, and zero excess.",
-        winter: "Winter tires are standard from Nov 1 to April 15. F-roads are closed anyway. Age 23+ at Hertz, two credit cards at pickup.",
-        photoKey: "car_defender", rec: true,
-        url: "https://www.bluecarrental.is/our-cars/land-rover-defender/", urlLabel: "Book it",
-        url2: "https://www.hertz.is/vehicle_guide/pfan/", url2Label: "Hertz Defender 110",
-        maps: "Blue Car Rental Keflavik Airport",
-        credit: "Photo: DestinationFearFan, Wikimedia Commons.",
-        priceFn: function () { return { two: CARS.premium.trip, each: CARS.premium.trip / PEOPLE, est: true, sub: "est. " + money(CARS.premium.daily) + " a day, plus Full Cover, for 6 days." }; } },
+      { id: "sky-cabin", kind: "stay", day: "Jan 2", title: "A night under glass, or stay in town",
+        defaultTier: "pano-standard",
+        desc: "A one-night swap for Jan 2. Stay in town leaves you at the EDITION, already in that total.",
+        winter: "It will be dark, and it may be windy. That is rather the point, unless you stay in town.",
+        tiers: [
+          { id: "pano-standard", label: "Panorama Standard", title: "Panorama Glass Lodge, Standard", rec: true, photoKey: "panorama",
+            pitch: "A glass cabin in a field, one night, under a sky that may just send clouds.",
+            url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
+            two: PANO.standard, each: PANO.standard / PEOPLE, est: false, sub: "Per cabin for the night, not per person." },
+          { id: "pano-premium", label: "Panorama Premium", title: "Panorama Glass Lodge, Premium", photoKey: "panorama_premium",
+            pitch: "Same glass box, Premium, because if you are paying to sleep under the sky, you might as well go in.",
+            url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
+            two: PANO.premium, each: PANO.premium / PEOPLE, est: false, sub: "Per cabin for the night, not per person." },
+          { id: "buubble", label: "Buubble", title: "Buubble, one night", photoKey: "buubble",
+            pitch: "A clear plastic dome in a dark field. Bring humility, and maybe a beanie for the walk to the bathroom.",
+            url: "https://buubble.com/", urlLabel: "Book it", maps: "Buubble Iceland",
+            two: BUUBBLE_RATE, each: BUUBBLE_RATE / PEOPLE, est: false, sub: "Per cabin for the night." },
+          { id: "aurora", label: "Aurora Igloo", title: "Aurora Igloo, one night", photoKey: "aurora_igloo",
+            pitch: "An aurora igloo night. We do not have a researched holiday quote, so this is an honest estimate.",
+            url: "https://auroraigloo.is/", urlLabel: "Book it", maps: "Aurora Igloo Iceland",
+            priceFn: function (ctx) { return { two: ctx.auroraRate, each: ctx.auroraRate / PEOPLE, est: true, sub: "Estimated, per cabin. Edit the rate in Us." }; } },
+          { id: "town", label: "Stay in town", title: "Stay in town on Jan 2", photoKey: "edition_ext",
+            pitch: "Keep Jan 2 at the EDITION, and let the sky stay outside like a reasonably priced decision.",
+            url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Website", maps: "The Reykjavik EDITION",
+            two: 0, each: 0, est: false, sub: "No extra night away. The EDITION total already covers this." }
+        ] },
+      { id: "car", kind: "car", day: "The whole week", title: "The rental car",
+        defaultTier: "premium",
+        winter: "Winter tires are standard on these desks from Nov 1 to April 15. Studded tires help on ice, and often need a request.",
+        tiers: [
+          { id: "none", label: "No car", title: "No rental car", photoKey: "car_none",
+            pitch: "No rental car. Tours, walking, and the occasional very confident taxi.",
+            maps: "Reykjavik city center",
+            two: 0, each: 0, est: false, sub: "Zero on the car line, on purpose." },
+          { id: "budget", label: "Yaris", title: "Toyota Yaris, the honest little car", photoKey: "car_yaris",
+            pitch: "Automatic, front-wheel drive, and perfectly fine until the wind starts auditioning.",
+            url: "https://www.bluecarrental.is/our-cars/toyota-yaris/", urlLabel: "Book it", maps: "Blue Car Rental Keflavik Airport",
+            credit: "Photo: Kevauto, Wikimedia Commons.",
+            two: CARS.budget.trip, each: CARS.budget.trip / PEOPLE, est: false, sub: money(CARS.budget.daily) + " a day, plus Full Cover, for 6 days." },
+          { id: "mid", label: "Duster 4x4", title: "Dacia Duster 4x4, the mid-size workhorse", photoKey: "car_duster",
+            pitch: "A manual 4x4 compact SUV, the classic Iceland winter rental, and used to this weather.",
+            url: "https://www.bluecarrental.is/our-cars/dacia-duster/", urlLabel: "Book it", maps: "Blue Car Rental Keflavik Airport",
+            credit: "Photo: (G)jabz, Wikimedia Commons.",
+            two: CARS.mid.trip, each: CARS.mid.trip / PEOPLE, est: false, sub: money(CARS.mid.daily) + " a day, plus Full Cover, for 6 days." },
+          { id: "premium", label: "Defender 110", title: "Land Rover Defender 110, the recommended 4x4", rec: true, photoKey: "car_defender",
+            pitch: "The 5-door automatic 4x4, and room for Jerm's luggage. The Defender 90 did not show up in Iceland.",
+            url: "https://www.bluecarrental.is/our-cars/land-rover-defender/", urlLabel: "Book it",
+            url2: "https://www.hertz.is/vehicle_guide/pfan/", url2Label: "Hertz Defender 110",
+            maps: "Blue Car Rental Keflavik Airport",
+            credit: "Photo: DestinationFearFan, Wikimedia Commons.",
+            two: CARS.premium.trip, each: CARS.premium.trip / PEOPLE, est: true, sub: "est. " + money(CARS.premium.daily) + " a day, plus Full Cover, for 6 days." }
+        ] },
       { id: "food-budget", kind: "food", day: "Most days", title: "A daily food budget",
         pitch: "Set aside a daily food budget for the meals you have not already booked.",
         desc: "Default is $150 a person a day, for 6 days. The restaurant cards are priced separately, so this is the unscripted eating. Edit the rate in Us.",
@@ -178,7 +193,28 @@
         priceFn: function (ctx) {
           var two = ctx.foodRate * ctx.foodDays * PEOPLE;
           return { two: two, each: two / PEOPLE, est: true, sub: money(ctx.foodRate) + " a person a day, times " + ctx.foodDays + " days." };
-        } }
+        } },
+      { id: "ice-plan", kind: "sidetrips", day: "Dec 30 or Jan 2", title: "The ice cave plan",
+        defaultTier: "jokulsarlon",
+        winter: "Caves and lagoon ice depend on the weather. A guided trip is the low-stress version.",
+        tiers: [
+          { id: "jokulsarlon", label: "Hofn overnight", title: "Hotel Hofn, for the glacier overnight", rec: true, photoKey: "hofn",
+            pitch: "Fly east for one night, walk a blue cave, and hope the lights show up over the lagoon.",
+            url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it",
+            maps: "Hotel Hofn Iceland",
+            priceFn: function (ctx) {
+              var two = 115 * 2 * PEOPLE + ((ctx.iceCave === "long" ? 290 : (ctx.iceCaveRate || 175)) * PEOPLE) + (ctx.hofnRate || 250);
+              return { two: two, each: two / PEOPLE, est: false, sub: "Includes the Hofn hotel night, domestic flights, and a standard ice cave for two." };
+            } },
+          { id: "katla", label: "Katla day cave", title: "A Katla ice cave on January 2", photoKey: "katla",
+            pitch: "A Katla ice cave on January 2, if the glacier overnight does not happen.",
+            url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it",
+            maps: "Katla ice cave Iceland",
+            two: KATLA, each: KATLA / PEOPLE, est: false, sub: "From about 23,990 ISK per person." },
+          { id: "skip", label: "Skip the caves", title: "Skip the ice caves", photoKey: "jokulsarlon",
+            pitch: "Skip the ice caves, and keep the week closer to town.",
+            two: 0, each: 0, est: false, sub: "Nothing added for a cave or a Hofn night." }
+        ] }
     ];
   }
 
@@ -186,7 +222,6 @@
     return {
       id: c.id,
       kind: c.cat,
-      group: CATALOG_GROUP[c.id] || null,
       day: c.day,
       title: c.title,
       pitch: PITCHES[c.id] || c.title,
@@ -207,7 +242,7 @@
   var DECK = [];
   var DECK_MAP = {};
   function buildDeck() {
-    DECK = coreCards().concat(CATALOG.map(catalogToCard));
+    DECK = coreCards().concat(CATALOG.filter(function (c) { return !FOLDED[c.id]; }).map(catalogToCard));
     DECK_MAP = {};
     DECK.forEach(function (c) { DECK_MAP[c.id] = c; });
   }
@@ -215,27 +250,27 @@
   var DAYS = [
     { id: "dec28", date: "Dec 28, Monday", title: "Denver lets you go at 3:40 PM",
       slots: [
-        { key: "flight", label: "the flight", ids: ["flight-economy", "flight-business"] },
+        { key: "flight", label: "the flight", ids: ["flight"] },
         { key: "hold", label: "Dec 28 hotel", ids: ["hold-dec28"], optional: true }
       ], items: [] },
     { id: "dec29", date: "Dec 29, Tuesday", title: "A 6:05 AM landing, then the harbor",
-      slots: [{ key: "hotel", label: "Dec 29 hotel", ids: ["stay-edition-suite", "stay-edition-superior", "stay-retreat"] }],
+      slots: [{ key: "hotel", label: "Dec 29 hotel", ids: ["stay-edition", "stay-retreat"] }],
       items: ["harpa_walk", "shopping_downtown", "grotta", "sky_lagoon", "tides", "wool_shops"] },
     { id: "dec30", date: "Dec 30, Wednesday", title: "A glacier overnight, or a day in town",
       slots: [
-        { key: "hotel", label: "Dec 30 hotel", ids: ["jokulsarlon", "stay-edition-suite", "stay-edition-superior", "stay-retreat"] },
-        { key: "ice", label: "the ice cave plan", ids: ["jokulsarlon", "katla"] }
+        { key: "hotel", label: "Dec 30 hotel", ids: ["ice-plan", "stay-edition", "stay-retreat"] },
+        { key: "ice", label: "the ice cave plan", ids: ["ice-plan"] }
       ], items: ["nl_guided", "nl_self"] },
     { id: "dec31", date: "Dec 31, Thursday", title: "Bonfires, a comedy hour, and fireworks",
-      slots: [{ key: "hotel", label: "Dec 31 hotel", ids: ["stay-edition-suite", "stay-edition-superior"] }],
+      slots: [{ key: "hotel", label: "Dec 31 hotel", ids: ["stay-edition"] }],
       items: ["nye_dinner", "nye_bonfire", "aramotaskaup", "nye_fireworks", "dill", "grillmarkadurinn"] },
     { id: "jan1", date: "Jan 1, Friday", title: "Horses first, Golden Circle if anything is open",
-      slots: [{ key: "hotel", label: "Jan 1 hotel", ids: ["stay-edition-suite", "stay-edition-superior", "stay-retreat"] }],
+      slots: [{ key: "hotel", label: "Jan 1 hotel", ids: ["stay-edition", "stay-retreat"] }],
       items: ["horses", "golden_circle", "fridheimar", "fontana", "silfra", "tides", "hvammsvik"] },
     { id: "jan2", date: "Jan 2, Saturday", title: "South Coast drama, or a glass box in a field",
       slots: [
-        { key: "hotel", label: "Jan 2 hotel", ids: ["stay-panorama-standard", "stay-panorama-premium", "stay-buubble", "stay-aurora", "stay-retreat", "stay-edition-suite", "stay-edition-superior"] }
-      ], items: ["south_coast", "katla", "kolaportid", "wool_shops"] },
+        { key: "hotel", label: "Jan 2 hotel", ids: ["sky-cabin", "stay-retreat", "stay-edition"] }
+      ], items: ["south_coast", "kolaportid", "wool_shops"] },
     { id: "jan3", date: "Jan 3, Sunday", title: "One last soak, then a 4:55 PM flight home",
       slots: [], items: ["blue_lagoon", "edition_spa", "retreat_massage", "moss"] }
   ];
@@ -259,14 +294,21 @@
   };
 
   var state = {
-    v: 3,
+    v: 4,
     player: "",
     picks: {},
     passed: {},
     unlocked: {},
+    tiers: {},
     mate: null,
-    rates: defaultRates()
+    rates: defaultRates(),
+    welcomeSeen: false,
+    mateWelcomeSeen: false
   };
+  var welcomeIndex = 0;
+  var welcomeMode = "tour";
+  var welcomeOpen = false;
+  var shareWelcomeFrom = "";
   var undoStack = [];
   var reviewId = null;
   var lastChip = null;
@@ -284,6 +326,44 @@
     return (SHORT_NAMES[id] || (c && c.title) || id);
   }
 
+  function defaultTiers() { return clone(DEFAULT_TIERS); }
+
+  function cardTierId(c, who) {
+    if (!c || !c.tiers) return "";
+    var map = (who === "mate") ? (state.mate && state.mate.tiers) : state.tiers;
+    var id = (map && map[c.id]) || c.defaultTier || (c.tiers[0] && c.tiers[0].id);
+    return id;
+  }
+  function findTier(c, id) {
+    if (!c || !c.tiers) return null;
+    var i;
+    for (i = 0; i < c.tiers.length; i++) {
+      if (c.tiers[i].id === id) return c.tiers[i];
+    }
+    return c.tiers[0] || null;
+  }
+  function activeTier(c, who) { return findTier(c, cardTierId(c, who)); }
+  function viewCard(c, who) {
+    if (!c) return c;
+    var tier = activeTier(c, who);
+    if (!tier) return c;
+    var out = {};
+    Object.keys(c).forEach(function (k) { if (k !== "tiers") out[k] = c[k]; });
+    ["title", "pitch", "desc", "photoKey", "url", "urlLabel", "url2", "url2Label", "maps", "rec", "credit", "winter", "sub"].forEach(function (k) {
+      if (tier[k] !== undefined) out[k] = tier[k];
+    });
+    out.tierId = tier.id;
+    out.tierLabel = tier.label;
+    out.priceFn = tier.priceFn || c.priceFn || function () { return { two: tier.two || 0, each: tier.each || 0, est: !!tier.est, sub: tier.sub || "" }; };
+    return out;
+  }
+  function displayName(id, who) {
+    var c = DECK_MAP[id];
+    if (!c) return id;
+    var v = viewCard(c, who);
+    return v.title || c.title;
+  }
+
   function isYes(map, id) { return !!(map && map[id]); }
   function myYes(id) { return isYes(state.picks, id); }
   function myPass(id) { return isYes(state.passed, id); }
@@ -293,7 +373,10 @@
   function isLocked(id) {
     if (state.unlocked[id]) return false;
     if (state.player === "both") return myYes(id);
-    return myYes(id) && mateYes(id);
+    if (!(myYes(id) && mateYes(id))) return false;
+    var c = DECK_MAP[id];
+    if (c && c.tiers) return cardTierId(c) === cardTierId(c, "mate");
+    return true;
   }
 
   function lockedIds() { return DECK.filter(function (c) { return isLocked(c.id); }).map(function (c) { return c.id; }); }
@@ -308,36 +391,50 @@
       retreatRate: r.retreatRate,
       hofnRate: r.hofnRate,
       auroraRate: r.auroraRate,
+      iceCave: r.iceCave,
+      iceCaveRate: r.iceCaveRate,
       foodRate: r.foodRate,
       foodDays: r.foodDays,
-      suiteOn: isYes(state.picks, "stay-edition-suite") || isLocked("stay-edition-suite"),
-      superiorOn: isYes(state.picks, "stay-edition-superior") || isLocked("stay-edition-superior")
+      suiteOn: (myYes("stay-edition") || isLocked("stay-edition")) && cardTierId(DECK_MAP["stay-edition"]) === "suite",
+      superiorOn: (myYes("stay-edition") || isLocked("stay-edition")) && cardTierId(DECK_MAP["stay-edition"]) === "superior"
     };
   }
 
-  function applyChoices(ids) {
+  function applyChoices(ids, tierMap) {
     var has = function (id) { return ids.indexOf(id) !== -1; };
+    var tierOf = function (id, fallback) {
+      var c = DECK_MAP[id];
+      if (tierMap && tierMap[id]) return tierMap[id];
+      if (c) return cardTierId(c);
+      return fallback || "";
+    };
     var r = state.rates;
     var sim = clone(r);
-    sim.flightClass = has("flight-business") ? "business" : (has("flight-economy") ? "economy" : "");
+    var flightT = has("flight") ? tierOf("flight", "standard") : "";
+    sim.flightClass = flightT === "saga" ? "saga" : flightT === "flex" ? "flex" : (flightT ? "standard" : "");
     sim.holdDec28 = has("hold-dec28");
-    sim.suiteNights = has("stay-edition-suite") ? 5 : 0;
-    sim.superiorNights = has("stay-edition-superior") ? 5 : 0;
+    var roomT = has("stay-edition") ? tierOf("stay-edition", "suite") : "";
+    sim.suiteNights = roomT === "suite" ? 5 : 0;
+    sim.superiorNights = roomT === "superior" ? 5 : 0;
     sim.retreatNights = has("stay-retreat") ? 2 : 0;
-    sim.panoNights = has("stay-panorama-standard") || has("stay-panorama-premium") ? 1 : 0;
-    sim.panorama = has("stay-panorama-premium") ? "premium" : "standard";
-    sim.buubbleNights = has("stay-buubble") ? 1 : 0;
-    sim.auroraNights = has("stay-aurora") ? 1 : 0;
-    sim.hofnNights = has("jokulsarlon") ? 1 : 0;
-    sim.hofnFlights = has("jokulsarlon");
-    sim.iceCave = has("jokulsarlon") ? (r.iceCave || "standard") : "none";
+    var skyT = has("sky-cabin") ? tierOf("sky-cabin", "pano-standard") : "";
+    sim.panoNights = (skyT === "pano-standard" || skyT === "pano-premium") ? 1 : 0;
+    sim.panorama = skyT === "pano-premium" ? "premium" : "standard";
+    sim.buubbleNights = skyT === "buubble" ? 1 : 0;
+    sim.auroraNights = skyT === "aurora" ? 1 : 0;
+    var iceT = has("ice-plan") ? tierOf("ice-plan", "jokulsarlon") : "";
+    sim.hofnNights = iceT === "jokulsarlon" ? 1 : 0;
+    sim.hofnFlights = iceT === "jokulsarlon";
+    sim.iceCave = iceT === "jokulsarlon" ? (r.iceCave || "standard") : "none";
     sim.blVisits = has("blue_lagoon") ? Math.max(1, r.blVisits || 1) : 0;
     sim.blTier = r.blTier || "lava";
     sim.nlTour = has("nl_guided");
-    sim.carId = has("car-premium") ? "premium" : has("car-mid") ? "mid" : has("car-budget") ? "budget" : has("car-none") ? "none" : "";
+    sim.carId = has("car") ? (tierOf("car", "premium") || "") : "";
     sim.foodOn = has("food-budget");
     sim.picks = {};
     CATALOG.forEach(function (c) { sim.picks[c.id] = has(c.id); });
+    if (iceT === "jokulsarlon") sim.picks.jokulsarlon = true;
+    if (iceT === "katla") sim.picks.katla = true;
     var away = sim.retreatNights + sim.panoNights + sim.buubbleNights + sim.auroraNights + sim.hofnNights;
     if (sim.suiteNights) sim.suiteNights = Math.max(0, sim.suiteNights - away);
     if (sim.superiorNights) sim.superiorNights = Math.max(0, sim.superiorNights - away);
@@ -367,7 +464,10 @@
 
   function computeFrom(ids) {
     var sim = applyChoices(ids);
-    var flightsIntl = sim.flightClass ? FLIGHT[sim.flightClass] * PEOPLE : 0;
+    var flightsIntl = 0;
+    if (sim.flightClass === "saga") flightsIntl = FLIGHT_FARES.saga.two;
+    else if (sim.flightClass === "flex") flightsIntl = FLIGHT_FARES.flex.two;
+    else if (sim.flightClass) flightsIntl = FLIGHT_FARES.standard.two;
     var flightsHofn = sim.hofnFlights ? 115 * 2 * PEOPLE : 0;
     var holdCost = sim.holdDec28 ? ((sim.superiorNights && !sim.suiteNights) ? SUPERIOR_RATE : (sim.suiteRate || 2340)) : 0;
     /* Hofn hotel and domestic flights are already in the jokulsarlon package price. */
@@ -396,6 +496,7 @@
 
   function cardPrice(c, idsForCtx) {
     var ctx = ratesCtx();
+    c = viewCard(c);
     if (c.priceFn) return c.priceFn(ctx);
     var sim = applyChoices(idsForCtx || (lockedIds().concat(yesIdsFrom(state.picks))));
     if (c.source) {
@@ -437,31 +538,36 @@
   }
 
   function snapshotId(id) {
-    return { id: id, pick: !!state.picks[id], pass: !!state.passed[id], unlocked: !!state.unlocked[id] };
+    return { id: id, pick: !!state.picks[id], pass: !!state.passed[id], unlocked: !!state.unlocked[id], tier: state.tiers[id] || "" };
   }
   function restoreId(s) {
     if (s.pick) state.picks[s.id] = true; else delete state.picks[s.id];
     if (s.pass) state.passed[s.id] = true; else delete state.passed[s.id];
     if (s.unlocked) state.unlocked[s.id] = true; else delete state.unlocked[s.id];
+    if (s.tier) state.tiers[s.id] = s.tier;
+    else if (s.tier === "") delete state.tiers[s.id];
+  }
+
+  function setTier(id, tierId) {
+    var card = DECK_MAP[id];
+    if (!card || !card.tiers || !findTier(card, tierId)) return;
+    if (cardTierId(card) === tierId) return;
+    undoStack.push({ snaps: [snapshotId(id)], reviewId: reviewId, stay: id });
+    state.tiers[id] = tierId;
+    if (state.player === "both") delete state.unlocked[id];
+    reviewId = id;
+    afterChange();
   }
 
   function vote(id, yes) {
     var card = DECK_MAP[id];
     if (!card) return;
     var snaps = [snapshotId(id)];
-    if (yes && card.group) {
-      groupMembers(card.group).forEach(function (other) {
-        if (other === id) return;
-        snaps.push(snapshotId(other));
-        delete state.picks[other];
-        state.passed[other] = true;
-        delete state.unlocked[other];
-      });
-    }
     if (yes) {
       state.picks[id] = true;
       delete state.passed[id];
       delete state.unlocked[id];
+      if (card.tiers && !state.tiers[id]) state.tiers[id] = card.defaultTier || card.tiers[0].id;
     } else {
       delete state.picks[id];
       state.passed[id] = true;
@@ -476,7 +582,7 @@
     var step = undoStack.pop();
     if (!step) { showToast("Nothing to undo yet."); return; }
     (step.snaps || []).forEach(restoreId);
-    reviewId = step.reviewId || null;
+    reviewId = step.stay || step.reviewId || null;
     afterChange();
   }
 
@@ -508,18 +614,22 @@
   /* ---------- persist / share ---------- */
   function compactState() {
     var o = {
-      v: 3,
+      v: 4,
       player: state.player || "",
       yes: yesIdsFrom(state.picks),
       pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }),
       unlocked: Object.keys(state.unlocked).filter(function (k) { return state.unlocked[k]; }),
-      rates: state.rates
+      tiers: state.tiers,
+      rates: state.rates,
+      welcomeSeen: !!state.welcomeSeen,
+      mateWelcomeSeen: !!state.mateWelcomeSeen
     };
     if (state.mate) {
       o.mate = {
         player: state.mate.player,
         yes: yesIdsFrom(state.mate.picks),
-        pass: Object.keys(state.mate.passed || {}).filter(function (id) { return state.mate.passed[id]; })
+        pass: Object.keys(state.mate.passed || {}).filter(function (id) { return state.mate.passed[id]; }),
+        tiers: state.mate.tiers || {}
       };
     }
     return o;
@@ -529,11 +639,27 @@
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(compactState())); } catch (e) {}
   }
 
-  function applyYesPass(yes, pass) {
+  function mapLegacyList(ids, tiersOut, preferYes) {
+    var out = [];
+    (ids || []).forEach(function (id) {
+      if (LEGACY_TIER[id]) {
+        var pair = LEGACY_TIER[id];
+        if (out.indexOf(pair[0]) < 0) out.push(pair[0]);
+        if (preferYes) tiersOut[pair[0]] = pair[1];
+        else if (!tiersOut[pair[0]]) tiersOut[pair[0]] = pair[1];
+      } else if (DECK_MAP[id] && out.indexOf(id) < 0) out.push(id);
+    });
+    return out;
+  }
+  function applyYesPass(yes, pass, tiers) {
+    var tmap = Object.assign(defaultTiers(), tiers || {});
+    var y = mapLegacyList(yes, tmap, true);
+    var pa = mapLegacyList(pass, tmap, false);
     state.picks = {};
     state.passed = {};
-    (yes || []).forEach(function (id) { if (DECK_MAP[id]) state.picks[id] = true; });
-    (pass || []).forEach(function (id) { if (DECK_MAP[id] && !state.picks[id]) state.passed[id] = true; });
+    y.forEach(function (id) { if (DECK_MAP[id]) state.picks[id] = true; });
+    pa.forEach(function (id) { if (DECK_MAP[id] && !state.picks[id]) state.passed[id] = true; });
+    state.tiers = tmap;
   }
 
   function migrateOld(saved) {
@@ -555,7 +681,7 @@
     if (saved.carId && saved.carId !== "none") yes.push("car-" + saved.carId);
     else if (saved.carId === "none" && saved.v) yes.push("car-none");
     if ((saved.foodDays || 0) > 0 && saved.foodRate) yes.push("food-budget");
-    applyYesPass(yes, pass);
+    applyYesPass(yes, pass, saved.tiers);
     var r = defaultRates();
     ["suiteRate","retreatRate","hofnRate","auroraRate","foodRate","foodDays","blTier","blVisits","iceCave","iceCaveRate","nlRate","nlCount"].forEach(function (k) {
       if (saved[k] !== undefined) r[k] = saved[k];
@@ -564,38 +690,46 @@
   }
 
   function load() {
-    state = { v: 3, player: "", picks: {}, passed: {}, unlocked: {}, mate: null, rates: defaultRates() };
+    state = { v: 4, player: "", picks: {}, passed: {}, unlocked: {}, tiers: defaultTiers(), mate: null, rates: defaultRates(), welcomeSeen: false, mateWelcomeSeen: false };
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       var saved = JSON.parse(raw);
-      if (saved.v === 3) {
+      if (saved.v === 3 || saved.v === 4) {
         if (saved.player === "scott" || saved.player === "jerm" || saved.player === "both") state.player = saved.player;
-        applyYesPass(saved.yes || [], saved.pass || []);
+        applyYesPass(saved.yes || [], saved.pass || [], saved.tiers);
         (saved.unlocked || []).forEach(function (id) { if (DECK_MAP[id]) state.unlocked[id] = true; });
         if (saved.rates) Object.keys(state.rates).forEach(function (k) {
           if (saved.rates[k] !== undefined) state.rates[k] = saved.rates[k];
         });
+        state.welcomeSeen = !!saved.welcomeSeen;
+        state.mateWelcomeSeen = !!saved.mateWelcomeSeen;
         if (saved.mate && (saved.mate.player === "scott" || saved.mate.player === "jerm")) {
-          state.mate = { player: saved.mate.player, picks: {}, passed: {} };
-          (saved.mate.yes || Object.keys(saved.mate.picks || {})).forEach(function (id) {
-            if (saved.mate.yes) { if (DECK_MAP[id]) state.mate.picks[id] = true; }
-            else if (saved.mate.picks[id] && DECK_MAP[id]) state.mate.picks[id] = true;
-          });
-          (saved.mate.pass || Object.keys(saved.mate.passed || {})).forEach(function (id) {
-            if (saved.mate.pass) { if (DECK_MAP[id]) state.mate.passed[id] = true; }
-            else if (saved.mate.passed[id] && DECK_MAP[id]) state.mate.passed[id] = true;
-          });
+          var mt = Object.assign(defaultTiers(), saved.mate.tiers || {});
+          var rawYes = saved.mate.yes || Object.keys(saved.mate.picks || {}).filter(function (id) { return saved.mate.picks[id]; });
+          var rawPass = saved.mate.pass || Object.keys(saved.mate.passed || {}).filter(function (id) { return saved.mate.passed[id]; });
+          var myes = mapLegacyList(rawYes, mt, true);
+          var mpass = mapLegacyList(rawPass, mt, false);
+          state.mate = { player: saved.mate.player, picks: {}, passed: {}, tiers: mt };
+          myes.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
+          mpass.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
         }
       } else {
         if (saved.player === "scott" || saved.player === "jerm" || saved.player === "both") state.player = saved.player;
         migrateOld(saved);
         if (saved.mate && (saved.mate.player === "scott" || saved.mate.player === "jerm")) {
-          state.mate = { player: saved.mate.player, picks: {}, passed: {} };
+          var mt2 = Object.assign(defaultTiers(), saved.mate.tiers || {});
+          var myes2 = [];
+          var mpass2 = [];
           CATALOG.forEach(function (c) {
-            if (saved.mate.picks && saved.mate.picks[c.id]) state.mate.picks[c.id] = true;
-            if (saved.mate.passed && saved.mate.passed[c.id]) state.mate.passed[c.id] = true;
+            if (saved.mate.picks && saved.mate.picks[c.id]) myes2.push(c.id);
+            if (saved.mate.passed && saved.mate.passed[c.id]) mpass2.push(c.id);
           });
+          myes2 = mapLegacyList(myes2, mt2, true);
+          mpass2 = mapLegacyList(mpass2, mt2, false);
+          state.mate = { player: saved.mate.player, picks: {}, passed: {}, tiers: mt2 };
+          myes2.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
+          mpass2.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
         }
       }
     } catch (e) {}
@@ -626,7 +760,7 @@
       migrateOld(Object.assign({}, data, { picks: data.picks, passed: data.passed }));
       /* migrateOld applied to me; for v1 joint, also copy to mate so they lock */
       if (!data.v || data.v === 1) {
-        state.mate = { player: otherId(), picks: clone(state.picks), passed: clone(state.passed) };
+        state.mate = { player: otherId(), picks: clone(state.picks), passed: clone(state.passed), tiers: clone(state.tiers) };
         showToast("An older shared plan just arrived. Matching yeses are locked.");
         afterChange();
         return;
@@ -636,12 +770,15 @@
     }
     var from = data.player || "";
     if (from && from !== "both" && state.player && from !== state.player) {
-      state.mate = { player: from, picks: {}, passed: {} };
-      (yes || []).forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
-      (pass || []).forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
+      var mt = Object.assign(defaultTiers(), data.tiers || {});
+      var myes = mapLegacyList(yes || [], mt, true);
+      var mpass = mapLegacyList(pass || [], mt, false);
+      state.mate = { player: from, picks: {}, passed: {}, tiers: mt };
+      myes.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
+      mpass.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
       showToast(playerName(from) + " sent picks. Matches will lock.");
     } else if (from && (from === state.player || from === "both" || !state.player)) {
-      applyYesPass(yes || [], pass || []);
+      applyYesPass(yes || [], pass || [], data.tiers);
       if (from === "both" && state.player === "both") showToast("Shared picks loaded.");
       else if (!state.player) pendingShare = data;
     }
@@ -649,7 +786,7 @@
   }
 
   function shareUrl() {
-    var payload = { v: 3, player: state.player || "both", yes: yesIdsFrom(state.picks), pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }) };
+    var payload = { v: 4, player: state.player || "both", yes: yesIdsFrom(state.picks), pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }), tiers: state.tiers };
     var raw = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
     var url = location.origin + location.pathname + "?s=" + raw + "#us";
     return url;
@@ -698,7 +835,12 @@
   function mateBadge(id) {
     if (!state.mate) return "";
     var name = playerName(state.mate.player);
-    if (mateYes(id)) return '<span class="mate-badge">' + esc(name) + " said I'm in</span>";
+    if (mateYes(id)) {
+      var c = DECK_MAP[id];
+      var tlabel = (c && c.tiers && activeTier(c, "mate")) ? activeTier(c, "mate").label : "";
+      if (tlabel) return '<span class="mate-badge">' + esc(name) + " wants " + esc(tlabel) + "</span>";
+      return '<span class="mate-badge">' + esc(name) + " said I'm in</span>";
+    }
     if (matePass(id)) return '<span class="mate-badge">' + esc(name) + " passed</span>";
     return "";
   }
@@ -718,28 +860,27 @@
 
   function hotelForNight(night, locked) {
     var has = function (id) { return locked.indexOf(id) !== -1; };
-    if (night === "dec30" && has("jokulsarlon")) return "jokulsarlon";
+    if (night === "dec30" && has("ice-plan") && cardTierId(DECK_MAP["ice-plan"]) === "jokulsarlon") return "ice-plan";
     if ((night === "jan1" || night === "jan2") && has("stay-retreat")) return "stay-retreat";
-    if (night === "jan2") {
-      if (has("stay-panorama-standard")) return "stay-panorama-standard";
-      if (has("stay-panorama-premium")) return "stay-panorama-premium";
-      if (has("stay-buubble")) return "stay-buubble";
-      if (has("stay-aurora")) return "stay-aurora";
+    if (night === "jan2" && has("sky-cabin")) {
+      var sky = cardTierId(DECK_MAP["sky-cabin"]);
+      if (sky && sky !== "town") return "sky-cabin";
     }
-    if (has("stay-edition-suite")) return "stay-edition-suite";
-    if (has("stay-edition-superior")) return "stay-edition-superior";
+    if (has("stay-edition")) return "stay-edition";
     return null;
   }
 
   function renderPlanItem(id) {
-    var c = DECK_MAP[id];
-    if (!c) return "";
-    var pl = priceLabel(c);
+    var raw = DECK_MAP[id];
+    if (!raw) return "";
+    var c = viewCard(raw);
+    var pl = priceLabel(raw);
     var imgKey = c.photoKey;
     var thumb = PHOTO_URLS[imgKey] ? '<a class="card-photo" href="' + esc(c.url || "#") + '" ' + (c.url ? 'target="_blank" rel="noopener"' : "") + "><img src=\"" + PHOTO_URLS[imgKey] + "\" alt=\"" + esc(c.title) + "\"></a>" : '<div class="ph"></div>';
     if (!c.url) thumb = PHOTO_URLS[imgKey] ? '<img src="' + PHOTO_URLS[imgKey] + '" alt="' + esc(c.title) + '">' : '<div class="ph"></div>';
+    var change = raw.tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "";
     return '<div class="plan-item" data-locked="' + esc(id) + '">' + thumb + "<div>" +
-      '<p class="lock">🔒 Locked</p>' +
+      '<p class="lock">🔒 Locked' + (c.tierLabel ? " · " + esc(c.tierLabel) : "") + change + "</p>" +
       "<h3>" + (c.url ? '<a class="card-title" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.title) + "</a>" : esc(c.title)) + "</h3>" +
       '<p class="price">' + pl.big + "</p>" +
       (c.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(c.winter) + "</p>" : "") +
@@ -756,11 +897,11 @@
     if (!daysEl) return;
     var html = "";
     /* trip-level slots */
-    var carLocked = ["car-none","car-budget","car-mid","car-premium"].filter(function (id) { return locked.indexOf(id) !== -1; });
+    var carLocked = locked.indexOf("car") !== -1;
     var foodLocked = locked.indexOf("food-budget") !== -1;
     html += '<div class="day-block"><p class="when">Getting around, and eating</p><h2>The week underneath the days.</h2>';
-    if (carLocked.length) html += renderPlanItem(carLocked[0]);
-    else html += '<button type="button" class="undecided" data-jump="car-premium">Still deciding: the rental car</button>';
+    if (carLocked) html += renderPlanItem("car");
+    else html += '<button type="button" class="undecided" data-jump="car">Still deciding: the rental car</button>';
     if (foodLocked) html += renderPlanItem("food-budget");
     else html += '<button type="button" class="undecided" data-jump="food-budget">Still deciding: a daily food budget</button>';
     html += "</div>";
@@ -776,10 +917,10 @@
             if (locked.indexOf(slot.ids[i]) !== -1) { chosen = slot.ids[i]; break; }
           }
         }
-        if (chosen && (slot.key !== "ice" || chosen === "jokulsarlon" || chosen === "katla")) {
-          if (slot.key === "ice" && chosen === "jokulsarlon" && hotelForNight(day.id, locked) === "jokulsarlon") return;
-          if (slot.key === "hotel" && chosen === lastHotel && (chosen === "stay-edition-suite" || chosen === "stay-edition-superior" || chosen === "stay-retreat")) {
-            html += '<div class="plan-item compact"><div></div><div><p class="lock">🔒 Still here</p><h3>' + esc(DECK_MAP[chosen].title) + "</h3><p class='pitch-meta'>Same stay, already in the total.</p></div></div>";
+        if (chosen && (slot.key !== "ice" || chosen === "ice-plan")) {
+          if (slot.key === "ice" && chosen === "ice-plan" && hotelForNight(day.id, locked) === "ice-plan") return;
+          if (slot.key === "hotel" && chosen === lastHotel && (chosen === "stay-edition" || chosen === "stay-retreat")) {
+            html += '<div class="plan-item compact"><div></div><div><p class="lock">🔒 Still here</p><h3>' + esc(displayName(chosen)) + "</h3><p class='pitch-meta'>Same stay, already in the total.</p></div></div>";
           } else {
             html += renderPlanItem(chosen);
           }
@@ -805,7 +946,8 @@
     if (ready) {
       if (!locked.length) ready.innerHTML = "<p class='sub'>Nothing is locked yet, so there is nothing to book. That's honest, at least.</p>";
       else ready.innerHTML = locked.map(function (id) {
-        var c = DECK_MAP[id];
+        var raw = DECK_MAP[id];
+        var c = viewCard(raw);
         var link = c.url ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.urlLabel || "Official site") + "</a>" : "<span>No official booking page for this one.</span>";
         return '<label class="ready-item"><input type="checkbox"> <span><strong>' + esc(c.title) + "</strong><br>" + link + "</span></label>";
       }).join("");
@@ -813,12 +955,11 @@
   }
 
   var VIDEO_FOR = {
-    "stay-edition-suite": "edition", "stay-edition-superior": "edition", "hold-dec28": "edition",
-    sky_lagoon: "sky", jokulsarlon: "jokulsarlon", katla: "ice",
+    "stay-edition": "edition", "hold-dec28": "edition",
+    sky_lagoon: "sky", "ice-plan": "jokulsarlon",
     nye_fireworks: "nye", nye_bonfire: "nye", horses: "horses",
     golden_circle: "golden", south_coast: "south",
-    "stay-panorama-standard": "panorama", "stay-panorama-premium": "panorama",
-    "stay-buubble": "buubble"
+    "sky-cabin": "panorama"
   };
   function ytButton(v) {
     return '<button type="button" class="yt" data-yt="' + v.id + '" aria-label="Play ' + esc(v.title) + '">' +
@@ -872,23 +1013,36 @@
     if (inBtn) inBtn.textContent = state.player === "both" ? "We're in" : "I'm in";
   }
 
+  function tierChipsHtml(c) {
+    if (!c.tiers) return "";
+    var current = cardTierId(c);
+    var chips = c.tiers.map(function (tier) {
+      return '<button type="button" class="tier-chip" data-tier-card="' + esc(c.id) + '" data-tier="' + esc(tier.id) + '" aria-pressed="' + (tier.id === current ? "true" : "false") + '">' + esc(tier.label) + "</button>";
+    }).join("");
+    return '<div class="tier-chips" role="radiogroup" aria-label="Choose a tier">' + chips + "</div>";
+  }
+
   function swipeCardHtml(c, top) {
+    var v = viewCard(c);
     var pl = priceLabel(c);
     var locked = isLocked(c.id);
+    var split = myYes(c.id) && mateYes(c.id) && c.tiers && cardTierId(c) !== cardTierId(c, "mate");
     return '<article class="swipe-card' + (top ? " is-top" : " is-under") + '" data-id="' + esc(c.id) + '">' +
       '<div class="stamp in">I\'m in</div><div class="stamp out">Pass</div>' +
-      photoHtml(c.photoKey, c.title, c.url) +
+      photoHtml(v.photoKey, v.title, v.url) +
       '<div class="body">' +
       '<p class="kicker">' + esc(c.day || "") + (c.kind ? " · " + esc(c.kind) : "") + "</p>" +
-      (c.rec ? '<span class="rec">Our recommendation</span> ' : "") +
+      (v.rec ? '<span class="rec">Our recommendation</span> ' : "") +
       mateBadge(c.id) +
       (locked ? '<p class="lock-flag">🔒 Locked, it is in the plan</p>' : "") +
-      '<p class="pitch-line">' + (c.url ? '<a class="card-title" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.pitch) + "</a>" : esc(c.pitch)) + "</p>" +
+      (split ? '<p class="tier-note">Same yes, different tier. That one goes to Negotiate.</p>' : "") +
+      '<p class="pitch-line">' + (v.url ? '<a class="card-title" href="' + esc(v.url) + '" target="_blank" rel="noopener">' + esc(v.pitch) + "</a>" : esc(v.pitch)) + "</p>" +
+      tierChipsHtml(c) +
       '<p class="price-line">' + pl.big + "<small>" + esc(pl.sub) + "</small></p>" +
-      (c.desc ? '<p class="pitch-meta">' + esc(c.desc) + "</p>" : "") +
-      (c.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(c.winter) + "</p>" : "") +
-      (c.credit ? '<p class="credit">' + esc(c.credit) + "</p>" : "") +
-      placeLinks(c) +
+      (v.desc ? '<p class="pitch-meta">' + esc(v.desc) + "</p>" : "") +
+      (v.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(v.winter) + "</p>" : "") +
+      (v.credit ? '<p class="credit">' + esc(v.credit) + "</p>" : "") +
+      placeLinks(v) +
       "</div></article>";
   }
 
@@ -902,9 +1056,9 @@
     return "<p class='kicker'>The end of the deck</p><h2>That's the pile.</h2>" +
       "<b>" + money(t.total) + "</b><small class='sub'>locked for two, " + money(t.each) + " per person.</small>" +
       (waiting.length && state.player !== "both" ? "<p class='sub'>If you add all your yeses, it would be " + money(tYes.total) + " for two, waiting on " + esc(other) + " for " + waiting.length + " of them.</p>" : "") +
-      "<h3>Locked</h3>" + (locked.length ? "<ul>" + locked.map(function (id) { return "<li>" + esc(DECK_MAP[id].title) + "</li>"; }).join("") + "</ul>" : "<p>Nothing locked yet.</p>") +
-      "<h3>Waiting</h3>" + (waiting.length ? "<ul>" + waiting.map(function (id) { return "<li>" + esc(DECK_MAP[id].title) + "</li>"; }).join("") + "</ul>" : "<p>No hanging yeses.</p>") +
-      "<h3>Passed</h3>" + (passed.length ? "<ul>" + passed.map(function (c) { return "<li>" + esc(c.title) + "</li>"; }).join("") + "</ul>" : "<p>You passed on nothing. Bold.</p>") +
+      "<h3>Locked</h3>" + (locked.length ? "<ul>" + locked.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>Nothing locked yet.</p>") +
+      "<h3>Waiting</h3>" + (waiting.length ? "<ul>" + waiting.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>No hanging yeses.</p>") +
+      "<h3>Passed</h3>" + (passed.length ? "<ul>" + passed.map(function (c) { return "<li>" + esc(displayName(c.id)) + "</li>"; }).join("") + "</ul>" : "<p>You passed on nothing. Bold.</p>") +
       '<div class="card-links"><button type="button" class="btn primary" id="reviewPassed">Review passed cards</button><a class="btn" href="#plan">See the plan</a><a class="btn" href="#us">Open Us</a></div>';
   }
 
@@ -915,6 +1069,11 @@
   }
 
   function renderUs() {
+    var how = document.getElementById("howCard");
+    if (how) {
+      how.innerHTML = "<h3>How this works</h3><p>Swipe right for I'm in, left for Pass. Tap the chips to upgrade a flight, a room, a cabin, a car, or the ice plan. Nothing locks until you both pick the same tier. Splits go to Negotiate.</p>" +
+        '<button type="button" class="btn ghost" id="replayWelcome">Replay the tour</button>';
+    }
     var who = document.getElementById("usWho");
     if (who) {
       who.innerHTML = ["scott", "jerm", "both"].map(function (id) {
@@ -933,20 +1092,31 @@
     DECK.forEach(function (c) {
       var me = myYes(c.id), mo = mateYes(c.id);
       var mp = myPass(c.id), op = matePass(c.id);
-      if (me && op) splits.push(playerName(state.player) + ": " + shortName(c.id) + ". " + playerName(state.mate.player) + ": absolutely not.");
-      else if (mo && mp) splits.push(playerName(state.mate.player) + ": " + shortName(c.id) + ". " + playerName(state.player) + ": absolutely not.");
-      else if (me && !mo && state.mate && !op && !mp) splits.push(playerName(state.player) + " wants " + shortName(c.id) + ". " + playerName(state.mate.player) + " has not voted.");
-      else if (mo && !me && !mp) splits.push(playerName(state.mate.player) + " wants " + shortName(c.id) + ". " + playerName(state.player) + " has not voted.");
+      var myLabel = c.tiers && activeTier(c) ? activeTier(c).label : shortName(c.id);
+      var theirLabel = c.tiers && activeTier(c, "mate") ? activeTier(c, "mate").label : shortName(c.id);
+      if (me && mo && c.tiers && cardTierId(c) !== cardTierId(c, "mate")) {
+        splits.push(playerName(state.player) + " wants " + myLabel + ". " + playerName(state.mate.player) + " wants " + theirLabel + ".");
+      } else if (me && op) splits.push(playerName(state.player) + ": " + myLabel + ". " + playerName(state.mate.player) + ": absolutely not.");
+      else if (mo && mp) splits.push(playerName(state.mate.player) + ": " + theirLabel + ". " + playerName(state.player) + ": absolutely not.");
+      else if (me && !mo && state.mate && !op && !mp) splits.push(playerName(state.player) + " wants " + myLabel + ". " + playerName(state.mate.player) + " has not voted.");
+      else if (mo && !me && !mp) splits.push(playerName(state.mate.player) + " wants " + theirLabel + ". " + playerName(state.player) + " has not voted.");
     });
-    var matches = locked.map(function (id) { return "You both want " + shortName(id) + "."; });
+    var matches = locked.map(function (id) {
+      var c = DECK_MAP[id];
+      var label = c && c.tiers && activeTier(c) ? activeTier(c).label : shortName(id);
+      return "You both want " + label + ".";
+    });
     var tLock = computeFrom(locked);
     var tYes = computeFrom(unique(locked.concat(mine)));
     var otherName = state.mate ? playerName(state.mate.player) : playerName(otherId());
     board.innerHTML = '<div class="us-grid">' +
       '<div class="match-card"><h3>Matches</h3>' + (matches.length ? "<ul>" + matches.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "<p>No locks yet. The negotiation era has begun.</p>") + "</div>" +
       '<div class="match-card"><h3>Negotiate</h3>' + (splits.length ? "<ul>" + splits.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "<p>No splits. Suspicious, or just very compatible.</p>") + "</div>" +
-      '<div class="match-card"><h3>' + (state.player === "both" ? "Yeses, picking for both" : (esc(playerName(state.player || "You")) + "'s yeses")) + "</h3>" + (mine.length ? "<ul>" + mine.map(function (id) { return "<li>" + esc(DECK_MAP[id].title) + (isLocked(id) ? " 🔒" : "") + "</li>"; }).join("") + "</ul>" : "<p>No yeses yet.</p>") + "</div>" +
-      '<div class="match-card"><h3>' + esc(state.mate ? otherName + "'s yeses" : otherName + ", when they send a link") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(DECK_MAP[id].title) + "</li>"; }).join("") + "</ul>" : "<p>No one else has checked in on this phone.</p>") + (state.mate ? '<button type="button" class="ghost" id="clearMate">Clear ' + esc(otherName) + "'s picks</button>" : "") + "</div>" +
+      '<div class="match-card"><h3>' + (state.player === "both" ? "Yeses, picking for both" : (esc(playerName(state.player || "You")) + "'s yeses")) + "</h3>" + (mine.length ? "<ul>" + mine.map(function (id) {
+        var line = displayName(id);
+        return "<li>" + esc(line) + (isLocked(id) ? " 🔒" : "") + (DECK_MAP[id] && DECK_MAP[id].tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "") + "</li>";
+      }).join("") + "</ul>" : "<p>No yeses yet.</p>") + "</div>" +
+      '<div class="match-card"><h3>' + esc(state.mate ? otherName + "'s yeses" : otherName + ", when they send a link") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(displayName(id, "mate")) + "</li>"; }).join("") + "</ul>" : "<p>No one else has checked in on this phone.</p>") + (state.mate ? '<button type="button" class="ghost" id="clearMate">Clear ' + esc(otherName) + "'s picks</button>" : "") + "</div>" +
       '<div class="match-card match-totals"><h3>Locked total for two</h3><b>' + money(tLock.total) + "</b><small>" + money(tLock.each) + " per person</small>" +
       "<h3 style='margin-top:16px'>If you add all your yeses</h3><b>" + money(tYes.total) + "</b><small>" + money(tYes.each) + " per person, including things still waiting on a match.</small></div>" +
       "</div>";
@@ -992,23 +1162,162 @@
     render();
   }
 
+  function welcomeSlides() {
+    var slides = [];
+    var from = shareWelcomeFrom || (pendingShare && pendingShare.player) || "";
+    if (welcomeMode === "share" || shareWelcomeFrom) {
+      var who = playerName(from || "jerm");
+      var theirs = (who === "Jerm" || who === "Scott") ? "his" : "their";
+      slides.push({
+        photo: "images/places/icelandair.jpg",
+        alt: "An Icelandair jet",
+        kicker: "A delivery, of sorts",
+        title: who + " sent you " + theirs + " picks.",
+        copy: "Swipe yours and see where you match. The same tier locks it. A different one starts a negotiation, which is half the fun."
+      });
+    }
+    if (welcomeMode !== "who" && welcomeMode !== "share") {
+      slides.push({
+        photo: "images/hero-aurora.jpg",
+        alt: "The northern lights over a dark Icelandic landscape",
+        kicker: "Welcome",
+        title: "Scott & Jerm Versus Iceland",
+        copy: "Dec 28 to Jan 3. A short week, a dark sky, and a lot of decisions dressed up as a game."
+      });
+    }
+    slides.push({
+      photo: "images/places/harpa.jpg",
+      alt: "Harpa Concert Hall in Reykjavik",
+      kicker: "First, who is holding the phone?",
+      title: "Who are you?",
+      copy: "We remember the choice on this phone. You can switch later in Us.",
+      who: true
+    });
+    if (welcomeMode !== "who") {
+      slides.push({
+        photo: "images/places/horses-winter.jpg",
+        alt: "Icelandic horses in winter",
+        kicker: "How it works",
+        title: "Swipe right for I'm in, left for Pass.",
+        copy: "And those little chips on a card? That is how you upgrade the overnight coach seat, the hotel room, the car, or a night under glass."
+      });
+      slides.push({
+        photo: "images/stays/panorama-drone.jpg",
+        alt: "A Panorama Glass Lodge cabin in open countryside",
+        kicker: "Then you lock it",
+        title: "Nothing is locked until you both say yes.",
+        copy: "Send your picks to the other person. Matching yeses, at the same tier, fill the Plan. Splits go to Negotiate."
+      });
+    }
+    return slides;
+  }
+
+  function renderWelcome() {
+    var slides = welcomeSlides();
+    if (welcomeIndex < 0) welcomeIndex = 0;
+    if (welcomeIndex >= slides.length) welcomeIndex = slides.length - 1;
+    var slide = slides[welcomeIndex];
+    var track = document.getElementById("welcomeTrack");
+    var dots = document.getElementById("welcomeDots");
+    var next = document.getElementById("welcomeNext");
+    var skip = document.getElementById("welcomeSkip");
+    if (!track || !slide) return;
+    var whoBtns = "";
+    if (slide.who) {
+      whoBtns = '<div class="who-btns">' +
+        '<button type="button" class="btn primary" data-who="scott" aria-pressed="' + (state.player === "scott" ? "true" : "false") + '">I\'m Scott</button>' +
+        '<button type="button" class="btn primary" data-who="jerm" aria-pressed="' + (state.player === "jerm" ? "true" : "false") + '">I\'m Jerm</button>' +
+        '<button type="button" class="btn" data-who="both" aria-pressed="' + (state.player === "both" ? "true" : "false") + '">Pick for both</button>' +
+        "</div>";
+    }
+    track.innerHTML = '<div class="welcome-slide"><div class="welcome-photo"><img src="' + esc(slide.photo) + '" alt="' + esc(slide.alt) + '"></div>' +
+      '<div class="welcome-copy"><p class="kicker">' + esc(slide.kicker) + '</p><h2 id="welcomeTitle">' + esc(slide.title) + "</h2><p>" + esc(slide.copy) + "</p>" + whoBtns + "</div></div>";
+    if (dots) {
+      dots.innerHTML = slides.map(function (_, i) {
+        return '<button type="button" class="welcome-dot' + (i === welcomeIndex ? " is-on" : "") + '" data-welcome-dot="' + i + '" aria-label="Screen ' + (i + 1) + '"></button>';
+      }).join("");
+    }
+    var last = welcomeIndex === slides.length - 1;
+    if (next) next.textContent = last ? "Let's go" : "Next";
+    if (skip) skip.hidden = last && !!state.player;
+  }
+
+  function openWelcome(mode, from) {
+    welcomeMode = mode || "tour";
+    shareWelcomeFrom = from || "";
+    welcomeIndex = 0;
+    welcomeOpen = true;
+    renderWelcome();
+    var el = document.getElementById("welcome");
+    if (el) el.hidden = false;
+    document.body.classList.add("welcome-open");
+  }
+  function closeWelcome() {
+    welcomeOpen = false;
+    shareWelcomeFrom = "";
+    state.welcomeSeen = true;
+    var el = document.getElementById("welcome");
+    if (el) el.hidden = true;
+    document.body.classList.remove("welcome-open");
+    if (pendingShare && state.player) consumePendingShare();
+    afterChange();
+  }
+  function welcomeNext() {
+    var slides = welcomeSlides();
+    if (welcomeIndex >= slides.length - 1) {
+      if (!state.player) {
+        var whoAt = -1;
+        slides.forEach(function (s, i) { if (s.who) whoAt = i; });
+        if (whoAt >= 0) { welcomeIndex = whoAt; renderWelcome(); return; }
+      }
+      closeWelcome();
+      return;
+    }
+    welcomeIndex++;
+    renderWelcome();
+  }
+  function welcomePrev() {
+    if (welcomeIndex <= 0) return;
+    welcomeIndex--;
+    renderWelcome();
+  }
+  function welcomeSkip() {
+    var slides = welcomeSlides();
+    if (!state.player) {
+      var whoAt = -1;
+      slides.forEach(function (s, i) { if (s.who) whoAt = i; });
+      if (whoAt >= 0 && welcomeIndex !== whoAt) { welcomeIndex = whoAt; renderWelcome(); return; }
+      return;
+    }
+    closeWelcome();
+  }
+
   function setPlayer(id) {
     if (id !== "scott" && id !== "jerm" && id !== "both") return;
     state.player = id;
-    hideWho();
+    if (welcomeOpen) {
+      var slides = welcomeSlides();
+      if (welcomeMode === "who" || welcomeIndex >= slides.length - 1) {
+        closeWelcome();
+        return;
+      }
+      welcomeIndex++;
+      renderWelcome();
+      if (pendingShare) consumePendingShare();
+      afterChange();
+      return;
+    }
     if (pendingShare) consumePendingShare();
     afterChange();
   }
-  function showWho() {
-    var el = document.getElementById("who");
-    if (el) el.hidden = false;
-    document.body.classList.add("who-open");
-  }
+  function showWho() { openWelcome("who"); }
   function hideWho() {
-    var el = document.getElementById("who");
+    var el = document.getElementById("welcome");
     if (el) el.hidden = true;
-    document.body.classList.remove("who-open");
+    document.body.classList.remove("welcome-open");
+    welcomeOpen = false;
   }
+
   function openCosts() {
     renderCosts();
     var el = document.getElementById("costs");
@@ -1043,7 +1352,7 @@
     var wrap = document.getElementById("deck");
     if (!wrap) return;
     wrap.addEventListener("pointerdown", function (e) {
-      if (e.target.closest("button, a.btn, a.card-title, a.card-links")) return;
+      if (e.target.closest("button, a.btn, a.card-title, a.card-links, .tier-chip, .tier-chips")) return;
       var card = e.target.closest(".swipe-card.is-top");
       if (!card) return;
       drag = { on: true, x0: e.clientX, y0: e.clientY, dx: 0, axis: null, card: card, id: card.getAttribute("data-id"), swiped: false };
@@ -1100,6 +1409,13 @@
       if (un) { unlock(un.getAttribute("data-unlock")); return; }
       var jump = e.target.closest("[data-jump]");
       if (jump) { jumpTo(jump.getAttribute("data-jump")); return; }
+      var tierBtn = e.target.closest("[data-tier-card]");
+      if (tierBtn) { setTier(tierBtn.getAttribute("data-tier-card"), tierBtn.getAttribute("data-tier")); return; }
+      if (e.target.closest("#helpBtn") || e.target.closest("#replayWelcome")) { openWelcome("tour"); return; }
+      if (e.target.closest("#welcomeNext")) { welcomeNext(); return; }
+      if (e.target.closest("#welcomeSkip")) { welcomeSkip(); return; }
+      var wdot = e.target.closest("[data-welcome-dot]");
+      if (wdot) { welcomeIndex = Number(wdot.getAttribute("data-welcome-dot")) || 0; renderWelcome(); return; }
       if (e.target.closest("#btnIn")) {
         var c = currentCard();
         if (c) vote(c.id, true);
@@ -1135,7 +1451,27 @@
       afterChange();
     });
     bindSwipe();
+    bindWelcomeSwipe();
     window.addEventListener("hashchange", function () { route(); render(); });
+  }
+
+  function bindWelcomeSwipe() {
+    var track = document.getElementById("welcomeTrack");
+    if (!track) return;
+    var startX = 0, startY = 0, on = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.target.closest("button, a")) return;
+      on = true; startX = e.clientX; startY = e.clientY;
+    });
+    track.addEventListener("pointerup", function (e) {
+      if (!on) return;
+      on = false;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0) welcomeNext();
+      else welcomePrev();
+    });
+    track.addEventListener("pointercancel", function () { on = false; });
   }
 
   function boot() {
@@ -1147,12 +1483,25 @@
     }
     bind();
     route();
-    if (!state.player) showWho();
-    else if (pendingShare) consumePendingShare();
+    var shareFrom = pendingShare && pendingShare.player && pendingShare.player !== "both" && pendingShare.player !== state.player ? pendingShare.player : "";
+    var needMateWelcome = !!(shareFrom && !state.mateWelcomeSeen);
+    if (needMateWelcome) {
+      state.mateWelcomeSeen = true;
+      openWelcome("share", shareFrom);
+    } else if (!state.welcomeSeen) {
+      openWelcome("tour");
+    } else if (!state.player) {
+      openWelcome("who");
+    } else if (pendingShare) {
+      consumePendingShare();
+    }
     render();
   }
 
   window.__icelandSetPlayer = setPlayer;
+  window.__icelandSetTier = setTier;
+  window.__icelandOpenWelcome = openWelcome;
+  window.__icelandCloseWelcome = closeWelcome;
   window.__icelandVote = vote;
   window.__icelandUnlock = unlock;
   window.__icelandJump = jumpTo;
