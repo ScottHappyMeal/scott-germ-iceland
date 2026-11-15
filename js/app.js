@@ -86,15 +86,18 @@
         url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
         maps: "Denver International Airport",
         tiers: [
-          { id: "standard", label: "Economy Standard", title: "Icelandair, Economy Standard", rec: true, photoKey: "icelandair",
+          { id: "standard", label: "Economy Standard", title: "Icelandair, Economy Standard", rec: true, photoKey: "economy_aisle",
+            credit: "Photo: Simply Aviation, Wikimedia Commons.",
             pitch: "The overnight Economy Standard seat. Denver at 3:40 PM, Keflavik at dawn. Sleep is optional. Iceland is not.",
             sub: "Round trip for two. One checked bag each. Official Icelandair fare family.",
             two: FLIGHT_FARES.standard.two, each: FLIGHT_FARES.standard.each, est: true },
-          { id: "flex", label: "Economy Flex", title: "Icelandair, Economy Flex", photoKey: "icelandair",
+          { id: "flex", label: "Economy Flex", title: "Icelandair, Economy Flex", photoKey: "economy_row",
+            credit: "Photo: Simply Aviation, Wikimedia Commons.",
             pitch: "Same overnight flight, Economy Flex, so you can change the ticket without a fee if the weather, or Jerm, has other ideas.",
             sub: "Round trip for two. Free changes and a refundable fare. Official Icelandair fare family.",
             two: FLIGHT_FARES.flex.two, each: FLIGHT_FARES.flex.each, est: true },
-          { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", photoKey: "icelandair",
+          { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", photoKey: "saga_seat",
+            credit: "Photo: Simply Aviation, Wikimedia Commons.",
             pitch: "Saga Premium, the front cabin, a wider seat, and a slightly more civilized 6:05 AM landing.",
             sub: "Round trip for two. Meals, priority, and the Saga cabin. Official Icelandair fare family.",
             two: FLIGHT_FARES.saga.two, each: FLIGHT_FARES.saga.each, est: true }
@@ -103,7 +106,7 @@
         pitch: "Hold a room on Dec 28, and greet the 6:05 AM version of yourselves with an actual bed?",
         desc: "The published plan lands at dawn on Dec 29. This is the optional extra night, priced at whatever EDITION room you lock.",
         winter: "If you hold the room, you still take FI670 a day earlier, or you arrive some other way. Check the same winter-daylight rules.",
-        photoKey: "edition_ext", rec: false,
+        photoKey: "edition_entrance", rec: false,
         url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
         maps: "The Reykjavik EDITION",
         priceFn: function (ctx) {
@@ -117,10 +120,12 @@
         url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
         maps: "The Reykjavik EDITION",
         tiers: [
-          { id: "superior", label: "Superior King", title: "EDITION Superior King, five nights", photoKey: "edition_ext",
+          { id: "superior", label: "Superior King", title: "EDITION Superior King, five nights", photoKey: "edition_superior",
+            credit: "Official photo, The Reykjavik EDITION.",
             pitch: "Same hotel, a Superior King, and about half the nightly bill. The harbor is still right there.",
             priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: false, sub: money(SUPERIOR_RATE) + " a night for the room. Away nights trim the total." }; } },
-          { id: "suite", label: "Deluxe Suite", title: "EDITION Deluxe Suite, five nights", rec: true, photoKey: "edition_room",
+          { id: "suite", label: "Deluxe Suite", title: "EDITION Deluxe Suite, five nights", rec: true, photoKey: "edition_suite",
+            credit: "Official photo, The Reykjavik EDITION.",
             pitch: "A Deluxe Suite at the EDITION, a harbor window, five nights, and a free-cancel window through Nov 28.",
             priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: false, sub: money(ctx.suiteRate) + " a night for the room, not per person. Away nights trim the total." }; } }
         ] },
@@ -303,7 +308,9 @@
     mate: null,
     rates: defaultRates(),
     welcomeSeen: false,
-    mateWelcomeSeen: false
+    mateWelcomeSeen: false,
+    packed: {},
+    booked: {}
   };
   var welcomeIndex = 0;
   var welcomeMode = "tour";
@@ -622,7 +629,9 @@
       tiers: state.tiers,
       rates: state.rates,
       welcomeSeen: !!state.welcomeSeen,
-      mateWelcomeSeen: !!state.mateWelcomeSeen
+      mateWelcomeSeen: !!state.mateWelcomeSeen,
+      packed: state.packed || {},
+      booked: state.booked || {}
     };
     if (state.mate) {
       o.mate = {
@@ -690,7 +699,7 @@
   }
 
   function load() {
-    state = { v: 4, player: "", picks: {}, passed: {}, unlocked: {}, tiers: defaultTiers(), mate: null, rates: defaultRates(), welcomeSeen: false, mateWelcomeSeen: false };
+    state = { v: 4, player: "", picks: {}, passed: {}, unlocked: {}, tiers: defaultTiers(), mate: null, rates: defaultRates(), welcomeSeen: false, mateWelcomeSeen: false, packed: {}, booked: {} };
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
@@ -704,6 +713,8 @@
         });
         state.welcomeSeen = !!saved.welcomeSeen;
         state.mateWelcomeSeen = !!saved.mateWelcomeSeen;
+        state.packed = (saved.packed && typeof saved.packed === "object") ? saved.packed : {};
+        state.booked = (saved.booked && typeof saved.booked === "object") ? saved.booked : {};
         if (saved.mate && (saved.mate.player === "scott" || saved.mate.player === "jerm")) {
           var mt = Object.assign(defaultTiers(), saved.mate.tiers || {});
           var rawYes = saved.mate.yes || Object.keys(saved.mate.picks || {}).filter(function (id) { return saved.mate.picks[id]; });
@@ -829,6 +840,9 @@
     document.querySelectorAll(".tab").forEach(function (a) {
       a.setAttribute("aria-current", a.getAttribute("data-tab") === tab ? "page" : "false");
     });
+    if (tab === "plan" && overviewMap) {
+      setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 60);
+    }
   }
 
   /* ---------- render ---------- */
@@ -870,6 +884,849 @@
     return null;
   }
 
+  var T = window.ICELAND_TRIP || {};
+  var routesData = null;
+  var routesPromise = null;
+  var overviewMap = null;
+  var overviewActive = false;
+  var dayMaps = {};
+  var fullMap = null;
+  var weatherCache = null;
+
+  function formatSpan(mins) {
+    mins = Math.round(mins || 0);
+    if (mins <= 0) return "";
+    var h = Math.floor(mins / 60), m = mins % 60;
+    if (h && m) return h + " hr" + (h === 1 ? "" : "s") + " " + m + " min";
+    if (h) return h + " hr" + (h === 1 ? "" : "s");
+    return m + " min";
+  }
+
+  function cardKey(id) {
+    var raw = DECK_MAP[id];
+    if (!raw) return id;
+    var v = viewCard(raw);
+    if (v && v.tierId) return id + ":" + v.tierId;
+    return id;
+  }
+
+  function durationFor(id) {
+    var map = T.DURATIONS || {};
+    var key = cardKey(id);
+    if (map[key]) return map[key];
+    if (map[id]) return map[id];
+    return null;
+  }
+
+  function durationLine(id) {
+    var d = durationFor(id);
+    if (!d || !d.text) return "";
+    return '<p class="duration-line">' + esc(d.text) + "</p>";
+  }
+
+  function placeKeyFor(id) {
+    var map = T.PLACE_FOR || {};
+    var key = cardKey(id);
+    if (map[key]) return map[key];
+    if (map[id]) return map[id];
+    return "";
+  }
+
+  function expandPlaces(id) {
+    var key = cardKey(id);
+    var tours = T.TOUR_PLACES || {};
+    if (tours[key]) return tours[key].slice();
+    if (tours[id]) return tours[id].slice();
+    var pk = placeKeyFor(id);
+    return pk ? [pk] : [];
+  }
+
+  function uniqueKeys(arr) {
+    var out = [], seen = {};
+    arr.forEach(function (k) {
+      if (k && !seen[k]) { seen[k] = true; out.push(k); }
+    });
+    return out;
+  }
+
+  function placesForDay(dayId, locked) {
+    var order = (T.DAY_STOP_ORDER && T.DAY_STOP_ORDER[dayId]) || [];
+    var keys = [];
+    if (dayId === "dec29") keys.push("kef");
+    order.forEach(function (id) {
+      if (id === "flight" && dayId === "dec29") return;
+      if (id === "ice-plan") {
+        var ice = DECK_MAP["ice-plan"] && cardTierId(DECK_MAP["ice-plan"]);
+        if (ice === "skip") return;
+        if (ice === "katla" && dayId !== "jan2") return;
+        if (ice === "jokulsarlon" && dayId !== "dec30") return;
+      }
+      if (locked.indexOf(id) === -1 && id !== "flight") return;
+      if (id === "flight" && dayId === "jan3") { keys.push("kef"); return; }
+      expandPlaces(id).forEach(function (k) { keys.push(k); });
+    });
+    return uniqueKeys(keys);
+  }
+
+  function loadRoutes() {
+    if (routesData) return Promise.resolve(routesData);
+    if (routesPromise) return routesPromise;
+    routesPromise = fetch(T.ROUTES_URL).then(function (r) {
+      if (!r.ok) throw new Error("routes " + r.status);
+      return r.json();
+    }).then(function (data) {
+      routesData = data;
+      return data;
+    }).catch(function () {
+      routesPromise = null;
+      return null;
+    });
+    return routesPromise;
+  }
+
+  function findSegment(a, b) {
+    if (!routesData || !routesData.features) return null;
+    var i, f, w, id;
+    for (i = 0; i < routesData.features.length; i++) {
+      f = routesData.features[i];
+      w = (f.properties && f.properties.waypoints) || [];
+      id = f.properties && f.properties.id;
+      if (id === a + "_" + b) return f;
+      if (w.length >= 2 && w[0] === a && w[w.length - 1] === b) return f;
+    }
+    return null;
+  }
+
+  function stitchLegs(keys) {
+    var legs = [], i, seg;
+    for (i = 0; i < keys.length - 1; i++) {
+      if (keys[i] === keys[i + 1]) continue;
+      seg = findSegment(keys[i], keys[i + 1]);
+      if (seg) legs.push(seg);
+    }
+    return legs;
+  }
+
+  function addNamedLegs(legs, ids) {
+    if (!routesData || !routesData.features) return legs;
+    var have = {};
+    legs.forEach(function (f) { if (f.properties) have[f.properties.id] = true; });
+    routesData.features.forEach(function (f) {
+      var id = f.properties && f.properties.id;
+      if (id && ids[id] && !have[id]) { legs.push(f); have[id] = true; }
+    });
+    return legs;
+  }
+
+  function legsForDay(dayId, locked) {
+    var keys = placesForDay(dayId, locked);
+    var legs = stitchLegs(keys);
+    var want = {};
+    if (locked.indexOf("golden_circle") !== -1 && (dayId === "jan1" || dayId === "dec30")) want.golden_circle = true;
+    if (locked.indexOf("south_coast") !== -1 && dayId === "jan2") want.south_coast = true;
+    if (locked.indexOf("ice-plan") !== -1) {
+      var ice = DECK_MAP["ice-plan"] && cardTierId(DECK_MAP["ice-plan"]);
+      if (ice === "jokulsarlon" && dayId === "dec30") {
+        want.edition_jokulsarlon = true;
+        want.edition_hofn = true;
+      }
+      if (ice === "katla" && dayId === "jan2") want.edition_katla = true;
+    }
+    if (dayId === "dec29") want.kef_edition = true;
+    if (dayId === "jan3") {
+      want.edition_blue_lagoon = true;
+      want.blue_lagoon_kef = true;
+    }
+    return addNamedLegs(legs, want);
+  }
+
+  function driveForDay(dayId, locked) {
+    var keys = placesForDay(dayId, locked);
+    var legs = stitchLegs(keys);
+    var km = 0, mins = 0, used = {};
+    legs.forEach(function (f) {
+      var id = f.properties.id;
+      if (used[id]) return;
+      used[id] = true;
+      km += f.properties.km || 0;
+      mins += f.properties.mins || 0;
+    });
+    if (!mins) {
+      if (locked.indexOf("golden_circle") !== -1) {
+        var gc = findSegment("edition", "edition") || (routesData && routesData.features || []).filter(function (f) { return f.properties.id === "golden_circle"; })[0];
+        if (gc) { km = gc.properties.km; mins = gc.properties.mins; }
+      }
+      if (locked.indexOf("south_coast") !== -1) {
+        var sc = (routesData && routesData.features || []).filter(function (f) { return f.properties.id === "south_coast"; })[0];
+        if (sc) { km += sc.properties.km; mins += sc.properties.mins; }
+      }
+    }
+    return { km: Math.round(km * 10) / 10, mins: mins, keys: keys, legs: legs };
+  }
+
+  function dayActivityMins(day, locked) {
+    var total = 0, evening = false;
+    function add(id) {
+      if (locked.indexOf(id) === -1) return;
+      if (id === "flight") return;
+      var d = durationFor(id);
+      if (d && d.mins) total += d.mins;
+      if (T.EVENING && T.EVENING[id]) evening = true;
+    }
+    day.slots.forEach(function (slot) {
+      slot.ids.forEach(add);
+    });
+    day.items.forEach(add);
+    var drive = 0;
+    var info = driveForDay(day.id, locked);
+    day.items.concat(day.slots.reduce(function (acc, s) { return acc.concat(s.ids); }, [])).forEach(function (id) {
+      if (locked.indexOf(id) !== -1 && T.DRIVE_INCLUDED && T.DRIVE_INCLUDED[id]) drive = -1;
+    });
+    if (drive !== -1) drive = info.mins;
+    else drive = 0;
+    return { activity: total, drive: drive, planned: total + (drive > 0 ? drive : 0), evening: evening, info: info };
+  }
+
+  function clockFromMin(mins) {
+    mins = Math.max(0, Math.min(24 * 60, Math.round(mins)));
+    if (mins === 24 * 60) mins = 24 * 60 - 1;
+    var h = Math.floor(mins / 60) % 24, m = mins % 60;
+    var ampm = h < 12 ? "AM" : "PM";
+    var h12 = h % 12;
+    if (h12 === 0) h12 = 12;
+    return h12 + ":" + (m < 10 ? "0" : "") + m + " " + ampm;
+  }
+
+  function barPct(mins) {
+    return (Math.max(0, Math.min(1440, mins)) / 1440 * 100);
+  }
+
+  function dayGradient(light) {
+    if (!light) return "#0b1020";
+    var night = "#0b1020";
+    var twilight = "#3d456e";
+    var twilight2 = "#6a5a5a";
+    var golden = "#e0b56a";
+    var mid = "#efe6c8";
+    var rise = light.riseMin, set = light.setMin, noon = light.noonMin;
+    var dawn = light.civilDawn, dusk = light.civilDusk;
+    var gold = 50;
+    if (set - rise < gold * 2 + 40) gold = Math.max(20, Math.floor((set - rise - 30) / 2));
+    var goldAm = rise + gold;
+    var goldPm = set - gold;
+    if (goldAm > goldPm) {
+      goldAm = noon - 15;
+      goldPm = noon + 15;
+    }
+    function stop(color, min) {
+      return color + " " + (min / 1440 * 100).toFixed(2) + "%";
+    }
+    return "linear-gradient(to right, " + [
+      stop(night, 0),
+      stop(night, Math.max(0, dawn - 25)),
+      stop(twilight, dawn),
+      stop(twilight2, rise - 8),
+      stop(golden, rise),
+      stop(mid, goldAm),
+      stop(mid, goldPm),
+      stop(golden, set),
+      stop(twilight2, set + 8),
+      stop(twilight, dusk),
+      stop(night, Math.min(1440, dusk + 25)),
+      stop(night, 1440)
+    ].join(", ") + ")";
+  }
+
+  function schedStart(id, dayId) {
+    var map = T.SCHEDULE || {};
+    var key = cardKey(id);
+    if (map[id + ":" + dayId] !== undefined) return map[id + ":" + dayId];
+    if (map[key + ":" + dayId] !== undefined) return map[key + ":" + dayId];
+    if (map[key] !== undefined) return map[key];
+    if (map[id] !== undefined) return map[id];
+    return 10 * 60;
+  }
+
+  function barLabel(id, dayId) {
+    var map = T.BAR_LABELS || {};
+    var key = cardKey(id);
+    if (dayId && map[id + ":" + dayId]) return map[id + ":" + dayId];
+    if (map[key]) return map[key];
+    if (map[id]) return map[id];
+    var raw = DECK_MAP[id];
+    if (!raw) return id;
+    var v = viewCard(raw);
+    return (v && (v.tierLabel || v.title)) || raw.title || id;
+  }
+
+  function isEveningItem(id) {
+    return !!(T.EVENING && T.EVENING[id]);
+  }
+
+  function barItemsForDay(day, locked) {
+    var skip = T.BAR_SKIP || {};
+    var ids = [];
+    function consider(id) {
+      if (locked.indexOf(id) === -1 || skip[id]) return;
+      if (id === "ice-plan") {
+        var ice = DECK_MAP["ice-plan"] && cardTierId(DECK_MAP["ice-plan"]);
+        if (!ice || ice === "skip") return;
+        if (ice === "katla" && day.id !== "jan2") return;
+        if (ice === "jokulsarlon" && day.id !== "dec30") return;
+      }
+      if (ids.indexOf(id) >= 0) return;
+      ids.push(id);
+    }
+    (day.slots || []).forEach(function (slot) { (slot.ids || []).forEach(consider); });
+    (day.items || []).forEach(consider);
+    if (day.id === "dec29" && locked.indexOf("flight") !== -1 && ids.indexOf("flight") < 0) ids.unshift("flight");
+    return ids;
+  }
+
+  function blocksForDay(day, locked) {
+    var ids = barItemsForDay(day, locked);
+    var primary = T.BAR_PRIMARY || {};
+    var blocks = [];
+    var cursor = 10 * 60;
+    var firstPrimary = true;
+
+    if (day.id === "dec29" && locked.indexOf("flight") !== -1) {
+      blocks.push({ id: "flight", label: barLabel("flight", "dec29"), start: 0, end: 6 * 60 + 5, kind: "activity", row: 0 });
+      blocks.push({ id: "drive-kef", label: "Drive", start: 6 * 60 + 5, end: 6 * 60 + 5 + 52, kind: "drive", row: 0 });
+      cursor = 6 * 60 + 5 + 52;
+    }
+    if (day.id === "dec30" && locked.indexOf("ice-plan") !== -1 && cardTierId(DECK_MAP["ice-plan"]) === "jokulsarlon") {
+      var driveStart = 8 * 60;
+      var driveMins = 333;
+      blocks.push({ id: "drive-east", label: "Drive", start: driveStart, end: driveStart + driveMins, kind: "drive", row: 0 });
+      cursor = driveStart + driveMins;
+    }
+    if (day.id === "jan3" && locked.indexOf("blue_lagoon") !== -1) {
+      var toLagoon = 10 * 60 - 52;
+      if (toLagoon < 8 * 60) toLagoon = 8 * 60 + 30;
+      blocks.push({ id: "drive-lagoon", label: "Drive", start: toLagoon, end: toLagoon + 52, kind: "drive", row: 0 });
+      cursor = toLagoon + 52;
+    }
+
+    ids.forEach(function (id) {
+      if (day.id === "dec29" && id === "flight") return;
+      var d = durationFor(id);
+      var mins = (d && d.mins) ? d.mins : 60;
+      if (day.id === "dec28" && id === "flight") {
+        blocks.push({ id: id, label: barLabel(id, day.id), start: 22 * 60 + 40, end: 1440, kind: "activity", row: 0 });
+        return;
+      }
+      if (day.id === "jan3" && id === "flight") {
+        blocks.push({ id: id, label: barLabel(id, day.id), start: 16 * 60 + 55, end: 1440, kind: "activity", row: 0 });
+        return;
+      }
+      var start = schedStart(id, day.id);
+      var isPri = !!primary[id] || id === "ice-plan";
+      if (isPri && !isEveningItem(id) && !firstPrimary && start < cursor) start = cursor;
+      if (isPri && !isEveningItem(id)) {
+        firstPrimary = false;
+        cursor = start + mins;
+      }
+      var end = Math.min(1440, start + mins);
+      if (end <= start) return;
+      blocks.push({ id: id, label: barLabel(id, day.id), start: start, end: end, kind: "activity", row: 0 });
+    });
+
+    if (day.id === "jan3" && locked.indexOf("blue_lagoon") !== -1 && locked.indexOf("flight") !== -1) {
+      var lagoon = blocks.filter(function (b) { return b.id === "blue_lagoon"; })[0];
+      if (lagoon && lagoon.end + 25 < 16 * 60 + 55) {
+        blocks.push({ id: "drive-kef-out", label: "Drive", start: lagoon.end, end: Math.min(16 * 60 + 55, lagoon.end + 25), kind: "drive", row: 0 });
+      }
+    }
+
+    assignBarRows(blocks);
+    return blocks;
+  }
+
+  function assignBarRows(blocks) {
+    var rows = [];
+    blocks.sort(function (a, b) { return a.start - b.start || (b.end - b.start) - (a.end - a.start); });
+    blocks.forEach(function (b) {
+      var r = 0;
+      for (; r < rows.length; r++) {
+        if (b.start >= rows[r] - 2) break;
+      }
+      if (r === rows.length) rows.push(0);
+      rows[r] = b.end;
+      b.row = r;
+    });
+    return rows.length;
+  }
+
+  function nowMarkerMin(dayId) {
+    var iso = T.DAY_DATES && T.DAY_DATES[dayId];
+    if (!iso) return null;
+    try {
+      var parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Atlantic/Reykjavik",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      }).formatToParts(new Date());
+      var get = function (t) {
+        var i;
+        for (i = 0; i < parts.length; i++) if (parts[i].type === t) return parts[i].value;
+        return "";
+      };
+      var today = get("year") + "-" + get("month") + "-" + get("day");
+      if (today !== iso) return null;
+      return Number(get("hour")) * 60 + Number(get("minute"));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function dayBarHtml(day, locked) {
+    var light = (T.DAYLIGHT || {})[day.id];
+    if (!light) return "";
+    var blocks = blocksForDay(day, locked);
+    var rows = 1;
+    blocks.forEach(function (b) { if (b.row + 1 > rows) rows = b.row + 1; });
+    var trackH = 10 + rows * 24;
+    var items = blocks.map(function (b) {
+      var left = barPct(b.start);
+      var width = Math.max(0.7, barPct(b.end) - left);
+      var cls = "day-bar-item" + (b.kind === "drive" ? " is-drive" : "");
+      var span = clockFromMin(b.start) + " to " + clockFromMin(b.end);
+      var caption = b.label + " · " + span + (b.kind === "drive" ? ", approx drive" : "");
+      return '<button type="button" class="' + cls + '" data-bar-item="1" data-caption="' + esc(caption) + '" aria-label="' + esc(caption) + '" style="left:' + left.toFixed(2) + "%;width:" + width.toFixed(2) + "%;top:" + (6 + b.row * 24) + 'px">' + esc(b.label) + "</button>";
+    }).join("");
+    var now = nowMarkerMin(day.id);
+    var nowHtml = "";
+    if (now !== null) {
+      nowHtml = '<span class="day-bar-now" style="left:' + barPct(now).toFixed(2) + '%" title="Now in Reykjavik"><i>Now</i></span>';
+    }
+    return '<div class="day-bar" data-day-bar="' + esc(day.id) + '">' +
+      '<div class="day-bar-track" style="height:' + trackH + "px;background:" + dayGradient(light) + '">' +
+      items + nowHtml +
+      "</div>" +
+      '<div class="day-bar-hours" aria-hidden="true"><span style="left:0">12 AM</span><span style="left:25%">6 AM</span><span style="left:50%">12 PM</span><span style="left:75%">6 PM</span><span style="left:100%">12 AM</span></div>' +
+      '<p class="day-bar-caption" hidden></p>' +
+      "</div>";
+  }
+
+  function dayTotalHtml(day, locked) {
+    var light = (T.DAYLIGHT || {})[day.id];
+    if (!light) return "";
+    var stats = dayActivityMins(day, locked);
+    var hasStuff = locked.some(function (id) {
+      return (day.items.indexOf(id) !== -1) || day.slots.some(function (s) { return s.ids.indexOf(id) !== -1; });
+    });
+    if (!hasStuff && stats.planned <= 0) {
+      return '<p class="day-total">Sunrise ' + esc(light.rise) + ", sunset " + esc(light.set) + ", " + esc(formatSpan(light.mins)) + " of daylight.</p>";
+    }
+    var planned = formatSpan(stats.planned) || "0 min";
+    var dayLen = formatSpan(light.mins);
+    var packed = stats.planned > light.mins;
+    var line = "about " + planned + " planned, " + dayLen + " of daylight.";
+    if (packed && stats.evening) line += " Some of that is after dark, but still: Bold.";
+    else if (packed) line += " Bold.";
+    return '<p class="day-total' + (packed ? " is-packed" : "") + '">' + esc(line) + "</p>";
+  }
+
+  function roadsHtml(day) {
+    var meta = (T.DAY_ROADS || {})[day.id] || {};
+    var links = (T.ROAD_LINKS || []).map(function (l) {
+      return '<a class="road-chip" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(l.label) + "</a>";
+    }).join("");
+    var bits = "";
+    if (meta.drive) bits += "<p>" + esc(meta.drive) + "</p>";
+    if (meta.risk) bits += "<p>" + esc(meta.risk) + "</p>";
+    bits += '<div class="road-chips">' + links + "</div>";
+    return '<div class="day-roads">' + bits + "</div>";
+  }
+
+  function dayScheduleHtml(day, locked) {
+    return '<div class="day-schedule">' + dayBarHtml(day, locked) + dayTotalHtml(day, locked) + roadsHtml(day) + "</div>";
+  }
+
+
+  function bookingFor(id) {
+    var map = T.BOOKING || {};
+    if (id === "ice-plan") {
+      var ice = DECK_MAP["ice-plan"] && cardTierId(DECK_MAP["ice-plan"]);
+      if (ice === "skip") return null;
+    }
+    return map[id] || null;
+  }
+
+  function packModel(locked) {
+    var items = (T.PACK_BASE || []).slice();
+    var provided = [];
+    var has = function (id) { return locked.indexOf(id) !== -1; };
+    if ((T.SPA_IDS || []).some(has)) {
+      items.push({ id: "swimsuit", label: "A swimsuit. The water is hot. The walk to the water is not." });
+      items.push({ id: "flipflops", label: "Flip-flops for the wet decks, because socks have suffered enough." });
+    }
+    if ((T.HORSE_IDS || []).some(has)) {
+      items.push({ id: "riding-gloves", label: "Your own riding gloves. Lava fields are not a hand spa." });
+      provided.push("A riding helmet. Ishestar hands you one, which is both safer and funnier than packing your own.");
+    }
+    if (has(T.ICE_CARD)) {
+      var ice = cardTierId(DECK_MAP["ice-plan"]);
+      if (ice && ice !== "skip") {
+        provided.push("Crampons and a cave helmet. The ice tour brings those, so your suitcase does not have to.");
+      }
+    }
+    if ((T.NYE_IDS || []).some(has)) {
+      items.push({ id: "nye-outfit", label: "A warm party outfit, because fireworks in Iceland are an outdoor sport." });
+    }
+    if (has("car") && cardTierId(DECK_MAP["car"]) !== "none") {
+      items.push({ id: "scraper", label: "An ice scraper, or at least the humility to buy one at the gas station." });
+    }
+    return { items: items, provided: provided };
+  }
+
+  function renderPacking() {
+    var el = document.getElementById("packBlock");
+    if (!el) return;
+    var model = packModel(lockedIds());
+    var html = "<h2>What to pack</h2><p class='sub'>Built from whatever is locked, plus the winter basics you were going to bring anyway. Check them off here. The list lives on this phone.</p>";
+    html += '<ul class="pack-list">';
+    model.items.forEach(function (it) {
+      var on = !!(state.packed && state.packed[it.id]);
+      html += '<li><label class="pack-item"><input type="checkbox" data-packed="' + esc(it.id) + '"' + (on ? " checked" : "") + "> <span>" + esc(it.label) + "</span></label></li>";
+    });
+    html += "</ul>";
+    if (model.provided.length) {
+      html += '<div class="pack-provided"><h3>Provided, so do not pack</h3><ul>';
+      model.provided.forEach(function (line) { html += "<li>" + esc(line) + "</li>"; });
+      html += "</ul></div>";
+    }
+    el.innerHTML = html;
+  }
+
+  function windLabel(deg) {
+    var dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    var i = Math.round(((deg % 360) + 360) % 360 / 45) % 8;
+    return dirs[i];
+  }
+
+  function formatClock(iso) {
+    if (!iso) return "";
+    var m = /T(\d{2}):(\d{2})/.exec(iso);
+    if (!m) return "";
+    var h = Number(m[1]), min = m[2];
+    var ampm = h < 12 ? "AM" : "PM";
+    var h12 = h % 12;
+    if (h12 === 0) h12 = 12;
+    return h12 + ":" + min + " " + ampm;
+  }
+
+  function formatDaylightSec(sec) {
+    var mins = Math.round((sec || 0) / 60);
+    return formatSpan(mins);
+  }
+
+  function renderCountdown() {
+    var el = document.getElementById("countdown");
+    if (!el) return;
+    var target = new Date(T.DEPART).getTime();
+    var now = Date.now();
+    var diff = target - now;
+    if (diff <= 0) {
+      el.textContent = "Wheels up. Iceland can start being difficult now.";
+      return;
+    }
+    var mins = Math.floor(diff / 60000);
+    var days = Math.floor(mins / (60 * 24));
+    var hours = Math.floor((mins - days * 60 * 24) / 60);
+    var minutes = mins - days * 60 * 24 - hours * 60;
+    var parts = [];
+    if (days) parts.push(days + " day" + (days === 1 ? "" : "s"));
+    parts.push(hours + " hr" + (hours === 1 ? "" : "s"));
+    parts.push(minutes + " min");
+    el.textContent = parts.join(", ") + " to wheels up at 3:40 PM MT, Dec 28.";
+  }
+
+  function renderWeather() {
+    var el = document.getElementById("weather");
+    if (!el) return;
+    if (!weatherCache) {
+      el.textContent = "Reykjavik weather is taking a minute. If it never arrives, the plan still does.";
+      return;
+    }
+    var w = weatherCache;
+    var c = Math.round(w.temp);
+    var f = Math.round(w.temp * 9 / 5 + 32);
+    var line = "Reykjavik " + c + " C / " + f + " F, wind " + Math.round(w.wind) + " km/h " + w.dir + ".";
+    if (w.rise && w.set) {
+      line += " Sunrise " + w.rise + ", sunset " + w.set;
+      if (w.daylight) line += ", " + w.daylight + " of daylight";
+      line += ".";
+    }
+    el.textContent = line;
+  }
+
+  function loadWeather() {
+    var el = document.getElementById("weather");
+    if (el && !weatherCache) el.textContent = "Checking the Reykjavik sky.";
+    fetch(T.WEATHER_URL).then(function (r) {
+      if (!r.ok) throw new Error("wx");
+      return r.json();
+    }).then(function (data) {
+      var cur = data.current || {};
+      var daily = data.daily || {};
+      weatherCache = {
+        temp: cur.temperature_2m,
+        wind: cur.wind_speed_10m,
+        dir: windLabel(cur.wind_direction_10m || 0),
+        rise: formatClock(daily.sunrise && daily.sunrise[0]),
+        set: formatClock(daily.sunset && daily.sunset[0]),
+        daylight: formatDaylightSec(daily.daylight_duration && daily.daylight_duration[0])
+      };
+      renderWeather();
+    }).catch(function () {
+      var el2 = document.getElementById("weather");
+      if (el2 && !weatherCache) el2.textContent = "Live weather took a pass. Try again later, or look out a window in Reykjavik, imaginatively.";
+    });
+  }
+
+  function cartoLayer() {
+    return L.tileLayer(T.TILE_URL, {
+      attribution: T.TILE_ATTR,
+      subdomains: "abc",
+      maxZoom: 19
+    });
+  }
+
+  function markerIcon() {
+    return L.divIcon({
+      className: "trip-pin",
+      html: "<span></span>",
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+      popupAnchor: [0, -10]
+    });
+  }
+
+  function popupHtml(place) {
+    if (!place) return "";
+    var photo = (window.ICELAND_DATA && ICELAND_DATA.PHOTO_URLS && ICELAND_DATA.PHOTO_URLS[place.photo]) || PHOTO_URLS[place.photo] || "";
+    var img = photo ? '<img src="' + photo + '" alt="' + esc(place.name) + '">' : "";
+    var links = [];
+    if (place.url) links.push('<a href="' + esc(place.url) + '" target="_blank" rel="noopener">' + esc(place.urlLabel || "Book it") + "</a>");
+    if (place.maps) links.push('<a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(place.maps) + '" target="_blank" rel="noopener">Map</a>');
+    return '<div class="map-pop">' + img + "<strong>" + esc(place.name) + "</strong>" +
+      (links.length ? '<div class="map-pop-links">' + links.join(" ") + "</div>" : "") + "</div>";
+  }
+
+  function addPins(map, keys) {
+    var bounds = [];
+    uniqueKeys(keys).forEach(function (k) {
+      var p = T.PLACES[k];
+      if (!p) return;
+      var m = L.marker([p.lat, p.lon], { icon: markerIcon() }).addTo(map);
+      m.bindPopup(popupHtml(p), { maxWidth: 240, className: "trip-popup" });
+      bounds.push([p.lat, p.lon]);
+    });
+    return bounds;
+  }
+
+  function addLegs(map, legs) {
+    legs.forEach(function (f) {
+      if (!f.geometry || !f.geometry.coordinates) return;
+      var latlngs = f.geometry.coordinates.map(function (c) { return [c[1], c[0]]; });
+      L.polyline(latlngs, { color: "#7dffa8", weight: 3, opacity: 0.85 }).addTo(map);
+    });
+  }
+
+  function fitOrCenter(map, bounds) {
+    if (bounds.length > 1) map.fitBounds(bounds, { padding: [28, 28], maxZoom: 12 });
+    else if (bounds.length === 1) map.setView(bounds[0], 12);
+    else map.setView([64.8, -18.7], 6);
+  }
+
+  function overviewKeys(locked) {
+    var keys = ["kef", "edition"];
+    locked.forEach(function (id) {
+      expandPlaces(id).forEach(function (k) { keys.push(k); });
+    });
+    keys = uniqueKeys(keys);
+    if (keys.length <= 3) return uniqueKeys(keys.concat(T.PREVIEW_PLACES || []));
+    return keys;
+  }
+
+  function overviewLegs(keys) {
+    var legs = stitchLegs(keys);
+    var want = {};
+    if (keys.length <= 3 || (keys.length && (T.PREVIEW_PLACES || []).every(function (k) { return keys.indexOf(k) !== -1 || k === "kef" || k === "edition"; }) && keys.length >= (T.PREVIEW_PLACES || []).length)) {
+      (T.PREVIEW_ROUTES || []).forEach(function (id) { want[id] = true; });
+    }
+    lockedIds().forEach(function (id) {
+      if (id === "golden_circle") want.golden_circle = true;
+      if (id === "south_coast") want.south_coast = true;
+      if (id === "ice-plan" && cardTierId(DECK_MAP["ice-plan"]) === "jokulsarlon") {
+        want.edition_jokulsarlon = true;
+        want.edition_hofn = true;
+      }
+    });
+    if (routesData && routesData.features) {
+      routesData.features.forEach(function (f) {
+        if (want[f.properties.id] && legs.indexOf(f) === -1) legs.push(f);
+      });
+    }
+    if (!legs.length && routesData && routesData.features) {
+      (T.PREVIEW_ROUTES || []).forEach(function (id) {
+        routesData.features.forEach(function (f) {
+          if (f.properties.id === id) legs.push(f);
+        });
+      });
+    }
+    return legs;
+  }
+
+  function setOverviewInteractive(on) {
+    overviewActive = !!on;
+    if (!overviewMap) return;
+    if (on) {
+      overviewMap.dragging.enable();
+      overviewMap.scrollWheelZoom.enable();
+      overviewMap.touchZoom.enable();
+      overviewMap.doubleClickZoom.enable();
+    } else {
+      overviewMap.dragging.disable();
+      overviewMap.scrollWheelZoom.disable();
+      overviewMap.touchZoom.disable();
+      overviewMap.doubleClickZoom.disable();
+    }
+    var btn = document.getElementById("overviewActivate");
+    if (btn) btn.hidden = !!on;
+    var wrap = document.getElementById("overviewMapWrap");
+    if (wrap) wrap.classList.toggle("is-active", !!on);
+  }
+
+  function drawOverview() {
+    var el = document.getElementById("overviewMap");
+    if (!el || typeof L === "undefined") return;
+    if (overviewMap) {
+      overviewMap.remove();
+      overviewMap = null;
+    }
+    el.innerHTML = "";
+    overviewMap = L.map(el, {
+      zoomControl: true,
+      attributionControl: true,
+      dragging: false,
+      scrollWheelZoom: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false
+    });
+    cartoLayer().addTo(overviewMap);
+    var keys = overviewKeys(lockedIds());
+    var bounds = addPins(overviewMap, keys);
+    addLegs(overviewMap, overviewLegs(keys));
+    fitOrCenter(overviewMap, bounds);
+    setOverviewInteractive(false);
+    setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 80);
+  }
+
+  function initOverviewMap() {
+    loadRoutes().then(function () { drawOverview(); });
+  }
+
+  function destroyDayMaps() {
+    Object.keys(dayMaps).forEach(function (k) {
+      try { dayMaps[k].remove(); } catch (e) {}
+    });
+    dayMaps = {};
+  }
+
+  function drawDayMap(dayId, el) {
+    if (!el || typeof L === "undefined") return;
+    if (dayMaps[dayId]) {
+      try { dayMaps[dayId].remove(); } catch (e) {}
+      dayMaps[dayId] = null;
+    }
+    el.innerHTML = "";
+    var map = L.map(el, {
+      zoomControl: false,
+      attributionControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      tap: false
+    });
+    cartoLayer().addTo(map);
+    var keys = placesForDay(dayId, lockedIds());
+    if (!keys.length) keys = ["edition"];
+    var bounds = addPins(map, keys);
+    addLegs(map, legsForDay(dayId, lockedIds()));
+    fitOrCenter(map, bounds);
+    dayMaps[dayId] = map;
+    setTimeout(function () { map.invalidateSize(); }, 80);
+  }
+
+  function initDayMaps() {
+    destroyDayMaps();
+    var nodes = document.querySelectorAll("[data-day-map]");
+    if (!nodes.length) return;
+    loadRoutes().then(function () {
+      nodes.forEach(function (el) {
+        drawDayMap(el.getAttribute("data-day-map"), el);
+      });
+    });
+  }
+
+  function dayMapHtml(dayId) {
+    return '<button type="button" class="day-map-btn" data-open-day-map="' + esc(dayId) + '" aria-label="Open the day map">' +
+      '<div class="day-map" id="day-map-' + esc(dayId) + '" data-day-map="' + esc(dayId) + '"></div>' +
+      '<span class="day-map-hint">Tap for a bigger map</span></button>';
+  }
+
+  function openDayMap(dayId) {
+    var layer = document.getElementById("mapLayer");
+    var host = document.getElementById("mapLayerMap");
+    var title = document.getElementById("mapLayerTitle");
+    if (!layer || !host || typeof L === "undefined") return;
+    var day = DAYS.filter(function (d) { return d.id === dayId; })[0];
+    if (title) title.textContent = day ? (day.date + " map") : "Day map";
+    layer.hidden = false;
+    document.body.classList.add("map-open");
+    if (fullMap) {
+      try { fullMap.remove(); } catch (e) {}
+      fullMap = null;
+    }
+    host.innerHTML = "";
+    loadRoutes().then(function () {
+      fullMap = L.map(host, {
+        zoomControl: true,
+        attributionControl: true,
+        dragging: true,
+        scrollWheelZoom: true,
+        touchZoom: true,
+        doubleClickZoom: true
+      });
+      cartoLayer().addTo(fullMap);
+      var keys = placesForDay(dayId, lockedIds());
+      if (!keys.length) keys = ["edition"];
+      var bounds = addPins(fullMap, keys);
+      addLegs(fullMap, legsForDay(dayId, lockedIds()));
+      fitOrCenter(fullMap, bounds);
+      setTimeout(function () { if (fullMap) fullMap.invalidateSize(); }, 80);
+    });
+  }
+
+  function closeMapLayer() {
+    var layer = document.getElementById("mapLayer");
+    if (layer) layer.hidden = true;
+    document.body.classList.remove("map-open");
+    if (fullMap) {
+      try { fullMap.remove(); } catch (e) {}
+      fullMap = null;
+    }
+  }
+
+
   function renderPlanItem(id) {
     var raw = DECK_MAP[id];
     if (!raw) return "";
@@ -883,6 +1740,7 @@
       '<p class="lock">🔒 Locked' + (c.tierLabel ? " · " + esc(c.tierLabel) : "") + change + "</p>" +
       "<h3>" + (c.url ? '<a class="card-title" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.title) + "</a>" : esc(c.title)) + "</h3>" +
       '<p class="price">' + pl.big + "</p>" +
+      durationLine(id) +
       (c.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(c.winter) + "</p>" : "") +
       placeLinks(c) +
       '<button type="button" class="ghost unlock-btn" data-unlock="' + esc(id) + '">Unlock</button>' +
@@ -909,6 +1767,7 @@
     var lastHotel = "";
     DAYS.forEach(function (day) {
       html += '<article class="day-block" id="day-' + day.id + '"><p class="when">' + esc(day.date) + "</p><h2>" + esc(day.title) + "</h2>";
+      html += dayScheduleHtml(day, locked);
       day.slots.forEach(function (slot) {
         var chosen = null;
         if (slot.key === "hotel") chosen = hotelForNight(day.id, locked);
@@ -937,9 +1796,13 @@
       day.items.forEach(function (id) {
         if (locked.indexOf(id) !== -1) html += renderPlanItem(id);
       });
+      html += '<div class="day-meta">' + dayMapHtml(day.id) + "</div>";
       html += "</article>";
     });
+    destroyDayMaps();
     daysEl.innerHTML = html;
+    initDayMaps();
+    initOverviewMap();
 
     renderVideos(locked);
     var ready = document.getElementById("readyList");
@@ -948,8 +1811,12 @@
       else ready.innerHTML = locked.map(function (id) {
         var raw = DECK_MAP[id];
         var c = viewCard(raw);
+        var book = bookingFor(id);
         var link = c.url ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.urlLabel || "Official site") + "</a>" : "<span>No official booking page for this one.</span>";
-        return '<label class="ready-item"><input type="checkbox"> <span><strong>' + esc(c.title) + "</strong><br>" + link + "</span></label>";
+        var due = book ? '<br><em class="deadline">' + esc(book.text) + "</em>" : "";
+        var cls = "ready-item" + (book ? " due-" + book.urgency : "") + (state.booked && state.booked[id] ? " is-done" : "");
+        var chk = (state.booked && state.booked[id]) ? " checked" : "";
+        return '<label class="' + cls + '"><input type="checkbox" data-booked="' + esc(id) + '"' + chk + "> <span><strong>" + esc(c.title) + "</strong><br>" + link + due + "</span></label>";
       }).join("");
     }
   }
@@ -1039,6 +1906,7 @@
       '<p class="pitch-line">' + (v.url ? '<a class="card-title" href="' + esc(v.url) + '" target="_blank" rel="noopener">' + esc(v.pitch) + "</a>" : esc(v.pitch)) + "</p>" +
       tierChipsHtml(c) +
       '<p class="price-line">' + pl.big + "<small>" + esc(pl.sub) + "</small></p>" +
+      durationLine(c.id) +
       (v.desc ? '<p class="pitch-meta">' + esc(v.desc) + "</p>" : "") +
       (v.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(v.winter) + "</p>" : "") +
       (v.credit ? '<p class="credit">' + esc(v.credit) + "</p>" : "") +
@@ -1155,6 +2023,9 @@
     renderPlan();
     renderPick();
     renderUs();
+    renderPacking();
+    renderCountdown();
+    renderWeather();
   }
 
   function afterChange() {
@@ -1441,8 +2312,44 @@
       if (e.target.closest("#closeCosts") || e.target === document.getElementById("costs")) { closeCosts(); return; }
       if (e.target.closest("#clearMate")) { state.mate = null; afterChange(); return; }
       if (e.target.closest("#lockedChip")) { location.hash = "#us"; return; }
+      var barItem = e.target.closest("[data-bar-item]");
+      if (barItem) {
+        var bar = barItem.closest("[data-day-bar]");
+        var was = barItem.classList.contains("is-expanded");
+        if (bar) bar.querySelectorAll(".is-expanded").forEach(function (el) { el.classList.remove("is-expanded"); });
+        var cap = bar && bar.querySelector(".day-bar-caption");
+        if (!was) {
+          barItem.classList.add("is-expanded");
+          if (cap) { cap.hidden = false; cap.textContent = barItem.getAttribute("data-caption") || ""; }
+        } else if (cap) {
+          cap.hidden = true;
+          cap.textContent = "";
+        }
+        return;
+      }
+      if (e.target.closest("#closeMapLayer")) { closeMapLayer(); return; }
+      var dayMapBtn = e.target.closest("[data-open-day-map]");
+      if (dayMapBtn) { openDayMap(dayMapBtn.getAttribute("data-open-day-map")); return; }
+      if (e.target.closest("#overviewActivate") || e.target.closest("#overviewMapWrap:not(.is-active)")) {
+        setOverviewInteractive(true);
+        return;
+      }
     });
     document.body.addEventListener("change", function (e) {
+      var packed = e.target.getAttribute("data-packed");
+      if (packed) {
+        if (!state.packed) state.packed = {};
+        state.packed[packed] = !!e.target.checked;
+        afterChange();
+        return;
+      }
+      var booked = e.target.getAttribute("data-booked");
+      if (booked) {
+        if (!state.booked) state.booked = {};
+        state.booked[booked] = !!e.target.checked;
+        afterChange();
+        return;
+      }
       var field = e.target.getAttribute("data-cost");
       if (!field) return;
       var val = e.target.value;
@@ -1496,6 +2403,9 @@
       consumePendingShare();
     }
     render();
+    loadWeather();
+    renderCountdown();
+    setInterval(renderCountdown, 30000);
   }
 
   window.__icelandSetPlayer = setPlayer;

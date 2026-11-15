@@ -2,6 +2,11 @@
 window.ICELAND_DATA = (function () {
   var PHOTO_URLS = {
     icelandair: "images/places/icelandair.jpg",
+    economy_aisle: "images/flights/economy-aisle.jpg",
+    economy_row: "images/flights/economy-row.jpg",
+    saga_seat: "images/flights/saga-seat.jpg",
+    edition_superior: "images/stays/edition-superior-king.jpg",
+    edition_suite: "images/stays/edition-deluxe-suite.jpg",
     ice_cave: "images/places/ice-cave.jpg",
     nye_fireworks: "images/places/nye-fireworks.jpg",
     horses: "images/places/horses-winter.jpg",
@@ -60,6 +65,11 @@ window.ICELAND_DATA = (function () {
 
   var PHOTO_LABELS = {
     icelandair: "An Icelandair Boeing 737 MAX",
+    economy_aisle: "The Icelandair Economy cabin, looking down the aisle",
+    economy_row: "Icelandair Economy seats, a closer angle under cabin light",
+    saga_seat: "A Saga Premium seat on Icelandair, with the pillow and the little console",
+    edition_superior: "A Superior King room at The Reykjavik EDITION, with a floor to ceiling window",
+    edition_suite: "The living area of a Deluxe Suite at The Reykjavik EDITION, looking toward Harpa at night",
     ice_cave: "Inside a guided ice cave in Iceland",
     nye_fireworks: "Fireworks over Reykjavik on New Year's Eve",
     horses: "An Icelandic horse in winter",

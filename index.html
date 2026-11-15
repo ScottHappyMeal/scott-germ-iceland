@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261114-tiers -->
+  <!-- build: 20261114-bar -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm Versus Iceland</title>
   <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Nothing is locked until you both say yes.">
@@ -18,7 +18,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261114-tiers">
+  <link rel="stylesheet" href="css/styles.css?v=20261114-bar">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
   <div class="sky" aria-hidden="true"></div>
@@ -36,6 +37,10 @@
       </button>
       </div>
     </header>
+    <div class="trip-status" id="tripStatus">
+      <p id="countdown">Counting down to wheels up at 3:40 PM MT, Dec 28.</p>
+      <p id="weather">Checking the Reykjavik sky.</p>
+    </div>
 
     <main class="stage">
       <section class="view" id="view-plan" data-view="plan" hidden>
@@ -49,32 +54,11 @@
           </div>
           <div id="planDays"></div>
           <div class="map-block" id="mapBlock">
-            <h2>The island, roughly.</h2>
-            <p class="sub">Green lines are drives. The purple dash is the optional Reykjavik-to-Hofn hop, about 55 minutes, from the domestic airport, not Keflavik.</p>
-            <div class="map-wrap">
-              <svg class="imap" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized map of Iceland with the trip route">
-            <rect class="sea" x="-200" y="-200" width="1400" height="1000"/>
-            <polygon class="land" points="128.7,436.8 139.1,417.6 173.9,400.0 191.3,382.4 180.9,356.8 187.8,320.0 139.1,292.8 83.5,288.0 51.5,280.0 97.4,260.8 139.1,240.0 173.9,216.0 104.3,192.0 24.3,168.0 62.6,136.0 48.7,112.0 104.3,88.0 118.3,48.0 142.6,14.4 173.9,56.0 222.6,88.0 271.3,64.0 313.0,16.0 410.4,64.0 521.7,56.0 567.0,3.2 612.2,48.0 688.7,48.0 709.6,128.0 754.8,160.0 751.3,232.0 723.5,280.0 681.7,336.0 660.9,376.0 619.1,400.0 591.3,432.0 535.7,456.0 466.1,480.0 410.4,504.0 361.7,499.2 313.0,480.0 243.5,448.0 201.7,432.0 153.0,436.8"/>
-            <path class="route drive" d="M 145.7 410.4 L 156.6 427.2 L 192.0 384.6" fill="none"/>
-            <path class="route drive" d="M 192.0 384.6 L 248.3 367.2 L 306.1 358.4 L 318.6 355.7" fill="none"/>
-            <path class="route drive" d="M 192.0 384.6 L 258.1 418.7 L 299.1 434.7 L 327.7 469.6 L 360.8 482.9 L 396.1 501.0" fill="none"/>
-            <path class="route flight" d="M 192.0 384.6 L 660.2 367.5" fill="none"/>
-            <path class="route drive" d="M 660.2 367.5 L 589.2 395.5 L 592.8 401.0" fill="none"/>
-            <circle class="pin" cx="145.7" cy="410.4" r="5"/><text class="lab" x="138" y="408" text-anchor="end">KEF</text>
-            <circle class="pin" cx="192.0" cy="384.6" r="5"/><text class="lab" x="199" y="372">Reykjavik</text>
-            <circle class="pin" cx="156.6" cy="427.2" r="5"/><text class="lab" x="165" y="444">Blue Lagoon</text>
-            <circle class="pin" cx="248.3" cy="367.2" r="5"/><text class="lab" x="200" y="348">Thingvellir</text>
-            <circle class="pin" cx="306.1" cy="358.4" r="5"/><text class="lab" x="268" y="378">Geysir</text>
-            <circle class="pin" cx="318.6" cy="355.7" r="5"/><text class="lab" x="332" y="346">Gullfoss</text>
-            <circle class="pin" cx="299.1" cy="434.7" r="5"/><text class="lab" x="306.1" y="427.7">Hella</text>
-            <circle class="pin" cx="327.7" cy="469.6" r="5"/><text class="lab" x="320" y="458" text-anchor="end">Seljalandsfoss</text>
-            <circle class="pin" cx="360.8" cy="482.9" r="5"/><text class="lab" x="370" y="476">Skogafoss</text>
-            <circle class="pin" cx="396.1" cy="501.0" r="5"/><text class="lab" x="408" y="494">Vik</text>
-            <circle class="pin" cx="589.2" cy="395.5" r="5"/><text class="lab" x="510" y="385">Jokulsarlon</text>
-            <circle class="pin" cx="592.8" cy="401.0" r="5"/><text class="lab" x="600" y="422">Diamond B.</text>
-            <circle class="pin" cx="660.2" cy="367.5" r="5"/><text class="lab" x="667.2" y="360.5">Hofn</text>
-          </svg>
-              <div class="map-legend"><span><i class="d"></i> Drive</span><span><i class="f"></i> Optional Hofn flight</span></div>
+            <h2>The island, for real this time.</h2>
+            <p class="sub">Pins are the stops. The green line is the drive, pre-baked so this page does not need a live routing API. Tap the map to explore, so a one-finger scroll still scrolls the page.</p>
+            <div class="map-frame" id="overviewMapWrap">
+              <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
+              <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
             </div>
           </div>
           <div class="winter-notes">
@@ -88,7 +72,7 @@
           </div>
           <div class="ready-block" id="readyBlock">
             <h2>Ready to book</h2>
-            <p class="sub">Locked items only, with the official page for each. Check them off as you actually book, on your own phone, in a new tab.</p>
+            <p class="sub">Locked items only, with the official page, a deadline when we have a real one, and a checkbox once you have actually booked, on your own phone, in a new tab.</p>
             <div id="readyList"></div>
           </div>
         </div>
@@ -122,6 +106,7 @@
           </div>
           <p class="toast-slot" id="toast" hidden></p>
           <div id="usBoard"></div>
+          <div class="pack-block" id="packBlock"></div>
         </div>
       </section>
     </main>
@@ -165,7 +150,17 @@
     </div>
   </div>
 
-  <script src="js/data.js?v=20261114-tiers"></script>
-  <script src="js/app.js?v=20261114-tiers"></script>
+  <div class="map-layer" id="mapLayer" hidden>
+    <div class="map-layer-bar">
+      <h2 id="mapLayerTitle">Day map</h2>
+      <button type="button" class="ghost" id="closeMapLayer">Close</button>
+    </div>
+    <div id="mapLayerMap" class="map-layer-map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/data.js?v=20261114-bar"></script>
+  <script src="js/trip.js?v=20261114-bar"></script>
+  <script src="js/app.js?v=20261114-bar"></script>
 </body>
 </html>
