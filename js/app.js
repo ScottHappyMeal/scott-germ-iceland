@@ -18,80 +18,89 @@
   }
 
   var PHOTO_URLS = {
-  "perlan": "https://upload.wikimedia.org/wikipedia/commons/0/07/View_From_Perlan_Viewing_Deck.jpg",
-  "geysir": "https://upload.wikimedia.org/wikipedia/commons/0/06/Strokkur%2C_Iceland.jpg",
-  "baejarins": "https://upload.wikimedia.org/wikipedia/commons/3/3a/B%C3%A6jarins_Beztu_Pylsur.jpg",
-  "laugavegur": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Laugavegur%2C_Reykjavik.jpg/960px-Laugavegur%2C_Reykjavik.jpg",
-  "nye_fireworks": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/NewYearFireworks-Reykjavik.jpg/960px-NewYearFireworks-Reykjavik.jpg",
-  "hallgrimskirkja": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Hallgrimskirkja_Reykjavik.jpg/960px-Hallgrimskirkja_Reykjavik.jpg",
-  "old_harbour": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Reykjav%C3%ADk_Old_Harbor.jpg/960px-Reykjav%C3%ADk_Old_Harbor.jpg",
-  "gullfoss": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_119.JPG/960px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_119.JPG",
-  "silfra": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Ca%C3%B1%C3%B3n_Silfra%2C_Parque_Nacional_de_%C3%9Eingvellir%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_055.JPG/960px-Ca%C3%B1%C3%B3n_Silfra%2C_Parque_Nacional_de_%C3%9Eingvellir%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_055.JPG",
-  "reynisfjara": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Reynisfjara%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-17%2C_DD_164.JPG/960px-Reynisfjara%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-17%2C_DD_164.JPG",
-  "aurora_hofn": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Enjoining_The_Northern_Lights_Hofn_Iceland_Travel_Photography_%28247807533%29.jpeg/960px-Enjoining_The_Northern_Lights_Hofn_Iceland_Travel_Photography_%28247807533%29.jpeg",
-  "diamond_beach": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Diamond_beach_iceland_.jpg/960px-Diamond_beach_iceland_.jpg",
-  "skogafoss": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Sk%C3%B3gafoss_from_below.jpg/960px-Sk%C3%B3gafoss_from_below.jpg",
-  "hero_aurora": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Flames_in_the_sky.jpg/960px-Flames_in_the_sky.jpg",
-  "bonfire": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/New_Years_Eve_bonfire.jpg/960px-New_Years_Eve_bonfire.jpg",
-  "thingvellir": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/%C3%9Eingvellir_National_Park.jpg/960px-%C3%9Eingvellir_National_Park.jpg",
-  "grotta": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Lighthouse_on_Gr%C3%B3tta_Island.jpg/960px-Lighthouse_on_Gr%C3%B3tta_Island.jpg",
-  "blue_lagoon": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Blue_Lagoon_with_%C3%9Eorbj%C3%B6rn%2C_Iceland%2C_20230430_1626_3692.jpg/960px-Blue_Lagoon_with_%C3%9Eorbj%C3%B6rn%2C_Iceland%2C_20230430_1626_3692.jpg",
-  "jokulsarlon": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/033_Freshly_rotated_iceberg_at_J%C3%B6kuls%C3%A1rl%C3%B3n_%28Iceland%29_Photo_by_Giles_Laurent.jpg/960px-033_Freshly_rotated_iceberg_at_J%C3%B6kuls%C3%A1rl%C3%B3n_%28Iceland%29_Photo_by_Giles_Laurent.jpg",
-  "horses": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Islandais_hiver.jpg/960px-Islandais_hiver.jpg",
-  "seljalandsfoss": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Seljalandsfoss_Waterfall%2C_Iceland%2C_20240720_1500_3096.jpg/960px-Seljalandsfoss_Waterfall%2C_Iceland%2C_20240720_1500_3096.jpg",
-  "icelandair": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Icelandair_Boeing_737-8_MAX_TF-ICS_ZRH_2025_01.jpg/960px-Icelandair_Boeing_737-8_MAX_TF-ICS_ZRH_2025_01.jpg",
-  "ice_cave": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Ice_Cave_Explorer_-_Iceland.jpg/960px-Ice_Cave_Explorer_-_Iceland.jpg",
-  "fridheimar": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Fridheimar_Tomatoes.jpg/960px-Fridheimar_Tomatoes.jpg",
-  "harpa": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Harpa_%28concert_hall%29.jpg/960px-Harpa_%28concert_hall%29.jpg",
-  "wool": "https://upload.wikimedia.org/wikipedia/commons/6/69/Lopapeysa.jpg",
-  "myvatn": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Myvatn_Nature_Baths_by_Bruce_McAdam.jpg/960px-Myvatn_Nature_Baths_by_Bruce_McAdam.jpg",
-  "glass_cabin": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Kakslauttanen_Igloo_village.jpg/960px-Kakslauttanen_Igloo_village.jpg",
-  "tjornin": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/The_afternoon_sun_%2812391320454%29.jpg/960px-The_afternoon_sun_%2812391320454%29.jpg",
-  "fontana": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Fontana_spa.jpg/960px-Fontana_spa.jpg",
-  "krossnes": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Krossnes_swimming_pool.jpg/960px-Krossnes_swimming_pool.jpg",
-  "downtown": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Austurv%C3%B6llur_2023.jpg/960px-Austurv%C3%B6llur_2023.jpg",
-  "icelandic_food": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Plokkfiskur.jpg/960px-Plokkfiskur.jpg",
-    "edition_ext": "images/stays/edition-ext.jpg",
-    "edition_room": "images/stays/edition-room.jpg",
-    "edition_int": "images/stays/edition-int.jpg",
-    "retreat_hero": "images/stays/retreat-hero.jpg",
-    "retreat_lagoon": "images/stays/retreat-lagoon.jpg"
+    icelandair: "images/places/icelandair.jpg",
+    ice_cave: "images/places/ice-cave.jpg",
+    nye_fireworks: "images/places/nye-fireworks.jpg",
+    horses: "images/places/horses-winter.jpg",
+    ishestar: "images/places/ishestar.jpg",
+    seljalandsfoss: "images/places/seljalandsfoss.jpg",
+    harpa: "images/places/harpa.jpg",
+    grotta: "images/places/grotta.jpg",
+    baejarins: "images/places/baejarins.jpg",
+    fridheimar: "images/places/fridheimar.jpg",
+    laugavegur: "images/places/laugavegur.jpg",
+    fontana: "images/places/fontana.jpg",
+    gullfoss: "images/places/gullfoss.jpg",
+    skogafoss: "images/places/skogafoss.jpg",
+    silfra: "images/places/silfra.jpg",
+    blue_lagoon: "images/places/blue-lagoon.jpg",
+    aurora_hofn: "images/places/aurora-hofn.jpg",
+    aurora_self: "images/places/aurora-self.jpg",
+    bonfire: "images/places/bonfire.jpg",
+    jokulsarlon: "images/places/jokulsarlon.jpg",
+    sky_lagoon: "images/places/sky-lagoon.jpg",
+    kolaportid: "images/places/kolaportid.jpg",
+    katla: "images/places/katla-ice-cave.jpg",
+    nye_hallgrimskirkja: "images/places/nye-hallgrimskirkja.jpg",
+    ruv: "images/places/ruv-headquarters.jpg",
+    dill: "images/places/dill.jpg",
+    hvammsvik: "images/places/hvammsvik.jpg",
+    edition_entrance: "images/places/edition-entrance.jpg",
+    tides: "images/places/tides.jpg",
+    nye_dinner: "images/places/edition-rooftop.jpg",
+    edition_spa: "images/places/edition-spa.jpg",
+    grillmarkadurinn: "images/places/grillmarkadurinn.jpg",
+    moss: "images/places/moss.jpg",
+    retreat_massage: "images/places/retreat-massage.jpg",
+    wool: "images/places/sixtysix-north.jpg",
+    edition_ext: "images/stays/edition-ext.jpg",
+    edition_room: "images/stays/edition-room.jpg",
+    edition_int: "images/stays/edition-int.jpg",
+    retreat_hero: "images/stays/retreat-hero.jpg",
+    retreat_lagoon: "images/stays/retreat-lagoon.jpg"
   };
   var PHOTO_LABELS = {
-  "hero_aurora": "Northern lights over snow in Iceland",
-  "aurora_hofn": "Northern lights near Hofn",
-  "ice_cave": "A guided ice cave in Iceland",
-  "jokulsarlon": "Jokulsarlon glacier lagoon",
-  "diamond_beach": "Diamond Beach",
-  "blue_lagoon": "The Blue Lagoon",
-  "harpa": "Harpa Concert Hall, next to The Reykjavik EDITION",
-  "old_harbour": "Reykjavik Old Harbour",
-  "laugavegur": "Laugavegur, Reykjavik",
-  "hallgrimskirkja": "Hallgrimskirkja",
-  "grotta": "Grotta lighthouse",
-  "gullfoss": "Gullfoss",
-  "geysir": "Strokkur at Geysir",
-  "skogafoss": "Skogafoss",
-  "seljalandsfoss": "Seljalandsfoss",
-  "icelandair": "An Icelandair Boeing 737 MAX",
-  "thingvellir": "Thingvellir National Park",
-  "silfra": "Silfra at Thingvellir",
-  "horses": "An Icelandic horse in winter",
-  "reynisfjara": "Reynisfjara black beach",
-  "perlan": "View from Perlan",
-  "nye_fireworks": "Fireworks over Reykjavik on New Year's Eve",
-  "bonfire": "A New Year's Eve bonfire in Iceland",
-  "baejarins": "Baejarins Beztu hot-dog stand",
-  "fridheimar": "Tomatoes at Fridheimar",
-  "wool": "A traditional Icelandic lopapeysa",
-  "downtown": "Austurvollur, downtown Reykjavik",
-  "fontana": "Laugarvatn Fontana",
-  "glass_cabin": "Glass igloos (representative photo, Finland)",
-  "myvatn": "A geothermal lagoon (M\u00fdvatn Nature Baths, stand-in)",
-  "krossnes": "A seaside geothermal pool (Krossneslaug, stand-in)",
-  "tjornin": "Tjornin, downtown Reykjavik",
-  "icelandic_food": "Plokkfiskur, an Icelandic fish stew"
-};
+    icelandair: "An Icelandair Boeing 737 MAX",
+    ice_cave: "Inside a guided ice cave in Iceland",
+    nye_fireworks: "Fireworks over Reykjavik on New Year's Eve",
+    horses: "An Icelandic horse in winter",
+    ishestar: "Riders on an Ishestar tour through Icelandic countryside",
+    seljalandsfoss: "Seljalandsfoss waterfall",
+    harpa: "Harpa Concert Hall, next to The Reykjavik EDITION",
+    grotta: "Grotta lighthouse",
+    baejarins: "Baejarins Beztu hot-dog stand",
+    fridheimar: "Tomatoes at Fridheimar",
+    laugavegur: "Laugavegur, Reykjavik",
+    fontana: "Laugarvatn Fontana geothermal baths",
+    gullfoss: "Gullfoss",
+    skogafoss: "Skogafoss",
+    silfra: "Silfra at Thingvellir",
+    blue_lagoon: "The Blue Lagoon",
+    aurora_hofn: "Northern lights near Hofn",
+    aurora_self: "Northern lights over snow in Iceland",
+    bonfire: "A New Year's Eve bonfire in Iceland",
+    jokulsarlon: "An iceberg at Jokulsarlon glacier lagoon",
+    sky_lagoon: "The cold plunge and lagoon at Sky Lagoon in Kopavogur",
+    kolaportid: "Inside Kolaportid flea market in Reykjavik",
+    katla: "An ice cave in Myrdalsjokull, the glacier over Katla",
+    nye_hallgrimskirkja: "New Year's Eve fireworks at Hallgrimskirkja",
+    ruv: "RUV headquarters in Reykjavik, where Aramotaskaup airs",
+    dill: "A course served at Dill in Reykjavik",
+    hvammsvik: "The beach pools at Hvammsvik Hot Springs on Hvalfjordur",
+    edition_entrance: "The entrance courtyard at The Reykjavik EDITION",
+    tides: "The dining room at Tides, The Reykjavik EDITION",
+    nye_dinner: "The rooftop at The Reykjavik EDITION, looking toward Harpa and the harbor",
+    edition_spa: "A treatment room at The Reykjavik EDITION Spa",
+    grillmarkadurinn: "The dining room at Grillmarkadurinn in Reykjavik",
+    moss: "A course at Moss Restaurant at The Retreat",
+    retreat_massage: "An in-water massage at The Retreat at Blue Lagoon",
+    wool: "A 66 North jacket in Iceland",
+    edition_ext: "The Reykjavik EDITION exterior at dusk",
+    edition_room: "An EDITION room with a harbor view",
+    edition_int: "The bar at Tides, The Reykjavik EDITION",
+    retreat_hero: "The Retreat at Blue Lagoon",
+    retreat_lagoon: "The Retreat lagoon at Blue Lagoon"
+  };
 
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, function (ch) {
@@ -250,7 +259,7 @@
       winter: "Paths can be icy. Wear shoes with grip, and keep the first morning easy.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Harpa Concert Hall Reykjavik" },
-    { id: "horses", cat: "daytime", title: "Icelandic horse ride at Ishestar", photo: "horses", day: "Jan 1",
+    { id: "horses", cat: "daytime", title: "Icelandic horse ride at Ishestar", photo: "ishestar", day: "Jan 1",
       desc: "Horses and Waffles is a relaxed 50-minute ride through lava fields at Ishestar in Hafnarfjordur, about 15 to 20 minutes from Reykjavik. Afterward you get a waffle and a hot drink in their cozy horse center. Ideal for beginners.",
       winter: "They run this all year. Horses wear studded winter shoes, and Ishestar gives you warm overalls and rain gear. Max 12 riders.",
       priceEach: HORSE_EACH, free: false, est: false, rec: true, defYes: true,
@@ -261,24 +270,22 @@
       winter: "The causeway can flood or ice over at high tide. Check the tide and wear spikes or careful boots. Do not climb the rocks in a storm.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Grotta lighthouse Reykjavik" },
-    { id: "tides", cat: "food", title: "Dinner at Tides, The EDITION", photo: "icelandic_food_alias", day: "Dec 29 or Jan 1",
+    { id: "tides", cat: "food", title: "Dinner at Tides, The EDITION", photo: "tides", day: "Dec 29 or Jan 1",
       desc: "The hotel's restaurant, Tides, is the easy first or last nice dinner: seafood and Nordic plates without leaving the harbor. A calm contrast to the bigger Michelin rooms.",
       winter: "Book ahead for New Year's week. Holiday menus can run higher than the usual a-la-carte.",
       priceEach: 120, free: false, est: true, rec: false, defYes: false,
-      maps: "Tides restaurant The Reykjavik EDITION",
-      photoKey: "icelandic_food", photoStandin: "Icelandic plokkfiskur, a classic fish stew, used here as a mood photo. It is not a dish from Tides." },
-    { id: "dill", cat: "food", title: "Dill (Michelin-star Nordic)", photo: "icelandic_food_alias", day: "Flexible",
+      maps: "Tides restaurant The Reykjavik EDITION" },
+    { id: "dill", cat: "food", title: "Dill (Michelin-star Nordic)", photo: "dill", day: "Flexible",
       desc: "Reykjavik's celebrated New Nordic room. A tasting-menu night if you want one serious dinner in town, built on local ingredients and a quiet, precise room.",
       winter: "Holiday week books up. Confirm the current menu and cancellation window before you pay a deposit.",
       priceEach: 250, free: false, est: true, rec: false, defYes: false,
-      maps: "Dill restaurant Reykjavik",
-      photoKey: "icelandic_food", photoStandin: "A plate of Icelandic plokkfiskur, used as a food mood photo, not a plate from Dill." },
-    { id: "moss", cat: "food", title: "Moss at The Retreat (Michelin star)", photo: "blue_lagoon", day: "Only with a Retreat stay",
+      maps: "Dill restaurant Reykjavik" },
+    { id: "moss", cat: "food", title: "Moss at The Retreat (Michelin star)", photo: "moss", day: "Only with a Retreat stay",
       desc: "The Michelin-starred restaurant at The Retreat at Blue Lagoon. This only makes sense if you add a Retreat night, since dinner is not in the room rate.",
       winter: "Book the table with the room. A 2-night minimum may apply to the hotel.",
       priceEach: 280, free: false, est: true, rec: false, defYes: false,
       maps: "Moss Restaurant Blue Lagoon" },
-    { id: "grillmarkadurinn", cat: "food", title: "Grillmarkadurinn", photo: "downtown", day: "Flexible",
+    { id: "grillmarkadurinn", cat: "food", title: "Grillmarkadurinn", photo: "grillmarkadurinn", day: "Flexible",
       desc: "The Grill Market is a lively, reliable Reykjavik dinner: grilled lamb, fish, and a slightly more casual room than the tasting-menu spots.",
       winter: "Still worth booking for NYE week. Est. dinner price, not a live quote.",
       priceEach: 100, free: false, est: true, rec: false, defYes: false,
@@ -293,19 +300,18 @@
       winter: "The greenhouse is warm, which feels wonderful in January. Book a table. Horse shows at the farm are separate if they are running.",
       priceEach: 35, free: false, est: true, rec: false, defYes: false,
       maps: "Fridheimar tomato farm" },
-    { id: "sky_lagoon", cat: "spas", title: "Sky Lagoon, Saman pass with the 7-step ritual", photo: "myvatn", day: "Dec 29 evening or Jan 1",
+    { id: "sky_lagoon", cat: "spas", title: "Sky Lagoon, Saman pass with the 7-step ritual", photo: "sky_lagoon", day: "Dec 29 evening or Jan 1",
       desc: "An oceanside lagoon in Kopavogur, about 15 minutes from the EDITION. The Saman pass includes the lagoon, a towel, and the Skjol ritual: a sauna with a sea window, a cold plunge, a steam, a body scrub, and a warm drink. A strong in-city spa night.",
       winter: "Winter hours are shorter (often 11 AM to 10 PM on weekdays). Book a late-afternoon slot so you watch dusk from the water. Minimum age 12.",
       priceEach: SKY_EACH, free: false, est: false, rec: true, defYes: true,
       maps: "Sky Lagoon Kopavogur",
-      priceNote: "From 14,990 ISK per person for Saman. Time slots can cost more. Ser (private changing room) starts at 17,990 ISK.",
-      photoStandin: "This photo is Mývatn Nature Baths in North Iceland, used as a stand-in for a geothermal lagoon. It is not Sky Lagoon, which sits on the Atlantic in Kopavogur." },
+      priceNote: "From 14,990 ISK per person for Saman. Time slots can cost more. Ser (private changing room) starts at 17,990 ISK.", },
     { id: "blue_lagoon", cat: "spas", title: "Blue Lagoon, departure-day soak", photo: "blue_lagoon", day: "Jan 3 late morning",
       desc: "The milky, steamy lagoon is 20 minutes from the airport, which is why it works so well on the way home. The default in this plan is the Lagoon and Lava package: Premium entry (robe, a drink of your choice, extra masks) plus a two-course lunch at Lava. You can switch tiers in the cost sliders.",
       winter: "Water stays about 98 to 104 F year-round. Put conditioner in and keep hair dry. Book a late-morning slot; the flight is 4:55 PM. Check eruption status the day before.",
       priceEach: 186, free: false, est: false, rec: true, defYes: true, sync: "blue_lagoon",
       maps: "Blue Lagoon Iceland" },
-    { id: "retreat_massage", cat: "spas", title: "Retreat Spa in-water massage", photo: "blue_lagoon", day: "Only with a Retreat booking",
+    { id: "retreat_massage", cat: "spas", title: "Retreat Spa in-water massage", photo: "retreat_massage", day: "Only with a Retreat booking",
       desc: "An hour-long massage in the warm lagoon water at The Retreat Spa. It is not in the room rate, and they typically book it only if you are staying or have a spa reservation.",
       winter: "A 2-night minimum may apply to Retreat rooms over the holidays.",
       priceEach: RETREAT_MASSAGE_EACH, free: false, est: false, rec: false, defYes: false,
@@ -317,14 +323,13 @@
       priceEach: FONTANA_EACH, free: false, est: false, rec: false, defYes: false,
       maps: "Laugarvatn Fontana",
       priceNote: "Adult bath ticket 7,490 ISK, from Fontana's 2026 price list." },
-    { id: "hvammsvik", cat: "spas", title: "Hvammsvik Hot Springs", photo: "krossnes", day: "A rest morning near Reykjavik",
+    { id: "hvammsvik", cat: "spas", title: "Hvammsvik Hot Springs", photo: "hvammsvik", day: "A rest morning near Reykjavik",
       desc: "Eight seaside pools on Hvalfjordur, about a 45-minute drive north of Reykjavik. Quieter and more natural-feeling than the city lagoons, with a sauna, a cold plunge, and a swim-up bar. Classic is the middle tier, with private showers and lockers.",
       winter: "Winter hours often run 10:30 AM to 8:30 PM, last entry 7 PM. Book a timed slot. Age 10 and up.",
       priceEach: HVAMMSVIK_EACH, free: false, est: true, rec: false, defYes: false,
       maps: "Hvammsvik Hot Springs",
-      priceNote: "Classic is 7,900 to 11,900 ISK depending on the time slot. This plan uses a mid estimate of about $80 per person.",
-      photoStandin: "This photo is Krossneslaug, a seaside geothermal pool in the Westfjords, used as a stand-in. It is not Hvammsvik, whose eight pools sit on Hvalfjordur, about 45 minutes from Reykjavik." },
-    { id: "edition_spa", cat: "spas", title: "EDITION Spa signature massage", photo: "edition_int", day: "A quiet afternoon in town",
+      priceNote: "Classic is 7,900 to 11,900 ISK depending on the time slot. This plan uses a mid estimate of about $80 per person.", },
+    { id: "edition_spa", cat: "spas", title: "EDITION Spa signature massage", photo: "edition_spa", day: "A quiet afternoon in town",
       desc: "The hotel has a full spa (sauna, steam, hammam, hot tub), not an in-room treatment we could verify. The 60-minute signature massage uses Swedish techniques and the hotel's Black Tea oil. Hotel guests pay 4,350 ISK (about $35) a day for spa access if they are not booking a treatment.",
       winter: "Book ahead for holiday week. Ages 18 and up for the spa.",
       priceEach: EDITION_SPA_EACH, free: false, est: false, rec: false, defYes: false,
@@ -339,9 +344,8 @@
       desc: "66 North is the modern Icelandic outerwear house (good for a serious shell or a knit). Rammagerdin is the classic design-and-wool shop for a lopapeysa or a small gift. Walk in freely; this card does not add a shopping budget.",
       winter: "Useful if you discover a gap in your cold-weather kit. Try pieces on over a midlayer.",
       priceEach: 0, free: true, est: false, rec: false, defYes: false,
-      maps: "66 North Laugavegur Reykjavik",
-      photoStandin: "A traditional Icelandic lopapeysa, not a 66 North store display." },
-    { id: "kolaportid", cat: "shopping", title: "Kolaportid flea market", photo: "downtown", day: "Sat Jan 2",
+      maps: "66 North Laugavegur Reykjavik", },
+    { id: "kolaportid", cat: "shopping", title: "Kolaportid flea market", photo: "kolaportid", day: "Sat Jan 2",
       desc: "Reykjavik's weekend flea market by the harbor: vintage wool, vinyl, candy, and fermented shark if you are brave. Entry is free. It usually runs Saturday and Sunday, so Saturday Jan 2 is your realistic window before the flight.",
       winter: "Confirm holiday hours. It may be closed or shortened around New Year's. Sunday Jan 3 is tight with the lagoon and a 4:55 PM flight.",
       priceEach: 0, free: true, est: false, rec: false, defYes: false,
@@ -356,13 +360,13 @@
       winter: "Reynisfjara has sneaker waves. Stay well up the beach. Parking lots and spray can be icy. Same note as the Golden Circle: turn this off if you are self-driving with the car slider.",
       priceEach: 140, free: false, est: true, rec: false, defYes: false,
       maps: "Skogafoss Iceland" },
-    { id: "jokulsarlon", cat: "sidetrips", title: "Jokulsarlon overnight: ice cave, Diamond Beach, aurora", photo: "ice_cave", day: "Dec 30 to Dec 31 morning",
+    { id: "jokulsarlon", cat: "sidetrips", title: "Jokulsarlon overnight: ice cave, Diamond Beach, aurora", photo: "jokulsarlon", day: "Dec 30 to Dec 31 morning",
       desc: "The signature winter add-on. Fly from Reykjavik domestic (not Keflavik) to Hofn in about 55 minutes, drive an hour, walk into a blue ice cave, watch ice on black sand around the late 11 AM sunrise, look for seals at the lagoon mouth, and hope for lights over the icebergs that night. Fly back on the 31st for New Year's Eve in town.",
       winter: "Domestic winter cancellations are common, so this is a tighter plan than going Dec 29 to 30. Book a morning cave with free cancellation. Boat tours are done for the season. This card adds the Hofn flights, a standard ice-cave tour, and one Hofn-area hotel night (and trims an EDITION night).",
       priceEach: 0, free: false, est: false, rec: true, defYes: false, sync: "jokulsarlon",
       maps: "Jokulsarlon glacier lagoon",
       dynamic: "jokulsarlon" },
-    { id: "katla", cat: "sidetrips", title: "Katla ice cave", photo: "ice_cave", day: "Jan 2, if you skip the overnight",
+    { id: "katla", cat: "sidetrips", title: "Katla ice cave", photo: "katla", day: "Jan 2, if you skip the overnight",
       desc: "A year-round ice cave under Myrdalsjokull, near Vik, with ash-striped black ice. A strong backup if you do not fly to Hofn, since it sits on the South Coast day.",
       winter: "Still a guided trip with helmets and a super jeep. Weather can close the road.",
       priceEach: KATLA_EACH, free: false, est: false, rec: false, defYes: false,
@@ -378,17 +382,17 @@
       winter: "Dress for standing still in the wind. The city publishes bonfire sites each year; pick one you can walk or taxi to from the EDITION.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Reykjavik New Year bonfire" },
-    { id: "nye_fireworks", cat: "nye", title: "Midnight fireworks from a viewpoint", photo: "nye_fireworks", day: "Dec 31",
+    { id: "nye_fireworks", cat: "nye", title: "Midnight fireworks from a viewpoint", photo: "nye_hallgrimskirkja", day: "Dec 31",
       desc: "At midnight the whole city sets off fireworks. Hallgrimskirkja's steps and the area around Perlan are classic viewpoints. The EDITION's harbor side is also close to the action if you want to stay nearby.",
       winter: "It is a late, cold, crowded hour. Perlan's paid deck may be ticketed or closed; the public hillside and the church grounds are the simple plan.",
       priceEach: 0, free: true, est: false, rec: true, defYes: true,
       maps: "Hallgrimskirkja Reykjavik" },
-    { id: "nye_dinner", cat: "nye", title: "New Year's Eve dinner in Reykjavik", photo: "downtown", day: "Dec 31",
+    { id: "nye_dinner", cat: "nye", title: "New Year's Eve dinner in Reykjavik", photo: "nye_dinner", day: "Dec 31",
       desc: "A sit-down dinner before the bonfires and fireworks. Many kitchens run a set holiday menu. Tides at the hotel is the lowest-friction option; Dill or Grillmarkadurinn if you want to go out (those cards are priced separately, so leave this one off if you pick a specific restaurant).",
       winter: "Book now. Holiday menus are prix fixe and fill up.",
       priceEach: 180, free: false, est: true, rec: false, defYes: false,
       maps: "Reykjavik city center restaurants" },
-    { id: "aramotaskaup", cat: "nye", title: "Aramotaskaup, the New Year's TV comedy", photo: "downtown", day: "Dec 31",
+    { id: "aramotaskaup", cat: "nye", title: "Aramotaskaup, the New Year's TV comedy", photo: "ruv", day: "Dec 31",
       desc: "Iceland's annual satirical New Year's Eve TV revue. Locals watch it before midnight, then head out for the fireworks. You can stream or catch it in a bar or at the hotel if it is on. A small, very Icelandic tradition.",
       winter: "It usually airs in the evening on Dec 31. English is not guaranteed; the room's reaction is half the fun.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
@@ -398,7 +402,7 @@
       winter: "Late December is the darkest window of the year. Clouds are the real limit. Watch vedur.is for the cloud map, not just the KP number.",
       priceEach: 95, free: false, est: false, rec: true, defYes: false, sync: "nl_tour",
       maps: "Reykjavik northern lights tour" },
-    { id: "nl_self", cat: "lights", title: "Self-guided aurora watch", photo: "hero_aurora", day: "Any clear night",
+    { id: "nl_self", cat: "lights", title: "Self-guided aurora watch", photo: "aurora_self", day: "Any clear night",
       desc: "If the forecast looks good, you do not need a tour. Grotta is ten minutes away. Thingvellir is darker. Jokulsarlon, if you take the overnight, is one of the best backdrops in the country. The My Aurora Forecast app is handy for alerts.",
       winter: "You need a dark, clear sky and activity around KP 2 or higher. Give it more than one night.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
@@ -433,11 +437,18 @@
 
   state = clone(DEFAULTS);
   state.picks = clone(defaultPicks);
+  state.passed = {};
+  state.player = "";
+  state.mate = null;
   if (!state.carId) state.carId = "none";
 
   function load() {
     state = clone(DEFAULTS);
     state.picks = clone(defaultPicks);
+    state.passed = {};
+    state.player = "";
+    state.mate = null;
+    if (!state.carId) state.carId = "none";
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
@@ -449,6 +460,21 @@
         if (saved.picks) {
           CATALOG.forEach(function (c) {
             if (saved.picks[c.id] !== undefined) state.picks[c.id] = saved.picks[c.id];
+          });
+        }
+        if (saved.passed && typeof saved.passed === "object") {
+          CATALOG.forEach(function (c) {
+            if (saved.passed[c.id]) state.passed[c.id] = true;
+          });
+        }
+        if (saved.player === "scott" || saved.player === "jerm" || saved.player === "both") {
+          state.player = saved.player;
+        }
+        if (saved.mate && (saved.mate.player === "scott" || saved.mate.player === "jerm")) {
+          state.mate = { player: saved.mate.player, picks: {}, passed: {} };
+          CATALOG.forEach(function (c) {
+            state.mate.picks[c.id] = !!(saved.mate.picks && saved.mate.picks[c.id]);
+            state.mate.passed[c.id] = !!(saved.mate.passed && saved.mate.passed[c.id]);
           });
         }
       }
@@ -668,47 +694,444 @@
   }
 
   function priceLabel(c) {
-    if (c.free) return { big: "Free", sub: "" };
+    if (c.free) return { big: "Free for two", sub: "The best kind of line item." };
     var tot = itemPrice(c);
     var each = itemPriceEach(c);
     var est = c.est ? "est. " : "";
-    if (c.sync === "jokulsarlon") return { big: money(tot), sub: est + "for two, overnight bundle" };
-    return { big: est + money(each) + " pp", sub: money(tot) + " for two" };
+    if (c.sync === "jokulsarlon") return { big: est + money(tot) + " for two", sub: "overnight bundle" };
+    return { big: est + money(tot) + " for two", sub: money(each) + " each" };
   }
 
-  function renderSliders() {
-    var root = document.getElementById("cats");
+  var PITCHES = {
+    harpa_walk: "Wanna walk the harbor until the overnight flight loosens its grip?",
+    horses: "Wanna ride Icelandic horses through lava fields?",
+    grotta: "How about a lighthouse walk, ten minutes away, just in case the sky performs?",
+    tides: "Dinner downstairs at Tides, so you never have to find your coat?",
+    dill: "A Michelin-starred Nordic tasting menu, if one serious dinner is the move?",
+    moss: "Moss at The Retreat, but only if you are already sleeping in the lava field?",
+    grillmarkadurinn: "Grillmarkadurinn: grilled lamb, a lively room, and zero packing-list debates?",
+    baejarins: "A hot dog in the cold, eaten standing up, like a local with better priorities?",
+    fridheimar: "Tomato soup in a greenhouse, because January 1 cafes may still be asleep?",
+    sky_lagoon: "How about this? Sky Lagoon at dusk, 15 minutes from the hotel, sea-window sauna included.",
+    blue_lagoon: "Blue Lagoon on the way to the airport, silica in your hair and a 4:55 PM flight?",
+    retreat_massage: "An in-water massage at The Retreat, if you book the room first?",
+    fontana: "Lakeside steam at Fontana, plus a rye bread they baked in the ground?",
+    hvammsvik: "Eight seaside pools on Hvalfjordur, 45 minutes north, quieter than the city lagoons?",
+    edition_spa: "A signature massage in the hotel spa, so the weather can rant without you?",
+    shopping_downtown: "A slow wander through Hafnartorg and Laugavegur, even if you buy absolutely nothing?",
+    wool_shops: "A 66 North shell, or a lopapeysa from Rammagerdin, before the wind files a complaint?",
+    kolaportid: "Kolaportid on Saturday, for vintage wool, candy, and courage?",
+    golden_circle: "Thingvellir, Geysir, and Gullfoss, if January 1 still has any gas in the tank?",
+    south_coast: "Seljalandsfoss, Skogafoss, and a black beach, if the roads agree?",
+    jokulsarlon: "An overnight by the ice: a cave, Diamond Beach, and a shot at the lights?",
+    katla: "A Katla ice cave on January 2, if the glacier overnight does not happen?",
+    silfra: "Snorkel Silfra, in water so clear it will make your calendar feel unprepared?",
+    nye_bonfire: "A neighborhood bonfire on New Year's Eve, the official warm-up act?",
+    nye_fireworks: "Midnight fireworks from Hallgrimskirkja, Perlan, or the hotel's harbor door?",
+    nye_dinner: "A New Year's Eve dinner in town, before the comedy hour and the explosions?",
+    aramotaskaup: "Aramotaskaup on TV, the annual roasting of the entire country, then out into the cold?",
+    nl_guided: "A guided lights tour early in the week, with a retry if the clouds win?",
+    nl_self: "Or hunt the aurora yourselves, with Grotta ten minutes away and a cloud map on vedur.is?"
+  };
+
+  var SHORT_NAMES = {
+    harpa_walk: "the harbor walk",
+    horses: "the horses",
+    grotta: "Grotta after dark",
+    tides: "dinner at Tides",
+    dill: "Dill",
+    moss: "Moss",
+    grillmarkadurinn: "Grillmarkadurinn",
+    baejarins: "a hot dog",
+    fridheimar: "the tomato greenhouse",
+    sky_lagoon: "Sky Lagoon",
+    blue_lagoon: "Blue Lagoon",
+    retreat_massage: "the in-water massage",
+    fontana: "Fontana",
+    hvammsvik: "Hvammsvik",
+    edition_spa: "the hotel spa",
+    shopping_downtown: "downtown browsing",
+    wool_shops: "a 66 North run",
+    kolaportid: "Kolaportid",
+    golden_circle: "the Golden Circle",
+    south_coast: "the South Coast",
+    jokulsarlon: "the glacier overnight",
+    katla: "a Katla ice cave",
+    silfra: "Silfra",
+    nye_bonfire: "the bonfire",
+    nye_fireworks: "midnight fireworks",
+    nye_dinner: "NYE dinner",
+    aramotaskaup: "Aramotaskaup",
+    nl_guided: "a guided lights tour",
+    nl_self: "a self-guided aurora hunt"
+  };
+
+  var pendingShare = null;
+  var cartOpen = false;
+  var lastShownTotal = null;
+
+  function playerName(id) {
+    if (id === "jerm") return "Jerm";
+    if (id === "scott") return "Scott";
+    if (id === "both") return "both of you";
+    return "";
+  }
+  function otherId(id) {
+    if (id === "scott") return "jerm";
+    if (id === "jerm") return "scott";
+    return "";
+  }
+  function pitchKind(id) {
+    if (state.picks[id]) return "in";
+    if (state.passed && state.passed[id]) return "passed";
+    return "open";
+  }
+  function inCount() {
+    return CATALOG.filter(function (c) { return state.picks[c.id]; }).length;
+  }
+  function shareButtonLabel() {
+    if (state.player === "jerm") return "Send my picks to Scott";
+    if (state.player === "scott") return "Send my picks to Jerm";
+    if (state.player === "both") return "Share our picks";
+    return "Share my picks";
+  }
+  function shareText() {
+    if (state.player === "jerm") return "My Iceland picks, from Jerm. Open this, Scott, and we'll see if we agree.";
+    if (state.player === "scott") return "My Iceland picks, from Scott. Open this, Jerm, and we'll see if we agree.";
+    return "Our Iceland picks, from Scott and Jerm Versus Iceland.";
+  }
+  function showToast(msg) {
+    var t = document.getElementById("toast");
+    if (!t) return;
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(showToast.tid);
+    showToast.tid = setTimeout(function () { t.hidden = true; }, 2600);
+  }
+  function pickIn(id) {
+    if (state.passed) state.passed[id] = false;
+    setPick(id, true);
+  }
+  function pickPass(id) {
+    state.passed = state.passed || {};
+    state.passed[id] = true;
+    setPick(id, false);
+  }
+  function undoPass(id) {
+    if (state.passed) state.passed[id] = false;
+    afterChange();
+  }
+
+  function computeWithPicks(picksMap) {
+    var snap = clone(state);
+    state.picks = clone(picksMap);
+    syncFromPicks(false);
+    var t = compute();
+    state = snap;
+    return t;
+  }
+  function picksMapFrom(src) {
+    var map = {};
+    CATALOG.forEach(function (c) { map[c.id] = !!(src && src[c.id]); });
+    return map;
+  }
+
+  function mateStatus(id) {
+    if (!state.mate || state.player === "both") return null;
+    if (state.mate.picks && state.mate.picks[id]) return "in";
+    if (state.mate.passed && state.mate.passed[id]) return "pass";
+    return null;
+  }
+  function mateBadge(id) {
+    var st = mateStatus(id);
+    if (!st) return "";
+    var name = playerName(state.mate.player);
+    var initial = name.charAt(0);
+    var text = st === "in" ? (name + " said I'm in") : (name + " passed");
+    return '<span class="mate-badge is-' + st + '"><span class="mate-av" aria-hidden="true">' + initial + "</span>" + esc(text) + "</span>";
+  }
+
+  function setPlayer(id) {
+    if (id !== "scott" && id !== "jerm" && id !== "both") return;
+    if (state.mate && state.mate.player === id && (id === "scott" || id === "jerm")) {
+      var old = { player: state.player, picks: clone(state.picks), passed: clone(state.passed || {}) };
+      state.picks = clone(state.mate.picks || defaultPicks);
+      state.passed = clone(state.mate.passed || {});
+      if (old.player === "scott" || old.player === "jerm") state.mate = old;
+      else state.mate = null;
+    }
+    state.player = id;
+    hideWho();
+    var kind = consumePendingShare();
+    syncFromPicks(false);
+    afterChange();
+    if (kind === "mate") showToast(playerName(state.mate.player) + "'s picks just landed.");
+    else if (kind === "plan") showToast("Loaded the shared picks.");
+  }
+
+  function showWho() {
+    var el = document.getElementById("who");
+    if (!el) return;
+    el.hidden = false;
+    document.body.classList.add("who-open");
+  }
+  function hideWho() {
+    var el = document.getElementById("who");
+    if (el) el.hidden = true;
+    document.body.classList.remove("who-open");
+  }
+
+  function openCart() {
+    var el = document.getElementById("cartDrawer");
+    if (!el) return;
+    cartOpen = true;
+    el.hidden = false;
+    document.body.classList.add("cart-open");
+    var btn = document.getElementById("openCart");
+    if (btn) btn.setAttribute("aria-expanded", "true");
+    renderCart();
+  }
+  function closeCart() {
+    var el = document.getElementById("cartDrawer");
+    if (el) el.hidden = true;
+    cartOpen = false;
+    document.body.classList.remove("cart-open");
+    var btn = document.getElementById("openCart");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+  }
+
+  function parseShare() {
+    try {
+      var q = new URLSearchParams(location.search);
+      var raw = q.get("s") || (location.hash && location.hash.indexOf("s=") >= 0 ? new URLSearchParams(location.hash.replace(/^#/, "")).get("s") : null);
+      if (!raw) return null;
+      var json = decodeURIComponent(escape(atob(raw.replace(/-/g, "+").replace(/_/g, "/"))));
+      return JSON.parse(json);
+    } catch (e) { return null; }
+  }
+  function consumePendingShare() {
+    if (!pendingShare) return "";
+    var obj = pendingShare;
+    pendingShare = null;
+    return applyShare(obj) || "";
+  }
+
+  function renderWhoNow() {
+    var el = document.getElementById("whoNow");
+    if (!el) return;
+    var label = shareButtonLabel();
+    var as = state.player === "both"
+      ? "Picking for both of you, on one phone."
+      : (state.player ? ("Picking as " + playerName(state.player) + ".") : "Choose who is holding the phone to get started.");
+    el.innerHTML = "<strong>" + esc(as) + "</strong>" +
+      (state.player ? ' <button type="button" class="ghost js-share">' + esc(label) + "</button>" : "") +
+      ' <button type="button" class="ghost" id="switchPlayer">Switch</button>';
+    document.querySelectorAll(".js-share").forEach(function (btn) {
+      if (btn.id === "shareBtn" || btn.id === "shareBtnDrawer" || !btn.classList.contains("ghost")) {
+        btn.textContent = label;
+      }
+    });
+    var shareBtn = document.getElementById("shareBtn");
+    var shareDrawer = document.getElementById("shareBtnDrawer");
+    if (shareBtn) shareBtn.textContent = label;
+    if (shareDrawer) shareDrawer.textContent = label;
+  }
+
+  function pitchBodyHtml(c) {
+    var kind = pitchKind(c.id);
+    var pl = priceLabel(c);
+    var rec = c.rec ? '<span class="rec">Our recommendation</span>' : "";
+    var winter = c.winter ? '<p class="tip"><strong>Winter:</strong> ' + c.winter + "</p>" : "";
+    var note = c.priceNote ? '<p class="credit">' + c.priceNote + "</p>" : "";
+    var inLabel = state.player === "both" ? "We're in" : "I'm in";
+    var badge = mateBadge(c.id);
+    if (kind === "passed") {
+      return '<div class="passed-row">' +
+        "<p><strong>" + esc(c.title) + "</strong> · Passed</p>" +
+        badge +
+        '<button type="button" class="ghost" data-undo="' + c.id + '">Undo</button>' +
+        "</div>";
+    }
+    if (kind === "in") {
+      return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
+        rec + badge +
+        '<p class="in-flag"><span class="tick" aria-hidden="true">✓</span> In the cart</p>' +
+        "<h3>" + esc(c.title) + "</h3>" +
+        '<p class="pitch-line">' + esc(PITCHES[c.id] || c.title) + "</p>" +
+        '<div class="pitch-cta">' +
+        '<div class="pitch-price"><strong>' + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
+        '<div class="pitch-btns">' +
+        '<button type="button" class="pitch-btn pass" data-pass="' + c.id + '">Remove</button>' +
+        "</div></div>" + note;
+    }
+    return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
+      rec + badge +
+      '<p class="pitch-line">' + esc(PITCHES[c.id] || ("How about " + c.title + "?")) + "</p>" +
+      (c.desc ? '<p class="pitch-meta">' + c.desc + "</p>" : "") + winter +
+      '<div class="pitch-cta">' +
+      '<div class="pitch-price"><strong>' + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
+      '<div class="pitch-btns">' +
+      '<button type="button" class="pitch-btn in" data-in="' + c.id + '">' + inLabel + "</button>" +
+      '<button type="button" class="pitch-btn pass" data-pass="' + c.id + '">Pass</button>' +
+      "</div></div>" + note +
+      '<p class="maplink"><a href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.maps) + '" target="_blank" rel="noopener">Open in Google Maps</a></p>';
+  }
+
+  function renderPitches() {
+    var root = document.getElementById("pitchList");
     if (!root) return;
-    root.innerHTML = CAT_ORDER.map(function (cat) {
-      var items = CATALOG.filter(function (c) { return c.cat === cat; });
-      var cards = items.map(function (c) {
-        var on = !!state.picks[c.id];
-        var pl = priceLabel(c);
-        var rec = c.rec ? '<span class="rec">Our recommendation</span>' : "";
-        var winter = c.winter ? '<p class="tip"><strong>Winter:</strong> ' + c.winter + "</p>" : "";
-        var standin = c.photoStandin ? '<p class="standin">' + c.photoStandin + "</p>" : "";
-        var note = c.priceNote ? '<p class="credit">' + c.priceNote + "</p>" : "";
+    if (root.getAttribute("data-ready") !== "1") {
+      root.innerHTML = CATALOG.map(function (c) {
         var photoKey = c.photoKey || c.photo;
-        return "<article class='idea" + (on ? " is-yes" : "") + "' data-id='" + c.id + "'>" +
-          photoBlock(photoKey, "idea-photo", c.title) +
-          "<div class='idea-body'>" +
-          "<p class='idea-cat'>" + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
-          rec +
-          "<h3>" + c.title + "</h3>" +
-          "<p>" + c.desc + "</p>" + winter + standin +
-          "<div class='idea-foot'>" +
-          "<div class='idea-price'><strong>" + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
-          "<button type='button' class='yn " + (on ? "yes" : "no") + "' data-toggle='" + c.id + "' aria-pressed='" + (on ? "true" : "false") + "'>" + (on ? "Yes" : "No") + "</button>" +
-          "</div>" + note +
-          "<p class='maplink'><a href='https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(c.maps) + "' target='_blank' rel='noopener'>Open in Google Maps</a></p>" +
-          "</div></article>";
+        return '<article class="pitch is-' + pitchKind(c.id) + '" data-pitch="' + c.id + '">' +
+          photoBlock(photoKey, "pitch-photo idea-photo", c.title) +
+          '<div class="pitch-main"><div class="pitch-body">' + pitchBodyHtml(c) + "</div></div></article>";
       }).join("");
-      return '<div class="cat-block" id="cat-' + cat + '">' +
-        '<div class="slider-head"><h3>' + CAT_LABEL[cat] + '</h3>' +
-        '<div class="arrows"><button type="button" class="slide-prev" data-slider="cat-' + cat + '" aria-label="Previous">‹</button>' +
-        '<button type="button" class="slide-next" data-slider="cat-' + cat + '" aria-label="Next">›</button></div></div>' +
-        '<div class="slider" id="slider-' + cat + '">' + cards + "</div></div>";
+      root.setAttribute("data-ready", "1");
+      return;
+    }
+    CATALOG.forEach(function (c) {
+      var el = root.querySelector('[data-pitch="' + c.id + '"]');
+      if (!el) return;
+      el.className = "pitch is-" + pitchKind(c.id);
+      var body = el.querySelector(".pitch-body");
+      if (body) body.innerHTML = pitchBodyHtml(c);
+    });
+  }
+
+  function renderCart() {
+    var list = document.getElementById("cartList");
+    var count = document.getElementById("cartCount");
+    var n = inCount();
+    if (count) count.textContent = String(n);
+    var t = compute();
+    var two = document.getElementById("cartTotalTwo");
+    var each = document.getElementById("cartTotalEach");
+    if (two) {
+      var next = money(t.total);
+      var changed = lastShownTotal !== null && lastShownTotal !== next;
+      two.textContent = next;
+      if (changed) {
+        two.classList.remove("is-bump");
+        void two.offsetWidth;
+        two.classList.add("is-bump");
+      }
+      lastShownTotal = next;
+    }
+    if (each) each.textContent = money(t.each);
+    var title = document.getElementById("cartTitle");
+    if (title) {
+      title.textContent = state.player === "both" ? "Your cart, for both of you" : (state.player ? (playerName(state.player) + "'s cart") : "Your cart");
+    }
+    if (!list) return;
+    var items = CATALOG.filter(function (c) { return state.picks[c.id]; });
+    if (!items.length) {
+      list.innerHTML = '<li class="cart-empty">The cart is empty. Scroll the pitches and tap I\'m in when something lands.</li>';
+      return;
+    }
+    list.innerHTML = items.map(function (c) {
+      var pl = priceLabel(c);
+      return "<li><div><strong>" + esc(c.title) + "</strong><small>" + pl.big + (pl.sub ? " · " + pl.sub : "") + "</small></div>" +
+        '<button type="button" class="ghost" data-remove="' + c.id + '">Remove</button></li>';
     }).join("");
+  }
+
+  function renderMatch() {
+    var board = document.getElementById("matchBoard");
+    var lead = document.getElementById("matchLead");
+    if (!board) return;
+    var mine = state.picks;
+    var mate = state.mate;
+    var myName = state.player === "both" ? "Both of you" : (playerName(state.player) || "You");
+    var otherName = mate ? playerName(mate.player) : (state.player ? playerName(otherId(state.player)) : "the other person");
+
+    if (state.player === "both" && !mate) {
+      if (lead) lead.textContent = "You are picking for both of you on one phone. Here is the joint cart and the running total.";
+      var tBoth = compute();
+      var rows = CATALOG.filter(function (c) { return mine[c.id]; }).map(function (c) {
+        return "<li>" + esc(c.title) + " · " + priceLabel(c).big + "</li>";
+      }).join("");
+      board.innerHTML = '<div class="match-grid">' +
+        '<div class="match-card hits"><h3>The joint cart</h3>' + (rows ? "<ul>" + rows + "</ul>" : "<p>Nothing in the cart yet.</p>") + "</div>" +
+        '<div class="match-card match-totals"><h3>Trip total for two</h3><b>' + money(tBoth.total) + "</b><small>" + money(tBoth.each) + " per person</small>" +
+        '<p class="match-wait">Want two separate phones later? Switch to I\'m Scott or I\'m Jerm and send a link.</p></div></div>';
+      return;
+    }
+
+    if (!mate) {
+      if (lead) {
+        lead.textContent = state.player === "jerm"
+          ? "Send your picks to Scott. When his link comes back, this page turns into a scoreboard."
+          : "Send your picks to Jerm. When their link comes back, this page turns into a scoreboard.";
+      }
+      board.innerHTML = '<div class="match-card"><p class="match-wait">No second cart yet. Tap "' + esc(shareButtonLabel()) + '" when you are ready. The link carries your name and your picks. Their phone will keep their own choices and show yours beside them.</p>' +
+        '<p class="links"><button type="button" class="btn primary js-share">' + esc(shareButtonLabel()) + "</button></p></div>";
+      return;
+    }
+
+    if (lead) lead.textContent = "Scott and Jerm have spoken, or at least tapped some buttons. Here is the overlap, the arguments, and the damage.";
+
+    var matches = [];
+    var splits = [];
+    var pending = [];
+    var bothPassed = [];
+    CATALOG.forEach(function (c) {
+      var meIn = !!mine[c.id];
+      var theyIn = !!(mate.picks && mate.picks[c.id]);
+      var mePass = !!(!meIn && state.passed && state.passed[c.id]);
+      var theyPass = !!(mate.passed && mate.passed[c.id]);
+      var short = SHORT_NAMES[c.id] || c.title;
+      if (meIn && theyIn) {
+        matches.push("You both want " + short + ".");
+      } else if (meIn && theyPass) {
+        splits.push(myName + ": " + short + ". " + otherName + ": absolutely not.");
+      } else if (theyIn && mePass) {
+        splits.push(otherName + ": " + short + ". " + myName + ": absolutely not.");
+      } else if (meIn && !theyIn) {
+        pending.push(myName + " is in on " + short + ". " + otherName + " has not weighed in.");
+      } else if (theyIn && !meIn) {
+        pending.push(otherName + " is in on " + short + ". " + myName + " has not weighed in.");
+      } else if (mePass && theyPass) {
+        bothPassed.push("You both passed on " + short + ".");
+      }
+    });
+
+    function listCard(cls, title, arr, empty) {
+      return '<div class="match-card ' + cls + '"><h3>' + title + "</h3>" +
+        (arr.length ? "<ul>" + arr.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>" : "<p>" + empty + "</p>") +
+        "</div>";
+    }
+    function cartCard(name, map) {
+      var items = CATALOG.filter(function (c) { return map[c.id]; });
+      var html = items.map(function (c) {
+        return "<li>" + esc(c.title) + " · " + priceLabel(c).big + "</li>";
+      }).join("");
+      var t = computeWithPicks(picksMapFrom(map));
+      return '<div class="match-card"><h3>' + esc(name) + "'s cart</h3>" +
+        (html ? "<ul>" + html + "</ul>" : "<p>Nothing in this cart.</p>") +
+        "<p><strong>" + money(t.total) + "</strong> for two if the trip used only these picks. " + money(t.each) + " each.</p></div>";
+    }
+
+    var union = {};
+    var both = {};
+    CATALOG.forEach(function (c) {
+      union[c.id] = !!(mine[c.id] || (mate.picks && mate.picks[c.id]));
+      both[c.id] = !!(mine[c.id] && mate.picks && mate.picks[c.id]);
+    });
+    var tUnion = computeWithPicks(union);
+    var tMatch = computeWithPicks(both);
+
+    board.innerHTML = '<div class="match-grid">' +
+      '<div class="match-card match-totals"><h3>Combined trip total for two</h3>' +
+      "<b>" + money(tUnion.total) + "</b><small>" + money(tUnion.each) + " per person, if you do everything either of you want. Splits are not settled yet.</small>" +
+      "<p>If you only keep the matches: <strong>" + money(tMatch.total) + "</strong> for two, or " + money(tMatch.each) + " each.</p>" +
+      (bothPassed.length ? "<p class=\"credit\">" + esc(bothPassed.join(" ")) + "</p>" : "") +
+      '<p class="links"><button type="button" class="ghost" id="clearMate">Clear ' + esc(otherName) + "'s picks</button></p></div>" +
+      listCard("hits", "Matches", matches, "No overlap yet. The negotiation era has begun.") +
+      listCard("split", "Negotiate", splits.concat(pending), "No splits. Suspicious, or just very compatible.") +
+      cartCard(myName, mine) +
+      cartCard(otherName, mate.picks) +
+      "</div>";
   }
 
   function renderCars() {
@@ -917,7 +1340,10 @@
     var t = compute();
     renderCostFieldsOnce();
     renderCosts(t);
-    renderSliders();
+    renderPitches();
+    renderCart();
+    renderMatch();
+    renderWhoNow();
     renderCars();
     renderPicksSummary(t);
     renderVideos();
@@ -939,18 +1365,37 @@
 
   var SHARE_KEYS = ["flightClass","superiorNights","suiteNights","suiteRate","hofnNights","hofnRate","retreatNights","retreatRate","blTier","blVisits","iceCave","iceCaveRate","hofnFlights","nlTour","nlCount","nlRate","foodRate","foodDays","holdDec28","panorama","panoNights","buubbleNights","auroraNights","auroraRate","carId"];
 
-  function compactState() {
+  function compactState(named) {
     var o = { v: 1, carId: state.carId || "none", picks: [] };
     CATALOG.forEach(function (c) { if (state.picks[c.id]) o.picks.push(c.id); });
     SHARE_KEYS.forEach(function (k) {
       if (k === "carId") return;
       if (JSON.stringify(state[k]) !== JSON.stringify(DEFAULTS[k])) o[k] = state[k];
     });
+    if (named && (state.player === "scott" || state.player === "jerm")) {
+      o.v = 2;
+      o.player = state.player;
+      o.passed = CATALOG.filter(function (c) { return state.passed && state.passed[c.id]; }).map(function (c) { return c.id; });
+    }
     return o;
   }
 
   function applyShare(obj) {
-    if (!obj || typeof obj !== "object") return;
+    if (!obj || typeof obj !== "object") return "";
+    var sharePlayer = (obj.player === "scott" || obj.player === "jerm") ? obj.player : null;
+    var me = state.player;
+    if (sharePlayer && me && me !== "both" && sharePlayer !== me) {
+      state.mate = { player: sharePlayer, picks: {}, passed: {} };
+      var yes = {};
+      var no = {};
+      if (Array.isArray(obj.picks)) obj.picks.forEach(function (id) { yes[id] = true; });
+      if (Array.isArray(obj.passed)) obj.passed.forEach(function (id) { no[id] = true; });
+      CATALOG.forEach(function (c) {
+        state.mate.picks[c.id] = !!yes[c.id];
+        state.mate.passed[c.id] = !!no[c.id];
+      });
+      return "mate";
+    }
     SHARE_KEYS.forEach(function (k) {
       if (obj[k] !== undefined) state[k] = obj[k];
     });
@@ -959,35 +1404,35 @@
       obj.picks.forEach(function (id) { set[id] = true; });
       CATALOG.forEach(function (c) { state.picks[c.id] = !!set[c.id]; });
     }
+    if (Array.isArray(obj.passed)) {
+      state.passed = {};
+      obj.passed.forEach(function (id) { state.passed[id] = true; });
+    }
     if (!state.carId) state.carId = "none";
     state.car = state.carId !== "none";
     syncFromPicks(false);
+    return "plan";
   }
 
   function readShare() {
-    try {
-      var q = new URLSearchParams(location.search);
-      var raw = q.get("s") || (location.hash && location.hash.indexOf("s=") >= 0 ? new URLSearchParams(location.hash.replace(/^#/, "")).get("s") : null);
-      if (!raw) return;
-      var json = decodeURIComponent(escape(atob(raw.replace(/-/g, "+").replace(/_/g, "/"))));
-      applyShare(JSON.parse(json));
-    } catch (e) {}
+    pendingShare = parseShare();
+    if (state.player) return consumePendingShare();
+    return "";
   }
 
   function shareUrl() {
-    var json = JSON.stringify(compactState());
+    var named = state.player === "scott" || state.player === "jerm";
+    var json = JSON.stringify(compactState(named));
     var b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     var path = location.pathname || "/";
     return location.origin + path + "?s=" + b64;
   }
 
-  function copyShare() {
-    var url = shareUrl();
+  function copyShare(url) {
+    url = url || shareUrl();
     var done = function () {
-      var t = document.getElementById("toast");
-      if (!t) return;
-      t.hidden = false;
-      setTimeout(function () { t.hidden = true; }, 2400);
+      var who = state.player === "jerm" ? "Scott" : (state.player === "scott" ? "Jerm" : "the other person");
+      showToast("Link copied. Send it to " + who + ".");
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(done).catch(function () {
@@ -997,6 +1442,19 @@
     } else {
       window.prompt("Copy this link", url);
       done();
+    }
+  }
+
+  function sharePicks() {
+    var url = shareUrl();
+    var payload = { title: "Scott and Jerm Versus Iceland", text: shareText(), url: url };
+    if (navigator.share) {
+      navigator.share(payload).catch(function (err) {
+        if (err && err.name === "AbortError") return;
+        copyShare(url);
+      });
+    } else {
+      copyShare(url);
     }
   }
 
@@ -1030,6 +1488,22 @@
       if (carBtn) { setCar(carBtn.getAttribute("data-car")); return; }
       var tog = e.target.closest("[data-toggle]");
       if (tog) { setPick(tog.getAttribute("data-toggle"), !state.picks[tog.getAttribute("data-toggle")]); return; }
+      var pin = e.target.closest("[data-in]");
+      if (pin) { pickIn(pin.getAttribute("data-in")); return; }
+      var ppass = e.target.closest("[data-pass]");
+      if (ppass) { pickPass(ppass.getAttribute("data-pass")); return; }
+      var pundo = e.target.closest("[data-undo]");
+      if (pundo) { undoPass(pundo.getAttribute("data-undo")); return; }
+      var prem = e.target.closest("[data-remove]");
+      if (prem) { pickPass(prem.getAttribute("data-remove")); return; }
+      var whoBtn = e.target.closest("[data-who]");
+      if (whoBtn) { setPlayer(whoBtn.getAttribute("data-who")); return; }
+      if (e.target.closest("#openCart")) { openCart(); return; }
+      if (e.target.closest("#closeCart") || e.target.closest("#closeCartBtn")) { closeCart(); return; }
+      if (e.target.closest("#cartMatchLink") || e.target.closest("#cartCostsLink")) { closeCart(); return; }
+      if (e.target.closest("#switchPlayer")) { showWho(); return; }
+      if (e.target.closest("#clearMate")) { state.mate = null; afterChange(); return; }
+      if (e.target.closest(".js-share")) { sharePicks(); return; }
       var prev = e.target.closest(".slide-prev");
       if (prev) { slide(prev.getAttribute("data-slider"), -1); return; }
       var next = e.target.closest(".slide-next");
@@ -1060,17 +1534,18 @@
     var fno = document.getElementById("flipNo");
     if (fy) fy.addEventListener("click", function () {
       var c = CATALOG[flipIndex];
-      setPick(c.id, true);
+      pickIn(c.id);
       if (flipIndex < CATALOG.length - 1) flipIndex++;
       renderFlip();
     });
     if (fno) fno.addEventListener("click", function () {
       var c = CATALOG[flipIndex];
-      setPick(c.id, false);
+      pickPass(c.id);
       if (flipIndex < CATALOG.length - 1) flipIndex++;
       renderFlip();
     });
     document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && cartOpen) { closeCart(); e.preventDefault(); return; }
       if (!flipOn) return;
       if (e.key === "ArrowRight") { flipIndex++; renderFlip(); e.preventDefault(); }
       else if (e.key === "ArrowLeft") { flipIndex--; renderFlip(); e.preventDefault(); }
@@ -1129,10 +1604,14 @@
 
     var reset = document.getElementById("resetBtn");
     if (reset) reset.addEventListener("click", function () {
+      var player = state.player;
+      var mate = state.mate;
       state = clone(DEFAULTS);
       state.picks = clone(defaultPicks);
+      state.passed = {};
       state.carId = "none";
-      try { localStorage.removeItem(STORAGE_KEY); } catch (err) {}
+      state.player = player;
+      state.mate = mate;
       syncFromPicks(false);
       afterChange();
     });
@@ -1146,18 +1625,25 @@
         costsBtn.setAttribute("aria-expanded", open ? "false" : "true");
       });
     }
-    var shareBtn = document.getElementById("shareBtn");
-    if (shareBtn) shareBtn.addEventListener("click", copyShare);
   }
 
   function boot() {
     load();
-    readShare();
+    pendingShare = parseShare();
     if (!state.carId) state.carId = "none";
     state.car = state.carId !== "none";
     bind();
-    syncForm();
-    render();
+    if (state.player) {
+      var kind = consumePendingShare();
+      syncForm();
+      render();
+      if (kind === "mate") showToast(playerName(state.mate.player) + "'s picks just landed.");
+      else if (kind === "plan") showToast("Loaded the shared picks.");
+    } else {
+      syncForm();
+      render();
+      showWho();
+    }
     window.addEventListener("resize", scheduleRelayout, { passive: true });
     window.addEventListener("orientationchange", scheduleRelayout, { passive: true });
   }
@@ -1172,4 +1658,11 @@
   window.__icelandState = function () { return state; };
   window.__icelandCatalog = CATALOG;
   window.__icelandCars = CARS;
+  window.__icelandSetPlayer = setPlayer;
+  window.__icelandPickIn = pickIn;
+  window.__icelandPickPass = pickPass;
+  window.__icelandOpenCart = openCart;
+  window.__icelandShareUrl = shareUrl;
+  window.__icelandApplyShare = applyShare;
+  window.__icelandAfterChange = afterChange;
 })();
