@@ -1,4 +1,4 @@
-/* Scott & Germ Versus Iceland */
+/* Scott & Jerm Versus Iceland */
 (function () {
   "use strict";
   window.__imgFail = function (img) { img.classList.add("is-fail"); };
@@ -181,7 +181,7 @@
     premium: {
       id: "premium",
       title: "Land Rover Defender 110, the recommended 4x4",
-      blurb: "The 5-door automatic 4x4, F-road approved in summer (those roads are closed this week anyway). The Defender 90, the 3-door, is a no-show in Iceland. The 110 has five doors and, more importantly, room for Germ's luggage.",
+      blurb: "The 5-door automatic 4x4, F-road approved in summer (those roads are closed this week anyway). The Defender 90, the 3-door, is a no-show in Iceland. The 110 has five doors and, more importantly, room for Jerm's luggage.",
       model: "Land Rover Defender 110, 5-door automatic 4x4 (not a 90)",
       source: "From-rates, not a locked holiday quote. Holiday week can price above these. Blue Car Rental, KEF: from 37,523 ISK a day for 2026, about $304, guaranteed model or an upgrade, F-road approved. Zero Car Rental: from 42,423 ISK a day, about $344, with zero excess included (the car is supplied by Blue). Cars Iceland: from about $205 a day, with studded winter tires, CDW, and theft protection included. Saga and Lava also offer it, with a KEF shuttle. Hertz Iceland lists the Defender 110, or similar, on hertz.is (age 23+, two cards, 5 doors). Confirm a live quote when you book.",
       daily: 304, vehicle: 1824, iskVehicle: 225138, coverDaily: 54, cover: 324, trip: 2148, rec: true, est: true,

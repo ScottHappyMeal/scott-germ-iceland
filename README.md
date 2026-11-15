@@ -1,4 +1,4 @@
-# Scott and Germ Versus Iceland
+# Scott and Jerm Versus Iceland
 
 A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 3, 2027.
 
