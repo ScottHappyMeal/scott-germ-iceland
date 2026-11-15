@@ -49,7 +49,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-body.who-open, body.welcome-open, body.costs-open, body.pick-tab { overflow: hidden; }
+body.who-open, body.welcome-open, body.costs-open, body.confirm-open, body.pick-tab { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { color: var(--ice); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -178,7 +178,7 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 .tab:hover { text-decoration: none; color: var(--ink); }
 body[data-tab="plan"] .tab[data-tab="plan"],
 body[data-tab="pick"] .tab[data-tab="pick"],
-body[data-tab="us"] .tab[data-tab="us"] { color: var(--green); }
+body[data-tab="compare"] .tab[data-tab="compare"] { color: var(--green); }
 .tab-ico { font-size: 1.05rem; line-height: 1; }
 
 /* buttons */
@@ -357,13 +357,15 @@ svg.imap .lab {
   min-height: 0;
   overflow: hidden;
 }
-#view-plan, #view-us { min-height: 100%; }
+#view-plan, #view-compare { min-height: 100%; }
 .pick-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px max(16px, var(--safe-r)) 6px max(16px, var(--safe-l));
   flex: 0 0 auto;
 }
 .progress { margin: 0; color: var(--muted); font-size: 0.88rem; font-weight: 600; }
+.pick-head-actions { display: flex; align-items: center; gap: 6px; }
+.pick-head-actions .ghost { min-height: 40px; padding: 8px 12px; }
 .deck-wrap {
   flex: 1 1 auto;
   min-height: 0;
@@ -491,6 +493,31 @@ svg.imap .lab {
 .who-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 .who-btns .btn { width: 100%; min-height: 48px; }
 .costs-sheet { width: min(560px, 100%); max-height: min(88dvh, 720px); display: flex; flex-direction: column; overflow: hidden; place-self: end center; }
+.confirm-layer {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(4, 6, 12, 0.82);
+  display: grid; place-items: center;
+  padding: max(1rem, var(--safe-t)) max(1rem, var(--safe-r)) max(1rem, var(--safe-b)) max(1rem, var(--safe-l));
+}
+.confirm-layer[hidden] { display: none !important; }
+.confirm-sheet {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 22px 18px 18px;
+  width: min(400px, 100%);
+  box-shadow: var(--shadow);
+}
+.confirm-sheet p {
+  margin: 0 0 18px;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+.confirm-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.confirm-actions .btn, .confirm-actions .ghost { min-height: 44px; min-width: 96px; }
 .costs-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .costs-body { overflow: auto; min-height: 0; padding-bottom: 8px; }
 .cost-row { margin: 0 0 14px; }
@@ -564,7 +591,7 @@ svg.imap .lab {
   touch-action: manipulation;
 }
 
-/* how this works (Us) */
+/* how this works (Compare) */
 .how-card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -657,6 +684,8 @@ body.map-open { overflow: hidden; }
 }
 .trip-status p { margin: 0; }
 #countdown { color: var(--ice); font-weight: 600; }
+.sync-note { color: var(--gold); font-weight: 600; }
+.sync-note[hidden] { display: none !important; }
 .duration-line {
   margin: 0 0 8px;
   color: var(--gold);

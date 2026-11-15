@@ -4,7 +4,7 @@ A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 3, 
 
 Prices are planning estimates in US dollars, using 123.4 ISK per USD as of Nov 14, 2026. This is not a booking confirmation.
 
-Picking is a scroll-down pitch flow: one add-on at a time, with I'm in and Pass, a sticky cart, and a shareable link. You can pick as Scott, as Jerm, or for both of you on one phone. There is no account and no server. A "Send my picks" link encodes that player's choices in the URL, and the other phone stores them beside its own. Old `?s=` share links still load as a joint plan.
+Picking is one card at a time, with I'm in and Pass. Choose who is using the phone, Scott or Jerm. Picks save to a shared trip record, so each person sees the other's picks on any phone, with no links to send and no login. An item locks when you both say yes to the same option. Different choices go to Negotiate on the Compare tab.
 
 ## Photo credits
 

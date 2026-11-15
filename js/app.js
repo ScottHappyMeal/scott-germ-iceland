@@ -157,7 +157,7 @@
           { id: "aurora", label: "Aurora Igloo", title: "Aurora Igloo, one night", photoKey: "aurora_igloo",
             pitch: "An aurora igloo for one night. The price is an estimate, not a researched holiday quote.",
             url: "https://auroraigloo.is/", urlLabel: "Book it", maps: "Aurora Igloo Iceland",
-            priceFn: function (ctx) { return { two: ctx.auroraRate, each: ctx.auroraRate / PEOPLE, est: true, sub: "Estimated, per cabin. Edit the rate in Us." }; } },
+            priceFn: function (ctx) { return { two: ctx.auroraRate, each: ctx.auroraRate / PEOPLE, est: true, sub: "Estimated, per cabin. Edit the rate in Compare." }; } },
           { id: "town", label: "Stay in town", title: "Stay in town on Jan 2", photoKey: "edition_ext",
             pitch: "Keep Jan 2 at the EDITION.",
             url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Website", maps: "The Reykjavik EDITION",
@@ -191,7 +191,7 @@
         ] },
       { id: "food-budget", kind: "food", day: "Most days", title: "A daily food budget",
         pitch: "A daily food budget for meals that are not already booked.",
-        desc: "Default is $150 a person a day, for 6 days. The restaurant cards are priced separately. Edit the daily rate in Us.",
+        desc: "Default is $150 a person a day, for 6 days. The restaurant cards are priced separately. Edit the daily rate in Compare.",
         winter: "Some cafes may be closed on January 1. A greenhouse, a hot-dog stand, or a hotel restaurant may still be open.",
         photoKey: "tides", rec: false,
         url: "", urlLabel: "", maps: "",
@@ -299,7 +299,7 @@
   };
 
   var state = {
-    v: 4,
+    v: 5,
     player: "",
     picks: {},
     passed: {},
@@ -315,11 +315,9 @@
   var welcomeIndex = 0;
   var welcomeMode = "tour";
   var welcomeOpen = false;
-  var shareWelcomeFrom = "";
   var undoStack = [];
   var reviewId = null;
   var lastChip = null;
-  var pendingShare = null;
   var drag = { on: false };
 
   function playerName(id) {
@@ -621,7 +619,7 @@
   /* ---------- persist / share ---------- */
   function compactState() {
     var o = {
-      v: 4,
+      v: 5,
       player: state.player || "",
       yes: yesIdsFrom(state.picks),
       pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }),
@@ -699,13 +697,13 @@
   }
 
   function load() {
-    state = { v: 4, player: "", picks: {}, passed: {}, unlocked: {}, tiers: defaultTiers(), mate: null, rates: defaultRates(), welcomeSeen: false, mateWelcomeSeen: false, packed: {}, booked: {} };
+    state = { v: 5, player: "", picks: {}, passed: {}, unlocked: {}, tiers: defaultTiers(), mate: null, rates: defaultRates(), welcomeSeen: false, mateWelcomeSeen: false, packed: {}, booked: {} };
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       var saved = JSON.parse(raw);
-      if (saved.v === 3 || saved.v === 4) {
-        if (saved.player === "scott" || saved.player === "jerm" || saved.player === "both") state.player = saved.player;
+      if (saved.v === 5) {
+        if (saved.player === "scott" || saved.player === "jerm") state.player = saved.player;
         applyYesPass(saved.yes || [], saved.pass || [], saved.tiers);
         (saved.unlocked || []).forEach(function (id) { if (DECK_MAP[id]) state.unlocked[id] = true; });
         if (saved.rates) Object.keys(state.rates).forEach(function (k) {
@@ -725,115 +723,187 @@
           myes.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
           mpass.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
         }
-      } else {
-        if (saved.player === "scott" || saved.player === "jerm" || saved.player === "both") state.player = saved.player;
-        migrateOld(saved);
-        if (saved.mate && (saved.mate.player === "scott" || saved.mate.player === "jerm")) {
-          var mt2 = Object.assign(defaultTiers(), saved.mate.tiers || {});
-          var myes2 = [];
-          var mpass2 = [];
-          CATALOG.forEach(function (c) {
-            if (saved.mate.picks && saved.mate.picks[c.id]) myes2.push(c.id);
-            if (saved.mate.passed && saved.mate.passed[c.id]) mpass2.push(c.id);
-          });
-          myes2 = mapLegacyList(myes2, mt2, true);
-          mpass2 = mapLegacyList(mpass2, mt2, false);
-          state.mate = { player: saved.mate.player, picks: {}, passed: {}, tiers: mt2 };
-          myes2.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
-          mpass2.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
-        }
       }
     } catch (e) {}
   }
 
-  function parseShare() {
-    var q = new URLSearchParams(location.search);
-    var s = q.get("s");
-    if (!s) return null;
+  /* Shared trip save: isolated Supabase table, public anon key + RLS on this trip id. */
+  var SYNC = {
+    url: "https://zytqyfiftqleosmxyehk.supabase.co",
+    anon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5dHF5ZmlmdHFsZW9zbXh5ZWhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MDY1MDMsImV4cCI6MjA5MDM4MjUwM30.JPsmeVSt0a_ZW7htiC0M24xHM0d4dF_5ShJ-f39hQ_8",
+    trip: "scott-jerm-iceland-v5",
+    table: "scott_jerm_iceland_trip"
+  };
+  var syncPending = false;
+  var skipNextPush = false;
+  var localChangedAt = 0;
+  var syncTimer = null;
+
+  function showSyncNote(on) {
+    var el = document.getElementById("syncNote");
+    if (el) el.hidden = !on;
+  }
+
+  function syncHeaders(prefer) {
+    var h = {
+      apikey: SYNC.anon,
+      Authorization: "Bearer " + SYNC.anon,
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    };
+    if (prefer) h.Prefer = prefer;
+    return h;
+  }
+
+  function cleanQs() {
     try {
-      var b64 = s.replace(/-/g, "+").replace(/_/g, "/");
-      while (b64.length % 4) b64 += "=";
-      return JSON.parse(decodeURIComponent(escape(atob(b64))));
-    } catch (e) { return null; }
-  }
-
-  function consumePendingShare() {
-    var data = pendingShare;
-    pendingShare = null;
-    if (!data) return;
-    var yes = data.yes;
-    var pass = data.pass;
-    if (!yes && data.picks) {
-      yes = [];
-      pass = [];
-      Object.keys(data.picks || {}).forEach(function (id) { if (data.picks[id]) yes.push(id); });
-      Object.keys(data.passed || {}).forEach(function (id) { if (data.passed[id]) pass.push(id); });
-      migrateOld(Object.assign({}, data, { picks: data.picks, passed: data.passed }));
-      /* migrateOld applied to me; for v1 joint, also copy to mate so they lock */
-      if (!data.v || data.v === 1) {
-        state.mate = { player: otherId(), picks: clone(state.picks), passed: clone(state.passed), tiers: clone(state.tiers) };
-        showToast("An older shared plan was loaded. Matching picks are locked.");
-        afterChange();
-        return;
+      if (location.search && history.replaceState) {
+        history.replaceState({}, "", location.pathname + (location.hash || "#pick"));
       }
-      yes = yesIdsFrom(state.picks);
-      pass = DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; });
-    }
-    var from = data.player || "";
-    if (from && from !== "both" && state.player && from !== state.player) {
-      var mt = Object.assign(defaultTiers(), data.tiers || {});
-      var myes = mapLegacyList(yes || [], mt, true);
-      var mpass = mapLegacyList(pass || [], mt, false);
-      state.mate = { player: from, picks: {}, passed: {}, tiers: mt };
-      myes.forEach(function (id) { if (DECK_MAP[id]) state.mate.picks[id] = true; });
-      mpass.forEach(function (id) { if (DECK_MAP[id]) state.mate.passed[id] = true; });
-      showToast(playerName(from) + "'s picks were loaded.");
-    } else if (from && (from === state.player || from === "both" || !state.player)) {
-      applyYesPass(yes || [], pass || [], data.tiers);
-      if (from === "both" && state.player === "both") showToast("Shared picks loaded.");
-      else if (!state.player) pendingShare = data;
-    }
-    afterChange();
+    } catch (e) {}
   }
 
-  function shareUrl() {
-    var payload = { v: 4, player: state.player || "both", yes: yesIdsFrom(state.picks), pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }), tiers: state.tiers };
-    var raw = btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-    var url = location.origin + location.pathname + "?s=" + raw + "#us";
-    return url;
+  function mineBody() {
+    return {
+      trip_id: SYNC.trip,
+      player: state.player,
+      yes: yesIdsFrom(state.picks),
+      pass: DECK.filter(function (c) { return myPass(c.id); }).map(function (c) { return c.id; }),
+      tiers: state.tiers || {},
+      updated_at: new Date().toISOString()
+    };
   }
-  function shareText() {
-    if (state.player === "jerm") return "Iceland picks from Jerm.";
-    if (state.player === "scott") return "Iceland picks from Scott.";
-    return "Iceland picks from Scott and Jerm.";
+
+  function applyRemoteSlice(row, target) {
+    var tmap = Object.assign(defaultTiers(), row.tiers || {});
+    var yes = mapLegacyList(row.yes || [], tmap, true);
+    var pa = mapLegacyList(row.pass || [], tmap, false);
+    if (target === "mine") {
+      applyYesPass(yes, pa, tmap);
+    } else {
+      var picks = {}, passed = {};
+      yes.forEach(function (id) { if (DECK_MAP[id]) picks[id] = true; });
+      pa.forEach(function (id) { if (DECK_MAP[id] && !picks[id]) passed[id] = true; });
+      state.mate = { player: row.player, picks: picks, passed: passed, tiers: tmap };
+    }
   }
-  function copyShare(url) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () { showToast("Link copied."); }).catch(function () { prompt("Copy this link", url); });
-    } else prompt("Copy this link", url);
+
+  function remoteTime(row) {
+    var t = Date.parse((row && row.updated_at) || "");
+    return isNaN(t) ? 0 : t;
   }
-  function sharePicks() {
-    var url = shareUrl();
-    var payload = { title: "Scott & Jerm's Iceland", text: shareText(), url: url };
-    if (navigator.share) {
-      navigator.share(payload).catch(function (err) {
-        if (err && err.name === "AbortError") return;
-        copyShare(url);
+
+  function pullShared(opts) {
+    opts = opts || {};
+    var u = SYNC.url + "/rest/v1/" + SYNC.table +
+      "?trip_id=eq." + encodeURIComponent(SYNC.trip) +
+      "&select=player,yes,pass,tiers,updated_at";
+    return fetch(u, { headers: syncHeaders(), cache: "no-store" }).then(function (res) {
+      if (!res.ok) throw new Error("pull " + res.status);
+      return res.json();
+    }).then(function (rows) {
+      showSyncNote(false);
+      var mine = null, other = null;
+      (rows || []).forEach(function (r) {
+        if (r.player === state.player) mine = r;
+        else if (r.player === "scott" || r.player === "jerm") other = r;
       });
-    } else copyShare(url);
+      if (other) applyRemoteSlice(other, "mate");
+      else state.mate = null;
+      if (state.player === "scott" || state.player === "jerm") {
+        if (mine) {
+          if (!syncPending && (opts.applyMine || remoteTime(mine) > localChangedAt)) {
+            applyRemoteSlice(mine, "mine");
+          }
+        } else if (opts.seed && !syncPending) {
+          pushShared();
+        }
+      }
+      if (opts.render !== false) {
+        save();
+        render();
+      }
+    }).catch(function () {
+      showSyncNote(true);
+    });
+  }
+
+  function pushShared() {
+    if (state.player !== "scott" && state.player !== "jerm") return Promise.resolve();
+    syncPending = true;
+    localChangedAt = Date.now();
+    return fetch(SYNC.url + "/rest/v1/" + SYNC.table, {
+      method: "POST",
+      headers: syncHeaders("resolution=merge-duplicates,return=minimal"),
+      body: JSON.stringify(mineBody())
+    }).then(function (res) {
+      if (!res.ok) throw new Error("push " + res.status);
+      syncPending = false;
+      showSyncNote(false);
+    }).catch(function () {
+      showSyncNote(true);
+    });
+  }
+
+  function startSyncClock() {
+    if (syncTimer) return;
+    syncTimer = setInterval(function () {
+      if (syncPending) pushShared();
+      else pullShared({ render: true });
+    }, 10000);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") {
+        if (syncPending) pushShared();
+        pullShared({ applyMine: false });
+      } else if (syncPending) {
+        pushShared();
+      }
+    });
+    window.addEventListener("focus", function () {
+      if (syncPending) pushShared();
+      pullShared({ applyMine: false });
+    });
+  }
+
+  function openResetConfirm() {
+    var el = document.getElementById("resetConfirm");
+    if (el) el.hidden = false;
+    document.body.classList.add("confirm-open");
+    var ok = document.getElementById("resetOk");
+    if (ok) ok.focus();
+  }
+  function closeResetConfirm() {
+    var el = document.getElementById("resetConfirm");
+    if (el) el.hidden = true;
+    document.body.classList.remove("confirm-open");
+  }
+  function startOver() {
+    state.picks = {};
+    state.passed = {};
+    state.unlocked = {};
+    state.packed = {};
+    state.booked = {};
+    state.tiers = defaultTiers();
+    undoStack = [];
+    reviewId = null;
+    closeResetConfirm();
+    if (location.hash !== "#pick") location.hash = "#pick";
+    route();
+    afterChange();
   }
 
   /* ---------- route ---------- */
   function currentTab() {
-    var h = (location.hash || "#plan").replace(/^#/, "");
-    if (h === "pick" || h === "us" || h === "plan") return h;
-    return "plan";
+    var h = (location.hash || "#pick").replace(/^#/, "");
+    if (h === "us") h = "compare";
+    if (h === "pick" || h === "compare" || h === "plan") return h;
+    return "pick";
   }
   function route() {
     var tab = currentTab();
     document.body.setAttribute("data-tab", tab);
     document.body.classList.toggle("pick-tab", tab === "pick");
-    ["plan", "pick", "us"].forEach(function (id) {
+    ["plan", "pick", "compare"].forEach(function (id) {
       var el = document.getElementById("view-" + id);
       if (el) el.hidden = id !== tab;
     });
@@ -1931,7 +2001,7 @@
       "<h3>Locked</h3>" + (locked.length ? "<ul>" + locked.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>Nothing locked yet.</p>") +
       "<h3>Waiting</h3>" + (waiting.length ? "<ul>" + waiting.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>None waiting.</p>") +
       "<h3>Passed</h3>" + (passed.length ? "<ul>" + passed.map(function (c) { return "<li>" + esc(displayName(c.id)) + "</li>"; }).join("") + "</ul>" : "<p>No passed cards.</p>") +
-      '<div class="card-links"><button type="button" class="btn primary" id="reviewPassed">Review passed cards</button><a class="btn" href="#plan">See the plan</a><a class="btn" href="#us">Open Us</a></div>';
+      '<div class="card-links"><button type="button" class="btn primary" id="reviewPassed">Review passed cards</button><a class="btn" href="#plan">See the plan</a><a class="btn" href="#compare">Open Compare</a></div>';
   }
 
   function unique(arr) {
@@ -1948,13 +2018,11 @@
     }
     var who = document.getElementById("usWho");
     if (who) {
-      who.innerHTML = ["scott", "jerm", "both"].map(function (id) {
-        var label = id === "both" ? "Pick for both" : "I'm " + playerName(id);
+      who.innerHTML = ["scott", "jerm"].map(function (id) {
+        var label = "I'm " + playerName(id);
         return '<button type="button" class="btn" data-who="' + id + '" aria-pressed="' + (state.player === id ? "true" : "false") + '">' + label + "</button>";
       }).join("");
     }
-    var share = document.getElementById("shareBtn");
-    if (share) share.textContent = state.player === "jerm" ? "Send my picks to Scott" : state.player === "scott" ? "Send my picks to Jerm" : "Send our picks";
     var board = document.getElementById("usBoard");
     if (!board) return;
     var locked = lockedIds();
@@ -1988,7 +2056,7 @@
         var line = displayName(id);
         return "<li>" + esc(line) + (isLocked(id) ? " 🔒" : "") + (DECK_MAP[id] && DECK_MAP[id].tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "") + "</li>";
       }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
-      '<div class="match-card"><h3>' + esc(state.mate ? otherName + "'s picks" : otherName + ", when they send a link") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(displayName(id, "mate")) + "</li>"; }).join("") + "</ul>" : "<p>No one else has checked in on this phone.</p>") + (state.mate ? '<button type="button" class="ghost" id="clearMate">Clear ' + esc(otherName) + "'s picks</button>" : "") + "</div>" +
+      '<div class="match-card"><h3>' + esc(otherName + "'s picks") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(displayName(id, "mate")) + "</li>"; }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
       '<div class="match-card match-totals"><h3>Locked total for two</h3><b>' + money(tLock.total) + "</b><small>" + money(tLock.each) + " per person</small>" +
       "<h3 style='margin-top:16px'>If all of your picks were locked</h3><b>" + money(tYes.total) + "</b><small>" + money(tYes.each) + " per person, including things still waiting on a match.</small></div>" +
       "</div>";
@@ -2020,7 +2088,7 @@
       "<p class='credit'>These rates are added to the locked total only after the matching card is locked. FX used: ISK 123.4 per USD, EUR $1.10.</p>";
   }
 
-  function renderWhoNow() { /* top bar already shows identity via share label */ }
+  function renderWhoNow() { /* identity is chosen on the Compare tab and the welcome screen */ }
 
   function render() {
     renderChip();
@@ -2035,18 +2103,15 @@
   function afterChange() {
     save();
     render();
+    if (skipNextPush) {
+      skipNextPush = false;
+      return;
+    }
+    pushShared();
   }
 
   function welcomeSlides() {
     var slides = [];
-    var from = shareWelcomeFrom || (pendingShare && pendingShare.player) || "";
-    if (welcomeMode === "share" || shareWelcomeFrom) {
-      var who = playerName(from || "jerm");
-      var theirs = (who === "Jerm" || who === "Scott") ? "his" : "their";
-      slides.push({
-        title: who + " sent you " + theirs + " picks."
-      });
-    }
     slides.push({
       title: "Who is using this phone?",
       who: true
@@ -2091,7 +2156,6 @@
       whoBtns = '<div class="who-btns">' +
         '<button type="button" class="btn primary" data-who="scott" aria-pressed="' + (state.player === "scott" ? "true" : "false") + '">I\'m Scott</button>' +
         '<button type="button" class="btn primary" data-who="jerm" aria-pressed="' + (state.player === "jerm" ? "true" : "false") + '">I\'m Jerm</button>' +
-        '<button type="button" class="btn" data-who="both" aria-pressed="' + (state.player === "both" ? "true" : "false") + '">Pick for both</button>' +
         "</div>";
     }
     var photo = "";
@@ -2110,9 +2174,8 @@
     if (skip) skip.hidden = last && !!state.player;
   }
 
-  function openWelcome(mode, from) {
+  function openWelcome(mode) {
     welcomeMode = mode || "tour";
-    shareWelcomeFrom = from || "";
     welcomeIndex = 0;
     welcomeOpen = true;
     renderWelcome();
@@ -2122,13 +2185,13 @@
   }
   function closeWelcome() {
     welcomeOpen = false;
-    shareWelcomeFrom = "";
     state.welcomeSeen = true;
     var el = document.getElementById("welcome");
     if (el) el.hidden = true;
     document.body.classList.remove("welcome-open");
-    if (pendingShare && state.player) consumePendingShare();
+    skipNextPush = true;
     afterChange();
+    pullShared({ applyMine: true, seed: true });
   }
   function welcomeNext() {
     var slides = welcomeSlides();
@@ -2161,8 +2224,18 @@
   }
 
   function setPlayer(id) {
-    if (id !== "scott" && id !== "jerm" && id !== "both") return;
+    if (id !== "scott" && id !== "jerm") return;
+    var prev = state.player;
+    if (prev && prev !== id && (prev === "scott" || prev === "jerm")) pushShared();
+    var switched = prev !== id;
     state.player = id;
+    if (switched && (prev === "scott" || prev === "jerm")) {
+      state.picks = {};
+      state.passed = {};
+      state.unlocked = {};
+      state.tiers = defaultTiers();
+      undoStack = [];
+    }
     if (welcomeOpen) {
       var slides = welcomeSlides();
       if (welcomeMode === "who" || welcomeIndex >= slides.length - 1) {
@@ -2171,12 +2244,14 @@
       }
       welcomeIndex++;
       renderWelcome();
-      if (pendingShare) consumePendingShare();
+      skipNextPush = true;
       afterChange();
+      pullShared({ applyMine: true, seed: true });
       return;
     }
-    if (pendingShare) consumePendingShare();
+    skipNextPush = true;
     afterChange();
+    pullShared({ applyMine: true, seed: true });
   }
   function showWho() { openWelcome("who"); }
   function hideWho() {
@@ -2295,6 +2370,9 @@
         return;
       }
       if (e.target.closest("#undoBtn")) { undo(); return; }
+      if (e.target.closest("#resetBtn")) { openResetConfirm(); return; }
+      if (e.target.closest("#resetCancel") || e.target === document.getElementById("resetConfirm")) { closeResetConfirm(); return; }
+      if (e.target.closest("#resetOk")) { startOver(); return; }
       if (e.target.closest("#reviewPassed")) {
         DECK.forEach(function (card) {
           if (state.passed[card.id]) delete state.passed[card.id];
@@ -2303,12 +2381,10 @@
         afterChange();
         return;
       }
-      if (e.target.closest(".js-share")) { sharePicks(); return; }
       if (e.target.closest("#switchPlayer")) { showWho(); return; }
       if (e.target.closest("#editCostsBtn")) { openCosts(); return; }
       if (e.target.closest("#closeCosts") || e.target === document.getElementById("costs")) { closeCosts(); return; }
-      if (e.target.closest("#clearMate")) { state.mate = null; afterChange(); return; }
-      if (e.target.closest("#lockedChip")) { location.hash = "#us"; return; }
+      if (e.target.closest("#lockedChip")) { location.hash = "#compare"; return; }
       var barItem = e.target.closest("[data-bar-item]");
       if (barItem) {
         var bar = barItem.closest("[data-day-bar]");
@@ -2381,25 +2457,21 @@
   function boot() {
     buildDeck();
     load();
-    pendingShare = parseShare();
-    if (pendingShare && history.replaceState) {
-      try { history.replaceState({}, "", location.pathname + location.hash); } catch (e) {}
+    cleanQs();
+    if (location.hash === "#us") {
+      try { history.replaceState({}, "", location.pathname + "#compare"); } catch (e) {}
+    } else if (!location.hash || location.hash === "#") {
+      try { history.replaceState({}, "", location.pathname + "#pick"); } catch (e) {}
     }
     bind();
     route();
-    var shareFrom = pendingShare && pendingShare.player && pendingShare.player !== "both" && pendingShare.player !== state.player ? pendingShare.player : "";
-    var needMateWelcome = !!(shareFrom && !state.mateWelcomeSeen);
-    if (needMateWelcome) {
-      state.mateWelcomeSeen = true;
-      openWelcome("share", shareFrom);
-    } else if (!state.welcomeSeen) {
-      openWelcome("tour");
-    } else if (!state.player) {
-      openWelcome("who");
-    } else if (pendingShare) {
-      consumePendingShare();
-    }
+    if (!state.welcomeSeen) openWelcome("tour");
+    else if (!state.player) openWelcome("who");
     render();
+    startSyncClock();
+    if (state.player === "scott" || state.player === "jerm") {
+      pullShared({ applyMine: true, seed: true });
+    }
     loadWeather();
     renderCountdown();
     setInterval(renderCountdown, 30000);
@@ -2413,6 +2485,8 @@
   window.__icelandUnlock = unlock;
   window.__icelandJump = jumpTo;
   window.__icelandUndo = undo;
+  window.__icelandStartOver = startOver;
+  window.__icelandOpenResetConfirm = openResetConfirm;
   window.__icelandState = function () { return state; };
   window.__icelandDeck = function () { return DECK; };
   window.__icelandLocked = lockedIds;
@@ -2421,6 +2495,8 @@
   window.__icelandCurrent = currentCard;
   window.__icelandRender = render;
   window.__icelandRoute = route;
+  window.__icelandPull = function () { return pullShared({ applyMine: true }); };
+  window.__icelandPush = function () { return pushShared(); };
   window.__icelandClearReview = function () { reviewId = null; render(); };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

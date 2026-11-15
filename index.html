@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261114-rev -->
+  <!-- build: 20261114-sync -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm's Iceland</title>
   <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Items lock when you both say yes.">
@@ -18,14 +18,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261114-rev">
+  <link rel="stylesheet" href="css/styles.css?v=20261114-sync">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
   <div class="sky" aria-hidden="true"></div>
   <div class="app">
     <header class="top">
-      <a class="brand" href="#plan">Scott &amp; Jerm's Iceland</a>
+      <a class="brand" href="#pick">Scott &amp; Jerm's Iceland</a>
       <div class="top-actions">
       <button type="button" class="help-btn" id="helpBtn" aria-label="How this works">?</button>
       <button type="button" class="chip" id="lockedChip" aria-label="Locked total">
@@ -40,6 +40,7 @@
     <div class="trip-status" id="tripStatus">
       <p id="countdown">Time until departure at 3:40 PM MT, Dec 28.</p>
       <p id="weather">Loading weather for Reykjavik now.</p>
+      <p class="sync-note" id="syncNote" hidden>Not synced. Will retry.</p>
     </div>
 
     <main class="stage">
@@ -47,7 +48,7 @@
         <div class="pad">
           <p class="kicker">The plan</p>
           <h1>The locked plan</h1>
-          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Items appear here after you both say yes, or after you pick for both.</p>
+          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Items appear here after you both say yes.</p>
           <div id="planEmpty" class="empty-card">
             <p>Nothing is locked yet. Open Pick to start.</p>
             <a class="btn primary" href="#pick">Start picking</a>
@@ -81,7 +82,10 @@
       <section class="view view-pick" id="view-pick" data-view="pick" hidden>
         <div class="pick-head">
           <p class="progress" id="pickProg">0 of 0</p>
-          <button type="button" class="ghost" id="undoBtn">Undo</button>
+          <div class="pick-head-actions">
+            <button type="button" class="ghost" id="undoBtn">Undo</button>
+            <button type="button" class="ghost" id="resetBtn">Start over</button>
+          </div>
         </div>
         <div class="deck-wrap" id="deckWrap">
           <div class="deck" id="deck" aria-live="polite"></div>
@@ -93,14 +97,13 @@
         </div>
       </section>
 
-      <section class="view" id="view-us" data-view="us" hidden>
+      <section class="view" id="view-compare" data-view="compare" hidden>
         <div class="pad">
-          <p class="kicker">Us</p>
+          <p class="kicker">Compare</p>
           <h1>Who is using this phone?</h1>
           <div id="howCard" class="how-card"></div>
           <div id="usWho" class="us-who"></div>
           <div class="us-actions">
-            <button type="button" class="btn primary js-share" id="shareBtn">Send my picks</button>
             <button type="button" class="btn" id="editCostsBtn">Edit costs</button>
             <button type="button" class="btn ghost" id="switchPlayer">Switch player</button>
           </div>
@@ -112,17 +115,17 @@
     </main>
 
     <nav class="tabs" aria-label="App">
-      <a class="tab" href="#plan" data-tab="plan">
-        <span class="tab-ico" aria-hidden="true">🗓</span>
-        <span>Plan</span>
-      </a>
       <a class="tab" href="#pick" data-tab="pick">
         <span class="tab-ico" aria-hidden="true">♡</span>
         <span>Pick</span>
       </a>
-      <a class="tab" href="#us" data-tab="us">
+      <a class="tab" href="#plan" data-tab="plan">
+        <span class="tab-ico" aria-hidden="true">🗓</span>
+        <span>Plan</span>
+      </a>
+      <a class="tab" href="#compare" data-tab="compare">
         <span class="tab-ico" aria-hidden="true">✌</span>
-        <span>Us</span>
+        <span>Compare</span>
       </a>
     </nav>
   </div>
@@ -136,6 +139,16 @@
           <button type="button" class="ghost" id="welcomeSkip">Skip</button>
           <button type="button" class="btn primary" id="welcomeNext">Next</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-layer" id="resetConfirm" hidden>
+    <div class="confirm-sheet" role="dialog" aria-modal="true" aria-labelledby="resetConfirmTitle">
+      <p id="resetConfirmTitle">Clear all picks on this phone and start at card 1?</p>
+      <div class="confirm-actions">
+        <button type="button" class="ghost" id="resetCancel">Cancel</button>
+        <button type="button" class="btn primary" id="resetOk">Start over</button>
       </div>
     </div>
   </div>
@@ -159,8 +172,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261114-rev"></script>
-  <script src="js/trip.js?v=20261114-rev"></script>
-  <script src="js/app.js?v=20261114-rev"></script>
+  <script src="js/data.js?v=20261114-sync"></script>
+  <script src="js/trip.js?v=20261114-sync"></script>
+  <script src="js/app.js?v=20261114-sync"></script>
 </body>
 </html>
