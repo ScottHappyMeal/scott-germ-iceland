@@ -1021,25 +1021,22 @@
     return h;
   }
 
-  var BUILD = "20261115-motion1";
+  var BUILD = "20261115-motion2";
 
+  /* The sizes readout is for fault-finding only. It shows with ?readout=1.
+     The old ?debug=1 no longer turns it on and is dropped from the address,
+     so a link or home-screen icon saved with it opens the clean page. */
   function keptSearch() {
     try {
       var params = new URLSearchParams(location.search);
-      if (params.has("debug")) {
-        return "?debug=" + encodeURIComponent(params.get("debug") || "1");
-      }
+      if (params.get("readout") === "1") return "?readout=1";
     } catch (e) {}
     return "";
   }
 
   function hasDebugFlag() {
     try {
-      if (new URLSearchParams(location.search).get("debug") === "1") return true;
-    } catch (e) {}
-    try {
-      var hash = location.hash || "";
-      if (/(?:^|[?&#])debug=1(?:&|$)/.test(hash)) return true;
+      if (new URLSearchParams(location.search).get("readout") === "1") return true;
     } catch (e) {}
     return false;
   }

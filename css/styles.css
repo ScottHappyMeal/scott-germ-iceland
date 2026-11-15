@@ -1558,7 +1558,7 @@ body.fold-landscape .map-frame {
    single-column rules. No fold-* body class is applied under 520px. *//* Outer display (~466x678) and classic phones stay on the existing
    single-column rules. No fold-* body class is applied under 520px. */
 
-/* Viewport debug readout, shown only when JS adds #fold-debug for ?debug=1. */
+/* Viewport debug readout, shown only when JS adds #fold-debug for ?readout=1. */
 #fold-debug {
   position: fixed;
   left: 8px;
