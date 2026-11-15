@@ -2600,14 +2600,23 @@
 
   function syncFoldShell() {
     var segs = false;
-    var shortLand = false;
-    var tallOpen = false;
+    var landMq = false;
     try { segs = window.matchMedia("(horizontal-viewport-segments: 2)").matches; } catch (e) {}
-    try { shortLand = window.matchMedia("(orientation: landscape) and (min-width: 740px) and (max-height: 760px)").matches; } catch (e) {}
-    try { tallOpen = window.matchMedia("(orientation: portrait) and (min-width: 520px)").matches; } catch (e) {}
-    var landscape = !!(segs || shortLand);
+    try { landMq = window.matchMedia("(orientation: landscape) and (min-width: 800px)").matches; } catch (e) {}
+    var w = window.innerWidth || 0;
+    var h = window.innerHeight || 0;
+    if (window.visualViewport) {
+      if (window.visualViewport.width) w = Math.min(w, window.visualViewport.width);
+      if (window.visualViewport.height) h = Math.min(h, window.visualViewport.height);
+    }
+    /* Two columns only when the viewport is actually landscape, or when
+       segments are reported AND the viewport is wider than it is tall.
+       An upright Duo can still report two horizontal segments; do not
+       treat that as landscape. */
+    var landscape = !!(landMq || (segs && w > h));
+    var portraitOpen = !landscape && w >= 520;
     document.body.classList.toggle("fold-landscape", landscape);
-    document.body.classList.toggle("fold-portrait", !!(tallOpen && !landscape));
+    document.body.classList.toggle("fold-portrait", portraitOpen);
   }
 
   function boot() {
