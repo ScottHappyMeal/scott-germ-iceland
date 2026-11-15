@@ -24,45 +24,43 @@
   --safe-l: env(safe-area-inset-left, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
   --top-h: 3.6rem;
-  --tab-h: 4.15rem;
-  --pick-actions-h: 4.75rem;
   /* Width of the part of the page you can actually see. JS pins these to real
      pixels when a browser lays the page out wider than the screen. */
   --view-w: 100%;
+  --view-h: 100%;
   --vw1: 1vw;
+  --vh1: 1dvh;
+  /* One column for every screen. A phone fills it; anything wider centers it. */
+  --col: 36rem;
 }
 
 * { box-sizing: border-box; }
 html {
-  overflow-x: clip;
-  max-width: 100%;
+  height: 100%;
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "clig" 0, "dlig" 0, "calt" 0;
 }
 html, body {
   margin: 0; padding: 0;
   background: var(--bg); color: var(--ink);
-  min-height: 100%;
-  min-height: 100svh;
-  min-height: 100dvh;
   width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: clip;
+  overflow: hidden;
   -webkit-text-size-adjust: 100%;
 }
+/* The page itself never scrolls and nothing is pinned to the browser window.
+   The body is exactly one screen tall; the header, the scrolling middle, the
+   Pass / I'm in bar and the tabs are stacked inside it in normal flow. */
 body {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
   font-family: var(--sans);
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0.01em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-  width: 100%;
-  max-width: 100%;
 }
-body.who-open, body.welcome-open, body.costs-open, body.confirm-open, body.pick-tab { overflow: hidden; overflow-x: clip; }
 img { max-width: 100%; display: block; }
 .icon-sprite {
   position: absolute;
@@ -101,7 +99,7 @@ h2 { font-size: clamp(1.25rem, calc(var(--vw1) * 3.8), 1.7rem); margin: 0 0 8px;
 h3 { font-size: 1.15rem; margin: 0 0 6px; }
 
 .sky {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
   background:
     radial-gradient(ellipse 80% 50% at 20% -10%, rgba(125, 255, 168, 0.12), transparent 50%),
     radial-gradient(ellipse 60% 40% at 90% 0%, rgba(195, 166, 255, 0.16), transparent 50%),
@@ -110,13 +108,15 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 
 .app {
   position: relative; z-index: 1;
-  height: 100dvh; height: 100svh;
-  display: flex; flex-direction: column;
-  padding-bottom: calc(var(--tab-h) + var(--safe-b));
+  height: 100%;
   width: 100%;
-  max-width: 100%;
+  max-width: var(--col);
+  margin: 0 auto;
+  display: flex; flex-direction: column;
   min-width: 0;
   overflow-x: clip;
+  /* A hairline each side, seen only where the screen is wider than the column. */
+  box-shadow: -1px 0 0 var(--line), 1px 0 0 var(--line);
 }
 
 .top {
@@ -205,7 +205,7 @@ h3 { font-size: 1.15rem; margin: 0 0 6px; }
 
 /* tabs */
 .tabs {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  position: relative; flex: 0 0 auto; z-index: 40;
   display: grid; grid-template-columns: 1fr 1fr 1fr;
   background: rgba(8, 10, 18, 0.94);
   border-top: 1px solid var(--line);
@@ -439,9 +439,6 @@ svg.imap .lab {
   overflow: visible;
   padding-bottom: 12px;
 }
-body.pick-tab .view-pick.has-actions {
-  padding-bottom: calc(var(--pick-actions-h) + 24px);
-}
 #view-plan, #view-compare { min-height: 100%; overflow: visible; }
 .pick-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -492,8 +489,8 @@ body.pick-tab .view-pick.has-actions {
 .swipe-card .photo {
   position: relative;
   flex: 0 0 auto;
-  height: 35dvh;
-  max-height: 35dvh;
+  height: calc(var(--vh1) * 35);
+  max-height: calc(var(--vh1) * 35);
   min-height: 120px;
   width: 100%;
   max-width: 100%;
@@ -561,10 +558,8 @@ body.pick-tab .view-pick.has-actions {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: calc(var(--tab-h) + var(--safe-b));
+  position: relative;
+  flex: 0 0 auto;
   z-index: 35;
   background: var(--bg);
   border-top: 1px solid var(--line);
@@ -574,7 +569,7 @@ body.pick-tab .view-pick.has-actions {
   min-width: 0;
   box-sizing: border-box;
 }
-.pick-actions[hidden] { display: none !important; }
+.pick-actions[hidden], body:not(.pick-tab) .pick-actions { display: none !important; }
 .swipe-btn { min-height: 52px; font-size: 1.05rem; width: 100%; }
 .swipe-btn.pass { background: rgba(255, 138, 138, 0.12); border-color: rgba(255, 138, 138, 0.4); color: #ffd0d0; }
 .swipe-btn.in { background: var(--green); color: #062013; border-color: var(--green); }
@@ -594,9 +589,6 @@ body.pick-tab .view-pick.has-actions {
 .us-who .btn[aria-pressed="true"] { background: var(--green); color: #062013; border-color: var(--green); }
 .us-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .us-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-@media (min-width: 800px) {
-  :where(html:not(.view-narrow)) .us-grid { grid-template-columns: 1fr 1fr; }
-}
 .match-card h3 { margin-bottom: 8px; }
 .match-card ul { margin: 0; padding: 0 0 0 18px; }
 .match-card li { margin: 0 0 6px; }
@@ -606,7 +598,7 @@ body.pick-tab .view-pick.has-actions {
 
 /* who / costs overlays */
 .who-layer, .costs-layer {
-  position: fixed; inset: 0; z-index: 55;
+  position: absolute; inset: 0; z-index: 55;
   background: rgba(4, 6, 12, 0.82);
   display: grid; place-items: end center;
   padding: max(1rem, var(--safe-t)) max(1rem, var(--safe-r)) max(1rem, var(--safe-b)) max(1rem, var(--safe-l));
@@ -624,9 +616,9 @@ body.pick-tab .view-pick.has-actions {
 .who-card p { color: var(--muted); }
 .who-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 .who-btns .btn { width: 100%; min-height: 48px; }
-.costs-sheet { width: min(560px, 100%); max-height: min(88dvh, 720px); display: flex; flex-direction: column; overflow: hidden; place-self: end center; }
+.costs-sheet { width: min(560px, 100%); max-height: min(calc(var(--vh1) * 88), 720px); display: flex; flex-direction: column; overflow: hidden; place-self: end center; }
 .confirm-layer {
-  position: fixed; inset: 0; z-index: 60;
+  position: absolute; inset: 0; z-index: 60;
   background: rgba(4, 6, 12, 0.82);
   display: grid; place-items: center;
   padding: max(1rem, var(--safe-t)) max(1rem, var(--safe-r)) max(1rem, var(--safe-b)) max(1rem, var(--safe-l));
@@ -670,14 +662,6 @@ body.pick-tab .view-pick.has-actions {
   .plan-item { grid-template-columns: 76px 1fr; }
   .plan-item img, .plan-item .ph { width: 76px; height: 60px; }
   .swipe-btn { font-size: 0.95rem; }
-}
-@media (min-width: 800px) {
-  :where(html:not(.view-narrow)) .pad { width: min(980px, calc(100% - 48px)); }
-  :where(html:not(.view-narrow)) .swipe-card .photo { height: min(35dvh, 280px); max-height: 35dvh; }
-  :where(html:not(.view-narrow)) svg.imap { max-height: 22rem; }
-}
-@media (min-width: 1280px) {
-  .pad { width: min(1080px, calc(100% - 64px)); }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
@@ -738,7 +722,7 @@ body.pick-tab .view-pick.has-actions {
 
 /* welcome / onboarding */
 .welcome-layer {
-  position: fixed; inset: 0; z-index: 60;
+  position: absolute; inset: 0; z-index: 60;
   background: rgba(4, 6, 12, 0.88);
   display: grid;
   place-items: center;
@@ -747,7 +731,7 @@ body.pick-tab .view-pick.has-actions {
 .welcome-layer[hidden] { display: none !important; }
 .welcome-sheet {
   width: min(440px, 100%);
-  max-height: min(92dvh, 760px);
+  max-height: min(calc(var(--vh1) * 92), 760px);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -760,7 +744,7 @@ body.pick-tab .view-pick.has-actions {
 .welcome-slide { display: flex; flex-direction: column; min-height: 0; height: 100%; }
 .welcome-photo {
   position: relative;
-  height: min(38dvh, 260px);
+  height: min(calc(var(--vh1) * 38), 260px);
   flex: 0 0 auto;
   background: #10141f;
 }
@@ -792,12 +776,8 @@ body.pick-tab .view-pick.has-actions {
 .welcome-slide .who-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 .welcome-slide .who-btns .btn { width: 100%; min-height: 48px; }
 @media (max-width: 360px) {
-  .welcome-photo { height: min(32dvh, 200px); }
+  .welcome-photo { height: min(calc(var(--vh1) * 32), 200px); }
   .tier-chip { font-size: 0.78rem; padding: 6px 9px; }
-}
-@media (min-width: 800px) {
-  :where(html:not(.view-narrow)) .welcome-sheet { width: min(520px, 100%); }
-  :where(html:not(.view-narrow)) .welcome-photo { height: min(40dvh, 300px); }
 }
 
 /* plus batch: countdown, weather, durations, maps, packing, booking */
@@ -1087,7 +1067,7 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
 }
 .leaflet-control-attribution a { color: var(--muted) !important; }
 .map-layer {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 80;
   background: #07090f;
@@ -1145,424 +1125,12 @@ body.pick-tab .trip-status p { white-space: nowrap; overflow: hidden; text-overf
   .day-bar-item { font-size: 0.56rem; padding: 0 3px; }
   .day-total { font-size: 0.86rem; }
 }
-@media (min-width: 800px) {
-  :where(html:not(.view-narrow)) .trip-status {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 16px;
-    font-size: 0.88rem;
-  }
-  :where(html:not(.view-narrow)) .map-frame { height: 420px; }
-  :where(html:not(.view-narrow)) .day-map { height: 220px; }
-}
-
-/* -------------------------------------------------------------------------- */
-/* iPhone Duo and other wide/short open displays
-   Inner display: 7.6 in, 1878x2670 at ~3x = 626x890 CSS px upright,
-   890x626 in the default open (passport) pose, crease down the middle.
-   Outer display: 5.4 in, 1398x2034 at ~3x = 466x678, stays the phone layout.
-   Two-column layout only when the device is genuinely landscape: width greater
-   than height by every measure, width at least 800px, and not portrait.
-   body.fold-landscape rules are gated by min-aspect-ratio: 1/1 (wider than tall).
-   A max-aspect-ratio: 1/1 override resets them if the class is set while upright.
-   Do not use orientation media queries: Chrome iOS on the Duo can report landscape
-   while innerWidth is less than innerHeight.
-   Segment env() values are used only for the crease gap, never for column widths. */
-/* -------------------------------------------------------------------------- */
-:root {
-  --crease: 24px;
-  --fold-side: 12px;
-  --bar-max: 26rem;
-  --read-col: 36rem;
-}
-
-/* Open inner display, held upright (~626x890). Also other tall mid-width screens. */
-body.fold-portrait .pad {
-  width: min(640px, calc(100% - 28px));
-}
-body.fold-portrait .deck-wrap {
-  width: min(calc(100% - 24px), 42rem);
-  margin-left: auto;
-  margin-right: auto;
-}
-body.fold-portrait .swipe-card .photo {
-  height: min(42dvh, 380px, calc(100dvh - 30rem));
-  max-height: min(42dvh, calc(100dvh - 30rem));
-}
-body.fold-portrait .swipe-card .body {
-  width: 100%;
-  max-width: var(--read-col);
-  margin: 0 auto;
-  padding: 16px 22px 22px;
-}
-body.fold-portrait .pitch-line {
-  font-size: clamp(1.2rem, calc(var(--vw1) * 3.2), 1.65rem);
-}
-body.fold-portrait .tier-chips {
-  gap: 8px;
-}
-body.fold-portrait .tier-chip {
-  padding: 8px 12px;
-}
-/* Center the tab and action bars; keep a full-width backdrop so page content
-   does not show through, but do not stretch the buttons to 626-700px. */
-body.fold-portrait .pick-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding-left: max(16px, var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
-  padding-right: max(16px, var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
-}
-body.fold-portrait .pick-actions .swipe-btn {
-  flex: 1 1 0;
-  width: auto;
-  max-width: 12.5rem;
-}
-body.fold-portrait .tabs {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  padding-left: max(var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
-  padding-right: max(var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
-}
-body.fold-portrait .tab {
-  flex: 1 1 0;
-  max-width: 8.5rem;
-}
-
-/* If the upright inner display reports a horizontal crease, keep the photo
-   in the top pane and the details below the 24px band. */
-@media (vertical-viewport-segments: 2) {
-  body.fold-portrait .swipe-card .photo {
-    height: calc(env(viewport-segment-height 0 0) + env(viewport-segment-top 0 0) - var(--top-h) - 4.25rem);
-    max-height: none;
-    min-height: 140px;
-  }
-  body.fold-portrait .swipe-card .body {
-    padding-top: calc(12px + var(--crease));
-  }
-}
-
-/* Open landscape / passport pose (~890x626): two panes, crease in the middle. */
-@media (min-aspect-ratio: 1/1) {
-
-body.fold-landscape.pick-tab .app {
-  padding-bottom: 0;
-}
-body.fold-landscape.pick-tab .stage {
-  overflow: hidden;
-}
-body.fold-landscape.pick-tab #view-pick {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding-bottom: 0;
-}
-body.fold-landscape.pick-tab #view-pick.has-actions {
-  padding-bottom: 0;
-}
-body.fold-landscape .pick-head {
-  position: absolute;
-  top: 0;
-  left: calc(50% + (var(--crease) / 2));
-  right: var(--fold-side);
-  z-index: 6;
-  padding: 4px 8px 4px 10px;
-  background: transparent;
-}
-body.fold-landscape .deck-wrap {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
-  min-width: 0;
-  max-width: 100%;
-  height: 100%;
-  margin: 0 var(--fold-side);
-}
-body.fold-landscape .deck,
-body.fold-landscape .deck-end {
-  height: 100%;
-  min-height: 0;
-  min-width: 0;
-  max-width: 100%;
-}
-body.fold-landscape .swipe-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--crease) minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  height: 100%;
-  min-height: 100%;
-  min-width: 0;
-  max-width: 100%;
-  align-items: stretch;
-}
-body.fold-landscape .swipe-card .photo {
-  grid-column: 1;
-  grid-row: 1;
-  height: 100%;
-  max-height: none;
-  min-height: 0;
-  min-width: 0;
-  max-width: 100%;
-}
-body.fold-landscape .swipe-card .body {
-  grid-column: 3;
-  grid-row: 1;
-  align-self: start;
-  width: 100%;
-  min-width: 0;
-  min-height: 0;
-  max-width: 100%;
-  height: calc(100% - var(--pick-actions-h) - var(--tab-h));
-  max-height: calc(100% - var(--pick-actions-h) - var(--tab-h));
-  overflow: auto;
-  padding: 44px 16px 16px;
-}
-body.fold-landscape .swipe-card.is-under {
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-}
-body.fold-landscape .pitch-line {
-  font-size: clamp(1.1rem, calc(var(--vw1) * 2.1), 1.4rem);
-}
-body.fold-landscape .tier-chips {
-  gap: 8px;
-}
-body.fold-landscape .deck-end {
-  margin-left: calc(50% + (var(--crease) / 2) - var(--fold-side));
-  width: calc(50% - (var(--crease) / 2) - var(--fold-side));
-  max-width: calc(100% - (var(--crease) / 2) - var(--fold-side));
-  height: auto;
-  max-height: calc(100% - 12px);
-  overflow: auto;
-  box-sizing: border-box;
-}
-/* Actions and tabs live in the right pane, clear of the 24px crease. */
-body.fold-landscape .pick-actions {
-  left: calc(50% + (var(--crease) / 2));
-  right: 0;
-  width: auto;
-  max-width: calc(50% - (var(--crease) / 2));
-  display: flex;
-  justify-content: stretch;
-  gap: 10px;
-  padding-left: 12px;
-  padding-right: max(12px, var(--safe-r));
-  background: var(--bg);
-  box-sizing: border-box;
-}
-body.fold-landscape .pick-actions .swipe-btn {
-  flex: 1 1 0;
-  min-width: 0;
-  width: auto;
-  max-width: none;
-}
-body.fold-landscape .tabs {
-  left: calc(50% + (var(--crease) / 2));
-  right: 0;
-  width: auto;
-  max-width: calc(50% - (var(--crease) / 2));
-  display: flex;
-  padding-left: 8px;
-  padding-right: max(8px, var(--safe-r));
-  box-sizing: border-box;
-}
-body.fold-landscape .tab {
-  flex: 1 1 0;
-}
-
-/* Crease gap only from viewport-segment env values. Never size or
-   position columns, actions, or tabs from segment widths or left offsets:
-   those can report the physical fold even when the phone is upright. */
-@media (horizontal-viewport-segments: 2) and (min-aspect-ratio: 1/1) and (min-width: 800px) {
-  body.fold-landscape {
-    --crease: max(24px, calc(env(viewport-segment-left 1 0) - env(viewport-segment-width 0 0) - env(viewport-segment-left 0 0)));
-  }
-}
-
-/* Plan and Compare: two columns of day / match cards in landscape,
-   a single centered 640px column when upright. */
-body.fold-landscape .pad {
-  width: min(calc(100% - 32px), 100%);
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-body.fold-landscape #planDays {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px 24px;
-  align-items: start;
-}
-body.fold-landscape #planDays > .day-block {
-  margin-bottom: 0;
-}
-body.fold-landscape .us-grid {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 12px 24px;
-}
-body.fold-landscape .map-frame {
-  height: min(46dvh, 360px);
-}
-}
-
-/* If JS still sets fold-landscape while the device is upright, CSS alone
-   must fall back to the single-column layout. */
-@media (max-aspect-ratio: 1/1) {
-  body.fold-landscape.pick-tab .app {
-    padding-bottom: calc(var(--tab-h) + var(--safe-b));
-  }
-  body.fold-landscape.pick-tab .stage {
-    overflow: auto;
-    overflow-x: clip;
-  }
-  body.fold-landscape.pick-tab #view-pick,
-  body.fold-landscape.pick-tab #view-pick.has-actions {
-    position: relative;
-    height: auto;
-    display: block;
-    min-height: 0;
-    padding-bottom: calc(var(--pick-actions-h) + var(--tab-h) + var(--safe-b) + 8px);
-  }
-  body.fold-landscape .pick-head {
-    position: static;
-    top: auto;
-    left: auto;
-    right: auto;
-    z-index: auto;
-    padding: 6px 16px 0;
-    background: transparent;
-  }
-  body.fold-landscape .deck-wrap {
-    position: relative;
-    flex: none;
-    width: min(calc(100% - 24px), 42rem);
-    height: auto;
-    min-height: 0;
-    min-width: 0;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  body.fold-landscape .deck,
-  body.fold-landscape .deck-end {
-    height: auto;
-    min-height: 0;
-    min-width: 0;
-    max-width: 100%;
-  }
-  body.fold-landscape .swipe-card {
-    display: flex;
-    flex-direction: column;
-    grid-template-columns: none;
-    grid-template-rows: none;
-    height: auto;
-    min-height: 0;
-    min-width: 0;
-    max-width: 100%;
-    align-items: stretch;
-  }
-  body.fold-landscape .swipe-card .photo {
-    grid-column: auto;
-    grid-row: auto;
-    height: min(42dvh, 380px, calc(100dvh - 30rem));
-    max-height: min(42dvh, calc(100dvh - 30rem));
-    min-height: 0;
-    min-width: 0;
-    max-width: 100%;
-  }
-  body.fold-landscape .swipe-card .body {
-    grid-column: auto;
-    grid-row: auto;
-    align-self: auto;
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-    max-width: var(--read-col);
-    height: auto;
-    max-height: none;
-    overflow: visible;
-    margin: 0 auto;
-    padding: 16px 22px 22px;
-  }
-  body.fold-landscape .swipe-card.is-under {
-    left: 0;
-    right: 0;
-    top: auto;
-    height: auto;
-    width: 100%;
-  }
-  body.fold-landscape .deck-end {
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    max-height: none;
-  }
-  body.fold-landscape .pick-actions {
-    left: 0;
-    right: 0;
-    width: auto;
-    max-width: none;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding-left: max(16px, var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
-    padding-right: max(16px, var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
-    box-sizing: border-box;
-  }
-  body.fold-landscape .pick-actions .swipe-btn {
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    max-width: 12.5rem;
-  }
-  body.fold-landscape .tabs {
-    left: 0;
-    right: 0;
-    width: auto;
-    max-width: none;
-    display: flex;
-    justify-content: center;
-    padding-left: max(var(--safe-l), calc((var(--view-w) - var(--bar-max)) / 2));
-    padding-right: max(var(--safe-r), calc((var(--view-w) - var(--bar-max)) / 2));
-    box-sizing: border-box;
-  }
-  body.fold-landscape .tab {
-    flex: 1 1 0;
-    max-width: 8.5rem;
-  }
-  body.fold-landscape .pad {
-    width: min(640px, calc(100% - 28px));
-    max-width: 100%;
-    min-width: 0;
-  }
-  body.fold-landscape #planDays {
-    display: block;
-    grid-template-columns: none;
-  }
-  body.fold-landscape #planDays > .day-block {
-    margin-bottom: 22px;
-  }
-  body.fold-landscape .us-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Outer display (~466x678) and classic phones stay on the existing
-   single-column rules. No fold-* body class is applied under 520px. *//* Outer display (~466x678) and classic phones stay on the existing
-   single-column rules. No fold-* body class is applied under 520px. */
 
 /* Viewport debug readout, shown only when JS adds #fold-debug for ?readout=1. */
 #fold-debug {
   position: fixed;
   left: 8px;
-  bottom: calc(var(--tab-h) + var(--pick-actions-h) + var(--safe-b) + 8px);
+  bottom: 9.5rem;
   z-index: 99999;
   margin: 0;
   max-width: min(22rem, calc(100% - 16px));
@@ -1579,46 +1147,21 @@ body.fold-landscape .map-frame {
   pointer-events: none;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
-@media (min-aspect-ratio: 1/1) {
-  body.fold-landscape #fold-debug {
-    bottom: 8px;
-  }
-}
 
 /* -------------------------------------------------------------------------- */
 /* Browser lays the page out wider than it shows.
    Seen in Chrome on an iPhone Duo held open and upright: the visible window is
-   669px wide but the layout viewport is 871px, at zoom 1. Nothing on the page
-   causes it (hide every element and it is still 871), and the viewport tag
-   cannot shrink it, so the page fits itself to the part you can see instead.
-   JS adds html.view-pinned and sets --view-w and --vw1 in pixels only while
-   that mismatch is measured. Everywhere else these rules never apply. */
+   669px wide but the browser lays the page out 871px wide, at zoom 1. Nothing
+   on the page causes it and the viewport tag cannot shrink it. While JS
+   measures that mismatch it adds html.view-pinned and gives the size of the
+   part you can actually see, and the page takes that size. Nothing on the page
+   is pinned to the browser window, so sizing these two boxes is all it takes. */
 /* -------------------------------------------------------------------------- */
 html.view-pinned,
-html.view-pinned body,
-html.view-pinned .app {
-  width: var(--view-w);
-  max-width: var(--view-w);
-}
-html.view-pinned,
 html.view-pinned body {
-  touch-action: pan-y pinch-zoom;
-}
-html.view-pinned .sky,
-html.view-pinned .who-layer,
-html.view-pinned .costs-layer,
-html.view-pinned .confirm-layer,
-html.view-pinned .welcome-layer,
-html.view-pinned .map-layer,
-html.view-pinned body:not(.fold-landscape) .tabs,
-html.view-pinned body:not(.fold-landscape) .pick-actions {
-  left: 0;
-  right: auto;
   width: var(--view-w);
-  max-width: var(--view-w);
-}
-html.view-pinned #fold-debug {
-  max-width: min(22rem, calc(var(--view-w) - 16px));
+  height: var(--view-h);
+  touch-action: pan-y pinch-zoom;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1726,11 +1269,7 @@ html.view-pinned #fold-debug {
 
 /* Changing tabs: the new screen slides in a few pixels from its side of the
    tab bar, and its blocks rise in order. */
-/* Never transform the whole Pick screen: its Pass / I'm in bar is pinned to the
-   window, and a moving parent would drag the bar along with it. */
-.view.is-entering > .pad,
-.view-pick.is-entering > .pick-head,
-.view-pick.is-entering > .deck-wrap { animation: m-page-in var(--duration-fast) var(--ease-smooth-out); }
+.view.is-entering > * { animation: m-page-in var(--duration-fast) var(--ease-smooth-out); }
 .view.is-entering > .pad > * { animation: m-rise var(--duration-very-slow) var(--ease-smooth-out) backwards; }
 .view.is-entering > .pad > h1 { animation-name: m-rise-blur; }
 .view.is-entering > .pad > *:nth-child(2) { animation-delay: var(--duration-stagger); }

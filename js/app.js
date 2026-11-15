@@ -1021,7 +1021,7 @@
     return h;
   }
 
-  var BUILD = "20261115-motion2";
+  var BUILD = "20261115-simple1";
 
   /* The sizes readout is for fault-finding only. It shows with ?readout=1.
      The old ?debug=1 no longer turns it on and is dropped from the address,
@@ -2277,13 +2277,11 @@
     if (!card) {
       if (deck) deck.innerHTML = "";
       if (actions) actions.hidden = true;
-      if (view) view.classList.remove("has-actions");
       if (end) { end.hidden = false; end.innerHTML = endHtml(); }
       if (lastPickShown !== "") { lastPickShown = ""; scrollPickTop(); }
       return;
     }
     if (actions) actions.hidden = false;
-    if (view) view.classList.add("has-actions");
     if (end) end.hidden = true;
     var next = remainingCards().filter(function (c) { return c.id !== card.id; })[0];
     var html = "";
@@ -2811,11 +2809,6 @@
     setTimeout(syncFoldShell, 250);
     setTimeout(syncFoldShell, 1200);
     try {
-      var segsMq = window.matchMedia("(horizontal-viewport-segments: 2)");
-      if (segsMq.addEventListener) segsMq.addEventListener("change", syncFoldShell);
-      else if (segsMq.addListener) segsMq.addListener(syncFoldShell);
-    } catch (e) {}
-    try {
       var portraitMqEv = window.matchMedia("(orientation: portrait)");
       if (portraitMqEv.addEventListener) portraitMqEv.addEventListener("change", syncFoldShell);
       else if (portraitMqEv.addListener) portraitMqEv.addListener(syncFoldShell);
@@ -2914,11 +2907,6 @@
     } else if (typeof window.orientation === "number") {
       angle = window.orientation;
     }
-    /* Class decision uses innerWidth vs innerHeight only. Chrome iOS on the
-       Duo can report orientation: landscape, a wide clientWidth, or a
-       small screen.width while the visible window is upright. */
-    var landscape = (innerW > innerH) && (innerW >= 800);
-    var portraitOpen = !landscape && innerW >= 520;
     /* Chrome iOS on the Duo, open and upright, lays the page out wider than
        the window it shows (clientWidth 871, innerWidth 669, zoom 1). No
        element causes it and the viewport tag cannot undo it, so the page is
@@ -2938,10 +2926,7 @@
       portraitMq: mqMatches("(orientation: portrait)"),
       aspectLand: mqMatches("(min-aspect-ratio: 1/1)"),
       aspectPort: mqMatches("(max-aspect-ratio: 1/1)"),
-      hSegs: mqMatches("(horizontal-viewport-segments: 2)"),
-      vSegs: mqMatches("(vertical-viewport-segments: 2)"),
       width: innerW, height: innerH,
-      landscape: landscape, portraitOpen: portraitOpen,
       atRest: atRest, pinned: pinned,
       wide: wide,
       build: BUILD
@@ -2962,9 +2947,6 @@
       el.setAttribute("aria-hidden", "true");
       document.body.appendChild(el);
     }
-    var classes = [];
-    if (document.body.classList.contains("fold-landscape")) classes.push("fold-landscape");
-    if (document.body.classList.contains("fold-portrait")) classes.push("fold-portrait");
     var wide = snap.wide;
     var wideLine = "widest (none)";
     if (wide) {
@@ -2979,30 +2961,30 @@
       "orientation " + (snap.orientType || "(none)") + " / " + snap.angle,
       "mq (orientation: landscape) " + snap.landscapeMq,
       "mq (min-aspect-ratio: 1/1) " + snap.aspectLand,
-      "mq (horizontal-viewport-segments: 2) " + snap.hSegs,
-      "mq (vertical-viewport-segments: 2) " + snap.vSegs,
-      "body " + (classes.length ? classes.join(" ") : "(none)"),
-      "fit to visible width " + (document.documentElement.classList.contains("view-pinned") ? "ON at " + snap.innerW : "off"),
+      "fit to visible size " + (document.documentElement.classList.contains("view-pinned") ? "ON at " + snap.innerW + " x " + snap.innerH : "off"),
       wideLine,
       "build " + snap.build
     ].join("\n");
   }
 
+  /* One layout for every screen, so there is nothing to choose here. The only
+     job left is the Duo fault: when the browser lays the page out wider than
+     it shows, hand the stylesheet the size you can actually see. */
   function syncViewWidth(snap) {
     var root = document.documentElement;
     if (!root || !snap.atRest) return;
-    /* The (min-width: 800px) rules in the stylesheet read the layout width,
-       which is the wrong number when it is inflated. This class turns them
-       off whenever the visible width is under 800. */
-    root.classList.toggle("view-narrow", snap.innerW > 0 && snap.innerW < 800);
     if (snap.pinned) {
       root.style.setProperty("--view-w", snap.innerW + "px");
+      root.style.setProperty("--view-h", snap.innerH + "px");
       root.style.setProperty("--vw1", (snap.innerW / 100) + "px");
+      root.style.setProperty("--vh1", (snap.innerH / 100) + "px");
       root.classList.add("view-pinned");
-      if (window.scrollX) window.scrollTo(0, window.scrollY);
+      if (window.scrollX || window.scrollY) window.scrollTo(0, 0);
     } else {
       root.style.removeProperty("--view-w");
+      root.style.removeProperty("--view-h");
       root.style.removeProperty("--vw1");
+      root.style.removeProperty("--vh1");
       root.classList.remove("view-pinned");
     }
   }
@@ -3010,9 +2992,6 @@
   function syncFoldShell() {
     var snap = foldSnapshot();
     syncViewWidth(snap);
-    document.body.classList.toggle("fold-landscape", snap.landscape);
-    document.body.classList.toggle("fold-portrait", snap.portraitOpen);
-    /* Measure again for the readout, now that the classes above are applied. */
     if (hasDebugFlag()) snap.wide = widestOffender();
     moveTabsPill(false);
     updateFoldDebug(snap);
