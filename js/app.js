@@ -7,14 +7,17 @@
       return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
     });
   }
-  function photoBlock(key, extraClass, name, load) {
+  function photoBlock(key, extraClass, name, load, href) {
     load = load || "lazy";
     var url = PHOTO_URLS[key] || "";
     var img = url
       ? '<img src="' + url + '" alt="' + esc(name) + '" loading="' + load + '" onload="this.classList.add(&quot;is-ok&quot;)" onerror="window.__imgFail(this)">'
       : "";
-    return '<div class="' + (extraClass || "") + ' ph" role="group" aria-label="' + esc(name) + '">' +
-      img + '<div class="ph-fallback">' + esc(name) + "</div></div>";
+    var inner = img + '<div class="ph-fallback">' + esc(name) + "</div>";
+    if (href) {
+      inner = '<a class="card-photo" href="' + esc(href) + '" target="_blank" rel="noopener">' + inner + "</a>";
+    }
+    return '<div class="' + (extraClass || "") + ' ph" role="group" aria-label="' + esc(name) + '">' + inner + "</div>";
   }
 
   var PHOTO_URLS = {
@@ -107,15 +110,24 @@
       return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch];
     });
   }
-  function photoBlock(key, extraClass, label, lazy) {
+  function photoBlock(key, extraClass, label, lazy, href) {
     var url = PHOTO_URLS[key] || "";
     var name = label || PHOTO_LABELS[key] || key;
     var load = (lazy === false) ? "eager" : "lazy";
     var img = url
       ? '<img src="' + url + '" alt="' + esc(name) + '" loading="' + load + '" onload="this.classList.add(&quot;is-ok&quot;)" onerror="window.__imgFail(this)">'
       : "";
-    return '<div class="' + extraClass + ' ph" role="group" aria-label="' + esc(name) + '">' +
-      img + '<div class="ph-fallback">' + esc(name) + "</div></div>";
+    var inner = img + '<div class="ph-fallback">' + esc(name) + "</div>";
+    if (href) {
+      inner = '<a class="card-photo" href="' + esc(href) + '" target="_blank" rel="noopener">' + inner + "</a>";
+    }
+    return '<div class="' + extraClass + ' ph" role="group" aria-label="' + esc(name) + '">' + inner + "</div>";
+  }
+
+  function cardTitleHtml(text, href) {
+    var inner = esc(text);
+    if (!href) return inner;
+    return '<a class="card-title" href="' + esc(href) + '" target="_blank" rel="noopener">' + inner + "</a>";
   }
 
   var STORAGE_KEY = "scott-germ-versus-iceland-v1";
@@ -1003,7 +1015,7 @@
     var badge = mateBadge(c.id);
     if (kind === "passed") {
       return '<div class="passed-row">' +
-        "<p><strong>" + esc(c.title) + "</strong> · Passed</p>" +
+        "<p><strong>" + cardTitleHtml(c.title, c.url) + "</strong> · Passed</p>" +
         badge +
         '<button type="button" class="ghost" data-undo="' + c.id + '">Undo</button>' +
         "</div>" + placeLinks(c);
@@ -1012,8 +1024,8 @@
       return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
         rec + badge +
         '<p class="in-flag"><span class="tick" aria-hidden="true">✓</span> In the cart</p>' +
-        "<h3>" + esc(c.title) + "</h3>" +
-        '<p class="pitch-line">' + esc(PITCHES[c.id] || c.title) + "</p>" +
+        "<h3>" + cardTitleHtml(c.title, c.url) + "</h3>" +
+        '<p class="pitch-line">' + cardTitleHtml(PITCHES[c.id] || c.title, c.url) + "</p>" +
         '<div class="pitch-cta">' +
         '<div class="pitch-price"><strong>' + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
         '<div class="pitch-btns">' +
@@ -1022,7 +1034,7 @@
     }
     return '<p class="pitch-kicker">' + CAT_LABEL[c.cat] + " · " + c.day + "</p>" +
       rec + badge +
-      '<p class="pitch-line">' + esc(PITCHES[c.id] || ("How about " + c.title + "?")) + "</p>" +
+      '<p class="pitch-line">' + cardTitleHtml(PITCHES[c.id] || ("How about " + c.title + "?"), c.url) + "</p>" +
       (c.desc ? '<p class="pitch-meta">' + c.desc + "</p>" : "") + winter +
       '<div class="pitch-cta">' +
       '<div class="pitch-price"><strong>' + pl.big + "</strong>" + (pl.sub ? "<small>" + pl.sub + "</small>" : "") + "</div>" +
@@ -1039,7 +1051,7 @@
       root.innerHTML = CATALOG.map(function (c) {
         var photoKey = c.photoKey || c.photo;
         return '<article class="pitch is-' + pitchKind(c.id) + '" data-pitch="' + c.id + '">' +
-          photoBlock(photoKey, "pitch-photo idea-photo", c.title) +
+          photoBlock(photoKey, "pitch-photo idea-photo", c.title, true, c.url) +
           '<div class="pitch-main"><div class="pitch-body">' + pitchBodyHtml(c) + "</div></div></article>";
       }).join("");
       root.setAttribute("data-ready", "1");
@@ -1198,7 +1210,7 @@
       var rec = c.rec ? '<span class="rec">Our recommendation</span>' : "";
       return '<article class="car-card' + (on ? " is-on" : "") + (c.rec ? " is-rec" : "") + '">' +
         rec +
-        "<h3>" + c.title + "</h3>" +
+        "<h3>" + cardTitleHtml(c.title, c.url) + "</h3>" +
         "<p class='price-line'>" + (c.est ? "est. " : "") + money(c.daily) + " a day · " + (c.est ? "est. " : "") + money(c.vehicle) + " for 6 days</p>" +
         "<p class='trip'>With recommended Full Cover: " + (c.est ? "est. " : "") + money(c.trip) + " for the trip</p>" +
         "<p>" + c.blurb + "</p>" +
@@ -1372,10 +1384,14 @@
     fp.className = "flip-photo ph";
     fp.setAttribute("aria-label", c.title);
     var url = PHOTO_URLS[c.photoKey || c.photo] || "";
-    fp.innerHTML = (url ? '<img src="' + url + '" alt="' + esc(c.title) + '" loading="lazy" onload="this.classList.add(&quot;is-ok&quot;)" onerror="window.__imgFail(this)">' : "") +
+    var finner = (url ? '<img src="' + url + '" alt="' + esc(c.title) + '" loading="lazy" onload="this.classList.add(&quot;is-ok&quot;)" onerror="window.__imgFail(this)">' : "") +
       '<div class="ph-fallback">' + esc(c.title) + "</div>";
+    if (c.url) {
+      finner = '<a class="card-photo" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + finner + "</a>";
+    }
+    fp.innerHTML = finner;
     document.getElementById("flipKicker").textContent = CAT_LABEL[c.cat] + " · " + c.day;
-    document.getElementById("flipTitle").textContent = c.title;
+    document.getElementById("flipTitle").innerHTML = cardTitleHtml(c.title, c.url);
     document.getElementById("flipDesc").textContent = c.desc;
     document.getElementById("flipWinter").innerHTML = "<strong>Winter:</strong> " + c.winter;
     document.getElementById("flipStandin").textContent = c.photoStandin || "";
@@ -1540,6 +1556,7 @@
 
   function bind() {
     document.body.addEventListener("click", function (e) {
+      if (e.target.closest('a[href][target="_blank"]')) return;
       var yt = e.target.closest("[data-yt]");
       if (yt) { playVideo(yt); return; }
       var carBtn = e.target.closest("[data-car]");
