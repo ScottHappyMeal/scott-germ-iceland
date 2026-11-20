@@ -278,6 +278,7 @@ window.ICELAND_TRIP = (function () {
     edition_spa: "edition",
     retreat_massage: "retreat",
     moss: "retreat",
+    spa_restaurant: "retreat",
     baejarins: "baejarins",
     nl_self: "grotta"
   };
@@ -286,10 +287,10 @@ window.ICELAND_TRIP = (function () {
     dec28: ["flight"],
     dec29: ["flight", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
     dec30: ["stay-domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
-    dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
+    dec31: ["stay-edition", "nye_dinner", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
     jan2: ["stay-edition", "kolaportid", "wool_shops", "shopping_downtown"],
-    jan3: ["stay-retreat", "edition_spa", "retreat_massage", "moss", "blue_lagoon"],
+    jan3: ["stay-retreat", "spa_restaurant", "retreat_massage", "blue_lagoon"],
     jan4: ["stay-retreat", "flight"]
   };
 
@@ -325,9 +326,8 @@ window.ICELAND_TRIP = (function () {
     blue_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
     hvammsvik: { text: "Holiday soak slots book up. Book ASAP.", urgency: "asap" },
     nye_dinner: { text: "NYE dinners book up. Book ASAP.", urgency: "asap" },
-    dill: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
     grillmarkadurinn: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
-    moss: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
+    spa_restaurant: { text: "Reservations are not required at Spa Restaurant.", urgency: "" },
     flight: { text: "Holiday seats go first, especially Saga. Book early.", urgency: "early" },
     car: { text: "Holiday 4x4s go early. Book early.", urgency: "early" }
   };

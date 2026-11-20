@@ -35,7 +35,8 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 - Grotta lighthouse: Olga Ernst, Wikimedia Commons, File:Lighthouse on Grótta Island.jpg, CC BY-SA 4.0.
 - Tides dining room: official, editionhotels.com.
 - Dill: City Foodsters, Wikimedia Commons, File:DILL IMG 2911 (30924863540).jpg, CC BY 2.0, a meal at Dill in Reykjavik.
-- Moss: official, bluelagoon.com.
+- Moss: official, bluelagoon.com. The photo remains in the repo but is not used on the book pages.
+- Spa Restaurant at the Retreat Spa: official, bluelagoon.com, dining room, a set table, a stracciatella plate, and a sushi plate.
 - Grillmarkadurinn: official, grillmarkadurinn.is.
 - Baejarins Beztu: Jóhann Heiðar Árnason, Wikimedia Commons, File:Bæjarins bestu.jpg, CC BY-SA 3.0 (upgraded from a 640 px still).
 - Fridheimar: Eric Kilby, Wikimedia Commons, File:Fridheimar Tomatoes.jpg, CC BY-SA 2.0.

@@ -21,6 +21,7 @@
     kerid: ["kerid", "kerid_rim", "kerid_water", "kerid_parking"],
     glass: ["glass_cottages", "glass_cottages_int", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
     midgard: ["midgard", "midgard_pasta", "midgard_view", "midgard_bar"],
+    spa_restaurant: ["spa_restaurant", "spa_restaurant_table", "spa_restaurant_plate", "spa_restaurant_sushi"],
     edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
     sky_lagoon: ["sky_lagoon", "sky_lagoon_infinity", "sky_lagoon_sunset", "sky_lagoon_sauna"],
@@ -28,7 +29,7 @@
     golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
     seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
     skogafoss: ["skogafoss", "skogafoss_wide", "skogafoss_below"],
-    retreat: ["retreat_hero", "retreat_lagoon", "retreat_evening", "retreat_suite", "retreat_room_view", "retreat_massage", "moss", "blue_lagoon"]
+    retreat: ["retreat_hero", "retreat_lagoon", "retreat_evening", "retreat_suite", "retreat_room_view", "retreat_massage", "spa_restaurant", "blue_lagoon"]
   };
 
   function full(key) { return PHOTO_URLS[key] || ""; }
@@ -70,7 +71,7 @@
       title: "The Reykjavik EDITION, Deluxe King, Scenic view", nights: "Dec 31 to Jan 3, three nights", status: "Not booked", gallery: "edition",
       price: "$4,835",
       sub: "Stay Longer on Us Member rate for Dec 31 to Jan 3, all taxes and fees included. Free cancellation through Dec 1, 2026.",
-      desc: "A Deluxe King room with one king bed and a Scenic view. Check in Dec 31 and check out Jan 3. A harbor hotel next to Harpa, with Tides restaurant, a rooftop bar, and a spa.",
+      desc: "A Deluxe King room with one king bed and a Scenic view. Check in Dec 31 and check out Jan 3. A harbor hotel next to Harpa, with a spa, a rooftop bar, and a 7,000 ISK daily credit that applies at Tides, the hotel restaurant.",
       url: "https://www.marriott.com/en-us/hotels/reyek-the-reykjavik-edition/", urlLabel: "The Reykjavik EDITION", place: "edition"
     },
     "stay-retreat": {
@@ -117,6 +118,14 @@
       sub: "Glass Cottages 3-course partner offer, before drinks. Not in the trip total.",
       desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. From-scratch Icelandic food in a small dining room, so reserve ahead.",
       url: "https://midgardbasecamp.is/midgard-base-camp-restaurant/", urlLabel: "Midgard", place: "midgard"
+    },
+    spa_restaurant: {
+      title: "Dinner at Spa Restaurant, The Retreat", status: "Optional", gallery: "spa_restaurant",
+      price: "About $146 to $178 for two, without drinks",
+      sub: "Two mains and two desserts, from the official menu. Not in the trip total.",
+      desc: "Spa Restaurant is inside the Retreat Spa, which is included with the hotel stay. Light a la carte dishes, and you can dine in a robe or dressed. Reservations are not required. The official main menu is served from 12:00 PM to 8:00 PM daily, including January 3.",
+      winter: "A Blue Lagoon support page, updated September 12, 2025, lists the Wednesday to Sunday kitchen as closing at 7:00 PM. The current official hours pages say 8:00 PM daily. Go a little early to be safe.",
+      url: "https://www.bluelagoon.com/accommodation/in-room/restaurants/spa-restaurant", urlLabel: "Spa Restaurant", place: "retreat"
     },
     nye: {
       title: "New Year's Eve in Reykjavik", status: "Free", gallery: "nye",
@@ -219,10 +228,10 @@
     {
       id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "tides",
       title: "A slow day in Reykjavik",
-      note: "Sleep in at the EDITION, then use the daily Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. The hotel spa is on site, or Sky Lagoon is about 15 minutes away, open 10:00 AM to 9:00 PM in January, with Saman from about $240 for two, optional. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
+      note: "Sleep in at the EDITION, then use the daily 7,000 ISK Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. The hotel spa is on site, or Sky Lagoon is about 15 minutes away, open 10:00 AM to 9:00 PM in January, with Saman from about $240 for two, optional. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
       times: [
         { when: "Late morning", what: "Sleep in." },
-        { when: "Midday", what: "Lunch at Tides, using the daily credit." },
+        { when: "Midday", what: "Lunch at Tides, using the daily 7,000 ISK credit." },
         { when: "Afternoon", what: "Walk Harpa, the Old Harbour, and Laugavegur, or a short drive to Sky Lagoon." },
         { when: "Evening", what: "The EDITION Spa, or a quiet night in." }
       ],
@@ -235,9 +244,9 @@
       times: [
         { when: "Late morning", what: "Check out of The Reykjavik EDITION." },
         { when: "Afternoon", what: "Drive to The Retreat at Blue Lagoon and check in for one night." },
-        { when: "Evening", what: "Soak in the Retreat Lagoon after dark." }
+        { when: "Evening", what: "Dinner at Spa Restaurant in the Retreat Spa, then a soak in the Retreat Lagoon." }
       ],
-      stops: ["stay-retreat"]
+      stops: ["stay-retreat", "spa_restaurant"]
     },
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
