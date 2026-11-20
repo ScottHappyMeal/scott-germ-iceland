@@ -211,7 +211,7 @@
       stops: ["flight"]
     },
     {
-      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "icelandair",
+      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "reykjabod",
       title: "Land at Keflavik, then pick up the car",
       note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a bakery or gas-station stop. Reykjabod opens at 10:00 AM. Check-in at Heathland Lodge is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner. Winter daylight is about 11:20 AM to 3:30 PM.",
       times: [
@@ -222,7 +222,7 @@
         { when: "3:00 PM", what: "Check in at Heathland Lodge. Tell them your arrival time in advance." },
         { when: "Evening", what: "Dinner at Froken Selfoss, about 30 minutes from the lodge." }
       ],
-      stops: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"]
+      stops: ["car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"]
     },
     {
       id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss",
