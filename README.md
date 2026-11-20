@@ -1,14 +1,14 @@
 # Scott & Jerm's Iceland
 
-A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 3, 2027.
+A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 4, 2027.
 
-Prices are planning estimates in US dollars, using 123.4 ISK per USD as of Nov 14, 2026. This is not a booking confirmation.
+Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
 Picking is one card at a time, with I'm in and Pass. Choose who is using the phone, Scott or Jerm. Picks save to a shared trip record, so each person sees the other's picks on any phone, with no links to send and no login. An item locks when you both say yes to the same option. Different choices go to Negotiate on the Compare tab.
 
 ## Photo credits
 
-Stay photos are self-hosted official images from the hotels' own sites, except the Hotel Hofn exterior (Tommy Bee, Wikimedia Commons, CC BY-SA 3.0), which is credited but not shown on the page. Hero and social images use "Flames in the sky," AstroAnthony, Wikimedia Commons, CC BY 4.0.
+Stay photos are self-hosted official images from the hotels' and lodges' own sites, except the Hotel Hofn exterior (Tommy Bee, Wikimedia Commons, CC BY-SA 3.0), which is credited but not shown on the page. Hero and social images use "Flames in the sky," AstroAnthony, Wikimedia Commons, CC BY 4.0. Golden Circle Domes photos are official, archived from goldencircledomes.is. Glass Cottages photos are official, from glasscottages.com.
 
 Day cards and activity photos are self-hosted JPEGs of the actual places. Sources:
 
@@ -52,3 +52,9 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 ## Icons
 
 UI icons are Lucide, vendored in `icons/` under the ISC License.
+
+- Kerid crater: Diego Delso, Wikimedia Commons, File:Crater volcánico Kerið, Suðurland, Islandia, 2014-08-16, DD 151.jpg, CC BY-SA 4.0.
+- Raufarholshellir lava tunnel: Winniepix, Wikimedia Commons, File:Icicles and stalagmites of ice inside the lava tunnel at Raufarholshellir, Iceland (25390824267).jpg, CC BY 2.0.
+- Mjolkurbuid / The Old Dairy, Selfoss: official, mjolkurbuid.is (Mikael Lundblad).
+- Reykjabod Hot Springs: official, reykjabod.is, the bathhouse.
+- Sandholt: official bakery photo, sandholt.is.

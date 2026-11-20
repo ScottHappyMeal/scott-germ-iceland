@@ -60,7 +60,16 @@ window.ICELAND_DATA = (function () {
     car_defender: "images/cars/defender.jpg",
     car_duster: "images/cars/duster.jpg",
     car_yaris: "images/cars/yaris.jpg",
-    car_none: "images/places/laugavegur.jpg"
+    car_none: "images/places/laugavegur.jpg",
+    domes: "images/stays/golden-circle-domes.jpg",
+    domes_int: "images/stays/golden-circle-domes-int.jpg",
+    glass_cottages: "images/stays/glass-cottages.jpg",
+    glass_cottages_int: "images/stays/glass-cottages-int.jpg",
+    lava_tunnel: "images/places/lava-tunnel.jpg",
+    kerid: "images/places/kerid.jpg",
+    mjolkurbuid: "images/places/mjolkurbuid.jpg",
+    reykjabod: "images/places/reykjabod.jpg",
+    sandholt: "images/places/sandholt.jpg"
   };
 
   var PHOTO_LABELS = {
@@ -123,17 +132,31 @@ window.ICELAND_DATA = (function () {
     car_defender: "A Land Rover Defender 110",
     car_duster: "A Dacia Duster 4x4",
     car_yaris: "A Toyota Yaris",
-    car_none: "A Reykjavik street, for the no-car plan"
+    car_none: "A Reykjavik street, for the no-car plan",
+    domes: "A Golden Circle Dome in the snow, with a chimney and a short wooden stair",
+    domes_int: "The double bed and wood stove inside a Golden Circle Dome",
+    glass_cottages: "Glass Cottages at dusk, with the private hot tub on the deck",
+    glass_cottages_int: "The bedroom in a Glass Cottage, looking out through the glass wall",
+    lava_tunnel: "A guided walk through winter ice formations in Raufarholshellir",
+    kerid: "Kerid crater lake, with red slopes around the water",
+    mjolkurbuid: "The Old Dairy food hall, Mjolkurbuid, in Selfoss",
+    reykjabod: "The bathhouse at Reykjabod Hot Springs in Hveragerdi",
+    sandholt: "Open-faced bakery food at Sandholt in Reykjavik"
   };
 
   var STORAGE_KEY = "scott-germ-versus-iceland-v1";
   var PEOPLE = 2;
-  var TRIP_NIGHTS = 5;
+  var TRIP_NIGHTS = 6;
   var BL = { none: 0, comfort: 105, premium: 130, lava: 186 };
-  var FLIGHT = { economy: 1490, business: 3190 };
+  var FLIGHT = { economy: 4138, saga: 6062 };
   var PANO = { standard: 817, premium: 1104 };
   var BUUBBLE_RATE = 253;
   var SUPERIOR_RATE = 1160;
+  var DOMES_RATE = 1371;
+  var GLASS_RATE = 559;
+  var EDITION_RATES = { flex: 4023, superior: 4283, standard: 4583, nonref: 3933 };
+  var RETREAT_RATE = 2484;
+  var LAVA_TUNNEL_TWO = 143; /* about 8,900 ISK a ticket, times two */
   var HORSE_EACH = 137; /* Ishestar Horses and Waffles, 16,900 ISK */
   var SKY_EACH = 121; /* Sky Lagoon Saman from 14,990 ISK */
   var FONTANA_EACH = 61; /* official 7,490 ISK */
@@ -143,14 +166,16 @@ window.ICELAND_DATA = (function () {
   var KATLA_EACH = 194;
 
   var DEFAULTS = {
-    flightClass: "economy",
+    flightClass: "saga",
     superiorNights: 0,
-    suiteNights: 5,
+    suiteNights: 0,
     suiteRate: 2340,
+    editionNights: 3,
+    editionRate: 4023,
     hofnNights: 0,
     hofnRate: 250,
-    retreatNights: 0,
-    retreatRate: 2840,
+    retreatNights: 1,
+    retreatRate: 2484,
     blTier: "lava",
     blVisits: 1,
     iceCave: "none",
@@ -159,10 +184,10 @@ window.ICELAND_DATA = (function () {
     nlTour: false,
     nlCount: 1,
     nlRate: 95,
-    car: false,
+    car: true,
     carRate: 120,
-    carDays: 0,
-    carId: "none",
+    carDays: 6,
+    carId: "mid",
     foodRate: 150,
     foodDays: 6,
     holdDec28: false,
@@ -193,8 +218,8 @@ window.ICELAND_DATA = (function () {
       title: "Dacia Duster 4x4",
       blurb: "A manual 4x4 compact SUV, a common Iceland winter rental. The Kia Sportage automatic 4x4 is on the same quote, at $85 a day and $511 for the 6 days, before Full Cover.",
       model: "Dacia Duster or similar, manual 4x4 (Sportage auto listed too)",
-      source: "Live Blue Car Rental quote for the same KEF window.",
-      daily: 66, vehicle: 395, iskVehicle: 48693, coverDaily: 54, cover: 324, trip: 719, rec: false,
+      source: "Live Blue Car Rental quote, KEF, Dec 29, 2026 to Jan 4, 2027, 6 days.",
+      daily: 66, vehicle: 395, iskVehicle: 48693, coverDaily: 54, cover: 324, trip: 719, rec: true,
       age: "Age 20+ on the Duster, 23+ on the Sportage at Hertz",
       url: "https://www.bluecarrental.is/our-cars/dacia-duster/",
       urlLabel: "Book it",
@@ -266,8 +291,43 @@ window.ICELAND_DATA = (function () {
   };
 
   var CATALOG = [
-    { id: "harpa_walk", cat: "daytime", title: "Harpa and the Old Harbour walk", photo: "harpa", day: "Dec 29",
-      desc: "The EDITION is on the harbor next to Harpa. This is a walk along the waterfront and into the concert hall on Dec 29, after the overnight flight.",
+    { id: "sandholt", cat: "food", title: "Breakfast at Sandholt or Almar Bakari", photo: "sandholt", day: "Dec 29",
+      desc: "After the 6:05 AM landing, breakfast at Sandholt on Laugavegur in Reykjavik (opens 7:30 AM daily, about 51 min from Keflavik) or at Almar Bakari in Hveragerdi (opens 7:00 AM daily, closer to the domes).",
+      winter: "It will still be dark at breakfast. Winter daylight is about 11:20 AM to 3:30 PM.",
+      priceEach: 0, free: true, est: false, rec: true, defYes: true,
+      maps: "Sandholt Laugavegur Reykjavik",
+      url: "https://sandholt.is/en/", urlLabel: "Website" },
+    { id: "lava_tunnel", cat: "daytime", title: "Raufarholshellir Lava Tunnel", photo: "lava_tunnel", day: "Dec 29, 9:00 AM",
+      desc: "A 1-hour guided walk inside a 5,200-year-old lava tube, with winter ice formations, just off Route 39 toward Selfoss. Tours start at 9:00 AM and are not weather-dependent.",
+      winter: "The walkway and lighting stay open in winter. Wear warm layers and shoes with grip. The ticket is about 8,900 ISK a person.",
+      priceEach: 72, free: false, est: true, rec: true, defYes: true,
+      maps: "Raufarholshellir Lava Tunnel",
+      url: "https://www.iceland.org/caves/raufarholshellir", urlLabel: "Book it",
+      priceNote: "About 8,900 ISK a ticket, about $143 for two. A planning figure." },
+    { id: "reykjabod", cat: "spas", title: "Reykjabod Hot Springs or Sky Lagoon", photo: "reykjabod", day: "Dec 29, 11:00 AM",
+      desc: "A geothermal soak at 11:00 AM. Reykjabod Hot Springs in Hveragerdi is about 15 min from the domes. Sky Lagoon near Reykjavik opens at 11:00 AM on Tuesdays, if you stay closer to town after breakfast.",
+      winter: "Morning hours for Reykjabod were not posted when this plan was checked. Confirm hours before you go.",
+      priceEach: 0, free: false, est: true, rec: true, defYes: true,
+      maps: "Reykjabod Hot Springs Hveragerdi",
+      url: "https://reykjabod.is/", urlLabel: "Website",
+      url2: "https://www.skylagoon.com/", url2Label: "Sky Lagoon",
+      priceNote: "Lagoon tickets are not included in the trip total. Confirm the current price when you book." },
+    { id: "mjolkurbuid", cat: "food", title: "Lunch at Mjolkurbuid, then groceries", photo: "mjolkurbuid", day: "Dec 29, 12:00 PM",
+      desc: "Mjolkurbuid, the Old Dairy food hall in Selfoss, opens at 11:30 AM daily, with eight stalls and a wine bar. Grocery stores nearby are useful for drinks and snacks in the dome kitchen.",
+      winter: "The food hall is indoors. This is a practical stop before the 3:00 PM contactless check-in.",
+      priceEach: 0, free: false, est: true, rec: true, defYes: true,
+      maps: "Mjolkurbuid Food Hall Selfoss",
+      url: "https://mjolkurbuid.is/en", urlLabel: "Website",
+      priceNote: "Lunch is not included in the trip total." },
+    { id: "kerid", cat: "daytime", title: "Kerid crater", photo: "kerid", day: "Dec 29 afternoon, or Dec 30",
+      desc: "Kerid crater is about 10 minutes past the Golden Circle Domes. Winter hours are about 9:00 AM to 5:00 PM. You can stop on the way to check-in if daylight remains, or on the morning of Dec 30.",
+      winter: "Daylight on Dec 29 is about 11:20 AM to 3:30 PM. Paths around the rim can be icy.",
+      priceEach: 0, free: false, est: true, rec: true, defYes: true,
+      maps: "Kerid crater Iceland",
+      url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Website",
+      priceNote: "A small entry fee is paid on site. Not included in the trip total." },
+    { id: "harpa_walk", cat: "daytime", title: "Harpa and the Old Harbour walk", photo: "harpa", day: "Dec 31 to Jan 2",
+      desc: "The EDITION is on the harbor next to Harpa. This is a walk along the waterfront and into the concert hall during the Reykjavik nights.",
       winter: "Paths can be icy. Wear shoes with grip.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Harpa Concert Hall Reykjavik",
@@ -279,13 +339,13 @@ window.ICELAND_DATA = (function () {
       maps: "Ishestar Hafnarfjordur",
       url: "https://www.ishestar.is/en/portfolio/horses-and-waffles/", urlLabel: "Book it",
       priceNote: "16,900 ISK per person, from Ishestar." },
-    { id: "grotta", cat: "evening", title: "Grotta lighthouse after dark", photo: "grotta", day: "Dec 29",
+    { id: "grotta", cat: "evening", title: "Grotta lighthouse after dark", photo: "grotta", day: "Dec 31 to Jan 2",
       desc: "Grotta lighthouse is about 10 minutes from downtown, on a causeway. It is a nearby place to look for northern lights. The walk is still available if the sky is cloudy.",
       winter: "The causeway can flood or ice over at high tide. Check the tide and wear spikes or careful boots. Do not climb the rocks in a storm.",
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Grotta lighthouse Reykjavik",
       url: "https://visitreykjavik.is/city-areas/seltjarnarnes-grotta", urlLabel: "Website" },
-    { id: "tides", cat: "food", title: "Dinner at Tides, The EDITION", photo: "tides", day: "Dec 29 or Jan 1",
+    { id: "tides", cat: "food", title: "Dinner at Tides, The EDITION", photo: "tides", day: "Dec 31 to Jan 2",
       desc: "Tides is the restaurant in the EDITION. Seafood and Nordic dishes, at the harbor, without leaving the hotel.",
       winter: "Book ahead for New Year's week. Holiday menus can run higher than the usual a-la-carte.",
       priceEach: 120, free: false, est: true, rec: false, defYes: false,
@@ -463,6 +523,11 @@ window.ICELAND_DATA = (function () {
   };
 
   var PITCHES = {
+    sandholt: "Breakfast after the 6:05 AM landing, at Sandholt in Reykjavik or Almar Bakari in Hveragerdi.",
+    lava_tunnel: "A 9:00 AM guided walk through Raufarholshellir, a lava tube with winter ice formations, on the way south.",
+    reykjabod: "An 11:00 AM soak at Reykjabod in Hveragerdi, or at Sky Lagoon if you stay closer to Reykjavik.",
+    mjolkurbuid: "Lunch at the Old Dairy food hall in Selfoss, then groceries for the dome.",
+    kerid: "Kerid crater, about 10 minutes from the domes, if daylight remains on Dec 29 or on the morning of Dec 30.",
     harpa_walk: "A walk along the Old Harbour and through Harpa on Dec 29. The hotel is next door.",
     horses: "A 50-minute horse ride at Ishestar in Hafnarfjordur, about 15 to 20 minutes from Reykjavik. Pickup is not included.",
     grotta: "A walk to Grotta lighthouse, about 10 minutes from downtown, after dark.",
@@ -495,6 +560,11 @@ window.ICELAND_DATA = (function () {
   };
 
   var SHORT_NAMES = {
+    sandholt: "breakfast",
+    lava_tunnel: "the lava tunnel",
+    reykjabod: "Reykjabod or Sky Lagoon",
+    mjolkurbuid: "the Selfoss food hall",
+    kerid: "Kerid crater",
     harpa_walk: "the harbor walk",
     horses: "the horses",
     grotta: "Grotta after dark",
@@ -533,6 +603,9 @@ window.ICELAND_DATA = (function () {
     TRIP_NIGHTS: TRIP_NIGHTS,
     BL: BL, FLIGHT: FLIGHT, PANO: PANO,
     BUUBBLE_RATE: BUUBBLE_RATE, SUPERIOR_RATE: SUPERIOR_RATE,
+    DOMES_RATE: DOMES_RATE, GLASS_RATE: GLASS_RATE,
+    EDITION_RATES: EDITION_RATES, RETREAT_RATE: RETREAT_RATE,
+    LAVA_TUNNEL_TWO: LAVA_TUNNEL_TWO,
     HORSE_EACH: HORSE_EACH, SKY_EACH: SKY_EACH, FONTANA_EACH: FONTANA_EACH,
     EDITION_SPA_EACH: EDITION_SPA_EACH, RETREAT_MASSAGE_EACH: RETREAT_MASSAGE_EACH,
     HVAMMSVIK_EACH: HVAMMSVIK_EACH, KATLA_EACH: KATLA_EACH,

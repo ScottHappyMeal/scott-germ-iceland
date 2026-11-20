@@ -27,6 +27,15 @@ window.ICELAND_TRIP = (function () {
     panorama: { lat: 63.8506, lon: -20.3839, name: "Panorama Glass Lodge", photo: "panorama", url: "https://www.panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland" },
     buubble: { lat: 63.7510, lon: -20.1330, name: "Buubble", photo: "buubble", url: "https://buubble.com/", urlLabel: "Book it", maps: "Buubble Iceland" },
     aurora_igloo: { lat: 63.7800, lon: -20.2300, name: "Aurora Igloo", photo: "aurora_igloo", url: "https://auroraigloo.is/", urlLabel: "Book it", maps: "Aurora Igloo Iceland" },
+    sandholt: { lat: 64.1459, lon: -21.9288, name: "Sandholt bakery", photo: "sandholt", url: "https://sandholt.is/en/", urlLabel: "Website", maps: "Sandholt Laugavegur Reykjavik" },
+    lava_tunnel: { lat: 63.9397, lon: -21.3967, name: "Raufarholshellir Lava Tunnel", photo: "lava_tunnel", url: "https://www.iceland.org/caves/raufarholshellir", urlLabel: "Book it", maps: "Raufarholshellir Lava Tunnel" },
+    almar: { lat: 64.0003, lon: -21.1833, name: "Almar Bakari, Hveragerdi", photo: "sandholt", url: "https://sandholt.is/en/", urlLabel: "Website", maps: "Almar Bakari Hveragerdi" },
+    reykjabod: { lat: 64.0476, lon: -21.2220, name: "Reykjabod Hot Springs", photo: "reykjabod", url: "https://reykjabod.is/", urlLabel: "Website", maps: "Reykjabod Hot Springs Hveragerdi" },
+    selfoss: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
+    mjolkurbuid: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
+    domes: { lat: 64.0279, lon: -20.9285, name: "Golden Circle Domes", photo: "domes", url: "https://property.godo.is/booking2.php?propid=175431&cur=USD", urlLabel: "Book it", maps: "Golden Circle Domes Thrastalundur Selfoss" },
+    kerid: { lat: 64.0413, lon: -20.8851, name: "Kerid crater", photo: "kerid", url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Website", maps: "Kerid crater Iceland" },
+    glass_cottages: { lat: 63.8340, lon: -20.3910, name: "Glass Cottages, Cottage Blar", photo: "glass_cottages", url: "https://glasscottages.com/", urlLabel: "Book it", maps: "Glass Cottages Klettamork Hella" },
     dill: { lat: 64.1456, lon: -21.9274, name: "Dill", photo: "dill", url: "https://dillrestaurant.is/", urlLabel: "Book it", maps: "Dill Reykjavik" },
     grillmarkadurinn: { lat: 64.1468, lon: -21.9358, name: "Grillmarkadurinn", photo: "grillmarkadurinn", url: "https://www.grillmarkadurinn.is/", urlLabel: "Book it", maps: "Grillmarkadurinn Reykjavik" },
     kolaportid: { lat: 64.1487, lon: -21.9378, name: "Kolaportid", photo: "kolaportid", url: "https://www.kolaportid.is/", urlLabel: "Website", maps: "Kolaportid Reykjavik" },
@@ -66,7 +75,14 @@ window.ICELAND_TRIP = (function () {
     blue_lagoon: { mins: 150, official: false, text: "about 2 hrs 30 min incl. the Keflavik-area drive, approx" },
     edition_spa: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
     retreat_massage: { mins: 60, official: false, text: "about 1 hr, approx" },
-    moss: { mins: 150, official: false, text: "about 2 hrs 30 min, approx" }
+    moss: { mins: 150, official: false, text: "about 2 hrs 30 min, approx" },
+    sandholt: { mins: 45, official: false, text: "about 45 min for breakfast, approx" },
+    lava_tunnel: { mins: 60, official: true, text: "1 hr official guided walk, tours from 9:00 AM" },
+    reykjabod: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
+    mjolkurbuid: { mins: 60, official: false, text: "about 1 hr for lunch and groceries, approx" },
+    kerid: { mins: 45, official: false, text: "about 45 min at the crater, approx, plus a 5 to 10 min drive from the domes" },
+    "stay-domes": { mins: 0, official: false, text: "Contactless self check-in from 3:00 PM. No front desk." },
+    "stay-glass": { mins: 0, official: false, text: "About 50 min and 51 km from the domes, approx." }
   };
 
   var EVENING = {
@@ -88,7 +104,8 @@ window.ICELAND_TRIP = (function () {
     dec31: { rise: "11:21 AM", set: "3:41 PM", mins: 260, riseMin: 681, setMin: 941, noonMin: 811, civilDawn: 604, civilDusk: 1018, civilDawnLabel: "10:04 AM", civilDuskLabel: "4:58 PM" },
     jan1:  { rise: "11:20 AM", set: "3:43 PM", mins: 263, riseMin: 680, setMin: 943, noonMin: 811, civilDawn: 603, civilDusk: 1019, civilDawnLabel: "10:03 AM", civilDuskLabel: "4:59 PM" },
     jan2:  { rise: "11:19 AM", set: "3:45 PM", mins: 266, riseMin: 679, setMin: 945, noonMin: 812, civilDawn: 603, civilDusk: 1021, civilDawnLabel: "10:03 AM", civilDuskLabel: "5:01 PM" },
-    jan3:  { rise: "11:17 AM", set: "3:47 PM", mins: 270, riseMin: 677, setMin: 947, noonMin: 812, civilDawn: 602, civilDusk: 1022, civilDawnLabel: "10:02 AM", civilDuskLabel: "5:02 PM" }
+    jan3:  { rise: "11:17 AM", set: "3:47 PM", mins: 270, riseMin: 677, setMin: 947, noonMin: 812, civilDawn: 602, civilDusk: 1022, civilDawnLabel: "10:02 AM", civilDuskLabel: "5:02 PM" },
+    jan4:  { rise: "11:16 AM", set: "3:49 PM", mins: 273, riseMin: 676, setMin: 949, noonMin: 812, civilDawn: 601, civilDusk: 1024, civilDawnLabel: "10:01 AM", civilDuskLabel: "5:04 PM" }
   };
 
   var DAY_DATES = {
@@ -98,21 +115,22 @@ window.ICELAND_TRIP = (function () {
     dec31: "2026-12-31",
     jan1: "2027-01-01",
     jan2: "2027-01-02",
-    jan3: "2027-01-03"
+    jan3: "2027-01-03",
+    jan4: "2027-01-04"
   };
 
   /* Approximate start times, minutes from Reykjavik midnight. */
   var SCHEDULE = {
     "flight:dec28": 22 * 60 + 40,
     "flight:dec29": 0,
-    "flight:jan3": 16 * 60 + 55,
+    "flight:jan4": 16 * 60 + 55,
     harpa_walk: 8 * 60 + 30,
     shopping_downtown: 10 * 60,
     wool_shops: 11 * 60,
     baejarins: 12 * 60,
     tides: 18 * 60 + 30,
     grotta: 21 * 60,
-    sky_lagoon: 17 * 60 + 30,
+    sky_lagoon: 11 * 60,
     nl_guided: 20 * 60,
     nl_self: 21 * 60,
     horses: 10 * 60,
@@ -134,7 +152,15 @@ window.ICELAND_TRIP = (function () {
     blue_lagoon: 10 * 60 + 30,
     edition_spa: 9 * 60,
     retreat_massage: 11 * 60,
-    moss: 18 * 60 + 30
+    moss: 18 * 60 + 30,
+    sandholt: 7 * 60 + 30,
+    lava_tunnel: 9 * 60,
+    reykjabod: 11 * 60,
+    sky_lagoon: 11 * 60,
+    mjolkurbuid: 12 * 60,
+    kerid: 14 * 60,
+    "stay-domes": 15 * 60,
+    "stay-glass": 16 * 60
   };
 
   var BAR_LABELS = {
@@ -169,23 +195,34 @@ window.ICELAND_TRIP = (function () {
     edition_spa: "EDITION Spa",
     retreat_massage: "Retreat spa",
     moss: "Moss",
+    sandholt: "Breakfast",
+    lava_tunnel: "Lava tunnel",
+    reykjabod: "Reykjabod",
+    mjolkurbuid: "Food hall",
+    kerid: "Kerid",
+    "stay-domes": "Check-in",
+    "stay-glass": "Glass Cottages",
     drive: "Drive"
   };
 
   var BAR_SKIP = {
     "stay-edition": true, "stay-retreat": true, "hold-dec28": true,
-    "sky-cabin": true, car: true, "food-budget": true
+    "sky-cabin": true, "stay-domes": true, "stay-glass": true,
+    car: true, "food-budget": true
   };
 
   var BAR_PRIMARY = {
     flight: true, horses: true, golden_circle: true, south_coast: true,
-    "ice-plan": true, blue_lagoon: true, hvammsvik: true, sky_lagoon: true
+    "ice-plan": true, blue_lagoon: true, hvammsvik: true, sky_lagoon: true,
+    lava_tunnel: true, reykjabod: true, kerid: true
   };
 
   var TOUR_PLACES = {
     golden_circle: ["thingvellir", "geysir", "gullfoss"],
     south_coast: ["seljalandsfoss", "skogafoss", "vik", "reynisfjara"],
-    "ice-plan:jokulsarlon": ["jokulsarlon", "diamond", "hofn"]
+    "ice-plan:jokulsarlon": ["jokulsarlon", "diamond", "hofn"],
+    reykjabod: ["reykjabod"],
+    sandholt: ["sandholt"]
   };
 
   var PLACE_FOR = {
@@ -193,6 +230,13 @@ window.ICELAND_TRIP = (function () {
     "hold-dec28": "edition",
     "stay-edition": "edition",
     "stay-retreat": "retreat",
+    "stay-domes": "domes",
+    "stay-glass": "glass_cottages",
+    sandholt: "sandholt",
+    lava_tunnel: "lava_tunnel",
+    reykjabod: "reykjabod",
+    mjolkurbuid: "selfoss",
+    kerid: "kerid",
     "sky-cabin:pano-standard": "panorama",
     "sky-cabin:pano-premium": "panorama",
     "sky-cabin:buubble": "buubble",
@@ -229,23 +273,25 @@ window.ICELAND_TRIP = (function () {
   };
 
   var DAY_STOP_ORDER = {
-    dec28: ["hold-dec28"],
-    dec29: ["flight", "stay-edition", "stay-retreat", "harpa_walk", "shopping_downtown", "wool_shops", "baejarins", "tides", "grotta", "sky_lagoon"],
-    dec30: ["stay-edition", "stay-retreat", "ice-plan", "nl_guided", "nl_self"],
-    dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks"],
-    jan1: ["stay-edition", "stay-retreat", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
-    jan2: ["stay-edition", "stay-retreat", "sky-cabin", "south_coast", "ice-plan", "kolaportid", "wool_shops"],
-    jan3: ["stay-edition", "edition_spa", "stay-retreat", "retreat_massage", "moss", "blue_lagoon", "flight"]
+    dec28: ["flight"],
+    dec29: ["flight", "sandholt", "lava_tunnel", "reykjabod", "sky_lagoon", "mjolkurbuid", "kerid", "stay-domes"],
+    dec30: ["stay-glass", "kerid", "golden_circle", "fridheimar", "south_coast", "nl_guided", "nl_self"],
+    dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
+    jan1: ["stay-edition", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
+    jan2: ["stay-edition", "south_coast", "kolaportid", "wool_shops", "shopping_downtown"],
+    jan3: ["stay-retreat", "edition_spa", "retreat_massage", "moss", "blue_lagoon"],
+    jan4: ["stay-retreat", "flight"]
   };
 
   var DAY_ROADS = {
-    dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver." },
-    dec29: { drive: "KEF to the harbor is about 51 km and 52 min, approx, if you skip the lagoon on the way.", risk: "Reykjanesbraut can glaze over. Take it slow after an overnight flight." },
-    dec30: { drive: "A Hofn overnight is a long eastbound day, about 381 km and 5 hrs 33 min to the lagoon, approx, unless you take the short flight.", risk: "Wind between Vik and Jokulsarlon can be strong. Check the forecast twice." },
-    dec31: { drive: "This is a town day. Walking is the plan.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked." },
+    dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver at 3:40 PM MT." },
+    dec29: { drive: "Keflavik to the Golden Circle Domes is about 105 km and 1 hr 38 min, approx, if you drive straight. The planned stops add time: Sandholt is about 51 min from the airport, the lava tunnel is about 40 min from Sandholt, and Kerid is about 5 min from the domes.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. There is no front desk at the domes, so plan to arrive at or after 3:00 PM." },
+    dec30: { drive: "The domes to Glass Cottages, near Hella, is about 50 km and 47 min, approx. Seljalandsfoss is about 34 km and 31 min farther if you continue along the South Coast.", risk: "Hellisheidi and the south coast roads can ice over. Check umferdin.is before you leave." },
+    dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
     jan1: { drive: "The Golden Circle loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a horse ride or a hot spring.", risk: "Watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "The South Coast out and back is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. If you keep going east, watch the wind between Vik and Jokulsarlon." },
-    jan3: { drive: "The harbor to the Blue Lagoon is about 51 km and 52 min, approx, then 23 km and 25 min on to KEF.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
+    jan2: { drive: "The South Coast out and back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. If you keep going east, watch the wind between Vik and Jokulsarlon." },
+    jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
+    jan4: { drive: "The Retreat to Keflavik is about 23 km and 25 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
 
   var ROAD_LINKS = [
@@ -254,9 +300,12 @@ window.ICELAND_TRIP = (function () {
   ];
 
   var BOOKING = {
-    "stay-edition": { text: "Earlier plan note: Stay Longer free cancellation until Nov 28, 2026. Confirm this date when you book.", urgency: "deadline" },
-    "hold-dec28": { text: "Earlier plan note: the same EDITION Stay Longer window, free cancellation until Nov 28, 2026. Confirm this date when you book.", urgency: "deadline" },
+    "stay-edition": { text: "Marriott Stay Longer on Us Flexible Member rate, all taxes included. Confirm the current free-cancellation date when you book.", urgency: "early" },
+    "stay-domes": { text: "Dec 29 is a peak holiday night at $1,371. The booking page did not show a tax or cancellation breakdown. Book early.", urgency: "early" },
+    "stay-glass": { text: "Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.", urgency: "deadline" },
+    "stay-retreat": { text: "Lava View Junior Suite, about 8 left when checked. Holiday suite nights book up. Book early.", urgency: "early" },
     "ice-plan": { text: "Ice caves sell out around the holidays. Book early.", urgency: "early" },
+    lava_tunnel: { text: "The 9:00 AM tour is a fixed stop on Dec 29. Book the morning slot early.", urgency: "asap" },
     horses: { text: "Holiday rides book up. Book ASAP.", urgency: "asap" },
     silfra: { text: "Holiday tours book up. Book ASAP.", urgency: "asap" },
     golden_circle: { text: "If you take a guided winter tour, book ASAP.", urgency: "asap" },
@@ -269,8 +318,6 @@ window.ICELAND_TRIP = (function () {
     dill: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
     grillmarkadurinn: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
     moss: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
-    "sky-cabin": { text: "Holiday cabins book up. Book early.", urgency: "early" },
-    "stay-retreat": { text: "Holiday suite nights book up. Book early.", urgency: "early" },
     flight: { text: "Holiday seats go first, especially Saga. Book early.", urgency: "early" },
     car: { text: "Holiday 4x4s go early. Book early.", urgency: "early" }
   };
@@ -291,9 +338,9 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261114-plus";
-  var PREVIEW_PLACES = ["kef", "edition", "thingvellir", "geysir", "gullfoss", "seljalandsfoss", "skogafoss", "vik", "jokulsarlon", "hofn", "blue_lagoon"];
-  var PREVIEW_ROUTES = ["kef_edition", "golden_circle", "south_coast", "edition_jokulsarlon", "edition_hofn", "edition_blue_lagoon", "blue_lagoon_kef"];
+  var ROUTES_URL = "maps/routes.geojson?v=20261119-plan1";
+  var PREVIEW_PLACES = ["kef", "sandholt", "lava_tunnel", "reykjabod", "selfoss", "kerid", "domes", "glass_cottages", "edition", "retreat"];
+  var PREVIEW_ROUTES = ["kef_sandholt", "sandholt_lava_tunnel", "lava_tunnel_reykjabod", "reykjabod_selfoss", "selfoss_kerid", "kerid_domes", "domes_glass", "glass_edition", "edition_retreat", "blue_lagoon_kef"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
      without a key, so this uses OSM tiles (no key) plus a CSS filter for a dark look. */
   var TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";

@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261115-simple1 -->
+  <!-- build: 20261119-plan1 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm's Iceland</title>
-  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 3, 2027. Items lock when you both say yes.">
+  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 4, 2027. The plan is verified and not booked yet.">
   <meta property="og:title" content="Scott &amp; Jerm's Iceland">
-  <meta property="og:description" content="Dec 28, 2026 to Jan 3, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM.">
+  <meta property="og:description" content="Dec 28, 2026 to Jan 4, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="images/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Scott &amp; Jerm's Iceland">
-  <meta name="twitter:description" content="A winter week in Iceland for two, Dec 28, 2026 to Jan 3, 2027.">
+  <meta name="twitter:description" content="A winter week in Iceland for two, Dec 28, 2026 to Jan 4, 2027.">
   <meta name="twitter:image" content="images/og.jpg">
   <link rel="icon" href="images/og.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261115-simple1">
+  <link rel="stylesheet" href="css/styles.css?v=20261119-plan1">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
@@ -55,14 +55,14 @@
   <div class="sky" aria-hidden="true"></div>
   <div class="app">
     <header class="top">
-      <a class="brand" href="#pick">Scott &amp; Jerm's Iceland</a>
+      <a class="brand" href="#plan">Scott &amp; Jerm's Iceland</a>
       <div class="top-actions">
       <button type="button" class="help-btn" id="helpBtn" aria-label="How this works">?</button>
-      <button type="button" class="chip" id="lockedChip" aria-label="Locked total">
+      <button type="button" class="chip" id="lockedChip" aria-label="Planned total">
         <span class="chip-lock" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-lock"></use></svg></span>
         <span>
           <b id="chipTotal">$0</b>
-          <small>locked</small>
+          <small>planned</small>
         </span>
       </button>
       </div>
@@ -77,10 +77,10 @@
       <section class="view" id="view-plan" data-view="plan" hidden>
         <div class="pad">
           <p class="kicker">The plan</p>
-          <h1>The locked plan</h1>
-          <p class="lede">Dec 28, 2026 to Jan 3, 2027. Items appear here after you both say yes.</p>
+          <h1>The full plan</h1>
+          <p class="lede">Dec 28, 2026 to Jan 4, 2027. Cash totals for two, one king or double bed. Nothing is booked yet.</p>
           <div id="planEmpty" class="empty-card">
-            <p>Nothing is locked yet. Open Pick to start.</p>
+            <p>The verified plan is below. Use Pick only if you want to change a fare, car, or EDITION rate, or add optional extras.</p>
             <a class="btn primary" href="#pick">Start picking</a>
           </div>
           <div id="planDays"></div>
@@ -94,7 +94,7 @@
           </div>
           <div class="winter-notes">
             <h2>Winter conditions</h2>
-            <p>Sunrise is around 11:20 AM, and sunset is around 3:35 to 3:45 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
+            <p>Sunrise is around 11:20 AM, and sunset is around 3:30 to 3:50 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
           </div>
           <div id="planVideos" class="vid-block" hidden>
             <h2>Videos</h2>
@@ -103,7 +103,7 @@
           </div>
           <div class="ready-block" id="readyBlock">
             <h2>Ready to book</h2>
-            <p class="sub">Locked items, with the official booking page, a deadline when there is one, and a checkbox to mark after you book.</p>
+            <p class="sub">Every flight, stay, and rental car, with the official booking page, a deadline when there is one, and a checkbox to mark after you book. All are unbooked until you check them off.</p>
             <div id="readyList"></div>
           </div>
         </div>
@@ -205,8 +205,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261115-simple1"></script>
-  <script src="js/trip.js?v=20261115-simple1"></script>
-  <script src="js/app.js?v=20261115-simple1"></script>
+  <script src="js/data.js?v=20261119-plan1"></script>
+  <script src="js/trip.js?v=20261119-plan1"></script>
+  <script src="js/app.js?v=20261119-plan1"></script>
 </body>
 </html>

@@ -6,22 +6,20 @@
   var TRIP_NIGHTS = D.TRIP_NIGHTS;
   var BL = D.BL;
   var FLIGHT = D.FLIGHT;
-  /* Official Icelandair fare families: Economy Light, Economy Standard, Economy Flex,
-     Saga Premium, and Saga Premium Flex.
-     Source: https://www.icelandair.com/en-us/support/on-board/classes-of-service/
-     No live family quote was obtained for DEN-KEF Dec 28, 2026 to Jan 3, 2027.
-     Dollar figures are planning estimates only. Light and Saga Premium Flex use
-     rounded figures so the trip total is not blank; they are not quotes. */
+  /* Verified Google Flights quotes for 2 adults, Icelandair nonstop FI670/FI671,
+     Dec 28, 2026 to Jan 4, 2027. These are cash totals for two, not per-person splits. */
   var FLIGHT_FARES = {
-    light: { each: 1290, two: 2580, est: true, label: "Economy Light" },
-    standard: { each: FLIGHT.economy, two: FLIGHT.economy * 2, est: true, label: "Economy Standard" },
-    flex: { each: 1890, two: 3780, est: true, label: "Economy Flex" },
-    saga: { each: FLIGHT.business, two: FLIGHT.business * 2, est: true, label: "Saga Premium" },
-    "saga-flex": { each: 3590, two: 7180, est: true, label: "Saga Premium Flex" }
+    economy: { two: FLIGHT.economy, est: false, label: "Economy" },
+    standard: { two: FLIGHT.economy, est: false, label: "Economy" },
+    saga: { two: FLIGHT.saga, est: false, label: "Saga Premium" }
   };
   var PANO = D.PANO;
   var BUUBBLE_RATE = D.BUUBBLE_RATE;
   var SUPERIOR_RATE = D.SUPERIOR_RATE;
+  var DOMES_RATE = D.DOMES_RATE;
+  var GLASS_RATE = D.GLASS_RATE;
+  var EDITION_RATES = D.EDITION_RATES;
+  var RETREAT_RATE = D.RETREAT_RATE;
   var STORAGE_KEY = D.STORAGE_KEY;
   var CATALOG = D.CATALOG;
   var CARS = D.CARS;
@@ -44,6 +42,17 @@
   var PROVIDER_NAMES = {
     "icelandair.com": "Icelandair",
     "editionhotels.com": "EDITION",
+    "marriott.com": "Marriott",
+    "goldencircledomes.is": "Golden Circle Domes",
+    "godo.is": "Golden Circle Domes",
+    "property.godo.is": "Golden Circle Domes",
+    "glasscottages.com": "Glass Cottages",
+    "iceland.org": "The Lava Tunnel",
+    "thelavatunnel.is": "The Lava Tunnel",
+    "reykjabod.is": "Reykjabod",
+    "mjolkurbuid.is": "Mjolkurbuid",
+    "sandholt.is": "Sandholt",
+    "keridcratericeland.is": "Kerid",
     "bluelagoon.com": "Blue Lagoon",
     "ishestar.is": "Ishestar",
     "skylagoon.com": "Sky Lagoon",
@@ -140,9 +149,7 @@
   var GROUP_LABEL = {
     "flight-cabin": "the flight",
     "edition-room": "the Reykjavik hotel",
-    "sky-cabin": "the Jan 2 glass or bubble night",
-    "car": "the rental car",
-    "ice-plan": "the ice cave plan"
+    "car": "the rental car"
   };
   var CATALOG_GROUP = { jokulsarlon: "ice-plan", katla: "ice-plan" };
 
@@ -163,162 +170,111 @@
     jokulsarlon: ["ice-plan", "jokulsarlon"],
     katla: ["ice-plan", "katla"]
   };
-  var DEFAULT_TIERS = { flight: "standard", "stay-edition": "suite", "sky-cabin": "pano-standard", car: "premium", "ice-plan": "jokulsarlon" };
+  var DEFAULT_TIERS = { flight: "saga", "stay-edition": "flex", car: "mid" };
+  var PLANNED_IDS = ["flight", "stay-domes", "stay-glass", "stay-edition", "stay-retreat", "car"];
+  var PLANNED_STOPS = ["sandholt", "lava_tunnel", "reykjabod", "mjolkurbuid", "kerid"];
 
   function coreCards() {
-    var KATLA = (D.KATLA_EACH || 194) * PEOPLE;
     return [
-      { id: "flight", kind: "flight", day: "Dec 28", title: "Icelandair, DEN to KEF",
-        defaultTier: "standard",
-        desc: "Icelandair FI670, a Boeing 737 MAX 8, leaves Denver at 3:40 PM on Dec 28 and lands at Keflavik at 6:05 AM on Dec 29. The outbound flight is 7 hours 25 minutes. The return is FI671 on Jan 3, leaving Keflavik at 4:55 PM and landing in Denver at 6:00 PM, 8 hours 5 minutes. Icelandair sells five fare families on this route. Light only books with Light. Standard can mix with Saga Premium. Flex can mix with Saga Premium Flex.",
-        winter: "Delta's JFK, MSP, and DTW flights to KEF are summer-only. In late December, Icelandair is the only nonstop from Denver.",
+      { id: "flight", kind: "flight", day: "Dec 28 to Jan 4", title: "Icelandair, DEN to KEF",
+        defaultTier: "saga",
+        desc: "Icelandair FI670 leaves Denver at 3:40 PM MT on Dec 28 and lands at Keflavik at 6:05 AM on Dec 29. The outbound flight is 7 hours 25 minutes. The return is FI671 on Jan 4, leaving Keflavik at 4:55 PM and landing in Denver at 6:00 PM MT, 8 hours 5 minutes. Both flights are nonstop. Prices below are verified Google Flights cash totals for two adults.",
+        winter: "In late December, Icelandair is the only nonstop from Denver to Keflavik. You sleep on the outbound flight and drive south after you land.",
         url: "https://www.icelandair.com/flights/from-denver-to-reykjavik/", urlLabel: "Book it",
         maps: "Denver International Airport",
         tiers: [
-          { id: "light", label: "Economy Light", title: "Icelandair, Economy Light", photoKey: "economy_row",
+          { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", rec: true, photoKey: "saga_seat",
             credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Economy Light on the overnight flight. Depart Denver at 3:40 PM, land at Keflavik at 6:05 AM.",
-            sub: "Planning estimate, not a live quote. No checked bag. Changes are not allowed. Official Icelandair fare family.",
-            two: FLIGHT_FARES.light.two, each: FLIGHT_FARES.light.each, est: true },
-          { id: "standard", label: "Economy Standard", title: "Icelandair, Economy Standard", rec: true, photoKey: "economy_aisle",
+            pitch: "Saga Premium in the front cabin on the same overnight flight. A wider seat, meals, and priority. Total for two, verified.",
+            sub: "Verified Google Flights cash total for two adults, FI670 and FI671, Dec 28 to Jan 4. One checked bag, 32 kg / 70 lb, meals, and priority.",
+            two: FLIGHT_FARES.saga.two, est: false },
+          { id: "economy", label: "Economy", title: "Icelandair, Economy", photoKey: "economy_aisle",
             credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Economy Standard on the overnight flight. Depart Denver at 3:40 PM, land at Keflavik at 6:05 AM.",
-            sub: "Planning estimate, not a live quote. One checked bag, 23 kg / 50 lb. Changes cost a fee (USD 250 on this route). Not refundable, except taxes. Official Icelandair fare family.",
-            two: FLIGHT_FARES.standard.two, each: FLIGHT_FARES.standard.each, est: true },
-          { id: "flex", label: "Economy Flex", title: "Icelandair, Economy Flex", photoKey: "economy_row",
-            credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Same overnight flight, Economy Flex. Changes have no fare fee, though a fare difference may apply. The fare is refundable.",
-            sub: "Planning estimate, not a live quote. One checked bag, 23 kg / 50 lb. No change fee. Refundable. Official Icelandair fare family.",
-            two: FLIGHT_FARES.flex.two, each: FLIGHT_FARES.flex.each, est: true },
-          { id: "saga", label: "Saga Premium", title: "Icelandair, Saga Premium", photoKey: "saga_seat",
-            credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Saga Premium in the front cabin. A wider seat, meals, and priority, on the same 6:05 AM arrival.",
-            sub: "Planning estimate, not a live quote. One checked bag, 32 kg / 70 lb. Meals and priority. Changes cost a fee (USD 300 on this route). Not refundable, except taxes. Official Icelandair fare family.",
-            two: FLIGHT_FARES.saga.two, each: FLIGHT_FARES.saga.each, est: true },
-          { id: "saga-flex", label: "Saga Premium Flex", title: "Icelandair, Saga Premium Flex", photoKey: "saga_seat",
-            credit: "Photo: Simply Aviation, Wikimedia Commons.",
-            pitch: "Saga Premium Flex in the front cabin, on the same 6:05 AM arrival. Seat selection is included, and the fare is refundable.",
-            sub: "Planning estimate, not a live quote. Two checked bags, 32 kg / 70 lb each. No change fee. Refundable. Official Icelandair fare family.",
-            two: FLIGHT_FARES["saga-flex"].two, each: FLIGHT_FARES["saga-flex"].each, est: true }
+            pitch: "Economy on the same overnight flight. Depart Denver at 3:40 PM, land at Keflavik at 6:05 AM. Total for two, verified.",
+            sub: "Verified Google Flights cash total for two adults, FI670 and FI671, Dec 28 to Jan 4.",
+            two: FLIGHT_FARES.economy.two, est: false }
         ] },
-      { id: "hold-dec28", kind: "stay", day: "Dec 28", title: "Arrive a day early, Dec 28",
-        pitch: "An optional EDITION room on Dec 28, so there is a bed after the 6:05 AM landing.",
-        desc: "The published plan lands at dawn on Dec 29. This is the optional extra night, priced at whatever EDITION room you lock.",
-        winter: "If you hold the room, you still take FI670 a day earlier, or you arrive some other way. Check the same winter-daylight rules.",
-        photoKey: "edition_entrance", rec: false,
-        url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
-        maps: "The Reykjavik EDITION",
-        priceFn: function (ctx) {
-          var rate = ctx.suiteOn ? ctx.suiteRate : (ctx.superiorOn ? SUPERIOR_RATE : ctx.suiteRate);
-          return { two: rate, each: rate / PEOPLE, est: true, sub: "Per room for the night, at the " + (ctx.superiorOn && !ctx.suiteOn ? "Superior King" : "Deluxe Suite") + " rate. Planning estimate, not a live quote this week." };
-        } },
-      { id: "stay-edition", kind: "stay", day: "Dec 29 to Jan 3", title: "The Reykjavik EDITION, five nights",
-        defaultTier: "suite",
-        desc: "Check in Dec 29, check out Jan 3. Harbor-side, next to Harpa. A night away trims this automatically so you do not pay twice.",
-        winter: "Sidewalks can be icy. The free-cancel window still matters.",
-        url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Book it",
+      { id: "stay-domes", kind: "stay", day: "Dec 29", title: "Golden Circle Domes, one night",
+        pitch: "A deluxe dome at Thrastarskogur, near Selfoss, after the daytime stops. Double bed, private bathroom, wood fireplace, and a kitchen.",
+        desc: "Contactless self check-in from 3:00 PM. There is no front desk, so there is nowhere to leave bags early if you land at 6:05 AM. The $1,371 total is the live holiday rate of 1,250 euros for Dec 29. The booking page did not show a separate tax or cancellation breakdown.",
+        winter: "This is peak holiday pricing. Off-peak nights later in the week were much lower when checked.",
+        photoKey: "domes", rec: true,
+        url: "https://property.godo.is/booking2.php?propid=175431&cur=USD", urlLabel: "Book it",
+        maps: "Golden Circle Domes Thrastalundur Selfoss",
+        credit: "Official photo, Golden Circle Domes.",
+        two: DOMES_RATE, est: false, sub: "Live cash rate for Dec 29, total for the dome." },
+      { id: "stay-glass", kind: "stay", day: "Dec 30", title: "Glass Cottages, Cottage Blar, one night",
+        pitch: "Cottage Blar, near Hella, about 50 min from the domes. One double bed, a glass wall, and a private hot tub.",
+        desc: "The live rate was $559, and this was the last cottage left when checked. Once you book, free cancellation ends Nov 30, 2026.",
+        winter: "The cottage sits in lava fields. Dress for wind and ice if you use the hot tub.",
+        photoKey: "glass_cottages", rec: true, bookSoon: true,
+        url: "https://glasscottages.com/", urlLabel: "Book it",
+        maps: "Glass Cottages Klettamork Hella",
+        credit: "Official photo, Glass Cottages Iceland.",
+        two: GLASS_RATE, est: false, sub: "Live cash rate for Dec 30, last cottage left when checked. Free cancellation ends Nov 30, 2026, once you book." },
+      { id: "stay-edition", kind: "stay", day: "Dec 31 to Jan 3", title: "The Reykjavik EDITION, three nights",
+        defaultTier: "flex",
+        desc: "Check in Dec 31, check out Jan 3. A King Room with a courtyard view, one king bed. Harbor-side, next to Harpa. Cash rates only, all taxes and the destination fee included.",
+        winter: "This covers New Year's Eve in Reykjavik. Sidewalks can be icy.",
+        url: "https://www.marriott.com/en-us/hotels/rekeb-the-reykjavik-edition/overview/", urlLabel: "Book it",
         maps: "The Reykjavik EDITION",
         tiers: [
-          { id: "superior", label: "Superior King", title: "EDITION Superior King, five nights", photoKey: "edition_superior",
+          { id: "flex", label: "Flexible Member", title: "EDITION King Room, Stay Longer Flexible Member", rec: true, photoKey: "edition_room",
             credit: "Official photo, The Reykjavik EDITION.",
-            pitch: "A Superior King at the EDITION for five nights. The hotel is on the harbor.",
-            priceFn: function () { return { two: 5 * SUPERIOR_RATE, each: (5 * SUPERIOR_RATE) / PEOPLE, est: true, sub: money(SUPERIOR_RATE) + " a night for the room, a planning estimate. Away nights trim the total." }; } },
-          { id: "suite", label: "Deluxe Suite", title: "EDITION Deluxe Suite, five nights", rec: true, photoKey: "edition_suite",
+            pitch: "A King Room for three nights at the Stay Longer on Us Flexible Member rate. Total for the room, all taxes included.",
+            two: EDITION_RATES.flex, est: false, sub: "Verified Marriott cash total for three nights, all taxes and the destination fee included." },
+          { id: "superior", label: "Superior King", title: "EDITION Superior King, three nights", photoKey: "edition_superior",
             credit: "Official photo, The Reykjavik EDITION.",
-            pitch: "A Deluxe Suite at the EDITION, with a scenic view, for five nights. Confirm the current free-cancel date when you book.",
-            priceFn: function (ctx) { return { two: 5 * ctx.suiteRate, each: (5 * ctx.suiteRate) / PEOPLE, est: true, sub: money(ctx.suiteRate) + " a night for the room, not per person. Planning estimate, not a live quote this week. Away nights trim the total." }; } }
+            pitch: "A Superior King, high floor, for three nights. Total for the room, all taxes included.",
+            two: EDITION_RATES.superior, est: false, sub: "Verified Marriott cash total for three nights, all taxes included." },
+          { id: "standard", label: "Standard Flexible", title: "EDITION King Room, standard Flexible Member", photoKey: "edition_room",
+            credit: "Official photo, The Reykjavik EDITION.",
+            pitch: "The standard Flexible Member King rate for three nights, all taxes included.",
+            two: EDITION_RATES.standard, est: false, sub: "Verified Marriott cash total for three nights, all taxes included." },
+          { id: "nonref", label: "Non-refundable", title: "EDITION King Room, Prepay Non-refundable", photoKey: "edition_room",
+            credit: "Official photo, The Reykjavik EDITION.",
+            pitch: "The Prepay Non-refundable Member King rate for three nights. Lower cash total, no free cancellation.",
+            two: EDITION_RATES.nonref, est: false, sub: "Verified Marriott cash total for three nights, all taxes included. Non-refundable." }
         ] },
-      { id: "stay-retreat", kind: "stay", day: "Jan 1 and Jan 2", title: "The Retreat at Blue Lagoon, two nights",
-        pitch: "Two nights at The Retreat. Lagoon access is included. An in-water massage is not.",
-        desc: "A lagoon-view suite at the default $2,840 a night, a planning estimate, not a live quote this week. A 2-night minimum may apply. These two nights replace two EDITION nights near the end of the week.",
-        winter: "The lagoon stays about 98 to 104 F. Outdoor temperatures will be much lower.",
-        photoKey: "retreat_suite", rec: false,
+      { id: "stay-retreat", kind: "stay", day: "Jan 3", title: "The Retreat at Blue Lagoon, one night",
+        pitch: "A Lava View Junior Suite on Jan 3, after the EDITION. Lagoon access is included.",
+        desc: "One night in a Lava View Junior Suite. The estimate is $2,484, from 310,000 ISK at 124.785 ISK per USD. Eight suites were left when checked. VAT status was unconfirmed.",
+        winter: "The lagoon stays about 98 to 104 F. Outdoor temperatures will be much lower. The drive from the EDITION is about 51 min.",
+        photoKey: "retreat_suite", rec: true,
         url: "https://www.bluelagoon.com/accommodation/retreat-hotel", urlLabel: "Book it",
         maps: "The Retreat at Blue Lagoon",
-        priceFn: function (ctx) { return { two: 2 * ctx.retreatRate, each: (2 * ctx.retreatRate) / PEOPLE, est: true, sub: money(ctx.retreatRate) + " a night for the suite, a planning estimate. The lagoon is included." }; } },
-      { id: "sky-cabin", kind: "stay", day: "Jan 2", title: "A glass cabin, or stay in town",
-        defaultTier: "pano-standard",
-        desc: "A one-night swap for Jan 2. Stay in town leaves you at the EDITION, already in that total.",
-        winter: "It will be dark, and it may be windy. The stay-in-town option keeps you at the EDITION.",
+        credit: "Official photo, Blue Lagoon.",
+        two: RETREAT_RATE, est: true, sub: "Estimate from 310,000 ISK, total for the suite. Eight suites left when checked." },
+      { id: "car", kind: "car", day: "Dec 29 to Jan 4", title: "The rental car",
+        defaultTier: "mid",
+        winter: "Winter tires are standard on these desks from Nov 1 to April 15. Studded tires help on ice, and often need a request. Pickup is at Keflavik after the 6:05 AM landing. Drop-off is at Keflavik before the 4:55 PM flight on Jan 4.",
         tiers: [
-          { id: "pano-standard", label: "Panorama Standard", title: "Panorama Glass Lodge, Standard", rec: true, photoKey: "panorama",
-            pitch: "A standard glass cabin for one night.",
-            url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
-            two: PANO.standard, each: PANO.standard / PEOPLE, est: true, sub: "Per cabin for the night, not per person. Planning estimate, not a live quote this week." },
-          { id: "pano-premium", label: "Panorama Premium", title: "Panorama Glass Lodge, Premium", photoKey: "panorama_premium",
-            pitch: "A Premium glass cabin for one night.",
-            url: "https://panoramaglasslodge.com/", urlLabel: "Book it", maps: "Panorama Glass Lodge Iceland",
-            two: PANO.premium, each: PANO.premium / PEOPLE, est: true, sub: "Per cabin for the night, not per person. Planning estimate, not a live quote this week." },
-          { id: "buubble", label: "Buubble", title: "Buubble, one night", photoKey: "buubble",
-            pitch: "A clear plastic dome for one night.",
-            url: "https://buubble.com/", urlLabel: "Book it", maps: "Buubble Iceland",
-            two: BUUBBLE_RATE, each: BUUBBLE_RATE / PEOPLE, est: true, sub: "Per cabin for the night. Planning estimate, not a live quote this week." },
-          { id: "aurora", label: "Aurora Igloo", title: "Aurora Igloo, one night", photoKey: "aurora_igloo",
-            pitch: "An aurora igloo for one night. The price is an estimate, not a researched holiday quote.",
-            url: "https://auroraigloo.is/", urlLabel: "Book it", maps: "Aurora Igloo Iceland",
-            priceFn: function (ctx) { return { two: ctx.auroraRate, each: ctx.auroraRate / PEOPLE, est: true, sub: "Estimated, per cabin. Edit the rate in Compare." }; } },
-          { id: "town", label: "Stay in town", title: "Stay in town on Jan 2", photoKey: "edition_ext",
-            pitch: "Keep Jan 2 at the EDITION.",
-            url: "https://www.editionhotels.com/reykjavik/", urlLabel: "Website", maps: "The Reykjavik EDITION",
-            two: 0, each: 0, est: false, sub: "No extra night away. The EDITION total already covers this." }
-        ] },
-      { id: "car", kind: "car", day: "The whole week", title: "The rental car",
-        defaultTier: "premium",
-        winter: "Winter tires are standard on these desks from Nov 1 to April 15. Studded tires help on ice, and often need a request. Blue Car Rental still lists the Yaris, the Duster 4x4, and the Defender 110. The Yaris is front-wheel drive, a weaker winter choice outside the city.",
-        tiers: [
-          { id: "none", label: "No car", title: "No rental car", photoKey: "car_none",
-            pitch: "No rental car. Use tours, walking, and taxis.",
-            maps: "Reykjavik city center",
-            two: 0, each: 0, est: false, sub: "Zero on the car line, on purpose." },
-          { id: "budget", label: "Yaris", title: "Toyota Yaris", photoKey: "car_yaris",
-            pitch: "An automatic front-wheel-drive car.",
-            url: "https://www.bluecarrental.is/our-cars/toyota-yaris/", urlLabel: "Book it", maps: "Blue Car Rental Keflavik Airport",
-            credit: "Photo: Kevauto, Wikimedia Commons.",
-            two: CARS.budget.trip, each: CARS.budget.trip / PEOPLE, est: false, sub: money(CARS.budget.daily) + " a day, plus Full Cover, for 6 days." },
-          { id: "mid", label: "Duster 4x4", title: "Dacia Duster 4x4", photoKey: "car_duster",
-            pitch: "A manual 4x4 compact SUV, a common Iceland winter rental.",
+          { id: "mid", label: "Duster 4x4", title: "Dacia Duster 4x4", rec: true, photoKey: "car_duster",
+            pitch: "A manual 4x4 compact SUV from Blue Car Rental, a common Iceland winter rental. Six days, Dec 29 to Jan 4.",
             url: "https://www.bluecarrental.is/our-cars/dacia-duster/", urlLabel: "Book it", maps: "Blue Car Rental Keflavik Airport",
             credit: "Photo: (G)jabz, Wikimedia Commons.",
-            two: CARS.mid.trip, each: CARS.mid.trip / PEOPLE, est: false, sub: money(CARS.mid.daily) + " a day, plus Full Cover, for 6 days." },
-          { id: "premium", label: "Defender 110", title: "Land Rover Defender 110", rec: true, photoKey: "car_defender",
-            pitch: "A Land Rover Defender 110, a 5-door automatic 4x4. The Defender 90 was not listed in Iceland.",
+            two: CARS.mid.trip, est: false, sub: money(CARS.mid.trip) + " total for 6 days, including Full Cover. Live Blue Car Rental quote." },
+          { id: "premium", label: "Defender 110", title: "Land Rover Defender 110", photoKey: "car_defender",
+            pitch: "A Land Rover Defender 110, a 5-door automatic 4x4, for the same 6 days. This is a from-rate, not a locked holiday quote.",
             url: "https://www.bluecarrental.is/our-cars/land-rover-defender/", urlLabel: "Book it",
-            url2: "https://www.hertz.is/vehicle_guide/pfan/", url2Label: "Hertz Defender 110",
             maps: "Blue Car Rental Keflavik Airport",
             credit: "Photo: DestinationFearFan, Wikimedia Commons.",
-            two: CARS.premium.trip, each: CARS.premium.trip / PEOPLE, est: true, sub: "est. " + money(CARS.premium.daily) + " a day, plus Full Cover, for 6 days." }
+            two: CARS.premium.trip, est: true, sub: "est. " + money(CARS.premium.trip) + " for 6 days, including Full Cover. Holiday week can price above this." },
+          { id: "none", label: "No car", title: "No rental car", photoKey: "car_none",
+            pitch: "No rental car. This plan needs a car for the south-coast nights and the Dec 29 stops.",
+            maps: "Reykjavik city center",
+            two: 0, est: false, sub: "Zero on the car line, on purpose. The planned route is built around a rental car." }
         ] },
       { id: "food-budget", kind: "food", day: "Most days", title: "A daily food budget",
-        pitch: "A daily food budget for meals that are not already booked.",
-        desc: "Default is $150 a person a day, for 6 days. The restaurant cards are priced separately. Edit the daily rate in Compare.",
-        winter: "Some cafes may be closed on January 1. A greenhouse, a hot-dog stand, or a hotel restaurant may still be open.",
-        photoKey: "tides", rec: false,
+        pitch: "A daily food budget for meals that are not already in the lodging, flight, and car totals.",
+        desc: "Default is $300 a day for two, for 6 days. Restaurant cards are priced separately. Edit the daily rate in Compare.",
+        winter: "Some cafes may be closed on January 1. A greenhouse, a food hall, or a hotel restaurant may still be open.",
+        photoKey: "mjolkurbuid", rec: false,
         url: "", urlLabel: "", maps: "",
         priceFn: function (ctx) {
           var two = ctx.foodRate * ctx.foodDays * PEOPLE;
-          return { two: two, each: two / PEOPLE, est: true, sub: money(ctx.foodRate) + " a person a day, times " + ctx.foodDays + " days." };
-        } },
-      { id: "ice-plan", kind: "sidetrips", day: "Dec 30 or Jan 2", title: "The ice cave plan",
-        defaultTier: "jokulsarlon",
-        winter: "Caves and lagoon ice depend on the weather. A guided trip is the simpler option.",
-        tiers: [
-          { id: "jokulsarlon", label: "Hofn overnight", title: "Hotel Hofn, for the glacier overnight", rec: true, photoKey: "jokulsarlon",
-            pitch: "Fly east for one night. This includes the Crystal Ice Cave Adventure and Diamond Beach.",
-            url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it",
-            maps: "Hotel Hofn Iceland",
-            priceFn: function (ctx) {
-              var two = 115 * 2 * PEOPLE + ((ctx.iceCave === "long" ? 290 : (ctx.iceCaveRate || 175)) * PEOPLE) + (ctx.hofnRate || 250);
-              return { two: two, each: two / PEOPLE, est: true, sub: "Planning estimate. Includes the Hofn hotel night, domestic flights, and Glacier Adventure's Crystal Ice Cave Adventure (3 hours, meet at Hali, no pickup from Hofn)." };
-            } },
-          { id: "katla", label: "Katla day cave", title: "Katla Fast Track ice cave on January 2", photoKey: "katla",
-            pitch: "Katla Track's Fast Track Katla Ice Cave tour on January 2, if you do not take the glacier overnight. The official tour is 2.5 to 3 hours. You meet in Vik. Pickup from Reykjavik is not included. Helmets, crampons, and headlamps are included.",
-            url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it",
-            maps: "Katla ice cave Iceland",
-            two: KATLA, each: KATLA / PEOPLE, est: true, sub: "From about 23,990 ISK per person, a planning figure. Confirm the current price on Katla Track." },
-          { id: "skip", label: "Skip the caves", title: "Skip the ice caves", photoKey: "edition_ext",
-            pitch: "Skip the ice caves and stay closer to town.",
-            two: 0, each: 0, est: false, sub: "Nothing added for a cave or a Hofn night." }
-        ] }
+          return { two: two, est: true, sub: money(ctx.foodRate * PEOPLE) + " a day for two, times " + ctx.foodDays + " days. Optional, and not in the headline trip total until you both say yes." };
+        } }
     ];
   }
 
@@ -339,6 +295,7 @@
       url2Label: c.url2Label,
       maps: c.maps,
       priceNote: c.priceNote,
+      bookSoon: c.bookSoon,
       source: c
     };
   }
@@ -352,31 +309,30 @@
   }
 
   var DAYS = [
-    { id: "dec28", date: "Dec 28, Monday", title: "Departure from Denver at 3:40 PM",
-      slots: [
-        { key: "flight", label: "the flight", ids: ["flight"] },
-        { key: "hold", label: "Dec 28 hotel", ids: ["hold-dec28"], optional: true }
-      ], items: [] },
-    { id: "dec29", date: "Dec 29, Tuesday", title: "Land at 6:05 AM, then Reykjavik",
-      slots: [{ key: "hotel", label: "Dec 29 hotel", ids: ["stay-edition", "stay-retreat"] }],
-      items: ["harpa_walk", "shopping_downtown", "grotta", "sky_lagoon", "tides", "wool_shops"] },
-    { id: "dec30", date: "Dec 30, Wednesday", title: "Glacier overnight or a day in town",
-      slots: [
-        { key: "hotel", label: "Dec 30 hotel", ids: ["ice-plan", "stay-edition", "stay-retreat"] },
-        { key: "ice", label: "the ice cave plan", ids: ["ice-plan"] }
-      ], items: ["nl_guided", "nl_self"] },
-    { id: "dec31", date: "Dec 31, Thursday", title: "New Year's Eve in Reykjavik",
-      slots: [{ key: "hotel", label: "Dec 31 hotel", ids: ["stay-edition"] }],
-      items: ["nye_dinner", "nye_bonfire", "aramotaskaup", "nye_fireworks", "dill", "grillmarkadurinn"] },
-    { id: "jan1", date: "Jan 1, Friday", title: "Horse ride and the Golden Circle",
-      slots: [{ key: "hotel", label: "Jan 1 hotel", ids: ["stay-edition", "stay-retreat"] }],
+    { id: "dec28", date: "Dec 28, Monday", title: "Overnight flight from Denver at 3:40 PM MT",
+      slots: [{ key: "flight", label: "the flight", ids: ["flight"] }],
+      items: [] },
+    { id: "dec29", date: "Dec 29, Tuesday", title: "Land at 6:05 AM, daytime stops, then the domes",
+      slots: [{ key: "hotel", label: "Dec 29 stay", ids: ["stay-domes"] }],
+      items: ["sandholt", "lava_tunnel", "reykjabod", "sky_lagoon", "mjolkurbuid", "kerid"] },
+    { id: "dec30", date: "Dec 30, Wednesday", title: "Glass Cottages Blar, near Hella",
+      slots: [{ key: "hotel", label: "Dec 30 stay", ids: ["stay-glass"] }],
+      items: ["kerid", "golden_circle", "fridheimar", "south_coast", "nl_guided", "nl_self"] },
+    { id: "dec31", date: "Dec 31, Thursday", title: "Drive to Reykjavik, New Year's Eve",
+      slots: [{ key: "hotel", label: "Dec 31 stay", ids: ["stay-edition"] }],
+      items: ["nye_dinner", "nye_bonfire", "aramotaskaup", "nye_fireworks", "dill", "grillmarkadurinn", "harpa_walk", "grotta"] },
+    { id: "jan1", date: "Jan 1, Friday", title: "Reykjavik, or a Golden Circle day",
+      slots: [{ key: "hotel", label: "Jan 1 stay", ids: ["stay-edition"] }],
       items: ["horses", "golden_circle", "fridheimar", "fontana", "silfra", "tides", "hvammsvik"] },
-    { id: "jan2", date: "Jan 2, Saturday", title: "South Coast or a glass cabin",
-      slots: [
-        { key: "hotel", label: "Jan 2 hotel", ids: ["sky-cabin", "stay-retreat", "stay-edition"] }
-      ], items: ["south_coast", "kolaportid", "wool_shops"] },
-    { id: "jan3", date: "Jan 3, Sunday", title: "Blue Lagoon, then a 4:55 PM flight home",
-      slots: [], items: ["blue_lagoon", "edition_spa", "retreat_massage", "moss"] }
+    { id: "jan2", date: "Jan 2, Saturday", title: "South Coast or a day in town",
+      slots: [{ key: "hotel", label: "Jan 2 stay", ids: ["stay-edition"] }],
+      items: ["south_coast", "kolaportid", "wool_shops", "shopping_downtown"] },
+    { id: "jan3", date: "Jan 3, Sunday", title: "The Retreat at Blue Lagoon",
+      slots: [{ key: "hotel", label: "Jan 3 stay", ids: ["stay-retreat"] }],
+      items: ["blue_lagoon", "edition_spa", "retreat_massage", "moss"] },
+    { id: "jan4", date: "Jan 4, Monday", title: "Drop off the car, then a 4:55 PM flight home",
+      slots: [{ key: "flight", label: "the return flight", ids: ["flight"] }],
+      items: [] }
   ];
 
   var defaultRates = function () {
@@ -604,6 +560,8 @@
     if (!c || !c.tiers) return "";
     var map = (who === "mate") ? (state.mate && state.mate.tiers) : state.tiers;
     var id = (map && map[c.id]) || c.defaultTier || (c.tiers[0] && c.tiers[0].id);
+    if (c.id === "flight" && id !== "saga" && id !== "economy") id = (id === "saga-flex") ? "saga" : "economy";
+    if (c.id === "stay-edition" && !(c.tiers || []).some(function (tier) { return tier.id === id; })) id = "flex";
     return id;
   }
   function findTier(c, id) {
@@ -682,34 +640,35 @@
     };
     var r = state.rates;
     var sim = clone(r);
-    var flightT = has("flight") ? tierOf("flight", "standard") : "";
-    sim.flightClass = (flightT && FLIGHT_FARES[flightT]) ? flightT : (flightT ? "standard" : "");
-    sim.holdDec28 = has("hold-dec28");
-    var roomT = has("stay-edition") ? tierOf("stay-edition", "suite") : "";
-    sim.suiteNights = roomT === "suite" ? 5 : 0;
-    sim.superiorNights = roomT === "superior" ? 5 : 0;
-    sim.retreatNights = has("stay-retreat") ? 2 : 0;
-    var skyT = has("sky-cabin") ? tierOf("sky-cabin", "pano-standard") : "";
-    sim.panoNights = (skyT === "pano-standard" || skyT === "pano-premium") ? 1 : 0;
-    sim.panorama = skyT === "pano-premium" ? "premium" : "standard";
-    sim.buubbleNights = skyT === "buubble" ? 1 : 0;
-    sim.auroraNights = skyT === "aurora" ? 1 : 0;
-    var iceT = has("ice-plan") ? tierOf("ice-plan", "jokulsarlon") : "";
-    sim.hofnNights = iceT === "jokulsarlon" ? 1 : 0;
-    sim.hofnFlights = iceT === "jokulsarlon";
-    sim.iceCave = iceT === "jokulsarlon" ? (r.iceCave || "standard") : "none";
+    var flightT = tierOf("flight", "saga");
+    if (flightT === "standard") flightT = "economy";
+    sim.flightClass = (FLIGHT_FARES[flightT] ? flightT : "saga");
+    sim.holdDec28 = false;
+    var roomT = tierOf("stay-edition", "flex");
+    sim.editionTier = roomT || "flex";
+    sim.editionRate = (EDITION_RATES[sim.editionTier] != null) ? EDITION_RATES[sim.editionTier] : EDITION_RATES.flex;
+    sim.editionNights = 3;
+    sim.suiteNights = 0;
+    sim.superiorNights = 0;
+    sim.retreatNights = 1;
+    sim.retreatRate = RETREAT_RATE;
+    sim.domesNights = 1;
+    sim.glassNights = 1;
+    sim.panoNights = 0;
+    sim.panorama = "standard";
+    sim.buubbleNights = 0;
+    sim.auroraNights = 0;
+    sim.hofnNights = 0;
+    sim.hofnFlights = false;
+    sim.iceCave = "none";
     sim.blVisits = has("blue_lagoon") ? Math.max(1, r.blVisits || 1) : 0;
     sim.blTier = r.blTier || "lava";
     sim.nlTour = has("nl_guided");
-    sim.carId = has("car") ? (tierOf("car", "premium") || "") : "";
+    var carT = tierOf("car", "mid");
+    sim.carId = carT || "mid";
     sim.foodOn = has("food-budget");
     sim.picks = {};
     CATALOG.forEach(function (c) { sim.picks[c.id] = has(c.id); });
-    if (iceT === "jokulsarlon") sim.picks.jokulsarlon = true;
-    if (iceT === "katla") sim.picks.katla = true;
-    var away = sim.retreatNights + sim.panoNights + sim.buubbleNights + sim.auroraNights + sim.hofnNights;
-    if (sim.suiteNights) sim.suiteNights = Math.max(0, sim.suiteNights - away);
-    if (sim.superiorNights) sim.superiorNights = Math.max(0, sim.superiorNights - away);
     return sim;
   }
 
@@ -738,16 +697,17 @@
     var sim = applyChoices(ids);
     var flightsIntl = 0;
     if (sim.flightClass && FLIGHT_FARES[sim.flightClass]) flightsIntl = FLIGHT_FARES[sim.flightClass].two;
-    else if (sim.flightClass) flightsIntl = FLIGHT_FARES.standard.two;
-    var flightsHofn = sim.hofnFlights ? 115 * 2 * PEOPLE : 0;
-    var holdCost = sim.holdDec28 ? ((sim.superiorNights && !sim.suiteNights) ? SUPERIOR_RATE : (sim.suiteRate || 2340)) : 0;
-    /* Hofn hotel and domestic flights are already in the jokulsarlon package price. */
-    var lodgingEdition = sim.superiorNights * SUPERIOR_RATE + (sim.suiteNights ? sim.suiteNights * sim.suiteRate : 0) + holdCost;
-    var lodgingRetreat = sim.retreatNights * sim.retreatRate;
-    var lodgingPano = sim.panoNights * (sim.panorama === "premium" ? PANO.premium : PANO.standard);
-    var lodgingBuubble = sim.buubbleNights * BUUBBLE_RATE;
-    var lodgingAurora = sim.auroraNights * sim.auroraRate;
-    var lodging = lodgingEdition + lodgingRetreat + lodgingPano + lodgingBuubble + lodgingAurora;
+    else flightsIntl = FLIGHT_FARES.saga.two;
+    var flightsHofn = 0;
+    var holdCost = 0;
+    var lodgingDomes = DOMES_RATE;
+    var lodgingGlass = GLASS_RATE;
+    var lodgingEdition = sim.editionRate || EDITION_RATES.flex;
+    var lodgingRetreat = RETREAT_RATE;
+    var lodgingPano = 0;
+    var lodgingBuubble = 0;
+    var lodgingAurora = 0;
+    var lodging = lodgingDomes + lodgingGlass + lodgingEdition + lodgingRetreat;
     var extra = 0;
     CATALOG.forEach(function (c) {
       if (!sim.picks[c.id]) return;
@@ -758,30 +718,54 @@
     var total = flightsIntl + lodging + extra + food + car;
     return {
       flightsIntl: flightsIntl, flightsHofn: flightsHofn, holdCost: holdCost,
+      lodgingDomes: lodgingDomes, lodgingGlass: lodgingGlass,
       lodgingEdition: lodgingEdition, lodgingRetreat: lodgingRetreat,
       lodgingPano: lodgingPano, lodgingBuubble: lodgingBuubble, lodgingAurora: lodgingAurora,
       lodging: lodging, extra: extra, food: food, car: car,
-      total: total, each: total / PEOPLE, sim: sim
+      packageTotal: flightsIntl + lodging + car,
+      total: total, sim: sim
     };
   }
 
   function cardPrice(c, idsForCtx) {
     var ctx = ratesCtx();
-    c = viewCard(c);
-    if (c.priceFn) return c.priceFn(ctx);
-    var sim = applyChoices(idsForCtx || (lockedIds().concat(yesIdsFrom(state.picks))));
-    if (c.source) {
-      var two = itemPriceOn(c.source, sim);
-      return { two: two, each: two / PEOPLE, est: !!c.source.est, sub: c.priceNote || "" };
+    var viewed = viewCard(c);
+    if (viewed.priceFn) return viewed.priceFn(ctx);
+    if (viewed.source) {
+      var sim = applyChoices(idsForCtx || planIds());
+      var two = itemPriceOn(viewed.source, sim);
+      return { two: two, est: !!viewed.source.est, sub: viewed.priceNote || viewed.source.priceNote || "" };
     }
-    return { two: 0, each: 0, est: false, sub: "" };
+    return {
+      two: viewed.two || 0,
+      est: !!viewed.est,
+      sub: viewed.sub || ""
+    };
   }
 
   function priceLabel(c) {
     var p = cardPrice(c);
-    var big = (p.est ? "est. " : "") + money(p.two) + " for two";
-    var sub = money(p.each) + " per person" + (p.sub ? ". " + p.sub : "");
-    return { big: big, sub: sub, two: p.two, each: p.each, est: p.est };
+    var big = (p.est ? "est. " : "") + money(p.two);
+    var sub = p.sub || "Total for two.";
+    if (!p.two && !p.est && !p.sub) sub = "";
+    return { big: big, sub: sub, two: p.two, est: p.est };
+  }
+
+  function isPlanned(id) {
+    return PLANNED_IDS.indexOf(id) !== -1;
+  }
+
+  function planIds() {
+    var ids = PLANNED_IDS.slice();
+    lockedIds().forEach(function (id) {
+      if (ids.indexOf(id) === -1) ids.push(id);
+    });
+    return ids;
+  }
+
+  function packageTotals() {
+    var t = computeFrom(planIds());
+    return t;
   }
 
   function placeLinks(c) {
@@ -1185,10 +1169,10 @@
 
   /* ---------- route ---------- */
   function currentTab() {
-    var h = (location.hash || "#pick").replace(/^#/, "");
+    var h = (location.hash || "#plan").replace(/^#/, "");
     if (h === "us") h = "compare";
     if (h === "pick" || h === "compare" || h === "plan") return h;
-    return "pick";
+    return "plan";
   }
   function route() {
     var tab = currentTab();
@@ -1201,8 +1185,14 @@
     document.querySelectorAll(".tab").forEach(function (a) {
       a.setAttribute("aria-current", a.getAttribute("data-tab") === tab ? "page" : "false");
     });
-    if (tab === "plan" && overviewMap) {
-      setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 60);
+    if (tab === "plan") {
+      setTimeout(function () {
+        if (currentTab() !== "plan") return;
+        if (!overviewMap) initOverviewMap();
+        else laterInvalidate(overviewMap, mapEpoch);
+        if (!Object.keys(dayMaps).length) initDayMaps();
+        else Object.keys(dayMaps).forEach(function (k) { laterInvalidate(dayMaps[k], mapEpoch); });
+      }, 60);
     }
     if (lastTab && lastTab !== tab) {
       var entering = document.getElementById("view-" + tab);
@@ -1214,6 +1204,10 @@
       }
     }
     moveTabsPill(lastTab !== null);
+    if (lastTab !== tab) {
+      var stage = document.querySelector(".stage");
+      if (stage) stage.scrollTop = 0;
+    }
     lastTab = tab;
     renderCountdown();
     renderWeather();
@@ -1234,29 +1228,28 @@
   }
 
   function renderChip() {
-    var t = computeFrom(lockedIds());
+    var t = packageTotals();
     var el = document.getElementById("chipTotal");
-    if (el) setRollingNumber(el, money(t.total), lastChip === null ? 1 : t.total - lastChip);
+    if (el) setRollingNumber(el, money(t.packageTotal), lastChip === null ? 1 : t.packageTotal - lastChip);
     var chip = document.getElementById("lockedChip");
-    if (chip && lastChip !== null && lastChip !== t.total) {
+    if (chip) {
+      var small = chip.querySelector("small");
+      if (small) small.textContent = "planned";
+    }
+    if (chip && lastChip !== null && lastChip !== t.packageTotal) {
       chip.classList.remove("is-bump");
       void chip.offsetWidth;
       chip.classList.add("is-bump");
-      /* Something new just locked: gold sparks off the total. */
-      if (t.total > lastChip) burst(chip, chip.closest(".top"), true);
+      if (t.packageTotal > lastChip) burst(chip, chip.closest(".top"), true);
     }
-    lastChip = t.total;
+    lastChip = t.packageTotal;
   }
 
   function hotelForNight(night, locked) {
-    var has = function (id) { return locked.indexOf(id) !== -1; };
-    if (night === "dec30" && has("ice-plan") && cardTierId(DECK_MAP["ice-plan"]) === "jokulsarlon") return "ice-plan";
-    if ((night === "jan1" || night === "jan2") && has("stay-retreat")) return "stay-retreat";
-    if (night === "jan2" && has("sky-cabin")) {
-      var sky = cardTierId(DECK_MAP["sky-cabin"]);
-      if (sky && sky !== "town") return "sky-cabin";
-    }
-    if (has("stay-edition")) return "stay-edition";
+    if (night === "dec29") return "stay-domes";
+    if (night === "dec30") return "stay-glass";
+    if (night === "dec31" || night === "jan1" || night === "jan2") return "stay-edition";
+    if (night === "jan3") return "stay-retreat";
     return null;
   }
 
@@ -1337,8 +1330,8 @@
         if (ice === "katla" && dayId !== "jan2") return;
         if (ice === "jokulsarlon" && dayId !== "dec30") return;
       }
-      if (locked.indexOf(id) === -1 && id !== "flight") return;
-      if (id === "flight" && dayId === "jan3") { keys.push("kef"); return; }
+      if (locked.indexOf(id) === -1 && !isPlanned(id) && PLANNED_STOPS.indexOf(id) === -1 && id !== "flight") return;
+      if (id === "flight" && (dayId === "jan3" || dayId === "jan4")) { keys.push("kef"); return; }
       expandPlaces(id).forEach(function (k) { keys.push(k); });
     });
     return uniqueKeys(keys);
@@ -1755,8 +1748,14 @@
     if ((T.NYE_IDS || []).some(has)) {
       items.push({ id: "nye-outfit", label: "A warm outfit for New Year's Eve." });
     }
-    if (has("car") && cardTierId(DECK_MAP["car"]) !== "none") {
+    if ((has("car") || isPlanned("car")) && cardTierId(DECK_MAP["car"]) !== "none") {
       items.push({ id: "scraper", label: "An ice scraper for the car." });
+    }
+    if (isPlanned("stay-retreat") || has("reykjabod") || has("sky_lagoon") || has("blue_lagoon")) {
+      if (!items.some(function (it) { return it.id === "swimsuit"; })) {
+        items.push({ id: "swimsuit", label: "A swimsuit." });
+        items.push({ id: "flipflops", label: "Flip-flops for wet decks." });
+      }
     }
     return { items: items, provided: provided };
   }
@@ -1943,13 +1942,11 @@
   }
 
   function overviewKeys(locked) {
-    var keys = ["kef", "edition"];
-    locked.forEach(function (id) {
+    var keys = (T.PREVIEW_PLACES || []).slice();
+    (locked || []).forEach(function (id) {
       expandPlaces(id).forEach(function (k) { keys.push(k); });
     });
-    keys = uniqueKeys(keys);
-    if (keys.length <= 3) return uniqueKeys(keys.concat(T.PREVIEW_PLACES || []));
-    return keys;
+    return uniqueKeys(keys);
   }
 
   function overviewLegs(keys) {
@@ -2001,14 +1998,57 @@
     if (wrap) wrap.classList.toggle("is-active", !!on);
   }
 
-  function drawOverview() {
-    var el = document.getElementById("overviewMap");
-    if (!el || typeof L === "undefined") return;
+  var mapEpoch = 0;
+
+  function bumpMaps() {
+    mapEpoch += 1;
+    destroyDayMaps();
     if (overviewMap) {
-      overviewMap.remove();
+      destroyMap(overviewMap);
       overviewMap = null;
     }
-    el.innerHTML = "";
+  }
+
+  function mapAlive(map, epoch) {
+    try {
+      return !!(map && (epoch === undefined || epoch === mapEpoch) && map._mapPane && map.getContainer && map.getContainer().isConnected);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function laterInvalidate(map, epoch) {
+    setTimeout(function () {
+      try { if (mapAlive(map, epoch)) map.invalidateSize(); } catch (e) {}
+    }, 80);
+  }
+
+  function destroyMap(map) {
+    if (!map) return;
+    try { if (map.stop) map.stop(); } catch (e) {}
+    try { if (map.off) map.off(); } catch (e) {}
+    var el = null;
+    try { el = map.getContainer(); } catch (e) {}
+    try { map.remove(); } catch (e) {}
+    if (el) {
+      try { delete el._leaflet_id; } catch (err) { el._leaflet_id = undefined; }
+      try { el.innerHTML = ""; } catch (e) {}
+    }
+  }
+
+  function destroyDayMaps() {
+    Object.keys(dayMaps).forEach(function (k) { destroyMap(dayMaps[k]); });
+    dayMaps = {};
+  }
+
+  function drawOverview(epoch) {
+    var el = document.getElementById("overviewMap");
+    if (!el || typeof L === "undefined" || !el.isConnected) return;
+    if (epoch !== undefined && epoch !== mapEpoch) return;
+    if (overviewMap) {
+      destroyMap(overviewMap);
+      overviewMap = null;
+    }
     overviewMap = L.map(el, {
       zoomControl: true,
       attributionControl: true,
@@ -2020,32 +2060,29 @@
       keyboard: false
     });
     cartoLayer().addTo(overviewMap);
-    var keys = overviewKeys(lockedIds());
+    var keys = overviewKeys(planIds());
     var bounds = addPins(overviewMap, keys);
     addLegs(overviewMap, overviewLegs(keys));
     fitOrCenter(overviewMap, bounds);
     setOverviewInteractive(false);
-    setTimeout(function () { if (overviewMap) overviewMap.invalidateSize(); }, 80);
+    laterInvalidate(overviewMap, epoch);
   }
 
   function initOverviewMap() {
-    loadRoutes().then(function () { drawOverview(); });
-  }
-
-  function destroyDayMaps() {
-    Object.keys(dayMaps).forEach(function (k) {
-      try { dayMaps[k].remove(); } catch (e) {}
+    var epoch = mapEpoch;
+    loadRoutes().then(function () {
+      if (epoch !== mapEpoch) return;
+      drawOverview(epoch);
     });
-    dayMaps = {};
   }
 
-  function drawDayMap(dayId, el) {
-    if (!el || typeof L === "undefined") return;
+  function drawDayMap(dayId, el, epoch) {
+    if (!el || typeof L === "undefined" || !el.isConnected) return;
+    if (epoch !== undefined && epoch !== mapEpoch) return;
     if (dayMaps[dayId]) {
-      try { dayMaps[dayId].remove(); } catch (e) {}
+      destroyMap(dayMaps[dayId]);
       dayMaps[dayId] = null;
     }
-    el.innerHTML = "";
     var map = L.map(el, {
       zoomControl: false,
       attributionControl: false,
@@ -2058,28 +2095,30 @@
       tap: false
     });
     cartoLayer().addTo(map);
-    var keys = placesForDay(dayId, lockedIds());
+    var keys = placesForDay(dayId, planIds());
     if (!keys.length) keys = ["edition"];
     var bounds = addPins(map, keys);
-    addLegs(map, legsForDay(dayId, lockedIds()));
+    addLegs(map, legsForDay(dayId, planIds()));
     fitOrCenter(map, bounds);
     dayMaps[dayId] = map;
-    setTimeout(function () { map.invalidateSize(); }, 80);
+    laterInvalidate(map, epoch);
   }
 
   function initDayMaps() {
     destroyDayMaps();
-    var nodes = document.querySelectorAll("[data-day-map]");
-    if (!nodes.length) return;
+    var epoch = mapEpoch;
+    if (!document.querySelector("[data-day-map]")) return;
     loadRoutes().then(function () {
-      nodes.forEach(function (el) {
-        drawDayMap(el.getAttribute("data-day-map"), el);
+      if (epoch !== mapEpoch) return;
+      document.querySelectorAll("[data-day-map]").forEach(function (el) {
+        if (epoch !== mapEpoch || !el.isConnected) return;
+        drawDayMap(el.getAttribute("data-day-map"), el, epoch);
       });
     });
   }
 
   function dayMapHtml(dayId) {
-    if (!placesForDay(dayId, lockedIds()).length) return "";
+    if (!placesForDay(dayId, planIds()).length) return "";
     return '<button type="button" class="day-map-btn" data-open-day-map="' + esc(dayId) + '" aria-label="Open the day map">' +
       '<div class="day-map" id="day-map-' + esc(dayId) + '" data-day-map="' + esc(dayId) + '"></div>' +
       '<span class="day-map-hint">Tap for a bigger map</span></button>';
@@ -2095,11 +2134,13 @@
     layer.hidden = false;
     document.body.classList.add("map-open");
     if (fullMap) {
-      try { fullMap.remove(); } catch (e) {}
+      destroyMap(fullMap);
       fullMap = null;
     }
-    host.innerHTML = "";
+    var epoch = mapEpoch;
     loadRoutes().then(function () {
+      if (epoch !== mapEpoch || !host.isConnected) return;
+      if (fullMap) { destroyMap(fullMap); fullMap = null; }
       fullMap = L.map(host, {
         zoomControl: true,
         attributionControl: true,
@@ -2109,11 +2150,11 @@
         doubleClickZoom: true
       });
       cartoLayer().addTo(fullMap);
-      var keys = placesForDay(dayId, lockedIds());
+      var keys = placesForDay(dayId, planIds());
       var bounds = addPins(fullMap, keys);
-      addLegs(fullMap, legsForDay(dayId, lockedIds()));
+      addLegs(fullMap, legsForDay(dayId, planIds()));
       fitOrCenter(fullMap, bounds);
-      setTimeout(function () { if (fullMap) fullMap.invalidateSize(); }, 80);
+      laterInvalidate(fullMap, epoch);
     });
   }
 
@@ -2122,13 +2163,51 @@
     if (layer) layer.hidden = true;
     document.body.classList.remove("map-open");
     if (fullMap) {
-      try { fullMap.remove(); } catch (e) {}
+      destroyMap(fullMap);
       fullMap = null;
     }
   }
 
 
-  function renderPlanItem(id) {
+  function statusHtml(id, c) {
+    var booked = !!(state.booked && state.booked[id]);
+    if (booked) return '<p class="lock is-booked">Booked</p>';
+    if (c && c.bookSoon) return '<p class="lock is-soon">Book soon</p>';
+    if (isPlanned(id)) return '<p class="lock is-planned">Not booked</p>';
+    if (PLANNED_STOPS.indexOf(id) !== -1) return '<p class="lock is-planned">Planned</p>';
+    if (isLocked(id)) return '<p class="lock">' + icon("lock") + " Locked</p>";
+    return '<p class="lock is-planned">Planned</p>';
+  }
+
+  function totalsHtml() {
+    var t = packageTotals();
+    var flightT = cardTierId(DECK_MAP.flight) || "saga";
+    if (flightT === "standard") flightT = "economy";
+    var carT = cardTierId(DECK_MAP.car) || "mid";
+    var roomT = cardTierId(DECK_MAP["stay-edition"]) || "flex";
+    var lodgingNote = (roomT === "nonref") ? "$8,347 with the non-refundable EDITION rate" : money(t.lodging) + " with the current EDITION rate";
+    var rows = [
+      ["Saga Premium and the Duster", 15218, flightT === "saga" && carT === "mid"],
+      ["Economy and the Duster", 13294, flightT === "economy" && carT === "mid"],
+      ["Saga Premium and the Defender 110, est.", 16647, flightT === "saga" && carT === "premium"],
+      ["Economy and the Defender 110, est.", 14723, flightT === "economy" && carT === "premium"]
+    ];
+    var list = rows.map(function (row) {
+      return '<li class="' + (row[2] ? "is-current" : "") + '"><span>' + esc(row[0]) + "</span><b>" + (row[0].indexOf("est.") !== -1 ? "est. " : "") + money(row[1]) + "</b></li>";
+    }).join("");
+    var extra = (t.extra || 0) + (t.food || 0);
+    var extraLine = extra ? '<p class="sub">Locked extras and food add ' + money(extra) + ", for a current grand total of " + money(t.total) + ".</p>" : '<p class="sub">Meals, activities, and fuel are not included in these totals.</p>';
+    return '<div class="totals-card" id="planTotals">' +
+      '<p class="kicker">Trip totals for two</p>' +
+      "<h2>Nothing is booked yet</h2>" +
+      '<p class="lede">Cash rates only, full totals for two adults, one king or double bed. Lodging is ' + lodgingNote + ".</p>" +
+      '<p class="price-line">' + money(t.packageTotal) + ' <small>current lodging, flights, and car</small></p>' +
+      "<ul class=\"totals-list\">" + list + "</ul>" + extraLine +
+      "</div>";
+  }
+
+  function renderPlanItem(id, opts) {
+    opts = opts || {};
     var raw = DECK_MAP[id];
     if (!raw) return "";
     var c = viewCard(raw);
@@ -2137,97 +2216,104 @@
     var thumb = PHOTO_URLS[imgKey] ? '<a class="card-photo" href="' + esc(c.url || "#") + '" ' + (c.url ? 'target="_blank" rel="noopener"' : "") + "><img src=\"" + PHOTO_URLS[imgKey] + "\" alt=\"" + esc(c.title) + "\"></a>" : '<div class="ph"></div>';
     if (!c.url) thumb = PHOTO_URLS[imgKey] ? '<img src="' + PHOTO_URLS[imgKey] + '" alt="' + esc(c.title) + '">' : '<div class="ph"></div>';
     var change = raw.tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "";
+    var unlock = (isLocked(id) && !isPlanned(id)) ? '<button type="button" class="ghost unlock-btn" data-unlock="' + esc(id) + '">Unlock</button>' : "";
+    var compact = opts.compact;
+    if (compact) {
+      return '<div class="plan-item compact" data-locked="' + esc(id) + '"><div></div><div>' +
+        statusHtml(id, c) + change +
+        "<h3>" + esc(displayName(id)) + "</h3>" +
+        "<p class='pitch-meta'>Your stay for this night. Already counted in the total.</p></div></div>";
+    }
     return '<div class="plan-item" data-locked="' + esc(id) + '">' + thumb + "<div>" +
-      '<p class="lock">' + icon("lock") + " Locked" + (c.tierLabel ? " · " + esc(c.tierLabel) : "") + change + "</p>" +
+      statusHtml(id, c) + change +
       "<h3>" + (c.url ? '<a class="card-title" href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.title) + "</a>" : esc(c.title)) + "</h3>" +
-      '<p class="price">' + pl.big + "</p>" +
+      (pl.two || pl.est ? '<p class="price">' + pl.big + "</p>" : "") +
+      (pl.sub ? '<p class="pitch-meta">' + esc(pl.sub) + "</p>" : "") +
       durationLine(id) +
       (c.winter ? '<p class="tip"><strong>Winter:</strong> ' + esc(c.winter) + "</p>" : "") +
       placeLinks(c) +
-      '<button type="button" class="ghost unlock-btn" data-unlock="' + esc(id) + '">Unlock</button>' +
+      unlock +
       "</div></div>";
   }
 
   function renderPlan() {
     var locked = lockedIds();
+    var ids = planIds();
     var empty = document.getElementById("planEmpty");
     var daysEl = document.getElementById("planDays");
-    if (empty) empty.hidden = locked.length > 0;
+    if (empty) empty.hidden = true;
     if (!daysEl) return;
-    var html = "";
-    /* trip-level slots */
-    var carLocked = locked.indexOf("car") !== -1;
-    var foodLocked = locked.indexOf("food-budget") !== -1;
-    html += '<div class="day-block"><p class="when">Getting around and meals</p><h2>For the whole week</h2>';
-    if (carLocked) html += renderPlanItem("car");
-    else html += '<button type="button" class="undecided" data-jump="car">Still deciding: the rental car</button>';
-    if (foodLocked) html += renderPlanItem("food-budget");
-    else html += '<button type="button" class="undecided" data-jump="food-budget">Still deciding: a daily food budget</button>';
+    var html = totalsHtml();
+    html += '<div class="day-block"><p class="when">Getting around</p><h2>The rental car, 6 days</h2>';
+    html += renderPlanItem("car");
     html += "</div>";
 
     var lastHotel = "";
+    var lastFlight = false;
     DAYS.forEach(function (day) {
       html += '<article class="day-block" id="day-' + day.id + '"><p class="when">' + esc(day.date) + "</p><h2>" + esc(day.title) + "</h2>";
-      html += dayScheduleHtml(day, locked);
+      if (day.id === "dec29") {
+        html += '<p class="daylight-note">Winter daylight is about 11:20 AM to 3:30 PM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop.</p>';
+      }
+      html += dayScheduleHtml(day, ids.concat(PLANNED_STOPS));
       day.slots.forEach(function (slot) {
         var chosen = null;
-        if (slot.key === "hotel") chosen = hotelForNight(day.id, locked);
+        if (slot.key === "hotel") chosen = hotelForNight(day.id, ids);
         else {
           for (var i = 0; i < slot.ids.length; i++) {
-            if (locked.indexOf(slot.ids[i]) !== -1) { chosen = slot.ids[i]; break; }
+            if (ids.indexOf(slot.ids[i]) !== -1) { chosen = slot.ids[i]; break; }
           }
         }
-        if (chosen && (slot.key !== "ice" || chosen === "ice-plan")) {
-          if (slot.key === "ice" && chosen === "ice-plan" && hotelForNight(day.id, locked) === "ice-plan") return;
-          if (slot.key === "hotel" && chosen === lastHotel && (chosen === "stay-edition" || chosen === "stay-retreat")) {
-            html += '<div class="plan-item compact"><div></div><div><p class="lock">' + icon("lock") + ' Locked</p><h3>' + esc(displayName(chosen)) + "</h3><p class='pitch-meta'>Your hotel for this night. Already counted in the total.</p></div></div>";
+        if (chosen) {
+          if (slot.key === "hotel" && chosen === lastHotel) {
+            html += renderPlanItem(chosen, { compact: true });
+          } else if (slot.key === "flight" && lastFlight) {
+            html += renderPlanItem(chosen, { compact: true });
           } else {
             html += renderPlanItem(chosen);
           }
           if (slot.key === "hotel") lastHotel = chosen;
-        } else if (!slot.optional || slot.key === "hold") {
-          if (slot.optional && !chosen) {
-            html += '<button type="button" class="undecided" data-jump="' + esc(slot.ids[0]) + '">Still deciding: ' + esc(slot.label) + " (optional)</button>";
-          } else if (!chosen) {
-            html += '<button type="button" class="undecided" data-jump="' + esc(slot.ids[0]) + '">Still deciding: ' + esc(slot.label) + "</button>";
-          }
-          if (slot.key === "hotel") lastHotel = "";
+          if (slot.key === "flight") lastFlight = true;
         }
       });
       day.items.forEach(function (id) {
-        if (locked.indexOf(id) !== -1) html += renderPlanItem(id);
+        if (ids.indexOf(id) !== -1 || PLANNED_STOPS.indexOf(id) !== -1) html += renderPlanItem(id);
       });
       html += '<div class="day-meta">' + dayMapHtml(day.id) + "</div>";
       html += "</article>";
     });
-    destroyDayMaps();
+    bumpMaps();
     daysEl.innerHTML = html;
-    initDayMaps();
-    initOverviewMap();
+    if (currentTab() === "plan") {
+      initDayMaps();
+      initOverviewMap();
+    }
 
-    renderVideos(locked);
+    renderVideos(ids);
     var ready = document.getElementById("readyList");
     if (ready) {
-      if (!locked.length) ready.innerHTML = "<p class='sub'>Nothing is locked yet, so there is nothing to book.</p>";
-      else ready.innerHTML = locked.map(function (id) {
+      var bookIds = PLANNED_IDS.concat(locked.filter(function (id) { return PLANNED_IDS.indexOf(id) === -1; }));
+      ready.innerHTML = bookIds.map(function (id) {
         var raw = DECK_MAP[id];
+        if (!raw) return "";
         var c = viewCard(raw);
         var book = bookingFor(id);
         var link = c.url ? siteLinkHtml(c.url) : "<span>No official booking page for this one.</span>";
         var due = book ? '<br><em class="deadline">' + esc(book.text) + "</em>" : "";
         var cls = "ready-item" + (book ? " due-" + book.urgency : "") + (state.booked && state.booked[id] ? " is-done" : "");
         var chk = (state.booked && state.booked[id]) ? " checked" : "";
-        return '<label class="' + cls + '"><input type="checkbox" data-booked="' + esc(id) + '"' + chk + "> <span><strong>" + esc(c.title) + "</strong><br>" + link + due + "</span></label>";
+        var mark = (c.bookSoon ? "Book soon. " : "Not booked. ");
+        return '<label class="' + cls + '"><input type="checkbox" data-booked="' + esc(id) + '"' + chk + "> <span><strong>" + esc(c.title) + "</strong><br>" + mark + link + due + "</span></label>";
       }).join("");
     }
   }
 
   var VIDEO_FOR = {
-    "stay-edition": "edition", "hold-dec28": "edition",
-    sky_lagoon: "sky", "ice-plan": "jokulsarlon",
+    "stay-edition": "edition",
+    "stay-retreat": "retreat",
+    sky_lagoon: "sky", reykjabod: "sky",
     nye_fireworks: "nye", nye_bonfire: "nye", horses: "horses",
-    golden_circle: "golden", south_coast: "south",
-    "sky-cabin": "panorama"
+    golden_circle: "golden", south_coast: "south"
   };
   function ytButton(v) {
     return '<button type="button" class="yt" data-yt="' + v.id + '" aria-label="Play ' + esc(v.title) + '">' +
@@ -2347,9 +2433,9 @@
     var tYes = computeFrom(unique(locked.concat(yesIdsFrom(state.picks))));
     var other = playerName(otherId());
     return "<p class='kicker'>The end of the deck</p><h2>End of the cards</h2>" +
-      "<b>" + money(t.total) + "</b><small class='sub'>locked for two, " + money(t.each) + " per person.</small>" +
-      (waiting.length && state.player !== "both" ? "<p class='sub'>If all of your picks were locked, the total would be " + money(tYes.total) + " for two, waiting on " + esc(other) + " for " + waiting.length + " of them.</p>" : "") +
-      "<h3>Locked</h3>" + (locked.length ? "<ul>" + locked.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>Nothing locked yet.</p>") +
+      "<b>" + money(packageTotals().packageTotal) + "</b><small class='sub'>planned lodging, flights, and car, total for two.</small>" +
+      (waiting.length && state.player !== "both" ? "<p class='sub'>If the rest of your picks were locked, extras would bring the grand total to " + money(tYes.total) + ", waiting on " + esc(other) + " for " + waiting.length + " of them.</p>" : "") +
+      "<h3>Locked extras</h3>" + (locked.length ? "<ul>" + locked.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>No extra cards locked yet. The planned stays, flights, and car are already on the Plan tab.</p>") +
       "<h3>Waiting</h3>" + (waiting.length ? "<ul>" + waiting.map(function (id) { return "<li>" + esc(displayName(id)) + "</li>"; }).join("") + "</ul>" : "<p>None waiting.</p>") +
       "<h3>Passed</h3>" + (passed.length ? "<ul>" + passed.map(function (c) { return "<li>" + esc(displayName(c.id)) + "</li>"; }).join("") + "</ul>" : "<p>No passed cards.</p>") +
       '<div class="card-links"><button type="button" class="btn primary" id="reviewPassed">Review passed cards</button><a class="btn" href="#plan">See the plan</a><a class="btn" href="#compare">Open Compare</a></div>';
@@ -2408,8 +2494,8 @@
         return "<li>" + esc(line) + (isLocked(id) ? icon("lock", "icon-inline") : "") + (DECK_MAP[id] && DECK_MAP[id].tiers ? ' <button type="button" class="change-link" data-jump="' + esc(id) + '">Change</button>' : "") + "</li>";
       }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
       '<div class="match-card"><h3>' + esc(otherName + "'s picks") + "</h3>" + (theirs.length ? "<ul>" + theirs.map(function (id) { return "<li>" + esc(displayName(id, "mate")) + "</li>"; }).join("") + "</ul>" : "<p>No picks yet.</p>") + "</div>" +
-      '<div class="match-card match-totals"><h3>Locked total for two</h3><b>' + money(tLock.total) + "</b><small>" + money(tLock.each) + " per person</small>" +
-      "<h3 style='margin-top:16px'>If all of your picks were locked</h3><b>" + money(tYes.total) + "</b><small>" + money(tYes.each) + " per person, including things still waiting on a match.</small></div>" +
+      '<div class="match-card match-totals"><h3>Planned total for two</h3><b>' + money(packageTotals().packageTotal) + "</b><small>lodging, flights, and car. Nothing booked yet.</small>" +
+      "<h3 style='margin-top:16px'>If locked extras are included</h3><b>" + money(tYes.total) + "</b><small>Grand total for two, including extras still waiting on a match.</small></div>" +
       "</div>";
   }
 
@@ -2422,19 +2508,15 @@
         (type === "select" ? val : '<input id="' + id + '" data-cost="' + id + '" type="' + type + '" value="' + esc(val) + '"' + (step ? ' step="' + step + '"' : "") + "></div>");
     }
     var sel = '<select id="blTier" data-cost="blTier">' +
-      ["comfort","premium","lava"].map(function (t) { return '<option value="' + t + '"' + (r.blTier === t ? " selected" : "") + ">" + t + " · " + money(BL[t]) + " pp</option>"; }).join("") +
+      ["comfort","premium","lava"].map(function (t) { return '<option value="' + t + '"' + (r.blTier === t ? " selected" : "") + ">" + t + " · " + money(BL[t] * PEOPLE) + " for two</option>"; }).join("") +
       "</select>";
     body.innerHTML =
-      row("suiteRate", "EDITION Deluxe Suite, per night (USD)", "number", r.suiteRate, "10") +
-      row("retreatRate", "Retreat suite, per night (USD)", "number", r.retreatRate, "10") +
-      row("hofnRate", "Hotel Hofn, per night (USD)", "number", r.hofnRate, "10") +
-      row("auroraRate", "Aurora Igloo estimate, per night (USD)", "number", r.auroraRate, "10") +
-      row("foodRate", "Food budget per person per day (USD)", "number", r.foodRate, "5") +
+      row("foodRate", "Food budget a day for two (USD)", "number", r.foodRate * PEOPLE, "10") +
       row("foodDays", "Food budget days", "number", r.foodDays, "1") +
-      '<div class="cost-row"><label for="blTier">Blue Lagoon tier, used when that card is locked</label>' + sel + "</div>" +
-      row("blVisits", "Blue Lagoon visits (Retreat stays credit one)", "number", r.blVisits, "1") +
-      row("iceCaveRate", "Standard ice cave, per person (USD)", "number", r.iceCaveRate, "5") +
-      row("nlRate", "Guided lights tour, per person (USD)", "number", r.nlRate, "5") +
+      '<div class="cost-row"><label for="blTier">Blue Lagoon tier, used when that card is locked. Prices are totals for two.</label>' + sel + "</div>" +
+      row("blVisits", "Blue Lagoon visits (the Retreat night already includes lagoon access)", "number", r.blVisits, "1") +
+      row("iceCaveRate", "Ice cave tickets, total for two (USD)", "number", r.iceCaveRate * PEOPLE, "10") +
+      row("nlRate", "Guided lights tour, total for two (USD)", "number", r.nlRate * PEOPLE, "10") +
       row("nlCount", "Guided lights tour count", "number", r.nlCount, "1") +
       "<p class='credit'>These rates are added to the locked total only after the matching card is locked. FX used: ISK 123.4 per USD, EUR $1.10.</p>";
   }
@@ -2476,17 +2558,17 @@
       slides.push({
         photo: "images/welcome/chips.png",
         alt: "Tier chips on a card, used to choose a flight class or room",
-        title: "Use the chips on a card to choose a flight class, room, cabin, car, or ice-cave plan."
+        title: "Use the chips on a card to choose Economy or Saga Premium, an EDITION cash rate, or the Duster or Defender."
       });
       slides.push({
         photo: "images/welcome/locked.png",
         alt: "A locked item with a lock icon",
-        title: "An item locks when you both say yes to the same option."
+        title: "Optional extras lock when you both say yes to the same option."
       });
       slides.push({
         photo: "images/welcome/plan.png",
-        alt: "The Plan tab with locked days filling in",
-        title: "Locked items appear on the Plan tab."
+        alt: "The Plan tab with the day-by-day itinerary",
+        title: "The Plan tab has the full itinerary, with times, maps, and cash totals for two. Nothing is booked yet."
       });
     }
     return slides;
@@ -2795,6 +2877,7 @@
       if (!field) return;
       var val = e.target.value;
       if (e.target.type === "number") val = Number(val);
+      if ((field === "foodRate" || field === "iceCaveRate" || field === "nlRate") && PEOPLE) val = val / PEOPLE;
       if (field in state.rates) state.rates[field] = val;
       afterChange();
     });
@@ -3004,7 +3087,7 @@
     if (location.hash === "#us") {
       try { history.replaceState({}, "", pageUrl("#compare")); } catch (e) {}
     } else if (!location.hash || location.hash === "#") {
-      try { history.replaceState({}, "", pageUrl("#pick")); } catch (e) {}
+      try { history.replaceState({}, "", pageUrl("#plan")); } catch (e) {}
     }
     bind();
     syncFoldShell();

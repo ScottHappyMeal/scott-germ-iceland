@@ -1413,3 +1413,54 @@ html.view-pinned body {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .welcome-video { display: none; }
 }
+
+
+/* Plan totals and booking status, Nov 19 plan */
+.totals-card {
+  background: var(--card, #161b27);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  margin: 0 0 22px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.totals-card .lede { margin-bottom: 12px; }
+.totals-card .price-line { font-size: 1.35rem; margin: 0 0 12px; }
+.totals-card .price-line small { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.totals-list {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  min-width: 0;
+}
+.totals-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.92rem;
+  min-width: 0;
+}
+.totals-list li span, .totals-list li b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.totals-list li.is-current {
+  color: var(--ink);
+}
+.totals-list li.is-current b { color: var(--gold); }
+.daylight-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0 0 12px;
+  max-width: 40rem;
+  overflow-wrap: anywhere;
+}
+.plan-item .lock { display: inline-block; margin-right: 8px; }
+.plan-item .lock.is-planned { color: var(--muted); font-weight: 600; }
+.plan-item .lock.is-soon { color: #ffb45c; font-weight: 700; }
+.plan-item .lock.is-booked { color: #c6e87a; font-weight: 700; }
+.change-link { margin-left: 4px; }
