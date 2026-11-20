@@ -166,3 +166,9 @@ UI icons are Lucide, vendored in `icons/` under the ISC License.
 - Sandholt: official bakery photo, sandholt.is.
 - Froken Selfoss: official dining-room photo, frokenselfoss.is (higher-resolution official frame).
 - Midgard Restaurant: dining-room photo via Visit South Iceland / Midgard Base Camp.
+
+## Share preview, Nov 20, 2026 (book20)
+
+- `images/og-share.jpg`: 1200x630 link preview still (og:image, twitter:image). Built from `images/places/aurora-self.jpg` with the site fonts (Jost, Inter) and night colors.
+- `images/og-share.mp4`: 7.8 second, 1200x630 H.264 loop (og:video). Slow pans across `aurora-self.jpg`, `reykjavik-aerial.jpg`, `stays/glass-cottages.jpg` and `nye-fireworks.jpg`, with the same title. Photo credits as listed above.
+- `apple-touch-icon.png` and `images/icon-32.png`: crops of `aurora-self.jpg`.
