@@ -310,7 +310,7 @@ window.ICELAND_TRIP = (function () {
   ];
 
   var BOOKING = {
-    "stay-edition": { text: "Marriott Stay Longer on Us Flexible Member rate, all taxes included. Confirm the current free-cancellation date when you book.", urgency: "early" },
+    "stay-edition": { text: "Marriott Stay Longer on Us Member rate for a Deluxe King, Scenic view, all taxes included. Free cancellation through Dec 1, 2026.", urgency: "early" },
     "stay-domes": { text: "Dec 29 is a peak holiday night at $1,371. The booking page did not show a tax or cancellation breakdown. Book early.", urgency: "early" },
     "stay-glass": { text: "Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.", urgency: "deadline" },
     "stay-retreat": { text: "Lava View Junior Suite, about 8 left when checked. Holiday suite nights book up. Book early.", urgency: "early" },
@@ -348,7 +348,7 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261120-book3";
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book4";
   var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark

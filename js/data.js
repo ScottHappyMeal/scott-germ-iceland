@@ -7,6 +7,7 @@ window.ICELAND_DATA = (function () {
     saga_seat: "images/flights/saga-seat.jpg",
     edition_superior: "images/stays/edition-superior-king.jpg",
     edition_suite: "images/stays/edition-deluxe-suite.jpg",
+    edition_harbor_king: "images/stays/edition-harbor-king.jpg",
     ice_cave: "images/places/ice-cave.jpg",
     nye_fireworks: "images/places/nye-fireworks.jpg",
     horses: "images/places/horses-winter.jpg",
@@ -116,6 +117,7 @@ window.ICELAND_DATA = (function () {
     saga_seat: "A Saga Premium seat on Icelandair, with the pillow and the little console",
     edition_superior: "A Superior King room at The Reykjavik EDITION, with a floor to ceiling window",
     edition_suite: "The living area of a Deluxe Suite at The Reykjavik EDITION, looking toward Harpa at night",
+    edition_harbor_king: "A Deluxe King bedroom at The Reykjavik EDITION, with a Scenic harbor view",
     ice_cave: "Inside a guided ice cave in Iceland",
     nye_fireworks: "Fireworks over Reykjavik on New Year's Eve",
     horses: "An Icelandic horse in winter",
@@ -228,7 +230,7 @@ window.ICELAND_DATA = (function () {
   var SUPERIOR_RATE = 1160;
   var DOMES_RATE = 1371;
   var GLASS_RATE = 559;
-  var EDITION_RATES = { flex: 4023, superior: 4283, standard: 4583, nonref: 3933 };
+  var EDITION_RATES = { deluxeKing: 4835, deluxeKingPrepay: 4716, deluxeKingBreakfast: 5006, deluxeKingFlex: 5513, courtyard: 4015, deluxeSuite: 7500 };
   var RETREAT_RATE = 2484;
   var LAVA_TUNNEL_TWO = 143; /* about 8,900 ISK a ticket, times two */
   var HORSE_EACH = 137; /* Ishestar Horses and Waffles, 16,900 ISK */
@@ -245,7 +247,7 @@ window.ICELAND_DATA = (function () {
     suiteNights: 0,
     suiteRate: 2340,
     editionNights: 3,
-    editionRate: 4023,
+    editionRate: 4835,
     hofnNights: 0,
     hofnRate: 250,
     retreatNights: 1,

@@ -4,7 +4,7 @@ A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026
 
 Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $15,218 cash total for two, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
+The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $16,030 cash total for two, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
 
 It is a static site with no build step. GitHub Pages serves it straight from `main`.
 
@@ -137,7 +137,7 @@ Ishestar (official, ishestar.is):
 - `images/places/ishestar.jpg`: official riders in a lava field (upgraded).
 - `images/places/ishestar-winter.jpg`: official winter ride from the saddle.
 
-The Reykjavik EDITION Deluxe Suite living area (`images/stays/edition-deluxe-suite.jpg`) is an official Marriott / EDITION photo already in the repo, and is now shown on the EDITION page beside the King Room.
+The Reykjavik EDITION Deluxe Suite living area (`images/stays/edition-deluxe-suite.jpg`) is an official Marriott / EDITION photo already in the repo, and is shown on the EDITION page. `images/stays/edition-harbor-king.jpg` is an official Marriott / EDITION photo of a Deluxe King bedroom with a Scenic harbor view.
 
 ## Icons
 

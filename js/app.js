@@ -8,7 +8,7 @@
   var PHOTO_URLS = D.PHOTO_URLS || {};
   var PHOTO_LABELS = D.PHOTO_LABELS || {};
 
-  var PLAN_TOTAL = 15218;
+  var PLAN_TOTAL = 16030;
 
   /* ---------- galleries: every photo is a real, self-hosted photo of that exact place ---------- */
   var GALLERIES = {
@@ -21,7 +21,7 @@
     kerid: ["kerid", "kerid_rim", "kerid_water", "kerid_parking"],
     glass: ["glass_cottages", "glass_cottages_int", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
     midgard: ["midgard", "midgard_pasta", "midgard_view", "midgard_bar"],
-    edition: ["edition_ext", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
+    edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
     sky_lagoon: ["sky_lagoon", "sky_lagoon_infinity", "sky_lagoon_sunset", "sky_lagoon_sauna"],
     reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "baejarins_street", "baejarins_dog", "wool", "kolaportid", "aurora_self"],
@@ -68,10 +68,10 @@
       url: "https://glasscottages.com/", urlLabel: "Glass Cottages", place: "glass_cottages"
     },
     "stay-edition": {
-      title: "The Reykjavik EDITION, King Room", nights: "Dec 31 to Jan 3, three nights", status: "Not booked", gallery: "edition",
-      price: "$4,023",
-      sub: "Stay Longer on Us Flexible Member rate for Dec 31 to Jan 3, all taxes and fees included.",
-      desc: "A King Room with one king bed. Check in Dec 31 and check out Jan 3. A harbor hotel next to Harpa, with Tides restaurant, a rooftop bar, and a spa.",
+      title: "The Reykjavik EDITION, Deluxe King, Scenic view", nights: "Dec 31 to Jan 3, three nights", status: "Not booked", gallery: "edition",
+      price: "$4,835",
+      sub: "Stay Longer on Us Member rate for Dec 31 to Jan 3, all taxes and fees included. Free cancellation through Dec 1, 2026.",
+      desc: "A Deluxe King room with one king bed and a Scenic view. Check in Dec 31 and check out Jan 3. A harbor hotel next to Harpa, with Tides restaurant, a rooftop bar, and a spa.",
       url: "https://www.marriott.com/en-us/hotels/reyek-the-reykjavik-edition/", urlLabel: "The Reykjavik EDITION", place: "edition"
     },
     "stay-retreat": {
@@ -501,9 +501,9 @@
 
   function editionRatesHtml(id) {
     if (id !== "stay-edition") return "";
-    return '<p class="fine rv">The plan uses the King Room (Courtyard view). A Deluxe Suite (1 Bedroom Suite, 1 king, Scenic view) is also on Marriott\'s site for the same dates, 2 adults, taxes and fees included. The trip total stays at $15,218 unless you switch rooms.</p>' +
-      '<p class="price-note rv"><span class="pn-label">Cost</span>King Room, current Marriott direct rates: $4,015 Member / $4,216 Non-Member, Stay Longer on Us, refundable. Prepay non-refundable: $3,925 Member / $4,001 Non-Member. The planned total in the ledger uses the earlier $4,023 Member figure.</p>' +
-      '<p class="price-note rv"><span class="pn-label">Cost</span>Deluxe Suite: $7,500 Member / $7,885 Non-Member, Stay Longer on Us, refundable, free cancellation through Dec 1, 2026. Prepay non-refundable: $7,277 Member / $7,422 Non-Member.</p>';
+    return '<p class="fine rv">The plan uses the Deluxe King (1 king, Scenic view) at $4,835. Other live Member rates for the same dates, 2 adults, taxes and fees included: $4,716 prepay non-refundable, $5,006 prepay with breakfast, and $5,513 Flexible. For reference, a Courtyard King starts at $4,015 Member Stay Longer, and a Deluxe Suite starts at $7,500 Member Stay Longer.</p>' +
+      '<p class="price-note rv"><span class="pn-label">Cost</span>Deluxe King, Scenic view: $4,835 Member Stay Longer on Us, refundable, free cancellation through Dec 1, 2026. Other Member options: $4,716 prepay non-refundable, $5,006 prepay with breakfast, $5,513 Flexible.</p>' +
+      '<p class="price-note rv"><span class="pn-label">Cost</span>For reference, Courtyard King from $4,015 Member Stay Longer, and Deluxe Suite from $7,500 Member Stay Longer, both refundable through Dec 1, 2026.</p>';
   }
 
   function mapPage() {
@@ -568,9 +568,9 @@
       ["Dacia Duster 4x4, Blue Car Rental, 6 days", "$719"],
       ["Golden Circle Domes, Dec 29", "$1,371"],
       ["Glass Cottages, Cottage Blar, Dec 30", "$559"],
-      ["The Reykjavik EDITION, King Room, Dec 31 to Jan 3", "$4,023"],
+      ["The Reykjavik EDITION, Deluxe King, Scenic view, Dec 31 to Jan 3", "$4,835"],
       ["The Retreat at Blue Lagoon, Lava View Junior Suite, Jan 3", "est. $2,484 (about 310,000 ISK)"],
-      ["Lodging, 6 nights", "$8,437"]
+      ["Lodging, 6 nights", "$9,249"]
     ];
     addPage({
       id: "numbers", label: "The numbers", chapter: "The numbers", layout: "text", cls: "page-numbers",
@@ -580,12 +580,12 @@
         '<h2 class="rv">What the week costs, all in one place.</h2>' +
         '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. Meals, activities, and fuel are not included. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + lines.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
-        '<div class="ledger-total"><dt>Planned total for two</dt><dd>$15,218</dd></div></dl>' +
+        '<div class="ledger-total"><dt>Planned total for two</dt><dd>$16,030</dd></div></dl>' +
         '<h3 class="rv">Other cash options</h3>' +
         '<ul class="plain rv">' +
-          "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $13,294.</li>" +
-          "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $16,647, and with Economy about $14,723.</li>" +
-          "<li>Other EDITION King cash rates for the three nights: Superior King $4,283, standard Flexible Member $4,583, or Prepay Non-refundable $3,933 (lodging $8,347).</li>" +
+          "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $14,106.</li>" +
+          "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $17,459, and with Economy about $15,535.</li>" +
+          "<li>Other EDITION Member cash rates for the three nights: Deluxe King prepay non-refundable $4,716, prepay with breakfast $5,006, or Flexible $5,513. A Courtyard King starts at $4,015, and a Deluxe Suite starts at $7,500.</li>" +
         "</ul>" +
         '<p class="fine rv">Hot springs and dinners are not in the trip total.</p>'
     });
