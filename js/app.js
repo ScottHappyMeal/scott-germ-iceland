@@ -24,7 +24,7 @@
     spa_restaurant: ["spa_restaurant", "spa_restaurant_table", "spa_restaurant_plate", "spa_restaurant_sushi"],
     edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
-    sky_lagoon: ["sky_lagoon", "sky_lagoon_infinity", "sky_lagoon_sunset", "sky_lagoon_sauna"],
+    retreat_massage: ["retreat_massage"],
     reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "baejarins_street", "baejarins_dog", "wool", "kolaportid", "aurora_self"],
     golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
     seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
@@ -127,19 +127,19 @@
       winter: "A Blue Lagoon support page, updated September 12, 2025, lists the Wednesday to Sunday kitchen as closing at 7:00 PM. The current official hours pages say 8:00 PM daily. Go a little early to be safe.",
       url: "https://www.bluelagoon.com/accommodation/in-room/restaurants/spa-restaurant", urlLabel: "Spa Restaurant", place: "retreat"
     },
+    retreat_massage: {
+      title: "Retreat Spa in-water massage", status: "Chosen extra", gallery: "retreat_massage",
+      price: "About $463 for two",
+      sub: "Two 60-minute in-water massages, about 28,900 ISK each. Chosen extra, not in the $16,030 trip total. Not booked yet.",
+      desc: "An hour-long massage in the warm lagoon water at The Retreat Spa. It is not in the room rate, and they typically book it only if you are staying or have a spa reservation.",
+      winter: "Book it with the Retreat stay. The lagoon water stays about 98 to 104 F all year.",
+      url: "https://www.bluelagoon.com/experiences/in-water-massage", urlLabel: "In-water massage", place: "retreat"
+    },
     nye: {
       title: "New Year's Eve in Reykjavik", status: "Free", gallery: "nye",
       desc: "Dinner first, then a neighborhood bonfire in the evening, then the whole city sets off fireworks at midnight. Hallgrimskirkja's steps and the hillside around Perlan are the classic viewpoints, and the harbor by the hotel is close to the action.",
       winter: "Dress for standing still in the wind. The city posts the bonfire sites each year, so pick one you can walk or taxi to from the EDITION.",
       url: "https://visitreykjavik.is/festivals-and-events-reykjavik", urlLabel: "Visit Reykjavik", place: "hallgrimskirkja"
-    },
-    sky_lagoon: {
-      title: "Sky Lagoon, Kopavogur", status: "Optional", gallery: "sky_lagoon",
-      price: "Saman from 29,980 ISK (about $240) for two",
-      sub: "Ser from 35,980 ISK (about $288) for two. Floor prices that vary by time slot. Not in the trip total.",
-      desc: "About 15 minutes from the EDITION. A larger, busier 70 m ocean-edge infinity lagoon with the 7-step Skjol ritual. Saman has shared changing, the ritual, and a towel. Ser adds a private changing cabin, lotion, and a bag.",
-      winter: "Winter hours, October 21 to April 30: 10:00 AM to 9:00 PM daily. On December 31: 9:00 AM to 8:00 PM. Leave the water 30 minutes before close.",
-      url: "https://www.skylagoon.com/", urlLabel: "Sky Lagoon", place: "sky_lagoon"
     },
     reykjavik: {
       title: "A loose day around the harbor", status: "Free", gallery: "reykjavik",
@@ -217,36 +217,37 @@
     {
       id: "jan1", num: 5, date: "Jan 1", weekday: "Friday", cover: "harpa",
       title: "A slow New Year's Day in Reykjavik",
-      note: "A quiet day in town around the harbor and Laugavegur, an optional Sky Lagoon soak, or a Golden Circle drive if the roads look good. Daylight is short, about 11:20 AM to 3:30 PM.",
+      note: "A quiet day in town around the harbor and Laugavegur, or a Golden Circle drive if the roads look good. Daylight is short, about 11:20 AM to 3:30 PM.",
       times: [
         { when: "Late morning", what: "Sleep in. Breakfast near the hotel." },
-        { when: "Midday", what: "Harbor walk and Harpa, or Sky Lagoon, about 15 minutes away." },
+        { when: "Midday", what: "Harbor walk and Harpa." },
         { when: "Evening", what: "Dinner in town, then Grotta after dark if the sky is clear." }
       ],
-      stops: ["reykjavik", "sky_lagoon", "golden"]
+      stops: ["reykjavik", "golden"]
     },
     {
       id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "tides",
       title: "A slow day in Reykjavik",
-      note: "Sleep in at the EDITION, then use the daily 7,000 ISK Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. The hotel spa is on site, or Sky Lagoon is about 15 minutes away, open 10:00 AM to 9:00 PM in January, with Saman from about $240 for two, optional. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
+      note: "Sleep in at the EDITION, then use the daily 7,000 ISK Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
       times: [
         { when: "Late morning", what: "Sleep in." },
         { when: "Midday", what: "Lunch at Tides, using the daily 7,000 ISK credit." },
-        { when: "Afternoon", what: "Walk Harpa, the Old Harbour, and Laugavegur, or a short drive to Sky Lagoon." },
-        { when: "Evening", what: "The EDITION Spa, or a quiet night in." }
+        { when: "Afternoon", what: "Walk Harpa, the Old Harbour, and Laugavegur." },
+        { when: "Evening", what: "A quiet night in." }
       ],
       stops: []
     },
     {
       id: "jan3", num: 7, date: "Jan 3", weekday: "Sunday", cover: "retreat_hero",
       title: "The Retreat at Blue Lagoon",
-      note: "The EDITION to The Retreat is about 51 km and 51 min, approx. Check out of the hotel and spend the last night in a Lava View Junior Suite, with the Retreat Lagoon steps away.",
+      note: "The EDITION to The Retreat is about 51 km and 51 min, approx. Check out of the hotel and spend the last night in a Lava View Junior Suite, with the Retreat Lagoon steps away. An in-water massage at the Retreat Spa is the chosen extra, about $463 for two, and is not booked yet.",
       times: [
         { when: "Late morning", what: "Check out of The Reykjavik EDITION." },
         { when: "Afternoon", what: "Drive to The Retreat at Blue Lagoon and check in for one night." },
+        { when: "Afternoon or evening", what: "In-water massage at the Retreat Spa, the chosen extra for two." },
         { when: "Evening", what: "Dinner at Spa Restaurant in the Retreat Spa, then a soak in the Retreat Lagoon." }
       ],
-      stops: ["stay-retreat", "spa_restaurant"]
+      stops: ["stay-retreat", "retreat_massage", "spa_restaurant"]
     },
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
@@ -324,7 +325,7 @@
   function statusClass(s) {
     if (s === "Book soon") return "is-soon";
     if (s === "Optional") return "is-optional";
-    if (s === "Free" || s === "Planned stop" || s === "Planned soak") return "is-free";
+    if (s === "Free" || s === "Planned stop" || s === "Planned soak" || s === "Chosen extra") return "is-free";
     return "is-plan";
   }
 
@@ -585,7 +586,7 @@
       text:
         '<p class="eyebrow rv">The numbers</p>' +
         '<h2 class="rv">What the week costs, all in one place.</h2>' +
-        '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. Meals, activities, and fuel are not included. Nothing is booked yet.</p>' +
+        '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. The planned total is still $16,030. Meals, soaks, and extras are listed below. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + lines.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
         '<div class="ledger-total"><dt>Planned total for two</dt><dd>$16,030</dd></div></dl>' +
         '<p class="price-note rv"><span class="pn-label">Cost</span>The $719 car line is the 6-day rate. Returning the Duster after 8:00 AM on Jan 4 bills a 7th day, about $41 more for the vehicle, from a live quote.</p>' +
@@ -595,7 +596,30 @@
           "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $17,459, and with Economy about $15,535.</li>" +
           "<li>Other EDITION Member cash rates for the three nights: Deluxe King prepay non-refundable $4,716, prepay with breakfast $5,006, or Flexible $5,513. A Courtyard King starts at $4,015, and a Deluxe Suite starts at $7,500.</li>" +
         "</ul>" +
-        '<p class="fine rv">Hot springs and dinners are not in the trip total.</p>'
+        '<h3 class="rv">Meals, soaks, and extras</h3>' +
+        '<p class="fine rv">These are not in the $16,030 planned total. The Retreat in-water massage is the chosen extra. Sky Lagoon and the EDITION massage are out of the plan. Nothing is booked yet.</p>' +
+        '<dl class="ledger rv">' + [
+          ["Froken Selfoss, Dec 29", "$160 to $225"],
+          ["Midgard Restaurant, Dec 30", "$208"],
+          ["Spa Restaurant, Jan 3", "$146 to $178"],
+          ["Tides lunches, Dec 31 to Jan 2", "included credit, about $168"],
+          ["EDITION breakfasts, if ordered", "$77 to $98 a morning"],
+          ["New Year's Eve dinner", "not priced yet"],
+          ["Groceries and other lunches", "not priced yet"],
+          ["Reykjabod Classic, Dec 29", "about $142"],
+          ["Retreat in-water massage for two, chosen extra", "about $463"],
+          ["Ishestar Horses and Waffles, optional", "about $271"],
+          ["Gas, estimate", "about $95"],
+          ["EDITION valet, if used", "about $168"]
+        ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") + "</dl>" +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage and the extras above, the week is about $18,300 to $19,000 for two. The $16,030 ledger does not change. New Year\'s Eve dinner and groceries can push the high end up.</p>' +
+        '<h3 class="rv">Where you can still save</h3>' +
+        '<ul class="plain rv">' +
+          "<li>Icelandair Economy on the same flights saves $1,924, and brings the planned total to $14,106.</li>" +
+          "<li>The EDITION Deluxe King prepay non-refundable rate saves $119.</li>" +
+          "<li>A Courtyard King at the EDITION starts at $4,015, which saves $820 against the Deluxe King.</li>" +
+          "<li>With Economy flights and a Courtyard King, the all-in range is about $15,500 to $16,500.</li>" +
+        "</ul>"
     });
   }
 

@@ -6,7 +6,6 @@ window.ICELAND_TRIP = (function () {
     harpa: { lat: 64.1502, lon: -21.9325, name: "Harpa Concert Hall", photo: "harpa", url: "https://www.harpa.is/", urlLabel: "Website", maps: "Harpa Concert Hall Reykjavik" },
     blue_lagoon: { lat: 63.8804, lon: -22.4495, name: "Blue Lagoon", photo: "blue_lagoon", url: "https://www.bluelagoon.com/", urlLabel: "Book it", maps: "Blue Lagoon Iceland" },
     retreat: { lat: 63.8815, lon: -22.4530, name: "The Retreat at Blue Lagoon", photo: "retreat_hero", url: "https://www.bluelagoon.com/retreat", urlLabel: "Book it", maps: "The Retreat at Blue Lagoon" },
-    sky_lagoon: { lat: 64.1220, lon: -21.9316, name: "Sky Lagoon", photo: "sky_lagoon", url: "https://www.skylagoon.com/", urlLabel: "Book it", maps: "Sky Lagoon Kopavogur" },
     grotta: { lat: 64.1642, lon: -22.0117, name: "Grotta lighthouse", photo: "grotta", url: "https://visitreykjavik.is/city-areas/seltjarnarnes-grotta", urlLabel: "Website", maps: "Grotta lighthouse Reykjavik" },
     hvammsvik: { lat: 64.3697, lon: -21.6042, name: "Hvammsvik Hot Springs", photo: "hvammsvik", url: "https://www.hvammsvik.com/", urlLabel: "Book it", maps: "Hvammsvik Hot Springs" },
     ishestar: { lat: 64.0440, lon: -21.9720, name: "Ishestar, Hafnarfjordur", photo: "ishestar", url: "https://www.ishestar.is/en/portfolio/horses-and-waffles/", urlLabel: "Book it", maps: "Ishestar Hafnarfjordur" },
@@ -51,7 +50,6 @@ window.ICELAND_TRIP = (function () {
     harpa_walk: { mins: 45, official: false, text: "about 45 min, approx, and you can see the hotel from the doors" },
     shopping_downtown: { mins: 60, official: false, text: "about 1 hr of wandering, approx" },
     grotta: { mins: 60, official: false, text: "about 1 hr incl. the short drive, approx" },
-    sky_lagoon: { mins: 135, official: false, text: "about 2 hrs 15 min incl. the 15 min drive, approx" },
     tides: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
     wool_shops: { mins: 45, official: false, text: "about 45 min, approx" },
     baejarins: { mins: 20, official: false, text: "about 20 min, approx" },
@@ -75,7 +73,6 @@ window.ICELAND_TRIP = (function () {
     south_coast: { mins: 540, official: false, text: "about 9 hrs incl. driving, approx" },
     kolaportid: { mins: 60, official: false, text: "about 1 hr, approx, Saturday only" },
     blue_lagoon: { mins: 150, official: false, text: "about 2 hrs 30 min incl. the Keflavik-area drive, approx" },
-    edition_spa: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
     retreat_massage: { mins: 60, official: false, text: "about 1 hr, approx" },
     moss: { mins: 150, official: false, text: "about 2 hrs 30 min, approx" },
     sandholt: { mins: 45, official: false, text: "about 45 min for breakfast, approx" },
@@ -94,7 +91,7 @@ window.ICELAND_TRIP = (function () {
 
   var DRIVE_INCLUDED = {
     golden_circle: true, south_coast: true, hvammsvik: true, horses: true,
-    silfra: true, sky_lagoon: true, blue_lagoon: true, grotta: true
+    silfra: true, blue_lagoon: true, grotta: true
   };
 
   /* Typical Reykjavik daylight, computed for these dates, not a live forecast.
@@ -132,7 +129,6 @@ window.ICELAND_TRIP = (function () {
     baejarins: 12 * 60,
     tides: 18 * 60 + 30,
     grotta: 21 * 60,
-    sky_lagoon: 11 * 60,
     nl_guided: 20 * 60,
     nl_self: 21 * 60,
     horses: 10 * 60,
@@ -152,13 +148,11 @@ window.ICELAND_TRIP = (function () {
     nye_bonfire: 20 * 60 + 30,
     nye_fireworks: 23 * 60 + 50,
     blue_lagoon: 10 * 60 + 30,
-    edition_spa: 9 * 60,
     retreat_massage: 11 * 60,
     moss: 18 * 60 + 30,
     sandholt: 7 * 60 + 30,
     lava_tunnel: 9 * 60,
     reykjabod: 11 * 60,
-    sky_lagoon: 11 * 60,
     mjolkurbuid: 13 * 60 + 30,
     froken: 19 * 60,
     kerid: 11 * 60,
@@ -176,7 +170,6 @@ window.ICELAND_TRIP = (function () {
     baejarins: "Hot dog",
     tides: "Tides",
     grotta: "Grotta",
-    sky_lagoon: "Sky Lagoon",
     nl_guided: "Lights tour",
     nl_self: "Aurora watch",
     horses: "Horses",
@@ -196,7 +189,6 @@ window.ICELAND_TRIP = (function () {
     nye_bonfire: "Bonfire",
     nye_fireworks: "Fireworks",
     blue_lagoon: "Blue Lagoon",
-    edition_spa: "EDITION Spa",
     retreat_massage: "Retreat spa",
     moss: "Moss",
     sandholt: "Breakfast",
@@ -219,7 +211,7 @@ window.ICELAND_TRIP = (function () {
 
   var BAR_PRIMARY = {
     flight: true, horses: true, golden_circle: true, south_coast: true,
-    "ice-plan": true, blue_lagoon: true, hvammsvik: true, sky_lagoon: true,
+    "ice-plan": true, blue_lagoon: true, hvammsvik: true,
     lava_tunnel: true, reykjabod: true, kerid: true
   };
 
@@ -255,7 +247,6 @@ window.ICELAND_TRIP = (function () {
     harpa_walk: "harpa",
     shopping_downtown: "laugavegur",
     grotta: "grotta",
-    sky_lagoon: "sky_lagoon",
     tides: "edition",
     wool_shops: "laugavegur",
     "ice-plan:jokulsarlon": "hofn",
@@ -275,7 +266,6 @@ window.ICELAND_TRIP = (function () {
     south_coast: "vik",
     kolaportid: "kolaportid",
     blue_lagoon: "blue_lagoon",
-    edition_spa: "edition",
     retreat_massage: "retreat",
     moss: "retreat",
     spa_restaurant: "retreat",
@@ -300,7 +290,7 @@ window.ICELAND_TRIP = (function () {
     dec30: { drive: "The day is 181.6 km and 2 hr 48 min, approx, in this order: the domes to Kerid crater, about 4 km and 5 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Leave around checkout so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
     dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
     jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "A slow day in Reykjavik from the EDITION. Short drives are fine, including Sky Lagoon, about 15 minutes away.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
+    jan2: { drive: "A slow day in Reykjavik from the EDITION. Short drives around town are fine.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
     jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
     jan4: { drive: "The Retreat to Keflavik is about 22.5 km and 24 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
@@ -322,17 +312,17 @@ window.ICELAND_TRIP = (function () {
     golden_circle: { text: "If you take a guided winter tour, book ASAP.", urgency: "asap" },
     south_coast: { text: "Seljalandsfoss and Skogafoss are already on the Dec 30 drive.", urgency: "" },
     nl_guided: { text: "Northern lights tours book up over the holidays. Book ASAP.", urgency: "asap" },
-    sky_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
     blue_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
     hvammsvik: { text: "Holiday soak slots book up. Book ASAP.", urgency: "asap" },
     nye_dinner: { text: "NYE dinners book up. Book ASAP.", urgency: "asap" },
     grillmarkadurinn: { text: "Holiday tables book up. Book ASAP.", urgency: "asap" },
     spa_restaurant: { text: "Reservations are not required at Spa Restaurant.", urgency: "" },
+    retreat_massage: { text: "The in-water massage is the chosen extra. It is not booked yet.", urgency: "" },
     flight: { text: "Holiday seats go first, especially Saga. Book early.", urgency: "early" },
     car: { text: "Holiday 4x4s go early. Book early.", urgency: "early" }
   };
 
-  var SPA_IDS = ["sky_lagoon", "blue_lagoon", "fontana", "hvammsvik", "edition_spa", "retreat_massage", "stay-retreat"];
+  var SPA_IDS = ["blue_lagoon", "fontana", "hvammsvik", "retreat_massage", "stay-retreat"];
   var HORSE_IDS = ["horses"];
   var ICE_CARD = "ice-plan";
   var NYE_IDS = ["nye_dinner", "nye_bonfire", "nye_fireworks"];
