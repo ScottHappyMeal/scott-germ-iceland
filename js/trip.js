@@ -338,13 +338,46 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261119-plan1";
+  var ROUTES_URL = "maps/routes.geojson?v=20261119-maps1";
   var PREVIEW_PLACES = ["kef", "sandholt", "lava_tunnel", "reykjabod", "selfoss", "kerid", "domes", "glass_cottages", "edition", "retreat"];
   var PREVIEW_ROUTES = ["kef_sandholt", "sandholt_lava_tunnel", "lava_tunnel_reykjabod", "reykjabod_selfoss", "selfoss_kerid", "kerid_domes", "domes_glass", "glass_edition", "edition_retreat", "blue_lagoon_kef"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
      without a key, so this uses OSM tiles (no key) plus a CSS filter for a dark look. */
   var TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   var TILE_ATTR = "&copy; OpenStreetMap";
+
+  /* Road-snapped coordinates from maps/routes.geojson leg endpoints (OSRM),
+     used for Apple Maps driving links so pins sit on the road. */
+  var APPLE_COORDS = {
+    kef: { lat: 63.99582, lon: -22.608041 },
+    sandholt: { lat: 64.145937, lon: -21.92907 },
+    lava_tunnel: { lat: 63.939513, lon: -21.396578 },
+    reykjabod: { lat: 64.058161, lon: -21.220115 },
+    selfoss: { lat: 63.937221, lon: -21.004327 },
+    mjolkurbuid: { lat: 63.937221, lon: -21.004327 },
+    kerid: { lat: 64.041693, lon: -20.886757 },
+    domes: { lat: 64.027869, lon: -20.930683 },
+    glass_cottages: { lat: 63.833974, lon: -20.390922 },
+    edition: { lat: 64.150176, lon: -21.940045 },
+    retreat: { lat: 63.881341, lon: -22.452174 }
+  };
+
+  /* The full trip route ends at the Retreat. Jan 4 has its own drive back to KEF.
+     Do not loop KEF to KEF; Apple Maps collapses that to a single pin. */
+  var APPLE_ROUTES = {
+    full: {
+      keys: ["kef", "sandholt", "lava_tunnel", "reykjabod", "mjolkurbuid", "kerid", "domes", "glass_cottages", "edition", "retreat"],
+      label: "Open route in Apple Maps (KEF to Blue Lagoon)"
+    },
+    dec29: {
+      keys: ["kef", "sandholt", "lava_tunnel", "reykjabod", "mjolkurbuid", "kerid", "domes"],
+      label: "Drive in Apple Maps"
+    },
+    dec30: { keys: ["domes", "glass_cottages"], label: "Drive in Apple Maps" },
+    dec31: { keys: ["glass_cottages", "edition"], label: "Drive in Apple Maps" },
+    jan3: { keys: ["edition", "retreat"], label: "Drive in Apple Maps" },
+    jan4: { keys: ["retreat", "kef"], label: "Drive in Apple Maps" }
+  };
 
   return {
     PLACES: PLACES,
@@ -374,6 +407,8 @@ window.ICELAND_TRIP = (function () {
     PREVIEW_PLACES: PREVIEW_PLACES,
     PREVIEW_ROUTES: PREVIEW_ROUTES,
     TILE_URL: TILE_URL,
-    TILE_ATTR: TILE_ATTR
+    TILE_ATTR: TILE_ATTR,
+    APPLE_COORDS: APPLE_COORDS,
+    APPLE_ROUTES: APPLE_ROUTES
   };
 })();

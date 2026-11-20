@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261119-plan1 -->
+  <!-- build: 20261119-maps1 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm's Iceland</title>
   <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 4, 2027. The plan is verified and not booked yet.">
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261119-plan1">
+  <link rel="stylesheet" href="css/styles.css?v=20261119-maps1">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
@@ -50,6 +50,9 @@
     <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
       <circle cx="12" cy="10" r="3" />
+    </symbol>
+    <symbol id="icon-navigation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="3 11 22 2 13 21 11 13 3 11" />
     </symbol>
   </svg>
   <div class="sky" aria-hidden="true"></div>
@@ -87,6 +90,7 @@
           <div class="map-block" id="mapBlock">
             <h2>Map</h2>
             <p class="sub">Pins mark the stops. The green line is the driving route. Tap the map to move it. That keeps one-finger scrolling on the page.</p>
+            <div class="map-route-links" id="fullRouteLinks"></div>
             <div class="map-frame" id="overviewMapWrap">
               <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
               <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
@@ -205,8 +209,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261119-plan1"></script>
-  <script src="js/trip.js?v=20261119-plan1"></script>
-  <script src="js/app.js?v=20261119-plan1"></script>
+  <script src="js/data.js?v=20261119-maps1"></script>
+  <script src="js/trip.js?v=20261119-maps1"></script>
+  <script src="js/app.js?v=20261119-maps1"></script>
 </body>
 </html>

@@ -122,11 +122,78 @@
       icon("external-link", "icon-inline") + " " + esc(siteLinkLabel(url)) + "</a>";
   }
 
-  function mapLinkHtml(query) {
-    if (!query) return "";
-    var href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+  function applePoint(key) {
+    var road = T.APPLE_COORDS && T.APPLE_COORDS[key];
+    var place = T.PLACES && T.PLACES[key];
+    if (road) {
+      return { lat: road.lat, lon: road.lon, name: (place && place.name) || key };
+    }
+    if (place && place.lat != null && place.lon != null) {
+      return { lat: place.lat, lon: place.lon, name: place.name || key };
+    }
+    return null;
+  }
+
+  function findApplePoint(query, place) {
+    var places = T.PLACES || {};
+    var k;
+    if (place) {
+      for (k in places) {
+        if (places[k] === place || (place.maps && places[k].maps === place.maps && places[k].name === place.name) || (place.name && places[k].name === place.name)) {
+          return applePoint(k);
+        }
+      }
+      if (place.lat != null && place.lon != null) {
+        return { lat: place.lat, lon: place.lon, name: query || place.name || place.maps };
+      }
+    }
+    if (query) {
+      for (k in places) {
+        if (places[k].maps === query || places[k].name === query) return applePoint(k);
+      }
+    }
+    return null;
+  }
+
+  function appleDirectionsUrl(keys) {
+    var pts = [];
+    (keys || []).forEach(function (key) {
+      var pt = applePoint(key);
+      if (pt) pts.push(pt);
+    });
+    if (pts.length < 2) return "";
+    var href = "https://maps.apple.com/directions?source=" + pts[0].lat + "," + pts[0].lon;
+    var i;
+    for (i = 1; i < pts.length - 1; i++) {
+      href += "&waypoint=" + pts[i].lat + "," + pts[i].lon;
+    }
+    href += "&destination=" + pts[pts.length - 1].lat + "," + pts[pts.length - 1].lon + "&mode=driving";
+    return href;
+  }
+
+  function appleRouteLinkHtml(routeId) {
+    var route = T.APPLE_ROUTES && T.APPLE_ROUTES[routeId];
+    if (!route) return "";
+    var href = appleDirectionsUrl(route.keys);
+    if (!href) return "";
+    return '<a class="link-out map-route-link" href="' + href + '" target="_blank" rel="noopener">' +
+      icon("navigation", "icon-inline") + " " + esc(route.label) + "</a>";
+  }
+
+  function mapLinkHtml(query, place) {
+    var pt = findApplePoint(query, place);
+    var name = (pt && pt.name) || query;
+    if (!name && !pt) return "";
+    var href;
+    if (pt && pt.lat != null && pt.lon != null) {
+      href = "https://maps.apple.com/?ll=" + pt.lat + "," + pt.lon + "&q=" + encodeURIComponent(name || "Map");
+    } else if (query) {
+      href = "https://maps.apple.com/?q=" + encodeURIComponent(query);
+    } else {
+      return "";
+    }
     return '<a class="link-out" href="' + href + '" target="_blank" rel="noopener">' +
-      icon("map-pin", "icon-inline") + " Map</a>";
+      icon("map-pin", "icon-inline") + " Apple Maps</a>";
   }
 
   function money(n) {
@@ -1910,7 +1977,7 @@
     var img = photo ? '<img src="' + photo + '" alt="' + esc(place.name) + '">' : "";
     var links = [];
     if (place.url) links.push(siteLinkHtml(place.url));
-    if (place.maps) links.push(mapLinkHtml(place.maps));
+    if (place.maps || (place.lat != null && place.lon != null)) links.push(mapLinkHtml(place.maps || place.name, place));
     return '<div class="map-pop">' + img + "<strong>" + esc(place.name) + "</strong>" +
       (links.length ? '<div class="map-pop-links">' + links.join(" ") + "</div>" : "") + "</div>";
   }
@@ -2117,6 +2184,11 @@
     });
   }
 
+  function appleDayRouteHtml(dayId) {
+    var link = appleRouteLinkHtml(dayId);
+    return link ? '<div class="map-route-links">' + link + "</div>" : "";
+  }
+
   function dayMapHtml(dayId) {
     if (!placesForDay(dayId, planIds()).length) return "";
     return '<button type="button" class="day-map-btn" data-open-day-map="' + esc(dayId) + '" aria-label="Open the day map">' +
@@ -2279,11 +2351,16 @@
       day.items.forEach(function (id) {
         if (ids.indexOf(id) !== -1 || PLANNED_STOPS.indexOf(id) !== -1) html += renderPlanItem(id);
       });
-      html += '<div class="day-meta">' + dayMapHtml(day.id) + "</div>";
+      html += '<div class="day-meta">' + appleDayRouteHtml(day.id) + dayMapHtml(day.id) + "</div>";
       html += "</article>";
     });
     bumpMaps();
     daysEl.innerHTML = html;
+    var fullLinks = document.getElementById("fullRouteLinks");
+    if (fullLinks) {
+      fullLinks.innerHTML = appleRouteLinkHtml("full");
+      fullLinks.hidden = !fullLinks.innerHTML;
+    }
     if (currentTab() === "plan") {
       initDayMaps();
       initOverviewMap();
