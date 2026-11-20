@@ -24,7 +24,7 @@
     spa_restaurant: ["spa_restaurant", "spa_restaurant_table", "spa_restaurant_plate", "spa_restaurant_sushi"],
     edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
-    nye_dinner: ["nye_dinner", "grillmarkadurinn", "harpa"],
+    nye_dinner: ["nye_dinner", "harpa", "baejarins"],
     tides: ["tides", "edition_int"],
     cheap_eats: ["baejarins", "baejarins_street", "baejarins_dog", "sandholt"],
     retreat_massage: ["retreat_massage"],
@@ -105,9 +105,9 @@
     },
     froken: {
       title: "Dinner at Froken Selfoss", status: "Reserve ahead", gallery: "froken",
-      price: "About $160 to $225 for two, with drinks",
-      sub: "Not in the trip total.",
-      desc: "Downtown Selfoss, about 10 to 15 minutes from the domes. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. Modern Icelandic food. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
+      price: "About $65 to $170 for two",
+      sub: "A la carte, not a set menu. Not in the $16,030 trip total.",
+      desc: "Downtown Selfoss, about 10 to 15 minutes from the domes. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. The regular a la carte menu is available on Dec 29. A hamburger is 3,999 ISK (about $32), Icelandic meat soup is 4,099 ISK (about $33), seafood pasta is 4,999 ISK (about $40), and lamb is 8,299 ISK (about $66). Two mains are about $65 to $135, or about $90 to $170 with drinks. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
       url: "https://www.frokenselfoss.is/en", urlLabel: "Froken Selfoss", place: "froken"
     },
     kerid: {
@@ -119,16 +119,16 @@
     },
     midgard: {
       title: "Dinner at Midgard Restaurant, Hvolsvollur", status: "Reserve ahead", gallery: "midgard",
-      price: "26,000 ISK (about $208) for two",
-      sub: "Glass Cottages 3-course partner offer, before drinks. Not in the trip total.",
-      desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. From-scratch Icelandic food in a small dining room, so reserve ahead.",
+      price: "About $60 to $130 for two",
+      sub: "A la carte, not the 3-course offer. Not in the $16,030 trip total.",
+      desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. A relaxed a la carte room at Midgard Base Camp. The Adventure Burger, with fries, is 3,800 ISK (about $30). Pasta is 3,700 to 4,100 ISK (about $30 to $33). Arctic char is 5,600 ISK (about $45), and a lamb shank is 6,300 ISK (about $50). Two mains are about $60 to $100, or about $85 to $130 with drinks. The dining room is small, so a reservation still helps.",
       url: "https://midgardbasecamp.is/midgard-base-camp-restaurant/", urlLabel: "Midgard", place: "midgard"
     },
     spa_restaurant: {
       title: "Dinner at Spa Restaurant, The Retreat", status: "Optional", gallery: "spa_restaurant",
-      price: "About $146 to $178 for two, without drinks",
-      sub: "Two mains and two desserts, from the official menu. Not in the trip total.",
-      desc: "Spa Restaurant is inside the Retreat Spa, which is included with the hotel stay. Light a la carte dishes, and you can dine in a robe or dressed. Reservations are not required. The official main menu is served from 12:00 PM to 8:00 PM daily, including January 3.",
+      price: "About $70 to $180 for two",
+      sub: "Light a la carte. Not in the $16,030 trip total.",
+      desc: "Spa Restaurant is inside the Retreat Spa, which is included with the hotel stay. Light a la carte dishes, and you can dine in a robe or dressed. Reservations are not required. Miso soup is 3,900 ISK (about $31), chicken, sushi, or a Caesar salad is 5,900 ISK (about $47), and beef striploin is 7,900 ISK (about $63). Two mains are about $70 to $125, or about $110 to $180 with desserts or drinks. The official main menu is served from 12:00 PM to 8:00 PM daily, including January 3.",
       winter: "A Blue Lagoon support page, updated September 12, 2025, lists the Wednesday to Sunday kitchen as closing at 7:00 PM. The current official hours pages say 8:00 PM daily. Go a little early to be safe.",
       url: "https://www.bluelagoon.com/accommodation/in-room/restaurants/spa-restaurant", urlLabel: "Spa Restaurant", place: "retreat"
     },
@@ -141,11 +141,11 @@
       url: "https://www.bluelagoon.com/experiences/in-water-massage", urlLabel: "In-water massage", place: "retreat"
     },
     nye_dinner: {
-      title: "New Year's Eve dinner in Reykjavik", status: "Reserve ahead", gallery: "nye_dinner",
-      price: "About $271 to $456 for two",
-      sub: "Published 2026 set menus, before or with a wine pairing. Not in the $16,030 trip total. Not booked yet.",
-      desc: "This is the one nicer dinner in Reykjavik. Four published 2026 set menus, none of them Michelin. Book now, because holiday tables fill up.",
-      winter: "Neighborhood bonfires are usually lit around 8:30 PM. The 2026 sites are not posted yet; in 2025 they were lit at 8:30 PM, and the city decides on the day if the wind is over 10 m/s. Streets go quiet from about 10:30 PM to 11:35 PM for Aramotaskaup. Fireworks start around 11:30 PM and peak at midnight, from Hallgrimskirkja, the hillside around Perlan, or the harbor by the hotel. An early seating that ends by 8:00 PM lets you do the bonfires and the fireworks. A later seating that ends by 10:30 still makes midnight."
+      title: "New Year's Eve dinner in Reykjavik", status: "Walk-in options", gallery: "nye_dinner",
+      price: "About $60 to $150 for two",
+      sub: "Casual a la carte, not in the $16,030 trip total. Not booked yet.",
+      desc: "Burgers, pizza, or Icelandic comfort food, all a la carte. No set menus.",
+      winter: "Neighborhood bonfires are usually lit around 8:30 PM. The 2026 sites are not posted yet; in 2025 they were lit at 8:30 PM, and the city decides on the day if the wind is over 10 m/s. The casual kitchens mostly close between 9:00 PM and 10:00 PM, so eat early if you want the bonfires. Streets go quiet from about 10:30 PM to 11:35 PM for Aramotaskaup. Fireworks start around 11:30 PM and peak at midnight, from Hallgrimskirkja, the hillside around Perlan, or the harbor by the hotel."
     },
     skogafoss_lunch: {
       title: "A cheap lunch by the waterfalls", status: "Planned stop", gallery: "skogafoss",
@@ -591,33 +591,47 @@
     }).join("") + "</ul>";
   }
   function nyeDinnerHtml() {
+    return casualNyeHtml();
+  }
+  function casualNyeHtml() {
     var opts = [
       {
-        title: "Kopar, Old Harbour",
-        text: "The nicer pick closest to the hotel, about a 5-minute walk. A 4-course 2026 set menu at 18,390 ISK a person, or 23,390 ISK with a wine pairing. That is about $295, or $375 with wine, for two. Geirsgata 3b. Usual kitchen hours run to 9:30 PM; the NYE close time was not listed, so book an early seating if you want the bonfires.",
-        url: "https://www.dineout.is/en/kopar/event/newyearseve", urlLabel: "Kopar NYE menu", place: "kopar"
+        title: "Kaffi Loki",
+        text: "Traditional Icelandic comfort food across from Hallgrimskirkja, about a 16-minute walk. Confirmed 2026 hours are 8:00 AM to 10:00 PM, and the kitchen closes at 9:30 PM. Walk-in only. Meat soup is 4,850 ISK (about $39), gratinated mashed fish is 5,250 ISK (about $42), and lamb is 6,150 ISK (about $49). Two mains are about $80 to $100, or about $100 to $130 with drinks. Eat by 7:00 PM if you want the 8:30 PM bonfires. You are already by the church for the midnight fireworks.",
+        url: "https://loki.is/", urlLabel: "Kaffi Loki", place: "cafe_loki"
       },
       {
-        title: "Forrettabarinn",
-        text: "The more casual 5-course 2026 set menu, at 16,900 ISK a person, or 11,550 ISK more for a wine pairing. That is about $271, or $456 with wine, for two. Frakkastigur 8a is about a 12-minute walk, toward Hallgrimskirkja. There is a second room at Nylendugata 14, about 10 minutes toward Grandi. Usual kitchen hours are 4:00 PM to 10:00 PM, and the bar stays open until 11:00 PM.",
-        url: "https://www.forrettabarinn.is/en/forrettabarinn/new-years-eve-dinner-2026/", urlLabel: "Forrettabarinn NYE menu", place: "forrettabarinn"
+        title: "Islenski Barinn",
+        text: "A pub with Icelandic comfort food and burgers, about an 8-minute walk, at Ingolfsstraeti 1a. 2026 hours are partly confirmed: 11:00 AM to 9:00 PM on Dec 31, walk-ins only, regular menu. A classic burger with waffle fries is 3,850 ISK (about $31), meat soup is 3,550 ISK (about $28), and fish and chips is 4,250 ISK (about $34). Two mains are about $60 to $80, or about $90 to $120 with drinks. Because it closes at 9:00 PM, eat early, around 5:30 PM to 7:30 PM, so you can still make the bonfires.",
+        url: "https://islenskibarinn.is/", urlLabel: "Islenski Barinn", place: "islenski_barinn"
       },
       {
-        title: "Grillmarkadurinn",
-        text: "A grilled set menu at 21,900 ISK a person, about $351 for two, before drinks. Laekjargata 2a, about an 8-minute walk. Seatings are 2 hours, and the house closes at 11:30 PM so you can still make the midnight fireworks. Reserve by email at info@grillmarkadurinn.is.",
-        url: "https://www.dineout.is/en/grillmarkadurinn/event/newyearseve", urlLabel: "Grillmarkadurinn NYE menu", place: "grillmarkadurinn"
+        title: "Posthus Food Hall",
+        text: "The closest casual option, about a 5-minute walk at Posthusstraeti 3-5. Burgers at Yuzu, pizza at Pizza Popolare, burritos, Korean, and sushi, all at shared tables. 2026 hours were not posted. In 2025 the hall was open 11:30 AM to 10:00 PM on Dec 31. Usual hours are 11:30 AM to 10:00 PM, and kitchens close one hour before. A Yuzu burger is about 2,399 to 3,699 ISK (about $19 to $30). A pizza is about 3,190 to 3,790 ISK (about $26 to $30). Two meals are about $50 to $80, or about $70 to $110 with drinks. Eat early for the bonfires, since the kitchens may close at 9:00 PM.",
+        url: "https://posthusfoodhall.is/en", urlLabel: "Posthus Food Hall", place: "posthus"
       },
       {
-        title: "ROK, early seating",
-        text: "Right beside Hallgrimskirkja, about an 18-minute walk. The early seating is 5:30 PM to 8:00 PM, at 23,990 ISK a person, about $384 for two, and you leave at 8:00 PM, which fits the bonfires and a return for fireworks at the church. A later seating from 8:45 PM is 38,990 ISK a person, about $625 for two, which is steep. A 15,000 ISK deposit a person is required.",
-        url: "https://www.dineout.is/en/rok/event/newyearseve", urlLabel: "ROK NYE menu", place: "rok"
+        title: "Flatey Pizza, Grandi",
+        text: "12-inch pizzas at Grandagardur 11, about a 12-minute walk along the harbor. 2026 hours were not posted. In 2025 they were open 11:30 AM to 10:00 PM on Dec 31, regular menu. A Margherita is 3,090 ISK (about $25), a Diavola is 3,290 ISK (about $26), and a Parma is 3,990 ISK (about $32). Two pizzas are about $50 to $64, or about $75 to $110 with garlic bread and drinks. An early dinner still leaves time for the 8:30 PM bonfires.",
+        url: "https://flateypizza.is/is", urlLabel: "Flatey Pizza", place: "flatey"
+      },
+      {
+        title: "Lebowski Bar",
+        text: "Burgers and a diner menu at Laugavegur 20a, about a 10-minute walk. 2026 hours were not posted. In 2025 they were open 11:00 AM to 4:30 AM on Dec 31. Usual Thursday hours are 11:00 AM to 1:00 AM, and the kitchen is open 11:00 AM to 10:00 PM. The Dude burger meal, with fries and a soda, is 3,550 ISK (about $28). The Walter meal is 3,700 ISK (about $30). Two meals are about $57 to $72, or about $90 to $120 with drinks. Eat by 8:00 PM for the bonfires. The bar stays late, so you can come back after the fireworks.",
+        url: "https://www.lebowskibar.is/en", urlLabel: "Lebowski Bar", place: "lebowski"
+      },
+      {
+        title: "Hard Rock Cafe",
+        text: "Casual burgers at Laekjargata 2a, about an 8-minute walk. Confirmed 2026 hours are 5:00 PM to 10:00 PM, and the kitchen closes at 9:00 PM. There is a 15% holiday surcharge on food and drink. Typical burgers are about 4,060 to 4,390 ISK (about $33 to $35) before the surcharge, or about $37 to $40 after it. Two burgers with drinks are about $110 to $150. Eat early, because the kitchen closes at 9:00 PM.",
+        url: "https://cafe.hardrock.com/reykjavik/", urlLabel: "Hard Rock Cafe", place: "hard_rock"
       }
     ];
-    return '<h3 class="rv">The 2026 set menus</h3>' +
+    return '<h3 class="rv">Casual NYE options</h3>' +
+      '<p class="fine rv">Casual a la carte spots for Dec 31, before the bonfires and fireworks. Hlemmur Matholl and Grandi Matholl are closed on Dec 31. Grandi Matholl confirmed that for 2026.</p>' +
       '<ul class="booklist rv">' + opts.map(function (o) {
         return "<li><h3>" + esc(o.title) + "</h3><p class=\"fine\">" + esc(o.text) + "</p>" + optionLinks(o.url, o.urlLabel, o.place) + "</li>";
       }).join("") + "</ul>" +
-      '<p class="fine rv">All four published 2026 prices, converted at 124.82 ISK per USD. None of these restaurants are in the Michelin Guide. Book now. Nothing is booked yet.</p>';
+      '<p class="fine rv">If you only want a late snack, Baejarins Beztu is about a 3-minute walk. A hot dog is about 920 ISK (about $7), or 1,370 ISK (about $11) with a drink. Usual Thursday hours at the Tryggvagata stand are 9:00 AM to 2:00 AM. 2026 NYE hours were not posted separately. Confirm hours before you go, especially where only 2025 hours are listed.</p>';
   }
   function editionRatesHtml(id) {
     if (id !== "stay-edition") return "";
@@ -711,20 +725,20 @@
         '<h3 class="rv">Meals, soaks, and extras</h3>' +
         '<p class="fine rv">These are not in the $16,030 planned total. The Retreat in-water massage is the chosen extra. Sky Lagoon and the EDITION massage are out of the plan. The day-by-day food budget is on the next page. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + [
-          ["Food and drinks for two", "about $1,030 to $1,930"],
+          ["Food and drinks for two", "about $480 to $1,310"],
           ["Reykjabod Classic, Dec 29", "about $142"],
           ["Retreat in-water massage for two, chosen extra", "about $463"],
           ["Ishestar Horses and Waffles, optional", "about $271"],
           ["Gas, estimate", "about $95"],
           ["EDITION valet, if used", "about $168"]
         ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") + "</dl>" +
-        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $18,200 to $19,100 for two. The $16,030 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $17,600 to $18,500 for two. The $16,030 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
         '<h3 class="rv">Where you can still save</h3>' +
         '<ul class="plain rv">' +
           "<li>Icelandair Economy on the same flights saves $1,924, and brings the planned total to $14,106.</li>" +
           "<li>The EDITION Deluxe King prepay non-refundable rate saves $119.</li>" +
           "<li>A Courtyard King at the EDITION starts at $4,015, which saves $820 against the Deluxe King.</li>" +
-          "<li>With Economy flights and a Courtyard King, the all-in range is about $15,500 to $16,400.</li>" +
+          "<li>With Economy flights and a Courtyard King, the all-in range is about $14,900 to $15,700.</li>" +
         "</ul>"
     });
   }
@@ -736,20 +750,20 @@
       text:
         '<p class="eyebrow rv">Food budget</p>' +
         '<h2 class="rv">What the two of you eat, day by day.</h2>' +
-        '<p class="lede rv">The four nicer dinners are Froken, Midgard, one New Year\'s Eve dinner, and Spa Restaurant. Everything else is cheap eats, groceries, or the Tides credit. Nothing is booked yet.</p>' +
+        '<p class="lede rv">The relaxed a la carte dinners are Froken, Midgard, and Spa Restaurant, plus a casual New Year\'s Eve meal in Reykjavik. Everything else is cheap eats, groceries, or the Tides credit. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + [
-          ["Dec 29, road breakfast and Froken", "$180 to $260"],
-          ["Dec 30, cheap lunch and Midgard", "$225 to $280"],
-          ["Dec 31, Tides lunch and NYE dinner", "$270 to $480"],
+          ["Dec 29, road breakfast and Froken", "$95 to $200"],
+          ["Dec 30, cheap lunch and Midgard", "$80 to $190"],
+          ["Dec 31, Tides lunch and casual NYE dinner", "$60 to $150"],
           ["Jan 1, Tides lunch and cheap dinner", "$15 to $150"],
           ["Jan 2, Tides lunch and cheap dinner", "$40 to $150"],
-          ["Jan 3, cheap lunch and Spa Restaurant", "$160 to $310"],
+          ["Jan 3, cheap lunch and Spa Restaurant", "$90 to $230"],
           ["Jan 4, Retreat breakfast included", "$0 to $20"],
           ["Groceries, Selfoss and Reykjavik", "$60 to $100"],
-          ["Drinks, beyond an NYE wine pairing", "$80 to $180"]
+          ["Drinks, beyond the dinners", "$40 to $120"]
         ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
-        '<div class="ledger-total"><dt>Food and drinks for two</dt><dd>about $1,030 to $1,930</dd></div></dl>' +
-        '<p class="price-note rv"><span class="pn-label">Cost</span>Converted at 124.82 ISK per USD, checked Nov 20, 2026. The low end uses grocery or bakery breakfasts, a cheaper NYE menu without a wine pairing, and cheap dinners. The high end adds EDITION breakfasts at $77 to $98 a morning, a wine pairing or drinks with NYE dinner, and a few fuller casual meals. Tides lunches on Dec 31, Jan 1, and Jan 2 are already in the room rate, about $168 total.</p>' 
+        '<div class="ledger-total"><dt>Food and drinks for two</dt><dd>about $480 to $1,310</dd></div></dl>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>Converted at 124.82 ISK per USD, checked Nov 20, 2026. The low end uses grocery or bakery breakfasts, casual a la carte dinners, and cheap lunches. The high end adds EDITION breakfasts at $77 to $98 a morning, drinks, and fuller mains at Froken, Midgard, and Spa Restaurant. Tides lunches on Dec 31, Jan 1, and Jan 2 are already in the room rate, about $168 total.</p>' 
     });
   }
 
