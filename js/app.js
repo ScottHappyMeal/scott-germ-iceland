@@ -8,7 +8,7 @@
   var PHOTO_URLS = D.PHOTO_URLS || {};
   var PHOTO_LABELS = D.PHOTO_LABELS || {};
 
-  var PLAN_TOTAL = 16030;
+  var PLAN_TOTAL = 15379;
 
   /* ---------- galleries: every photo is a real, self-hosted photo of that exact place ---------- */
   var GALLERIES = {
@@ -16,7 +16,7 @@
     car: ["car_duster"],
     reykjabod: ["reykjabod", "reykjabod_lagoon", "reykjabod_evening", "reykjabod_corridor"],
     mjolkurbuid: ["mjolkurbuid", "mjolkurbuid_bar", "mjolkurbuid_hall", "mjolkurbuid_counter", "mjolkurbuid_coffee"],
-    domes: ["domes", "domes_int", "domes_aurora", "domes_lake", "domes_deck", "domes_aerial"],
+    heathland: ["heathland", "heathland_int", "heathland_tub", "heathland_sauna", "heathland_kitchen", "heathland_moor"],
     froken: ["froken", "froken_booth", "froken_seafood", "froken_platters"],
     kerid: ["kerid", "kerid_rim", "kerid_water", "kerid_parking"],
     glass: ["glass_cottages", "glass_cottages_int", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
@@ -55,12 +55,12 @@
       desc: "Pick up the 4WD SUV at Keflavik after the 6:05 AM landing, and drop it off before the 4:55 PM flight home on Jan 4. A 4WD SUV is the working plan for winter roads.",
       url: "https://www.bluecarrental.is/", urlLabel: "Blue Car Rental"
     },
-    "stay-domes": {
-      title: "Golden Circle Domes", nights: "Dec 29, one night", status: "Not booked", gallery: "domes",
-      price: "$1,371",
-      sub: "Live cash rate for Dec 29, 1,250 euros, total for the dome. Peak holiday pricing.",
-      desc: "Contactless self check-in from 3:00 PM, with no front desk, so there is nowhere to leave bags early. Breakfast is not included, but each dome has a full kitchenette, and Thrastalundur restaurant and minimarket is on site. Double bed, private bathroom, and a wood fireplace.",
-      url: "https://property.godo.is/booking2.php?propid=175431&cur=USD", urlLabel: "Golden Circle Domes", place: "domes"
+    "stay-heathland": {
+      title: "Heathland Lodge", nights: "Dec 29, one night", status: "Not booked", gallery: "heathland",
+      price: "$720",
+      sub: "Cash rate for Dec 29, about $720 total for two. Free cancellation until Nov 29, 2026.",
+      desc: "A private mirror-glass cabin in Minni-Borg, with its own sauna and hot tub, a queen bed, and a kitchenette. Rated 9.5 on Booking.com. Check-in is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. Check-out is by 11:00 AM. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner.",
+      url: "https://www.booking.com/hotel/is/luxurious-mirror-cabin-with-sauna-amp-jacuzzi.html", urlLabel: "Heathland Lodge", place: "heathland"
     },
     "stay-glass": {
       title: "Glass Cottages, Cottage Blar", nights: "Dec 30, one night", status: "Book soon", gallery: "glass",
@@ -91,15 +91,15 @@
       title: "Reykjabod Hot Springs, Hveragerdi", status: "Planned soak", gallery: "reykjabod",
       price: "Classic 17,800 ISK (about $142) for two",
       sub: "Signature is 33,800 ISK (about $270) for two. Not in the trip total.",
-      desc: "Opened in September 2026. A quieter mountain-valley soak right on the Dec 29 drive, about 15 minutes from the domes. Classic includes the lagoon, outdoor sauna, cold plunge, Kneipp, and a towel. Signature adds the adults-only indoor Bathhouse Spa with 10 sensory rooms, bathrobes, slippers, and 1 drink each.",
+      desc: "Opened in September 2026. A quieter mountain-valley soak right on the Dec 29 drive, before groceries in Selfoss and the drive to Heathland Lodge. Classic includes the lagoon, outdoor sauna, cold plunge, Kneipp, and a towel. Signature adds the adults-only indoor Bathhouse Spa with 10 sensory rooms, bathrobes, slippers, and 1 drink each.",
       winter: "Winter hours: Monday to Thursday 10:00 AM to 9:00 PM, Friday to Sunday 10:00 AM to 10:00 PM. Leave the water 30 minutes before close. Dec 29 is a Tuesday, so it opens at 10:00 AM.",
       url: "https://reykjabod.is/", urlLabel: "Reykjabod", place: "reykjabod"
     },
     mjolkurbuid: {
       title: "Quick groceries in Selfoss", status: "Planned stop", gallery: "mjolkurbuid",
       price: "About $60 to $100 for the week",
-      sub: "Breakfasts in the cottages, snacks, and a quiet Jan 1. Not in the $16,030 trip total.",
-      desc: "A grocery stop in the new town center around the Old Dairy (Mjolkurbuid), about 14 minutes from the domes. Bonus is usually a bit cheaper than Kronan. Buy breakfast for the dome and for the Glass Cottages morning, since neither place serves food, plus snacks for the road.",
+      sub: "Breakfasts in the cottages, snacks, and a quiet Jan 1. Not in the $15,379 trip total.",
+      desc: "A grocery stop in the new town center around the Old Dairy (Mjolkurbuid), about 30 minutes from Heathland Lodge. Bonus is usually a bit cheaper than Kronan. Buy breakfast for the cabin and for the Glass Cottages morning, since neither place serves food, plus snacks for the road.",
       winter: "Shop here on Dec 29, and again in Reykjavik on Dec 31 before about 4:00 PM. Kronan closes at 4:00 PM on New Year's Eve. Most Bonus and Kronan stores are closed on Jan 1. Hagkaup at Skeifan is listed as opening from 12:00 PM on Jan 1.",
       url: "https://mjolkurbuid.is/en", urlLabel: "Mjolkurbuid", place: "selfoss"
     },
@@ -107,13 +107,13 @@
       title: "Dinner at Froken Selfoss", status: "Reserve ahead", gallery: "froken",
       price: "About $160 to $225 for two, with drinks",
       sub: "Not in the trip total.",
-      desc: "Downtown Selfoss, about 10 to 15 minutes from the domes. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. Modern Icelandic food. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
+      desc: "Downtown Selfoss, about 30 minutes from Heathland Lodge. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. Modern Icelandic food. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
       url: "https://www.frokenselfoss.is/en", urlLabel: "Froken Selfoss", place: "froken"
     },
     kerid: {
       title: "Kerid crater", status: "Planned stop", gallery: "kerid",
       price: "Small entry fee, paid on site",
-      desc: "A red volcanic crater with a lake at the bottom, about 5 minutes from the domes, and the first stop on the Dec 30 drive south. Winter hours are about 9:00 AM to 5:00 PM.",
+      desc: "A red volcanic crater with a lake at the bottom, about 15 minutes from Heathland Lodge, and the first stop on the Dec 30 drive south. Winter hours are about 9:00 AM to 5:00 PM.",
       winter: "Paths around the rim can be icy. Go late morning when the light comes up, then continue to the waterfalls in midday light.",
       url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Kerid", place: "kerid"
     },
@@ -135,7 +135,7 @@
     retreat_massage: {
       title: "Retreat Spa in-water massage", status: "Chosen extra", gallery: "retreat_massage",
       price: "About $463 for two",
-      sub: "Two 60-minute in-water massages, about 28,900 ISK each. Chosen extra, not in the $16,030 trip total. Not booked yet.",
+      sub: "Two 60-minute in-water massages, about 28,900 ISK each. Chosen extra, not in the $15,379 trip total. Not booked yet.",
       desc: "An hour-long massage in the warm lagoon water at The Retreat Spa. It is not in the room rate, and they typically book it only if you are staying or have a spa reservation.",
       winter: "Book it with the Retreat stay. The lagoon water stays about 98 to 104 F all year.",
       url: "https://www.bluelagoon.com/experiences/in-water-massage", urlLabel: "In-water massage", place: "retreat"
@@ -143,14 +143,14 @@
     nye_dinner: {
       title: "New Year's Eve dinner in Reykjavik", status: "Walk-in options", gallery: "nye_dinner",
       price: "About $60 to $150 for two",
-      sub: "Casual a la carte, not in the $16,030 trip total. Not booked yet.",
+      sub: "Casual a la carte, not in the $15,379 trip total. Not booked yet.",
       desc: "Burgers, pizza, or Icelandic comfort food, all a la carte. No set menus.",
       winter: "Neighborhood bonfires are usually lit around 8:30 PM. The 2026 sites are not posted yet; in 2025 they were lit at 8:30 PM, and the city decides on the day if the wind is over 10 m/s. The casual kitchens mostly close between 9:00 PM and 10:00 PM, so eat early if you want the bonfires. Streets go quiet from about 10:30 PM to 11:35 PM for Aramotaskaup. Fireworks start around 11:30 PM and peak at midnight, from Hallgrimskirkja, the hillside around Perlan, or the harbor by the hotel."
     },
     skogafoss_lunch: {
       title: "A cheap lunch by the waterfalls", status: "Planned stop", gallery: "skogafoss",
       price: "About $15 to $55 for two",
-      sub: "Soup at Hotel Skogafoss, or a cheap stop nearby. Not in the $16,030 trip total.",
+      sub: "Soup at Hotel Skogafoss, or a cheap stop nearby. Not in the $15,379 trip total.",
       desc: "Eat near Skogafoss before you drive back to Midgard for dinner. You do not need to go on to Vik. Hotel Skogafoss Bistro, beside the falls, is open 12:00 PM to 9:00 PM, with leek and potato soup at 2,750 ISK (about $22) and Icelandic meat soup at 3,250 ISK (about $26).",
       winter: "Holiday hours can change, so peek at the door on the day. Midgard dinner is later, around 4:00 PM, so keep this lunch light.",
       url: "https://www.hotelskogafoss.is/restaurant/", urlLabel: "Hotel Skogafoss", place: "hotel_skogafoss"
@@ -166,7 +166,7 @@
     cheap_eats: {
       title: "Cheap eats in Reykjavik", status: "Planned stop", gallery: "cheap_eats",
       price: "About $15 to $50 for two",
-      sub: "Soup, a bakery meal, or groceries. For Jan 1 and Jan 2 dinners, and for breakfasts if you skip the hotel. Not in the $16,030 trip total.",
+      sub: "Soup, a bakery meal, or groceries. For Jan 1 and Jan 2 dinners, and for breakfasts if you skip the hotel. Not in the $15,379 trip total.",
       desc: "The other Reykjavik dinners and breakfasts can stay cheap.",
       winter: "Many places close or shorten hours on Jan 1. Shop groceries on Dec 31 before about 4:00 PM. Most Bonus and Kronan stores are closed on Jan 1. Hagkaup at Skeifan is listed as opening from 12:00 PM. Confirm bakery hours before you walk over."
     },
@@ -213,24 +213,24 @@
     {
       id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "icelandair",
       title: "Land at Keflavik, then pick up the car",
-      note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a bakery or gas-station stop. Reykjabod opens at 10:00 AM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop. Winter daylight is about 11:20 AM to 3:30 PM.",
+      note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a bakery or gas-station stop. Reykjabod opens at 10:00 AM. Check-in at Heathland Lodge is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner. Winter daylight is about 11:20 AM to 3:30 PM.",
       times: [
         { when: "6:05 AM", what: "Land at Keflavik and pick up the 4WD SUV." },
         { when: "Morning", what: "Cheap breakfast on the way south, a bakery or gas-station stop." },
         { when: "After 10:00 AM", what: "Soak at Reykjabod Hot Springs in Hveragerdi." },
-        { when: "Afternoon", what: "Quick groceries in Selfoss for the dome kitchen." },
-        { when: "3:00 PM", what: "Self check-in at Golden Circle Domes." },
-        { when: "Evening", what: "Dinner at Froken Selfoss, about 10 to 15 minutes away." }
+        { when: "Afternoon", what: "Quick groceries in Selfoss for the cabin kitchen." },
+        { when: "3:00 PM", what: "Check in at Heathland Lodge. Tell them your arrival time in advance." },
+        { when: "Evening", what: "Dinner at Froken Selfoss, about 30 minutes from the lodge." }
       ],
-      stops: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"]
+      stops: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"]
     },
     {
       id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss",
       title: "Kerid, two waterfalls, then Glass Cottages Blar",
-      note: "Leave around checkout to reach Seljalandsfoss and Skogafoss in midday light, then Midgard around its 4:00 PM opening and twilight. The sun is up from 11:21 AM to 3:39 PM, with civil twilight until 4:57 PM. The day's drive is 181.6 km and 2 hr 48 min, approx. Going to Midgard before the cottages saves about 12 km of backtracking.",
+      note: "Leave around checkout to reach Seljalandsfoss and Skogafoss in midday light, then Midgard around its 4:00 PM opening and twilight. The sun is up from 11:21 AM to 3:39 PM, with civil twilight until 4:57 PM. The day's drive is 186.5 km and 2 hr 59 min, approx. Going to Midgard before the cottages saves about 12 km of backtracking.",
       times: [
-        { when: "Morning", what: "Breakfast in the dome or at Thrastalundur, then check out." },
-        { when: "Late morning", what: "Kerid crater, about 5 minutes from the domes." },
+        { when: "Morning", what: "Breakfast in the cabin, then check out by 11:00 AM." },
+        { when: "Late morning", what: "Kerid crater, about 15 minutes from the lodge, on the way south." },
         { when: "Midday", what: "Seljalandsfoss, then Skogafoss, in the midday light, with a cheap lunch by the falls." },
         { when: "Around 4:00 PM", what: "Dinner at Midgard Restaurant in Hvolsvollur, around opening and twilight." },
         { when: "Evening", what: "Check in at Glass Cottages, Cottage Blar, about 13 minutes from Midgard." }
@@ -298,7 +298,7 @@
     }
   ];
 
-  var STAY_IDS = ["stay-domes", "stay-glass", "stay-edition", "stay-retreat"];
+  var STAY_IDS = ["stay-heathland", "stay-glass", "stay-edition", "stay-retreat"];
 
   var TIPS = [
     { tag: "New Year's Eve", photo: "bonfire", title: "Neighborhood bonfires come first", text: "Reykjavik lights neighborhood bonfires in the evening on Dec 31, before the fireworks. The city posts the sites each year. Pick one you can walk or taxi to from the EDITION, and dress for standing still in the wind." },
@@ -306,7 +306,7 @@
     { tag: "New Year's Eve", photo: "ruv", title: "The 10:30 PM lull", text: "Aramotaskaup, the national TV comedy special, usually airs at 10:30 PM on RUV, and the streets go quiet while it is on. Confirm the 2026 time when RUV posts it. English is not guaranteed." },
     { tag: "Wind and ice", photo: "kerid", title: "Check the roads before every drive", text: "Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is for roads and safetravel.is for alerts before you set off. Reykjanesbraut and Hellisheidi glaze over first. Hold the car door with both hands when it is windy." },
     { tag: "Wind and ice", photo: "skogafoss", title: "Sneaker waves are real", text: "If you go to Reynisfjara on the South Coast, stay well up the beach and never turn your back on the water. Parking lots and waterfall spray freeze, so shoes with grip help everywhere." },
-    { tag: "Kitchens", photo: "domes_int", title: "Neither cottage stay serves breakfast", text: "The domes have a full kitchenette and Thrastalundur on site. Glass Cottages has only coffee, tea, and oil in the kitchen. Do one grocery run in Selfoss on Dec 29 for both mornings." },
+    { tag: "Kitchens", photo: "heathland_kitchen", title: "Neither cottage stay serves breakfast", text: "Heathland Lodge has a kitchenette, plus a private sauna and hot tub. Glass Cottages has only coffee, tea, and oil in the kitchen. Do one grocery run in Selfoss on Dec 29 for both mornings." },
     { tag: "Daylight", photo: "aurora_self", title: "Use the dark on purpose", text: "Sunrise is around 11:20 AM and sunset around 3:30 PM, so drive in the blue twilight and save the outdoor stops for midday. On clear nights, check the vedur.is cloud map for the northern lights. Grotta is about 10 minutes from downtown." },
     { tag: "Lagoons", photo: "retreat_lagoon", title: "Protect your hair from the silica", text: "At the Blue Lagoon and The Retreat, put conditioner in and keep your hair out of the water. Leave every lagoon 30 minutes before it closes." }
   ];
@@ -650,7 +650,7 @@
         '<p class="eyebrow rv">The route</p>' +
         '<h2 class="rv">Keflavik, the Golden Circle, the south, Reykjavik, and the Blue Lagoon.</h2>' +
         '<p class="lede rv">The line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, through the planned stays and the Dec 29 and Dec 30 stops, including Seljalandsfoss and Skogafoss. The Jan 4 drive back to the airport is on that day. Pick a day to fly the map there.</p>' +
-        '<p class="fine rv">This stay order is the shorter, better-fed arrival after the overnight flight. Food and groceries match Dec 29, Kerid is 5 minutes from the domes, and Froken and Midgard line up with their nights. Swapping Dec 29 and Dec 30 only saves about 25 minutes into Reykjavik on Dec 31, a drive you have to make anyway.</p>' +
+        '<p class="fine rv">This stay order is the shorter, better-fed arrival after the overnight flight. Food and groceries match Dec 29, Kerid is about 15 minutes from Heathland Lodge on the way south, and Froken and Midgard line up with their nights. Swapping Dec 29 and Dec 30 only saves about 25 minutes into Reykjavik on Dec 31, a drive you have to make anyway.</p>' +
         '<div class="map-chips rv" id="mapChips" aria-label="Focus the map on a day"></div>' +
         '<div class="rv" id="fullRouteLink"></div>' +
         '<p class="fine rv">Driving buttons open Apple Maps with road-snapped points.</p>'
@@ -660,7 +660,7 @@
   var GUIDE = [
     { title: "New Year's Eve", photo: "nye_fireworks", tips: [0, 1, 2] },
     { title: "Wind and ice", photo: "skogafoss", tips: [3, 4] },
-    { title: "Kitchens and daylight", photo: "domes_int", tips: [5, 6] },
+    { title: "Kitchens and daylight", photo: "heathland_kitchen", tips: [5, 6] },
     { title: "Lagoons", photo: "retreat_lagoon", tips: [7] }
   ];
   function guidePages() {
@@ -701,11 +701,11 @@
     var lines = [
       ["Icelandair Saga Premium, FI670 and FI671", "$6,062"],
       ["Dacia Duster 4x4, Blue Car Rental, 6 days", "$719"],
-      ["Golden Circle Domes, Dec 29", "$1,371"],
+      ["Heathland Lodge, Dec 29", "$720"],
       ["Glass Cottages, Cottage Blar, Dec 30", "$559"],
       ["The Reykjavik EDITION, Deluxe King, Scenic view, Dec 31 to Jan 3", "$4,835"],
       ["The Retreat at Blue Lagoon, Lava View Junior Suite, Jan 3", "est. $2,484 (about 310,000 ISK)"],
-      ["Lodging, 6 nights", "$9,249"]
+      ["Lodging, 6 nights", "$8,598"]
     ];
     addPage({
       id: "numbers", label: "The numbers", chapter: "The numbers", layout: "text", cls: "page-numbers",
@@ -713,18 +713,18 @@
       text:
         '<p class="eyebrow rv">The numbers</p>' +
         '<h2 class="rv">What the week costs, all in one place.</h2>' +
-        '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. The planned total is still $16,030. Meals, soaks, and extras are listed below. Nothing is booked yet.</p>' +
+        '<p class="lede rv">Cash rates only. Full totals for 2 adults, checked Nov 20, 2026. The planned total is $15,379. Meals, soaks, and extras are listed below. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + lines.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
-        '<div class="ledger-total"><dt>Planned total for two</dt><dd>$16,030</dd></div></dl>' +
+        '<div class="ledger-total"><dt>Planned total for two</dt><dd>$15,379</dd></div></dl>' +
         '<p class="price-note rv"><span class="pn-label">Cost</span>The $719 car line is the 6-day rate. Returning the Duster after 8:00 AM on Jan 4 bills a 7th day, about $41 more for the vehicle, from a live quote.</p>' +
         '<h3 class="rv">Other cash options</h3>' +
         '<ul class="plain rv">' +
-          "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $14,106.</li>" +
-          "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $17,459, and with Economy about $15,535.</li>" +
+          "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $13,455.</li>" +
+          "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $16,808, and with Economy about $14,884.</li>" +
           "<li>Other EDITION Member cash rates for the three nights: Deluxe King prepay non-refundable $4,716, prepay with breakfast $5,006, or Flexible $5,513. A Courtyard King starts at $4,015, and a Deluxe Suite starts at $7,500.</li>" +
         "</ul>" +
         '<h3 class="rv">Meals, soaks, and extras</h3>' +
-        '<p class="fine rv">These are not in the $16,030 planned total. The Retreat in-water massage is the chosen extra. Sky Lagoon and the EDITION massage are out of the plan. The day-by-day food budget is on the next page. Nothing is booked yet.</p>' +
+        '<p class="fine rv">These are not in the $15,379 planned total. The Retreat in-water massage is the chosen extra. Sky Lagoon and the EDITION massage are out of the plan. The day-by-day food budget is on the next page. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + [
           ["Food and drinks for two", "about $820 to $1,600"],
           ["Reykjabod Classic, Dec 29", "about $142"],
@@ -733,13 +733,13 @@
           ["Gas, estimate", "about $95"],
           ["EDITION valet, if used", "about $168"]
         ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") + "</dl>" +
-        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $18,000 to $18,800 for two. The $16,030 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $17,350 to $18,150 for two. The $15,379 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
         '<h3 class="rv">Where you can still save</h3>' +
         '<ul class="plain rv">' +
-          "<li>Icelandair Economy on the same flights saves $1,924, and brings the planned total to $14,106.</li>" +
+          "<li>Icelandair Economy on the same flights saves $1,924, and brings the planned total to $13,455.</li>" +
           "<li>The EDITION Deluxe King prepay non-refundable rate saves $119.</li>" +
           "<li>A Courtyard King at the EDITION starts at $4,015, which saves $820 against the Deluxe King.</li>" +
-          "<li>With Economy flights and a Courtyard King, the all-in range is about $15,200 to $16,000.</li>" +
+          "<li>With Economy flights and a Courtyard King, the all-in range is about $14,550 to $15,350.</li>" +
         "</ul>"
     });
   }
@@ -932,11 +932,11 @@
   }
   /* ---------- map ---------- */
   var routes = null, map = null, legLayers = {}, mapActive = false;
-  var MAP_PLACES = ["kef", "reykjabod", "selfoss", "froken", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
+  var MAP_PLACES = ["kef", "reykjabod", "selfoss", "froken", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var DAY_FOCUS = {
-    all: { label: "Whole trip", places: MAP_PLACES, legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"] },
-    dec29: { label: "Dec 29", places: ["kef", "reykjabod", "selfoss", "froken", "domes"], legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_froken"] },
-    dec30: { label: "Dec 30", places: ["domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], legs: ["domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass"] },
+    all: { label: "Whole trip", places: MAP_PLACES, legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_heathland", "heathland_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"] },
+    dec29: { label: "Dec 29", places: ["kef", "reykjabod", "selfoss", "froken", "heathland"], legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_heathland", "heathland_froken"] },
+    dec30: { label: "Dec 30", places: ["heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], legs: ["heathland_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass"] },
     dec31: { label: "Dec 31", places: ["glass_cottages", "edition"], legs: ["glass_edition"] },
     jan3: { label: "Jan 3", places: ["edition", "retreat"], legs: ["edition_retreat"] },
     jan4: { label: "Jan 4", places: ["retreat", "kef"], legs: ["retreat_kef"] }
@@ -966,7 +966,7 @@
     MAP_PLACES.forEach(function (k) {
       var p = T.PLACES[k];
       if (!p) return;
-      var stay = ["domes", "glass_cottages", "edition", "retreat"].indexOf(k) !== -1;
+      var stay = ["heathland", "glass_cottages", "edition", "retreat"].indexOf(k) !== -1;
       L.marker([p.lat, p.lon], { icon: pinIcon(stay), title: p.name }).addTo(map).bindPopup(popupHtml(k), { maxWidth: 240, className: "trip-popup" });
       bounds.push([p.lat, p.lon]);
     });

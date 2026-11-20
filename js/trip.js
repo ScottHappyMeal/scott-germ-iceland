@@ -32,7 +32,7 @@ window.ICELAND_TRIP = (function () {
     reykjabod: { lat: 64.022922, lon: -21.211112, name: "Reykjabod Hot Springs", photo: "reykjabod", url: "https://reykjabod.is/", urlLabel: "Website", maps: "Reykjabod Hot Springs Arholmar Hveragerdi" },
     selfoss: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
     mjolkurbuid: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
-    domes: { lat: 64.0279, lon: -20.9285, name: "Golden Circle Domes", photo: "domes", url: "https://property.godo.is/booking2.php?propid=175431&cur=USD", urlLabel: "Book it", maps: "Golden Circle Domes Thrastalundur Selfoss" },
+    heathland: { lat: 64.084626, lon: -20.76821, name: "Heathland Lodge", photo: "heathland", url: "https://www.booking.com/hotel/is/luxurious-mirror-cabin-with-sauna-amp-jacuzzi.html", urlLabel: "Book it", maps: "Heathland Lodge Hlaupholar 11 Minni-Borg" },
     kerid: { lat: 64.0413, lon: -20.8851, name: "Kerid crater", photo: "kerid", url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Website", maps: "Kerid crater Iceland" },
     glass_cottages: { lat: 63.8340, lon: -20.3910, name: "Glass Cottages, Cottage Blar", photo: "glass_cottages", url: "https://glasscottages.com/", urlLabel: "Book it", maps: "Glass Cottages Klettamork Hella" },
     froken: { lat: 63.936664, lon: -21.003740, name: "Froken Selfoss", photo: "froken", url: "https://www.frokenselfoss.is/en", urlLabel: "Website", maps: "Froken Selfoss Bruarstraeti" },
@@ -91,9 +91,9 @@ window.ICELAND_TRIP = (function () {
     lava_tunnel: { mins: 60, official: true, text: "1 hr official guided walk, tours from 9:00 AM" },
     reykjabod: { mins: 90, official: false, text: "about 1 hr 30 min, approx" },
     mjolkurbuid: { mins: 60, official: false, text: "about 1 hr for lunch and groceries, approx" },
-    kerid: { mins: 45, official: false, text: "about 45 min at the crater, approx, plus a 5 to 10 min drive from the domes" },
-    "stay-domes": { mins: 0, official: false, text: "Contactless self check-in from 3:00 PM. No front desk." },
-    "stay-glass": { mins: 0, official: false, text: "About 50 min and 51 km from the domes, approx." }
+    kerid: { mins: 45, official: false, text: "about 45 min at the crater, approx, plus a 15 min drive from Heathland Lodge" },
+    "stay-heathland": { mins: 0, official: false, text: "Check-in is from 3:00 PM to midnight. Tell them your arrival time in advance. Check-out is by 11:00 AM." },
+    "stay-glass": { mins: 0, official: false, text: "About 62 min and 60 km from Heathland Lodge, approx." }
   };
 
   var EVENING = {
@@ -169,7 +169,7 @@ window.ICELAND_TRIP = (function () {
     froken: 19 * 60,
     kerid: 11 * 60,
     midgard: 18 * 60 + 30,
-    "stay-domes": 15 * 60,
+    "stay-heathland": 15 * 60,
     "stay-glass": 15 * 60
   };
 
@@ -212,14 +212,14 @@ window.ICELAND_TRIP = (function () {
     froken: "Froken",
     kerid: "Kerid",
     midgard: "Midgard",
-    "stay-domes": "Check-in",
+    "stay-heathland": "Check-in",
     "stay-glass": "Glass Cottages",
     drive: "Drive"
   };
 
   var BAR_SKIP = {
     "stay-edition": true, "stay-retreat": true, "hold-dec28": true,
-    "sky-cabin": true, "stay-domes": true, "stay-glass": true,
+    "sky-cabin": true, "stay-heathland": true, "stay-glass": true,
     car: true, "food-budget": true
   };
 
@@ -242,7 +242,7 @@ window.ICELAND_TRIP = (function () {
     "hold-dec28": "edition",
     "stay-edition": "edition",
     "stay-retreat": "retreat",
-    "stay-domes": "domes",
+    "stay-heathland": "heathland",
     "stay-glass": "glass_cottages",
     sandholt: "sandholt",
     lava_tunnel: "lava_tunnel",
@@ -291,8 +291,8 @@ window.ICELAND_TRIP = (function () {
 
   var DAY_STOP_ORDER = {
     dec28: ["flight"],
-    dec29: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
-    dec30: ["stay-domes", "kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
+    dec29: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"],
+    dec30: ["stay-heathland", "kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
     dec31: ["stay-edition", "tides", "nye_dinner", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "tides", "cheap_eats", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik"],
     jan2: ["stay-edition", "tides", "cheap_eats", "kolaportid", "wool_shops", "shopping_downtown"],
@@ -302,8 +302,8 @@ window.ICELAND_TRIP = (function () {
 
   var DAY_ROADS = {
     dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver at 3:40 PM MT." },
-    dec29: { drive: "Keflavik to Reykjabod Hot Springs is about 88 km and 1 hr 24 min, approx. Reykjabod to Selfoss is about 17 km and 18 min, and Selfoss to the domes is about 13 km and 14 min. A straight drive to the domes is about 105 km and 1 hr 38 min.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. Reykjabod opens at 10:00 AM on Tuesday. There is no front desk at the domes, so plan to arrive at or after 3:00 PM." },
-    dec30: { drive: "The day is 181.6 km and 2 hr 48 min, approx, in this order: the domes to Kerid crater, about 4 km and 5 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Leave around checkout so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
+    dec29: { drive: "Keflavik to Reykjabod Hot Springs is about 88 km and 1 hr 24 min, approx. Reykjabod to Selfoss is about 17 km and 18 min, and Selfoss to Heathland Lodge is about 23 km and 29 min. A straight drive to the lodge is about 116 km and 1 hr 52 min.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. Reykjabod opens at 10:00 AM on Tuesday. Check-in at Heathland Lodge is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner." },
+    dec30: { drive: "The day is 186.5 km and 2 hr 59 min, approx, in this order: Heathland Lodge to Kerid crater, about 9 km and 15 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Check out by 11:00 AM so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
     dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
     jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
     jan2: { drive: "A slow day in Reykjavik from the EDITION. Short drives around town are fine.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
@@ -318,7 +318,7 @@ window.ICELAND_TRIP = (function () {
 
   var BOOKING = {
     "stay-edition": { text: "Marriott Stay Longer on Us Member rate for a Deluxe King, Scenic view, all taxes included. Free cancellation through Dec 1, 2026.", urgency: "early" },
-    "stay-domes": { text: "Dec 29 is a peak holiday night at $1,371. The booking page did not show a tax or cancellation breakdown. Book early.", urgency: "early" },
+    "stay-heathland": { text: "About $720 cash for Dec 29, total for two. Free cancellation until Nov 29, 2026.", urgency: "deadline" },
     "stay-glass": { text: "Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.", urgency: "deadline" },
     "stay-retreat": { text: "Lava View Junior Suite, about 8 left when checked. Holiday suite nights book up. Book early.", urgency: "early" },
     "ice-plan": { text: "Ice caves sell out around the holidays. Book early.", urgency: "early" },
@@ -353,9 +353,9 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261120-book5";
-  var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
-  var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book13";
+  var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
+  var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_heathland", "heathland_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
      without a key, so this uses OSM tiles (no key) plus a CSS filter for a dark look. */
   var TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -372,7 +372,7 @@ window.ICELAND_TRIP = (function () {
     mjolkurbuid: { lat: 63.937221, lon: -21.004327 },
     froken: { lat: 63.936648, lon: -21.003396 },
     kerid: { lat: 64.041693, lon: -20.886757 },
-    domes: { lat: 64.027869, lon: -20.930683 },
+    heathland: { lat: 64.084626, lon: -20.76821 },
     glass_cottages: { lat: 63.833974, lon: -20.390923 },
     midgard: { lat: 63.745931, lon: -20.228226 },
     edition: { lat: 64.150176, lon: -21.940045 },
@@ -385,14 +385,14 @@ window.ICELAND_TRIP = (function () {
      Do not loop KEF to KEF; Apple Maps collapses that to a single pin. */
   var APPLE_ROUTES = {
     full: {
-      keys: ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"],
+      keys: ["kef", "reykjabod", "selfoss", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"],
       label: "Open route in Apple Maps (KEF to Blue Lagoon)"
     },
     dec29: {
-      keys: ["kef", "reykjabod", "selfoss", "domes"],
+      keys: ["kef", "reykjabod", "selfoss", "heathland"],
       label: "Drive in Apple Maps"
     },
-    dec30: { keys: ["domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], label: "Drive in Apple Maps" },
+    dec30: { keys: ["heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], label: "Drive in Apple Maps" },
     dec31: { keys: ["glass_cottages", "edition"], label: "Drive in Apple Maps" },
     jan3: { keys: ["edition", "retreat"], label: "Drive in Apple Maps" },
     jan4: { keys: ["retreat", "kef"], label: "Drive in Apple Maps" }

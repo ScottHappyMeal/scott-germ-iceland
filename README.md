@@ -2,9 +2,9 @@
 
 A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 4, 2027.
 
-Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
+Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 20, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $16,030 cash total for two, a day-by-day food budget, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
+The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $15,379 cash total for two, a day-by-day food budget, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
 
 It is a static site with no build step. GitHub Pages serves it straight from `main`.
 
@@ -19,7 +19,7 @@ Small preview copies of every photo live in `images/thumbs/` (640 px wide). The 
 
 ## Photo credits
 
-Stay photos are self-hosted official images from the hotels' and lodges' own sites, except the Hotel Hofn exterior (Tommy Bee, Wikimedia Commons, CC BY-SA 3.0), which is credited but not shown on the page. Hero and social images use "Flames in the sky," AstroAnthony, Wikimedia Commons, CC BY 4.0. Golden Circle Domes photos are official, archived from goldencircledomes.is. Glass Cottages photos are official, from glasscottages.com.
+Stay photos are self-hosted official images from the hotels' and lodges' own sites, except the Hotel Hofn exterior (Tommy Bee, Wikimedia Commons, CC BY-SA 3.0), which is credited but not shown on the page. Hero and social images use "Flames in the sky," AstroAnthony, Wikimedia Commons, CC BY 4.0. Heathland Lodge photos are official, from heathlandlodge.is. Glass Cottages photos are official, from glasscottages.com.
 
 Day cards and activity photos are self-hosted JPEGs of the actual places. Sources:
 
@@ -65,11 +65,10 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 
 New and upgraded stills are real photographs or official venue images, saved under `images/` with 640 px previews in `images/thumbs/`. No stock libraries and no generated images.
 
-Golden Circle Domes (official):
+Heathland Lodge (official, heathlandlodge.is):
 
-- `images/stays/golden-circle-domes.jpg` and `images/stays/golden-circle-domes-int.jpg`: official, archived from goldencircledomes.is (already on the site).
-- `images/stays/golden-circle-domes-aurora.jpg`: official, archived from goldencircledomes.is, the northern lights seen from inside a dome.
-- `images/stays/golden-circle-domes-lake.jpg`, `images/stays/golden-circle-domes-deck.jpg`, and `images/stays/golden-circle-domes-aerial.jpg`: official Golden Circle Domes booking gallery, property.godo.is, files `https://media.xmlcal.com/pic/p0017/5431/01.png`, `02.png`, and `07.png`.
+- `images/stays/heathland-lodge.jpg` and `images/stays/heathland-lodge-int.jpg`: official photos of the mirror-glass cabin and the bedroom.
+- `images/stays/heathland-lodge-tub.jpg`, `images/stays/heathland-lodge-sauna.jpg`, `images/stays/heathland-lodge-kitchen.jpg`, and `images/stays/heathland-lodge-moor.jpg`: official photos of the private hot tub and sauna, the kitchenette, and the cabin in the field at Minni-Borg.
 
 Glass Cottages (official, glasscottages.com):
 
