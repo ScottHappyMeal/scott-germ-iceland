@@ -288,7 +288,7 @@ window.ICELAND_TRIP = (function () {
     dec30: ["stay-domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
     dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
-    jan2: ["stay-edition", "south_coast", "kolaportid", "wool_shops", "shopping_downtown"],
+    jan2: ["stay-edition", "kolaportid", "wool_shops", "shopping_downtown"],
     jan3: ["stay-retreat", "edition_spa", "retreat_massage", "moss", "blue_lagoon"],
     jan4: ["stay-retreat", "flight"]
   };
@@ -299,7 +299,7 @@ window.ICELAND_TRIP = (function () {
     dec30: { drive: "The day is 181.6 km and 2 hr 48 min, approx, in this order: the domes to Kerid crater, about 4 km and 5 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Leave around checkout so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
     dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
     jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "Another flexible day from the EDITION. You already see Seljalandsfoss and Skogafoss on Dec 30. If you want a guided Katla ice cave or extra South Coast time, the out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly." },
+    jan2: { drive: "A slow day in Reykjavik from the EDITION. Short drives are fine, including Sky Lagoon, about 15 minutes away.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
     jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
     jan4: { drive: "The Retreat to Keflavik is about 22.5 km and 24 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
@@ -319,7 +319,7 @@ window.ICELAND_TRIP = (function () {
     horses: { text: "Holiday rides book up. Book ASAP.", urgency: "asap" },
     silfra: { text: "Holiday tours book up. Book ASAP.", urgency: "asap" },
     golden_circle: { text: "If you take a guided winter tour, book ASAP.", urgency: "asap" },
-    south_coast: { text: "If you take a guided winter tour, book ASAP.", urgency: "asap" },
+    south_coast: { text: "Seljalandsfoss and Skogafoss are already on the Dec 30 drive.", urgency: "" },
     nl_guided: { text: "Northern lights tours book up over the holidays. Book ASAP.", urgency: "asap" },
     sky_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
     blue_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
@@ -348,7 +348,7 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261120-book4";
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book5";
   var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark

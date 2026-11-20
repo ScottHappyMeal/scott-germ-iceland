@@ -26,7 +26,6 @@
     sky_lagoon: ["sky_lagoon", "sky_lagoon_infinity", "sky_lagoon_sunset", "sky_lagoon_sauna"],
     reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "baejarins_street", "baejarins_dog", "wool", "kolaportid", "aurora_self"],
     golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
-    south: ["katla"],
     seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
     skogafoss: ["skogafoss", "skogafoss_wide", "skogafoss_below"],
     retreat: ["retreat_hero", "retreat_lagoon", "retreat_evening", "retreat_suite", "retreat_room_view", "retreat_massage", "moss", "blue_lagoon"]
@@ -48,7 +47,7 @@
     car: {
       title: "Dacia Duster 4x4, six days", status: "Not booked", gallery: "car",
       price: "$719",
-      sub: "Blue Car Rental, Dec 29 to Jan 4, cash total for the car.",
+      sub: "Blue Car Rental, Dec 29 to Jan 4, cash total for the car. Returning after 8:00 AM on Jan 4 bills a 7th day, about $41 more for the vehicle, from a live quote.",
       desc: "Pick up the 4WD SUV at Keflavik after the 6:05 AM landing, and drop it off before the 4:55 PM flight home on Jan 4. A 4WD SUV is the working plan for winter roads.",
       url: "https://www.bluecarrental.is/", urlLabel: "Blue Car Rental"
     },
@@ -157,12 +156,6 @@
       winter: "Spray from the falls freezes on the path and the parking lot. Wear shoes with grip.",
       url: "https://www.south.is/en/place/skogafoss-waterfall", urlLabel: "Skogafoss", place: "skogafoss"
     },
-    south: {
-      title: "Katla ice cave, or extra South Coast time", status: "Optional", gallery: "south",
-      desc: "You already see Seljalandsfoss and Skogafoss on Dec 30. This is a loose day from the EDITION for a guided Katla ice cave, or more time on the South Coast if you want it. The out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx, which is a long winter day.",
-      winter: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly. If you go to Reynisfjara, stay well up the beach because of sneaker waves.",
-      url: "https://www.visiticeland.com/article/the-south-coast/", urlLabel: "South Coast", place: "katla"
-    }
   };
 
   var DAYS = [
@@ -224,11 +217,16 @@
       stops: ["reykjavik", "sky_lagoon", "golden"]
     },
     {
-      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "katla",
-      title: "A day in town, or Katla and extra South Coast time",
-      note: "Another flexible day from the EDITION. You already see Seljalandsfoss and Skogafoss on Dec 30. If the forecast is friendly, this is a day for a guided Katla ice cave or more time on the South Coast. That out-and-back is a long winter drive, about 6 hours of driving. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
-      times: [{ when: "Day", what: "Shops, a harbor walk, Kolaportid, or a Katla ice cave and extra South Coast time if the roads look good." }],
-      stops: ["south"]
+      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "tides",
+      title: "A slow day in Reykjavik",
+      note: "Sleep in at the EDITION, then use the daily Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. The hotel spa is on site, or Sky Lagoon is about 15 minutes away, open 10:00 AM to 9:00 PM in January, with Saman from about $240 for two, optional. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
+      times: [
+        { when: "Late morning", what: "Sleep in." },
+        { when: "Midday", what: "Lunch at Tides, using the daily credit." },
+        { when: "Afternoon", what: "Walk Harpa, the Old Harbour, and Laugavegur, or a short drive to Sky Lagoon." },
+        { when: "Evening", what: "The EDITION Spa, or a quiet night in." }
+      ],
+      stops: []
     },
     {
       id: "jan3", num: 7, date: "Jan 3", weekday: "Sunday", cover: "retreat_hero",
@@ -244,7 +242,7 @@
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
       title: "Drop off the car, then a 4:55 PM flight home",
-      note: "The Retreat to Keflavik is about 22.5 km and 24 min, approx. FI671 leaves at 4:55 PM and lands in Denver at 6:00 PM MT, 8 hours 5 minutes, nonstop.",
+      note: "The Retreat to Keflavik is about 22.5 km and 24 min, approx. FI671 leaves at 4:55 PM and lands in Denver at 6:00 PM MT, 8 hours 5 minutes, nonstop. A car return after 8:00 AM bills a 7th rental day.",
       times: [
         { when: "Morning", what: "One more soak, then check out." },
         { when: "Afternoon", what: "Drive to Keflavik and drop off the car." },
@@ -524,7 +522,7 @@
 
   var GUIDE = [
     { title: "New Year's Eve", photo: "nye_fireworks", tips: [0, 1, 2] },
-    { title: "Wind and ice", photo: "katla", tips: [3, 4] },
+    { title: "Wind and ice", photo: "skogafoss", tips: [3, 4] },
     { title: "Kitchens and daylight", photo: "domes_int", tips: [5, 6] },
     { title: "Lagoons and food", photo: "baejarins", tips: [7, 8] }
   ];
@@ -581,6 +579,7 @@
         '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. Meals, activities, and fuel are not included. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + lines.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
         '<div class="ledger-total"><dt>Planned total for two</dt><dd>$16,030</dd></div></dl>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>The $719 car line is the 6-day rate. Returning the Duster after 8:00 AM on Jan 4 bills a 7th day, about $41 more for the vehicle, from a live quote.</p>' +
         '<h3 class="rv">Other cash options</h3>' +
         '<ul class="plain rv">' +
           "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $14,106.</li>" +

@@ -239,7 +239,6 @@ window.ICELAND_DATA = (function () {
   var EDITION_SPA_EACH = 234; /* signature 60 min, 28,900 ISK */
   var RETREAT_MASSAGE_EACH = 234; /* in-water 60 min, 28,900 ISK */
   var HVAMMSVIK_EACH = 80; /* Classic mid of 7,900-11,900 ISK, est. */
-  var KATLA_EACH = 194;
 
   var DEFAULTS = {
     flightClass: "saga",
@@ -535,12 +534,6 @@ window.ICELAND_DATA = (function () {
       priceEach: 120, free: false, est: true, rec: false, defYes: false,
       maps: "Gullfoss Iceland",
       url: "https://www.visiticeland.com/article/the-golden-circle/", urlLabel: "Website" },
-    { id: "south_coast", cat: "sidetrips", title: "South Coast waterfalls and black beach", photo: "skogafoss", day: "Jan 2",
-      desc: "Seljalandsfoss (you can walk behind it if ice allows), Skogafoss, and Reynisfjara black beach near Vik. About 2 hours to the first falls, and 2 hours 20 minutes to Skogafoss.",
-      winter: "Reynisfjara has sneaker waves. Stay well up the beach. Parking lots and spray can be icy. Same note as the Golden Circle: turn this off if you are self-driving with the car slider.",
-      priceEach: 140, free: false, est: true, rec: false, defYes: false,
-      maps: "Skogafoss Iceland",
-      url: "https://www.visiticeland.com/article/the-south-coast/", urlLabel: "Website" },
     { id: "jokulsarlon", cat: "sidetrips", title: "Jokulsarlon overnight: ice cave, Diamond Beach, aurora", photo: "jokulsarlon", day: "Dec 30 to Dec 31 morning",
       desc: "Fly from Reykjavik domestic (not Keflavik) to Hofn in about 55 minutes, then drive about an hour. The plan includes Glacier Adventure's Crystal Ice Cave Adventure, a 3-hour tour that meets at Hali (pickup from Hofn is not included), ice on black sand around the late 11 AM sunrise, and the lagoon, where seals are sometimes visible. Fly back on the 31st for New Year's Eve in town.",
       winter: "Domestic winter cancellations are common, so this is a tighter plan than going Dec 29 to 30. Book a morning cave with free cancellation. Boat tours are done for the season. This card adds the Hofn flights, a standard ice-cave tour, and one Hofn-area hotel night (and trims an EDITION night).",
@@ -548,13 +541,6 @@ window.ICELAND_DATA = (function () {
       maps: "Jokulsarlon glacier lagoon",
       url: "https://glacieradventure.is/tour/crystal-ice-cave-adventure/", urlLabel: "Book it",
       dynamic: "jokulsarlon" },
-    { id: "katla", cat: "sidetrips", title: "Katla ice cave", photo: "katla", day: "Jan 2, if you skip the overnight",
-      desc: "Katla Track's Fast Track Katla Ice Cave tour, a year-round ice cave under Myrdalsjokull, near Vik, with ash-striped black ice. The official tour is 2.5 to 3 hours. You meet in Vik; pickup from Reykjavik is not included. Helmets, crampons, and headlamps are included. An option if you do not fly to Hofn, since it sits on the South Coast day.",
-      winter: "Still a guided trip with a super jeep. Weather can close the road.",
-      priceEach: KATLA_EACH, free: false, est: true, rec: false, defYes: false,
-      maps: "Katla ice cave",
-      url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it",
-      priceNote: "From about 23,990 ISK per person. Confirm the current price on Katla Track." },
     { id: "silfra", cat: "sidetrips", title: "Silfra snorkel, Thingvellir", photo: "silfra", day: "Jan 1, with the Golden Circle",
       desc: "A dry-suit snorkel in the fissure between the North American and Eurasian plates, at Thingvellir. The water is about 35 to 39 F and is very clear.",
       winter: "The water is about 35 to 39 F year-round. Operators still run in winter with dry suits. You need to be comfortable in cold water. Price is an estimate.",
@@ -637,9 +623,8 @@ window.ICELAND_DATA = (function () {
     wool_shops: "66 North for outerwear, and Rammagerdin for wool and design goods.",
     kolaportid: "Kolaportid flea market, Saturday Jan 2, by the harbor. Entry is free.",
     golden_circle: "Thingvellir, Geysir, and Gullfoss, about 45 minutes from town to Thingvellir.",
-    south_coast: "Seljalandsfoss, Skogafoss, and Reynisfjara black beach, on Jan 2.",
+    south_coast: "Seljalandsfoss and Skogafoss, already on the Dec 30 drive.",
     jokulsarlon: "A night near Jokulsarlon: an ice cave, Diamond Beach, and Hotel Hofn.",
-    katla: "A Katla ice cave on January 2, near Vik, if you skip the Hofn overnight.",
     silfra: "A snorkel at Silfra in Thingvellir, in a dry suit, in water about 35 to 39 F.",
     nye_bonfire: "A neighborhood bonfire on New Year's Eve, before the midnight fireworks.",
     nye_fireworks: "Midnight fireworks on Dec 31. Viewpoints include Hallgrimskirkja, Perlan, and the harbor.",
@@ -678,7 +663,6 @@ window.ICELAND_DATA = (function () {
     golden_circle: "the Golden Circle",
     south_coast: "the South Coast",
     jokulsarlon: "the glacier overnight",
-    katla: "a Katla ice cave",
     silfra: "Silfra",
     nye_bonfire: "the bonfire",
     nye_fireworks: "midnight fireworks",
@@ -700,7 +684,7 @@ window.ICELAND_DATA = (function () {
     LAVA_TUNNEL_TWO: LAVA_TUNNEL_TWO,
     HORSE_EACH: HORSE_EACH, SKY_EACH: SKY_EACH, FONTANA_EACH: FONTANA_EACH,
     EDITION_SPA_EACH: EDITION_SPA_EACH, RETREAT_MASSAGE_EACH: RETREAT_MASSAGE_EACH,
-    HVAMMSVIK_EACH: HVAMMSVIK_EACH, KATLA_EACH: KATLA_EACH,
+    HVAMMSVIK_EACH: HVAMMSVIK_EACH,
     DEFAULTS: DEFAULTS,
     PHOTO_URLS: PHOTO_URLS,
     PHOTO_LABELS: PHOTO_LABELS,
