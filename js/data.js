@@ -287,7 +287,7 @@ window.ICELAND_DATA = (function () {
     budget: {
       id: "budget",
       title: "Toyota Yaris",
-      blurb: "An automatic front-wheel-drive car. This is the cheapest option. Front-wheel drive is a weaker choice for the South Coast in late December.",
+      blurb: "An automatic front-wheel-drive car. This is the lowest-priced option. Front-wheel drive is a weaker choice for the South Coast in late December.",
       model: "Toyota Yaris or similar, automatic 2WD",
       source: "Live Blue Car Rental quote, KEF, Dec 29, 2026 at 7:00 AM to Jan 3, 2027 at 3:00 PM.",
       daily: 57, vehicle: 342, iskVehicle: 42193, coverDaily: 44, cover: 264, trip: 606, rec: false,
@@ -344,8 +344,7 @@ window.ICELAND_DATA = (function () {
       { id: "YHE2b_foL4o", kind: "visitor review", ch: "THAT ICELANDIC GUY.", title: "Reykjavik New Year's Eve fireworks, drone" }
     ],
     horses: [
-      { id: "uU8HbbEqjEg", kind: "official", ch: "Ishestar Riding Tours", title: "Icelandic horse ride on the black sand trail" },
-      { id: "sSGV0Wv-jgM", kind: "visitor review", ch: "Cheap Thrills Blog", title: "Horsing around at Ishestar" }
+      { id: "uU8HbbEqjEg", kind: "official", ch: "Ishestar Riding Tours", title: "Icelandic horse ride on the black sand trail" }
     ],
     golden: [
       { id: "ZHwBy7EX5Bk", kind: "destination film", ch: "Guide to Iceland", title: "Golden Circle tour from Reykjavik" },
@@ -395,7 +394,7 @@ window.ICELAND_DATA = (function () {
       url: "https://reykjabod.is/", urlLabel: "Website",
       priceNote: "Classic is 17,800 ISK (about $142) for two: lagoon, outdoor sauna, cold plunge, Kneipp, and a towel. Signature is 33,800 ISK (about $270) for two and adds the adults-only indoor Bathhouse Spa, bathrobes, slippers, and 1 drink each. Not included in the trip total." },
     { id: "mjolkurbuid", cat: "food", title: "Grocery pickup in Selfoss", photo: "mjolkurbuid", day: "Dec 29, before check-in",
-      desc: "A grocery stop in Selfoss for breakfast and snacks in the Heathland Lodge kitchen, and for the Glass Cottages morning too. Bonus is usually a bit cheaper than Kronan. Plan on about $60 to $100 for cottage breakfasts, snacks, and a quiet Jan 1, including a second shop in Reykjavik on Dec 31 before about 4:00 PM.",
+      desc: "A grocery stop in Selfoss for breakfast and snacks in the Heathland Lodge kitchen, and for the Glass Cottages morning too. Bonus usually costs a bit less than Kronan. Plan on about $60 to $100 for cottage breakfasts, snacks, and a quiet Jan 1, including a second shop in Reykjavik on Dec 31 before about 4:00 PM.",
       winter: "A practical indoor stop before the 3:00 PM contactless check-in. Most Bonus and Kronan stores are closed on Jan 1. Kronan closes at 4:00 PM on New Year's Eve.",
       priceEach: 0, free: false, est: true, rec: true, defYes: true,
       maps: "Mjolkurbuid Food Hall Selfoss",
@@ -441,9 +440,9 @@ window.ICELAND_DATA = (function () {
       priceEach: 0, free: true, est: false, rec: false, defYes: true,
       maps: "Grotta lighthouse Reykjavik",
       url: "https://visitreykjavik.is/city-areas/seltjarnarnes-grotta", urlLabel: "Website" },
-    { id: "tides", cat: "food", title: "Tides credit at The EDITION", photo: "tides", day: "Dec 31 to Jan 2",
+    { id: "tides", cat: "food", title: "One Tides lunch at The EDITION", photo: "tides", day: "Jan 2",
       desc: "Tides is the restaurant in the EDITION, and the place where the included 7,000 ISK daily credit applies. This is not a destination dinner.",
-      winter: "Use the daily credit for a meal at the hotel. The credit does not change the trip ledger.",
+      winter: "Use the daily credit for one lunch at the hotel on Jan 2. The credit does not change the trip ledger.",
       priceEach: 0, free: false, est: false, rec: false, defYes: false,
       maps: "Tides restaurant The Reykjavik EDITION",
       url: "https://www.editionhotels.com/reykjavik/restaurants-and-bars/tides/", urlLabel: "Website" },
@@ -630,8 +629,8 @@ window.ICELAND_DATA = (function () {
     grotta: "Grotta after dark",
     tides: "the Tides credit",
     spa_restaurant: "Spa Restaurant",
-    skogafoss_lunch: "a cheap lunch",
-    cheap_eats: "cheap eats",
+    skogafoss_lunch: "a quick lunch",
+    cheap_eats: "casual eats",
     grillmarkadurinn: "Grillmarkadurinn",
     baejarins: "Baejarins Beztu",
     fridheimar: "the tomato greenhouse",

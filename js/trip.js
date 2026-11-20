@@ -196,7 +196,7 @@ window.ICELAND_TRIP = (function () {
     "ice-plan:katla": "Katla cave",
     nye_dinner: "NYE dinner",
     skogafoss_lunch: "Lunch",
-    cheap_eats: "Cheap eats",
+    cheap_eats: "Casual eats",
     dill: "Dill",
     grillmarkadurinn: "Grillmarkadurinn",
     aramotaskaup: "Aramotaskaup",
@@ -293,8 +293,8 @@ window.ICELAND_TRIP = (function () {
     dec28: ["flight"],
     dec29: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"],
     dec30: ["stay-heathland", "kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
-    dec31: ["stay-edition", "tides", "nye_dinner", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
-    jan1: ["stay-edition", "tides", "cheap_eats", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik"],
+    dec31: ["stay-edition", "nye_dinner", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
+    jan1: ["stay-edition", "cheap_eats", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik"],
     jan2: ["stay-edition", "tides", "cheap_eats", "kolaportid", "wool_shops", "shopping_downtown"],
     jan3: ["stay-retreat", "spa_restaurant", "retreat_massage", "blue_lagoon"],
     jan4: ["stay-retreat", "car", "flight"]
@@ -353,7 +353,7 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261120-book14";
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book15";
   var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_heathland", "heathland_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
