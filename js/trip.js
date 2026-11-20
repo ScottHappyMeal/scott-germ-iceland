@@ -16,8 +16,8 @@ window.ICELAND_TRIP = (function () {
     fridheimar: { lat: 64.1417, lon: -20.4728, name: "Fridheimar", photo: "fridheimar", url: "https://fridheimar.is/", urlLabel: "Book it", maps: "Fridheimar" },
     fontana: { lat: 64.2160, lon: -20.7300, name: "Laugarvatn Fontana", photo: "fontana", url: "https://www.fontana.is/", urlLabel: "Book it", maps: "Laugarvatn Fontana" },
     silfra: { lat: 64.2525, lon: -21.1167, name: "Silfra, Thingvellir", photo: "silfra", url: "https://www.dive.is/diving-snorkeling-tours/snorkeling-day-tours/silfra-snorkeling-day-tour", urlLabel: "Book it", maps: "Silfra at Thingvellir" },
-    seljalandsfoss: { lat: 63.6156, lon: -19.9886, name: "Seljalandsfoss", photo: "seljalandsfoss", url: "https://www.south.is/en/place/seljalandsfoss-waterfall", urlLabel: "Website", maps: "Seljalandsfoss" },
-    skogafoss: { lat: 63.5321, lon: -19.5112, name: "Skogafoss", photo: "skogafoss", url: "https://www.south.is/en/place/skogafoss-waterfall", urlLabel: "Website", maps: "Skogafoss" },
+    seljalandsfoss: { lat: 63.615245, lon: -19.993802, name: "Seljalandsfoss", photo: "seljalandsfoss", url: "https://www.south.is/en/place/seljalandsfoss-waterfall", urlLabel: "Website", maps: "Seljalandsfoss" },
+    skogafoss: { lat: 63.527455, lon: -19.512098, name: "Skogafoss", photo: "skogafoss", url: "https://www.south.is/en/place/skogafoss-waterfall", urlLabel: "Website", maps: "Skogafoss" },
     vik: { lat: 63.4186, lon: -19.0060, name: "Vik", photo: "skogafoss", url: "https://www.visitvik.is/", urlLabel: "Website", maps: "Vik Iceland" },
     reynisfjara: { lat: 63.4045, lon: -19.0434, name: "Reynisfjara black beach", photo: "skogafoss", url: "https://www.south.is/en/place/reynisfjara-reynisfjall-og-reynisdrangar", urlLabel: "Website", maps: "Reynisfjara" },
     katla: { lat: 63.4900, lon: -19.0700, name: "Katla ice cave", photo: "katla", url: "https://katlatrack.is/all-tours/ice-cave-tours/katla-fast-track-ice-cave-tour/", urlLabel: "Book it", maps: "Katla ice cave Iceland" },
@@ -245,6 +245,8 @@ window.ICELAND_TRIP = (function () {
     froken: "froken",
     midgard: "midgard",
     kerid: "kerid",
+    seljalandsfoss: "seljalandsfoss",
+    skogafoss: "skogafoss",
     "sky-cabin:pano-standard": "panorama",
     "sky-cabin:pano-premium": "panorama",
     "sky-cabin:buubble": "buubble",
@@ -283,7 +285,7 @@ window.ICELAND_TRIP = (function () {
   var DAY_STOP_ORDER = {
     dec28: ["flight"],
     dec29: ["flight", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
-    dec30: ["stay-domes", "kerid", "stay-glass", "midgard", "golden_circle", "fridheimar", "south_coast", "nl_guided", "nl_self"],
+    dec30: ["stay-domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
     dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
     jan2: ["stay-edition", "south_coast", "kolaportid", "wool_shops", "shopping_downtown"],
@@ -294,12 +296,12 @@ window.ICELAND_TRIP = (function () {
   var DAY_ROADS = {
     dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver at 3:40 PM MT." },
     dec29: { drive: "Keflavik to Reykjabod Hot Springs is about 88 km and 1 hr 24 min, approx. Reykjabod to Selfoss is about 17 km and 18 min, and Selfoss to the domes is about 13 km and 14 min. A straight drive to the domes is about 105 km and 1 hr 38 min.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. Reykjabod opens at 10:00 AM on Tuesday. There is no front desk at the domes, so plan to arrive at or after 3:00 PM." },
-    dec30: { drive: "The domes to Kerid crater is about 4 km and 5 min, approx. Kerid to Glass Cottages, near Hella, is about 52 km and 48 min. Midgard Restaurant in Hvolsvollur is about 13 km and 13 min from the cottages.", risk: "South coast roads can ice over. Check umferdin.is before you leave." },
+    dec30: { drive: "The day is 181.6 km and 2 hr 48 min, approx, in this order: the domes to Kerid crater, about 4 km and 5 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Leave around checkout so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
     dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
     jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "Another flexible day from the EDITION. If you want the South Coast, the out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly." },
+    jan2: { drive: "Another flexible day from the EDITION. You already see Seljalandsfoss and Skogafoss on Dec 30. If you want a guided Katla ice cave or extra South Coast time, the out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly." },
     jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
-    jan4: { drive: "The Retreat to Keflavik is about 23 km and 25 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
+    jan4: { drive: "The Retreat to Keflavik is about 22.5 km and 24 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
 
   var ROAD_LINKS = [
@@ -346,9 +348,9 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261119-site1";
-  var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "glass_cottages", "edition", "retreat"];
-  var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_glass", "glass_edition", "edition_retreat"];
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book3";
+  var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
+  var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
      without a key, so this uses OSM tiles (no key) plus a CSS filter for a dark look. */
   var TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -369,21 +371,23 @@ window.ICELAND_TRIP = (function () {
     glass_cottages: { lat: 63.833974, lon: -20.390923 },
     midgard: { lat: 63.745931, lon: -20.228226 },
     edition: { lat: 64.150176, lon: -21.940045 },
-    retreat: { lat: 63.881341, lon: -22.452174 }
+    retreat: { lat: 63.881341, lon: -22.452174 },
+    seljalandsfoss: { lat: 63.615245, lon: -19.993802 },
+    skogafoss: { lat: 63.527455, lon: -19.512098 }
   };
 
   /* The full trip route ends at the Retreat. Jan 4 has its own drive back to KEF.
      Do not loop KEF to KEF; Apple Maps collapses that to a single pin. */
   var APPLE_ROUTES = {
     full: {
-      keys: ["kef", "reykjabod", "selfoss", "domes", "kerid", "glass_cottages", "edition", "retreat"],
+      keys: ["kef", "reykjabod", "selfoss", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"],
       label: "Open route in Apple Maps (KEF to Blue Lagoon)"
     },
     dec29: {
       keys: ["kef", "reykjabod", "selfoss", "domes"],
       label: "Drive in Apple Maps"
     },
-    dec30: { keys: ["domes", "kerid", "glass_cottages"], label: "Drive in Apple Maps" },
+    dec30: { keys: ["domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], label: "Drive in Apple Maps" },
     dec31: { keys: ["glass_cottages", "edition"], label: "Drive in Apple Maps" },
     jan3: { keys: ["edition", "retreat"], label: "Drive in Apple Maps" },
     jan4: { keys: ["retreat", "kef"], label: "Drive in Apple Maps" }

@@ -14,20 +14,22 @@
   var GALLERIES = {
     flight: ["icelandair", "saga_seat"],
     car: ["car_duster"],
-    reykjabod: ["reykjabod"],
-    mjolkurbuid: ["mjolkurbuid"],
-    domes: ["domes", "domes_int"],
-    froken: ["froken"],
-    kerid: ["kerid"],
-    glass: ["glass_cottages", "glass_cottages_int"],
-    midgard: ["midgard"],
-    edition: ["edition_ext", "edition_room", "edition_int", "tides", "nye_dinner", "edition_spa"],
+    reykjabod: ["reykjabod", "reykjabod_lagoon", "reykjabod_evening", "reykjabod_corridor"],
+    mjolkurbuid: ["mjolkurbuid", "mjolkurbuid_bar", "mjolkurbuid_hall", "mjolkurbuid_counter", "mjolkurbuid_coffee"],
+    domes: ["domes", "domes_int", "domes_aurora", "domes_lake", "domes_deck", "domes_aerial"],
+    froken: ["froken", "froken_booth", "froken_seafood", "froken_platters"],
+    kerid: ["kerid", "kerid_rim", "kerid_water", "kerid_parking"],
+    glass: ["glass_cottages", "glass_cottages_int", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
+    midgard: ["midgard", "midgard_pasta", "midgard_view", "midgard_bar"],
+    edition: ["edition_ext", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
-    sky_lagoon: ["sky_lagoon"],
-    reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "wool", "kolaportid", "aurora_self"],
-    golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "horses"],
-    south: ["seljalandsfoss", "skogafoss", "katla"],
-    retreat: ["retreat_hero", "retreat_suite", "retreat_lagoon", "retreat_massage", "moss", "blue_lagoon"]
+    sky_lagoon: ["sky_lagoon", "sky_lagoon_infinity", "sky_lagoon_sunset", "sky_lagoon_sauna"],
+    reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "baejarins_street", "baejarins_dog", "wool", "kolaportid", "aurora_self"],
+    golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
+    south: ["katla"],
+    seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
+    skogafoss: ["skogafoss", "skogafoss_wide", "skogafoss_below"],
+    retreat: ["retreat_hero", "retreat_lagoon", "retreat_evening", "retreat_suite", "retreat_room_view", "retreat_massage", "moss", "blue_lagoon"]
   };
 
   function full(key) { return PHOTO_URLS[key] || ""; }
@@ -76,7 +78,7 @@
       title: "The Retreat at Blue Lagoon, Lava View Junior Suite", nights: "Jan 3, one night", status: "Not booked", gallery: "retreat",
       price: "est. $2,484",
       sub: "About 310,000 ISK for Jan 3, estimated. 8 suites were left when checked.",
-      desc: "One night in a Lava View Junior Suite, with access to the private Retreat Lagoon. The next morning you drive about 25 minutes to Keflavik for the 4:55 PM flight.",
+      desc: "One night in a Lava View Junior Suite, with access to the private Retreat Lagoon. The next morning you drive about 22.5 km, 24 min, approx, to Keflavik for the 4:55 PM flight.",
       winter: "Put conditioner in and keep your hair out of the silica water. The water stays about 98 to 104 F all year.",
       url: "https://www.bluelagoon.com/retreat", urlLabel: "The Retreat", place: "retreat"
     },
@@ -106,15 +108,15 @@
     kerid: {
       title: "Kerid crater", status: "Planned stop", gallery: "kerid",
       price: "Small entry fee, paid on site",
-      desc: "A red volcanic crater with a lake at the bottom, about 5 minutes from the domes, then about 48 minutes on to Glass Cottages. Winter hours are about 9:00 AM to 5:00 PM.",
-      winter: "Paths around the rim can be icy. Go late morning when the light comes up.",
+      desc: "A red volcanic crater with a lake at the bottom, about 5 minutes from the domes, and the first stop on the Dec 30 drive south. Winter hours are about 9:00 AM to 5:00 PM.",
+      winter: "Paths around the rim can be icy. Go late morning when the light comes up, then continue to the waterfalls in midday light.",
       url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Kerid", place: "kerid"
     },
     midgard: {
       title: "Dinner at Midgard Restaurant, Hvolsvollur", status: "Reserve ahead", gallery: "midgard",
       price: "26,000 ISK (about $208) for two",
       sub: "Glass Cottages 3-course partner offer, before drinks. Not in the trip total.",
-      desc: "About 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. From-scratch Icelandic food in a small dining room, so reserve ahead.",
+      desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. From-scratch Icelandic food in a small dining room, so reserve ahead.",
       url: "https://midgardbasecamp.is/midgard-base-camp-restaurant/", urlLabel: "Midgard", place: "midgard"
     },
     nye: {
@@ -143,11 +145,23 @@
       winter: "Watch Mosfellsheidi and Lyngdalsheidi if the wind picks up. Fridheimar hours on New Year's Day are worth confirming.",
       url: "https://www.visiticeland.com/article/the-golden-circle/", urlLabel: "Golden Circle", place: "gullfoss"
     },
+    seljalandsfoss: {
+      title: "Seljalandsfoss", status: "Planned stop", gallery: "seljalandsfoss",
+      desc: "A waterfall you can sometimes walk behind, on the Dec 30 drive south from Kerid. Parking is at the falls, then about 29 minutes on to Skogafoss.",
+      winter: "The path behind the falls is often icy or closed in winter. On Dec 30 the sun is up from 11:21 AM to 3:39 PM, with civil twilight until 4:57 PM, so go in midday light.",
+      url: "https://www.south.is/en/place/seljalandsfoss-waterfall", urlLabel: "Seljalandsfoss", place: "seljalandsfoss"
+    },
+    skogafoss: {
+      title: "Skogafoss", status: "Planned stop", gallery: "skogafoss",
+      desc: "A wide, powerful waterfall about 29 minutes east of Seljalandsfoss. Parking is at Fossbud, beside the falls. From here it is about 44 minutes back west to Midgard Restaurant.",
+      winter: "Spray from the falls freezes on the path and the parking lot. Wear shoes with grip.",
+      url: "https://www.south.is/en/place/skogafoss-waterfall", urlLabel: "Skogafoss", place: "skogafoss"
+    },
     south: {
-      title: "South Coast waterfalls, if the forecast is friendly", status: "Optional", gallery: "south",
-      desc: "Seljalandsfoss, Skogafoss, and Reynisfjara black beach near Vik. The out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx, which is a long winter day.",
-      winter: "Hellisheidi and Threngsli ice over first. Reynisfjara has sneaker waves, so stay well up the beach.",
-      url: "https://www.visiticeland.com/article/the-south-coast/", urlLabel: "South Coast", place: "skogafoss"
+      title: "Katla ice cave, or extra South Coast time", status: "Optional", gallery: "south",
+      desc: "You already see Seljalandsfoss and Skogafoss on Dec 30. This is a loose day from the EDITION for a guided Katla ice cave, or more time on the South Coast if you want it. The out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx, which is a long winter day.",
+      winter: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly. If you go to Reynisfjara, stay well up the beach because of sneaker waves.",
+      url: "https://www.visiticeland.com/article/the-south-coast/", urlLabel: "South Coast", place: "katla"
     }
   };
 
@@ -174,16 +188,17 @@
       stops: ["car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"]
     },
     {
-      id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "kerid",
-      title: "Kerid crater, then Glass Cottages Blar",
-      note: "Breakfast in the dome or at Thrastalundur, then check out and stop at Kerid crater on the way south to Hella. Glass Cottages has no on-site food, but the kitchen is stocked with coffee, tea, and oil.",
+      id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss",
+      title: "Kerid, two waterfalls, then Glass Cottages Blar",
+      note: "Leave around checkout to reach Seljalandsfoss and Skogafoss in midday light, then Midgard around its 4:00 PM opening and twilight. The sun is up from 11:21 AM to 3:39 PM, with civil twilight until 4:57 PM. The day's drive is 181.6 km and 2 hr 48 min, approx. Going to Midgard before the cottages saves about 12 km of backtracking.",
       times: [
         { when: "Morning", what: "Breakfast in the dome or at Thrastalundur, then check out." },
         { when: "Late morning", what: "Kerid crater, about 5 minutes from the domes." },
-        { when: "Afternoon", what: "Check in at Glass Cottages, Cottage Blar, near Hella." },
-        { when: "Evening", what: "Dinner at Midgard Restaurant in Hvolsvollur, about 13 minutes away." }
+        { when: "Midday", what: "Seljalandsfoss, then Skogafoss, in the midday light." },
+        { when: "Around 4:00 PM", what: "Dinner at Midgard Restaurant in Hvolsvollur, around opening and twilight." },
+        { when: "Evening", what: "Check in at Glass Cottages, Cottage Blar, about 13 minutes from Midgard." }
       ],
-      stops: ["kerid", "stay-glass", "midgard"]
+      stops: ["kerid", "seljalandsfoss", "skogafoss", "midgard", "stay-glass"]
     },
     {
       id: "dec31", num: 4, date: "Dec 31", weekday: "Thursday", cover: "nye_hallgrimskirkja",
@@ -209,10 +224,10 @@
       stops: ["reykjavik", "sky_lagoon", "golden"]
     },
     {
-      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "skogafoss",
-      title: "A day in town, or the South Coast",
-      note: "Another flexible day from the EDITION. The South Coast out and back is a long winter drive, about 6 hours of driving, so only go if the forecast is friendly. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
-      times: [{ when: "Day", what: "Shops, a harbor walk, Kolaportid, or the South Coast if you want the longer drive." }],
+      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "katla",
+      title: "A day in town, or Katla and extra South Coast time",
+      note: "Another flexible day from the EDITION. You already see Seljalandsfoss and Skogafoss on Dec 30. If the forecast is friendly, this is a day for a guided Katla ice cave or more time on the South Coast. That out-and-back is a long winter drive, about 6 hours of driving. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
+      times: [{ when: "Day", what: "Shops, a harbor walk, Kolaportid, or a Katla ice cave and extra South Coast time if the roads look good." }],
       stops: ["south"]
     },
     {
@@ -229,7 +244,7 @@
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
       title: "Drop off the car, then a 4:55 PM flight home",
-      note: "The Retreat to Keflavik is about 23 km and 25 min, approx. FI671 leaves at 4:55 PM and lands in Denver at 6:00 PM MT, 8 hours 5 minutes, nonstop.",
+      note: "The Retreat to Keflavik is about 22.5 km and 24 min, approx. FI671 leaves at 4:55 PM and lands in Denver at 6:00 PM MT, 8 hours 5 minutes, nonstop.",
       times: [
         { when: "Morning", what: "One more soak, then check out." },
         { when: "Afternoon", what: "Drive to Keflavik and drop off the car." },
@@ -479,8 +494,16 @@
         (it.winter ? '<p class="insider rv"><span class="lbl">Insider</span>' + esc(it.winter) + "</p>" : "") +
         (soon ? '<p class="soon rv"><span class="soon-label">Book soon</span> Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.</p>' : "") +
         linksHtml(it) +
-        priceNote(it)
+        priceNote(it) +
+        editionRatesHtml(id)
     });
+  }
+
+  function editionRatesHtml(id) {
+    if (id !== "stay-edition") return "";
+    return '<p class="fine rv">The plan uses the King Room (Courtyard view). A Deluxe Suite (1 Bedroom Suite, 1 king, Scenic view) is also on Marriott\'s site for the same dates, 2 adults, taxes and fees included. The trip total stays at $15,218 unless you switch rooms.</p>' +
+      '<p class="price-note rv"><span class="pn-label">Cost</span>King Room, current Marriott direct rates: $4,015 Member / $4,216 Non-Member, Stay Longer on Us, refundable. Prepay non-refundable: $3,925 Member / $4,001 Non-Member. The planned total in the ledger uses the earlier $4,023 Member figure.</p>' +
+      '<p class="price-note rv"><span class="pn-label">Cost</span>Deluxe Suite: $7,500 Member / $7,885 Non-Member, Stay Longer on Us, refundable, free cancellation through Dec 1, 2026. Prepay non-refundable: $7,277 Member / $7,422 Non-Member.</p>';
   }
 
   function mapPage() {
@@ -491,7 +514,8 @@
       text:
         '<p class="eyebrow rv">The route</p>' +
         '<h2 class="rv">Keflavik, the Golden Circle, the south, Reykjavik, and the Blue Lagoon.</h2>' +
-        '<p class="lede rv">The line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, through the planned stays and the Dec 29 and Dec 30 stops. The Jan 4 drive back to the airport is on that day. Pick a day to fly the map there.</p>' +
+        '<p class="lede rv">The line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, through the planned stays and the Dec 29 and Dec 30 stops, including Seljalandsfoss and Skogafoss. The Jan 4 drive back to the airport is on that day. Pick a day to fly the map there.</p>' +
+        '<p class="fine rv">This stay order is the shorter, better-fed arrival after the overnight flight. Food and groceries match Dec 29, Kerid is 5 minutes from the domes, and Froken and Midgard line up with their nights. Swapping Dec 29 and Dec 30 only saves about 25 minutes into Reykjavik on Dec 31, a drive you have to make anyway.</p>' +
         '<div class="map-chips rv" id="mapChips" aria-label="Focus the map on a day"></div>' +
         '<div class="rv" id="fullRouteLink"></div>' +
         '<p class="fine rv">Driving buttons open Apple Maps with road-snapped points.</p>'
@@ -730,14 +754,14 @@
   }
   /* ---------- map ---------- */
   var routes = null, map = null, legLayers = {}, mapActive = false;
-  var MAP_PLACES = ["kef", "reykjabod", "selfoss", "froken", "domes", "kerid", "glass_cottages", "midgard", "edition", "retreat"];
+  var MAP_PLACES = ["kef", "reykjabod", "selfoss", "froken", "domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var DAY_FOCUS = {
-    all: { label: "Whole trip", places: MAP_PLACES, legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_glass", "glass_edition", "edition_retreat"] },
+    all: { label: "Whole trip", places: MAP_PLACES, legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"] },
     dec29: { label: "Dec 29", places: ["kef", "reykjabod", "selfoss", "froken", "domes"], legs: ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_froken"] },
-    dec30: { label: "Dec 30", places: ["domes", "kerid", "glass_cottages", "midgard"], legs: ["domes_kerid", "kerid_glass", "glass_midgard"] },
+    dec30: { label: "Dec 30", places: ["domes", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages"], legs: ["domes_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass"] },
     dec31: { label: "Dec 31", places: ["glass_cottages", "edition"], legs: ["glass_edition"] },
     jan3: { label: "Jan 3", places: ["edition", "retreat"], legs: ["edition_retreat"] },
-    jan4: { label: "Jan 4", places: ["retreat", "kef"], legs: ["blue_lagoon_kef"] }
+    jan4: { label: "Jan 4", places: ["retreat", "kef"], legs: ["retreat_kef"] }
   };
   var currentFocus = "all";
 

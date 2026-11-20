@@ -29,19 +29,19 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 - New Year fireworks day photo: Borkur Sigurbjornsson, Wikimedia Commons, File:NewYearFireworks-Reykjavik.jpg, CC BY 2.0.
 - Icelandic horses day photo: Guislin, Wikimedia Commons, File:Islandais hiver.jpg, CC BY 4.0.
 - Seljalandsfoss day photo: Jakub Halun, Wikimedia Commons, File:Seljalandsfoss Waterfall, Iceland, 20240720 1500 3096.jpg, CC BY 4.0.
-- Jan 3 Retreat lagoon: official, bluelagoon.com.
+- Jan 3 Retreat lagoon: official aerial of the Retreat lagoon, bluelagoon.com (upgraded from a 720 x 960 still).
 - Harpa: Manuelarosi, Wikimedia Commons, File:Harpa (concert hall).jpg, CC BY-SA 4.0.
-- Ishestar horse ride: official, ishestar.is, cropped so the horses stay in the frame.
+- Ishestar horse ride: official, ishestar.is, riders through a lava field (upgraded from a smaller official still).
 - Grotta lighthouse: Olga Ernst, Wikimedia Commons, File:Lighthouse on Grótta Island.jpg, CC BY-SA 4.0.
 - Tides dining room: official, editionhotels.com.
 - Dill: City Foodsters, Wikimedia Commons, File:DILL IMG 2911 (30924863540).jpg, CC BY 2.0, a meal at Dill in Reykjavik.
 - Moss: official, bluelagoon.com.
 - Grillmarkadurinn: official, grillmarkadurinn.is.
-- Baejarins Beztu: Richard Eriksson, Wikimedia Commons, File:Bæjarins Beztu Pylsur.jpg, CC BY 2.0.
+- Baejarins Beztu: Jóhann Heiðar Árnason, Wikimedia Commons, File:Bæjarins bestu.jpg, CC BY-SA 3.0 (upgraded from a 640 px still).
 - Fridheimar: Eric Kilby, Wikimedia Commons, File:Fridheimar Tomatoes.jpg, CC BY-SA 2.0.
-- Sky Lagoon: Laurenmcl, Wikimedia Commons, File:Sky Lagoon Cold Plunge.jpg, CC BY-SA 4.0.
+- Sky Lagoon cold plunge: Laurenmcl, Wikimedia Commons, File:Sky Lagoon Cold Plunge.jpg, CC BY-SA 4.0.
 - Blue Lagoon: Jakub Halun, Wikimedia Commons, File:Blue Lagoon with Þorbjörn, Iceland, 20230430 1626 3692.jpg, CC BY-SA 4.0.
-- Retreat in-water massage: official, bluelagoon.com.
+- Retreat in-water massage: official, bluelagoon.com. The lagoon-view suite still was also upgraded from a higher-resolution official Blue Lagoon photo.
 - Fontana: Reykholt, Wikimedia Commons, File:Fontana spa.jpg, CC BY-SA 4.0.
 - Hvammsvik: official, hvammsvik.com, aerial of the beach pools.
 - EDITION Spa: official, editionhotels.com, treatment room.
@@ -60,6 +60,85 @@ Day cards and activity photos are self-hosted JPEGs of the actual places. Source
 - Guided northern lights, Hofn: Giuseppe Milo, Wikimedia Commons, CC BY 3.0.
 - Self-guided aurora: Nico Carver, Wikimedia Commons, File:Aurora Borealis- Iceland (Nico Carver).jpg, CC BY-SA 2.0.
 
+## Photos added or upgraded, Nov 19, 2026
+
+New and upgraded stills are real photographs or official venue images, saved under `images/` with 640 px previews in `images/thumbs/`. No stock libraries and no generated images.
+
+Golden Circle Domes (official):
+
+- `images/stays/golden-circle-domes.jpg` and `images/stays/golden-circle-domes-int.jpg`: official, archived from goldencircledomes.is (already on the site).
+- `images/stays/golden-circle-domes-aurora.jpg`: official, archived from goldencircledomes.is, the northern lights seen from inside a dome.
+- `images/stays/golden-circle-domes-lake.jpg`, `images/stays/golden-circle-domes-deck.jpg`, and `images/stays/golden-circle-domes-aerial.jpg`: official Golden Circle Domes booking gallery, property.godo.is, files `https://media.xmlcal.com/pic/p0017/5431/01.png`, `02.png`, and `07.png`.
+
+Glass Cottages (official, glasscottages.com):
+
+- `images/stays/glass-cottages.jpg` and `images/stays/glass-cottages-int.jpg`: already on the site.
+- `images/stays/glass-cottages-bedroom.jpg`, `images/stays/glass-cottages-living.jpg`, and `images/stays/glass-cottages-stars.jpg`: official property photos from glasscottages.com.
+
+Reykjabod Hot Springs (official, reykjabod.is):
+
+- `images/places/reykjabod.jpg`: official bathhouse still, upgraded to a higher-resolution copy of the same official frame.
+- `images/places/reykjabod-lagoon.jpg`, `images/places/reykjabod-evening.jpg`, and `images/places/reykjabod-corridor.jpg`: official site images of the lagoon, the boardwalk at dusk, and a bathhouse corridor.
+
+Sky Lagoon:
+
+- `images/places/sky-lagoon.jpg`: Laurenmcl, Wikimedia Commons, File:Sky Lagoon Cold Plunge.jpg, CC BY-SA 4.0 (already on the site).
+- `images/places/sky-lagoon-infinity.jpg`, `images/places/sky-lagoon-sunset.jpg`, and `images/places/sky-lagoon-sauna.jpg`: official, skylagoon.com.
+
+Froken Selfoss (official, frokenselfoss.is):
+
+- `images/places/froken.jpg`: official dining room, upgraded to a higher-resolution official frame.
+- `images/places/froken-booth.jpg`, `images/places/froken-seafood.jpg`, and `images/places/froken-platters.jpg`: official restaurant photos.
+
+Midgard Restaurant (official, midgardbasecamp.is):
+
+- `images/places/midgard.jpg`: already on the site.
+- `images/places/midgard-pasta.jpg`, `images/places/midgard-view.jpg`, and `images/places/midgard-bar.jpg`: official Midgard Base Camp restaurant photos.
+
+Mjolkurbuid / the Old Dairy, Selfoss (official, mjolkurbuid.is, Mikael Lundblad):
+
+- `images/places/mjolkurbuid.jpg`: already on the site (exterior).
+- `images/places/mjolkurbuid-bar.jpg`, `images/places/mjolkurbuid-hall.jpg`, `images/places/mjolkurbuid-counter.jpg`, and `images/places/mjolkurbuid-coffee.jpg`: official interior photos.
+
+Kerid crater (Wikimedia Commons):
+
+- `images/places/kerid.jpg`: Diego Delso, File:Crater volcánico Kerið, Suðurland, Islandia, 2014-08-16, DD 151.jpg, CC BY-SA 4.0 (already on the site).
+- `images/places/kerid-rim.jpg`: Netha Hussain, File:Kerid Crater 02.jpg, CC0.
+- `images/places/kerid-water.jpg`: Netha Hussain, File:Kerid Crater 09.jpg, CC0.
+- `images/places/kerid-parking.jpg`: Alexander Grebenkov, File:Kerið crater lake, Iceland. View from parking lot.jpg, CC BY 3.0.
+
+Seljalandsfoss (Wikimedia Commons, Jakub Hałun, CC BY 4.0):
+
+- `images/places/seljalandsfoss.jpg`: File:Seljalandsfoss Waterfall, Iceland, 20240720 1500 3096.jpg (already on the site).
+- `images/places/seljalandsfoss-wide.jpg`: File:Seljalandsfoss Waterfall, Iceland, 20240720 1522 3138.jpg.
+- `images/places/seljalandsfoss-behind.jpg`: File:Seljalandsfoss Waterfall, Iceland, 20240720 1457 3084.jpg.
+
+Skogafoss (Wikimedia Commons):
+
+- `images/places/skogafoss.jpg`: Alexander Grebenkov, File:Skógafoss from below.jpg, CC BY 3.0 (already on the site).
+- `images/places/skogafoss-wide.jpg`: Jakub Hałun, File:Skógafoss Waterfall, Iceland, 20240720 1330 2993.jpg, CC BY 4.0.
+- `images/places/skogafoss-below.jpg`: Jakub Hałun, File:Skógafoss, Iceland, 20230501 1445 3970.jpg, CC BY-SA 4.0.
+
+The Retreat at Blue Lagoon (official, bluelagoon.com):
+
+- `images/stays/retreat-lagoon.jpg`: official aerial of the Retreat lagoon (upgraded).
+- `images/stays/retreat-suite.jpg`: official lagoon-view suite, higher-resolution official frame (upgraded).
+- `images/stays/retreat-evening.jpg`: official evening view of the building and lagoon.
+- `images/stays/retreat-room-view.jpg`: official bedroom looking out to the lagoon.
+
+Baejarins Beztu (Wikimedia Commons):
+
+- `images/places/baejarins.jpg`: Jóhann Heiðar Árnason, File:Bæjarins bestu.jpg, CC BY-SA 3.0 (upgraded).
+- `images/places/baejarins-street.jpg`: Vincent van Zeijst, File:Iceland, Reykjavík, Tryggvagata (01), Bæjarins Beztu Pylsur.jpg, CC BY-SA 3.0.
+- `images/places/baejarins-dog.jpg`: Jschildk, File:Hot dog from Bæjarins Beztu Pylsur.jpg, CC BY-SA 3.0.
+
+Ishestar (official, ishestar.is):
+
+- `images/places/ishestar.jpg`: official riders in a lava field (upgraded).
+- `images/places/ishestar-winter.jpg`: official winter ride from the saddle.
+
+The Reykjavik EDITION Deluxe Suite living area (`images/stays/edition-deluxe-suite.jpg`) is an official Marriott / EDITION photo already in the repo, and is now shown on the EDITION page beside the King Room.
+
 ## Icons
 
 UI icons are Lucide, vendored in `icons/` under the ISC License.
@@ -67,7 +146,7 @@ UI icons are Lucide, vendored in `icons/` under the ISC License.
 - Kerid crater: Diego Delso, Wikimedia Commons, File:Crater volcánico Kerið, Suðurland, Islandia, 2014-08-16, DD 151.jpg, CC BY-SA 4.0.
 - Raufarholshellir lava tunnel: Winniepix, Wikimedia Commons, File:Icicles and stalagmites of ice inside the lava tunnel at Raufarholshellir, Iceland (25390824267).jpg, CC BY 2.0.
 - Mjolkurbuid / The Old Dairy, Selfoss: official, mjolkurbuid.is (Mikael Lundblad).
-- Reykjabod Hot Springs: official, reykjabod.is, the bathhouse.
+- Reykjabod Hot Springs: official, reykjabod.is, a higher-resolution still of the bathhouse.
 - Sandholt: official bakery photo, sandholt.is.
-- Froken Selfoss: official dining-room photo, frokenselfoss.is.
+- Froken Selfoss: official dining-room photo, frokenselfoss.is (higher-resolution official frame).
 - Midgard Restaurant: dining-room photo via Visit South Iceland / Midgard Base Camp.
