@@ -111,7 +111,13 @@ window.ICELAND_DATA = (function () {
     spa_restaurant: "images/places/spa-restaurant.jpg",
     spa_restaurant_table: "images/places/spa-restaurant-table.jpg",
     spa_restaurant_plate: "images/places/spa-restaurant-plate.jpg",
-    spa_restaurant_sushi: "images/places/spa-restaurant-sushi.jpg"
+    spa_restaurant_sushi: "images/places/spa-restaurant-sushi.jpg",
+    reykjavik_aerial: "images/places/reykjavik-aerial.jpg",
+    denver_airport: "images/places/denver-airport.jpg",
+    keflavik_terminal: "images/places/keflavik-terminal.jpg",
+    old_harbour: "images/places/reykjavik-old-harbour.jpg",
+    car_duster_return: "images/cars/duster-2.jpg",
+    reykjavik_from_church: "images/places/reykjavik-from-hallgrimskirkja.jpg"
   };
 
   var PHOTO_LABELS = {
@@ -225,7 +231,13 @@ window.ICELAND_DATA = (function () {
     spa_restaurant: "The dining room at Spa Restaurant in the Retreat Spa",
     spa_restaurant_table: "A table at Spa Restaurant, with a Retreat napkin",
     spa_restaurant_plate: "A stracciatella plate at Spa Restaurant, with oil poured at the table",
-    spa_restaurant_sushi: "A sushi plate at Spa Restaurant"
+    spa_restaurant_sushi: "A sushi plate at Spa Restaurant",
+    reykjavik_aerial: "Reykjavik from the air on the approach, with Mount Esja behind the city",
+    denver_airport: "Denver International Airport at dusk",
+    keflavik_terminal: "Keflavik International Airport, seen from the tarmac",
+    old_harbour: "Boats in Reykjavik's Old Harbour",
+    car_duster_return: "A Dacia Duster, the same model as the rental",
+    reykjavik_from_church: "Reykjavik from the top of Hallgrimskirkja, looking toward the harbor"
   };
 
   var STORAGE_KEY = "scott-germ-versus-iceland-v1";

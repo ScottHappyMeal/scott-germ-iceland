@@ -13,26 +13,31 @@
   /* ---------- galleries: every photo is a real, self-hosted photo of that exact place ---------- */
   var GALLERIES = {
     flight: ["icelandair", "saga_seat"],
+    flight_home: ["keflavik_terminal"],
     car: ["car_duster"],
+    car_return: ["car_duster_return"],
     reykjabod: ["reykjabod", "reykjabod_lagoon", "reykjabod_evening", "reykjabod_corridor"],
     mjolkurbuid: ["mjolkurbuid", "mjolkurbuid_bar", "mjolkurbuid_hall", "mjolkurbuid_counter", "mjolkurbuid_coffee"],
-    heathland: ["heathland", "heathland_int", "heathland_tub", "heathland_sauna", "heathland_kitchen", "heathland_moor"],
+    heathland: ["heathland", "heathland_int", "heathland_tub", "heathland_sauna", "heathland_moor"],
     froken: ["froken", "froken_booth", "froken_seafood", "froken_platters"],
-    kerid: ["kerid", "kerid_rim", "kerid_water", "kerid_parking"],
-    glass: ["glass_cottages", "glass_cottages_int", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
+    kerid: ["kerid", "kerid_water", "kerid_parking"],
+    glass: ["glass_cottages", "glass_cottages_bedroom", "glass_cottages_living", "glass_cottages_stars"],
     midgard: ["midgard", "midgard_pasta", "midgard_view", "midgard_bar"],
     spa_restaurant: ["spa_restaurant", "spa_restaurant_table", "spa_restaurant_plate", "spa_restaurant_sushi"],
-    edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
-    nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
-    nye_dinner: ["nye_dinner", "harpa"],
+    edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_spa"],
+    nye: ["nye_fireworks", "ruv"],
+    nye_dinner: ["nye_dinner"],
     tides: ["tides", "edition_int"],
     cheap_eats: ["sandholt"],
+    casual_jan2: ["baejarins_street"],
     retreat_massage: ["retreat_massage"],
-    reykjavik: ["harpa", "laugavegur", "grotta", "wool", "kolaportid", "aurora_self"],
-    golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
-    seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
-    skogafoss: ["skogafoss", "skogafoss_wide", "skogafoss_below"],
-    retreat: ["retreat_hero", "retreat_lagoon", "retreat_evening", "retreat_suite", "retreat_room_view", "retreat_massage", "spa_restaurant", "blue_lagoon"]
+    reykjavik: ["laugavegur", "wool", "kolaportid"],
+    golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter"],
+    seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_behind"],
+    skogafoss: ["skogafoss", "skogafoss_wide"],
+    skogafoss_lunch: ["skogafoss_below"],
+    retreat: ["retreat_suite", "retreat_room_view"],
+    retreat_checkout: ["retreat_evening"]
   };
 
   function full(key) { return PHOTO_URLS[key] || ""; }
@@ -148,7 +153,7 @@
       winter: "Neighborhood bonfires are usually lit around 8:30 PM. The 2026 sites are not posted yet; in 2025 they were lit at 8:30 PM, and the city decides on the day if the wind is over 10 m/s. The casual kitchens mostly close between 9:00 PM and 10:00 PM, so eat early if you want the bonfires. Streets go quiet from about 10:30 PM to 11:35 PM for Aramotaskaup. Fireworks start around 11:30 PM and peak at midnight, from Hallgrimskirkja, the hillside around Perlan, or the harbor by the hotel."
     },
     skogafoss_lunch: {
-      title: "A quick lunch by the waterfalls", status: "Planned stop", gallery: "skogafoss",
+      title: "A quick lunch by the waterfalls", status: "Planned stop", gallery: "skogafoss_lunch",
       price: "About $15 to $55 for two",
       sub: "Soup at Hotel Skogafoss, or a quick stop nearby. Not in the $15,379 trip total.",
       desc: "Eat near Skogafoss before you drive back to Midgard for dinner. You do not need to go on to Vik. Hotel Skogafoss Bistro, beside the falls, is open 12:00 PM to 9:00 PM, with leek and potato soup at 2,750 ISK (about $22) and Icelandic meat soup at 3,250 ISK (about $26).",
@@ -204,14 +209,14 @@
 
   var DAYS = [
     {
-      id: "dec28", num: 1, date: "Dec 28", weekday: "Monday", cover: "icelandair",
+      id: "dec28", num: 1, date: "Dec 28", weekday: "Monday", cover: "denver_airport",
       title: "Overnight flight from Denver",
       note: "No driving in Iceland today. FI670 leaves Denver at 3:40 PM MT and you sleep on the plane.",
       times: [{ when: "3:40 PM MT", what: "FI670 departs Denver, 7 hours 25 minutes, nonstop." }],
       stops: ["flight"]
     },
     {
-      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "reykjabod",
+      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "reykjavik_aerial",
       title: "Land at Keflavik, then pick up the car",
       note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a quick breakfast on the way, a bakery or gas-station stop. Reykjabod opens at 10:00 AM. Check-in at Heathland Lodge is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner. Winter daylight is about 11:20 AM to 3:30 PM.",
       times: [
@@ -222,10 +227,10 @@
         { when: "3:00 PM", what: "Check in at Heathland Lodge. Tell them your arrival time in advance." },
         { when: "Evening", what: "Dinner at Froken Selfoss, about 30 minutes from the lodge." }
       ],
-      stops: ["car", "reykjabod", "mjolkurbuid", "stay-heathland", "froken"]
+      stops: ["car", "reykjabod", "mjolkurbuid", "stay-heathland", "tip:kitchens", "froken"]
     },
     {
-      id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss",
+      id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss_wide",
       title: "Kerid, two waterfalls, then Glass Cottages Blar",
       note: "Leave around checkout to reach Seljalandsfoss and Skogafoss in midday light, then Midgard around its 4:00 PM opening and twilight. The sun is up from 11:21 AM to 3:39 PM, with civil twilight until 4:57 PM. The day's drive is 186.5 km and 2 hr 59 min, approx. Going to Midgard before the cottages saves about 12 km of backtracking.",
       times: [
@@ -235,7 +240,7 @@
         { when: "Around 4:00 PM", what: "Dinner at Midgard Restaurant in Hvolsvollur, around opening and twilight." },
         { when: "Evening", what: "Check in at Glass Cottages, Cottage Blar, about 13 minutes from Midgard." }
       ],
-      stops: ["kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass"]
+      stops: ["tip:roads", "kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass"]
     },
     {
       id: "dec31", num: 4, date: "Dec 31", weekday: "Thursday", cover: "nye_hallgrimskirkja",
@@ -248,7 +253,7 @@
         { when: "10:30 PM", what: "Aramotaskaup, the national TV comedy special, usually airs on RUV." },
         { when: "Midnight", what: "Fireworks over the whole city." }
       ],
-      stops: ["stay-edition", "nye_dinner", "nye"]
+      stops: ["stay-edition", "nye_dinner", "nye", "tip:nye"]
     },
     {
       id: "jan1", num: 5, date: "Jan 1", weekday: "Friday", cover: "harpa",
@@ -262,7 +267,7 @@
       stops: ["cheap_eats", "reykjavik", "golden"]
     },
     {
-      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "tides",
+      id: "jan2", num: 6, date: "Jan 2", weekday: "Saturday", cover: "old_harbour",
       title: "A slow day in Reykjavik",
       note: "Sleep in at the EDITION, then use the daily 7,000 ISK Tides credit for lunch. Walk to Harpa, the Old Harbour, and Laugavegur, or take a short drive. Kolaportid flea market usually runs on weekends, so confirm the holiday hours.",
       times: [
@@ -271,7 +276,8 @@
         { when: "Afternoon", what: "Walk Harpa, the Old Harbour, and Laugavegur." },
         { when: "Evening", what: "A casual dinner, then a quiet night in." }
       ],
-      stops: ["tides", "cheap_eats"]
+      stops: ["tides", "cheap_eats"],
+      galleryFor: { cheap_eats: "casual_jan2" }
     },
     {
       id: "jan3", num: 7, date: "Jan 3", weekday: "Sunday", cover: "retreat_hero",
@@ -283,7 +289,7 @@
         { when: "Afternoon or evening", what: "In-water massage at the Retreat Spa, the chosen extra for two." },
         { when: "Evening", what: "Dinner at Spa Restaurant in the Retreat Spa, then a soak in the Retreat Lagoon." }
       ],
-      stops: ["stay-retreat", "retreat_massage", "spa_restaurant"]
+      stops: ["stay-retreat", "tip:lagoons", "retreat_massage", "spa_restaurant"]
     },
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
@@ -294,7 +300,8 @@
         { when: "Afternoon", what: "Drive to Keflavik and drop off the car." },
         { when: "4:55 PM", what: "FI671 to Denver, landing 6:00 PM MT." }
       ],
-      stops: ["stay-retreat", "car", "flight"]
+      stops: ["stay-retreat", "car", "flight"],
+      galleryFor: { "stay-retreat": "retreat_checkout", car: "car_return", flight: "flight_home" }
     }
   ];
 
@@ -518,6 +525,7 @@
   }
 
   function stopPage(day, id) {
+    if (id.indexOf("tip:") === 0) { tipPage(day, id.slice(4)); return; }
     var it = ITEMS[id];
     if (!it) return;
     var todayNote = "";
@@ -531,7 +539,7 @@
     addPage({
       id: "stop-" + day.id + "-" + id, day: day.id, label: it.title, chapter: "Day " + day.num + " · " + day.date,
       layout: "split",
-      media: '<div class="media-img">' + mediaPhotos(it.gallery) + "</div>",
+      media: '<div class="media-img">' + mediaPhotos((day.galleryFor && day.galleryFor[id]) || it.gallery) + "</div>",
       text:
         status +
         '<h2 class="rv">' + esc(it.title) + "</h2>" +
@@ -657,25 +665,26 @@
     });
   }
 
-  var GUIDE = [
-    { title: "New Year's Eve", photo: "nye_fireworks", tips: [0, 1, 2] },
-    { title: "Wind and ice", photo: "skogafoss", tips: [3, 4] },
-    { title: "Kitchens and daylight", photo: "heathland_kitchen", tips: [5, 6] },
-    { title: "Lagoons", photo: "retreat_lagoon", tips: [7] }
-  ];
-  function guidePages() {
-    GUIDE.forEach(function (g, i) {
-      addPage({
-        id: "guide-" + (i + 1), label: "Field guide: " + g.title, chapter: "Field guide", layout: "split",
-        media: '<div class="media-img">' + imgTag(g.photo) + '<p class="media-cap">' + esc(label(g.photo)) + "</p></div>",
-        text:
-          '<p class="eyebrow rv">Field guide, ' + (i + 1) + " of " + GUIDE.length + "</p>" +
-          '<h2 class="rv">' + esc(g.title) + "</h2>" +
-          g.tips.map(function (n) {
-            var t = TIPS[n];
-            return '<div class="tipblock rv"><h3>' + esc(t.title) + "</h3><p>" + esc(t.text) + "</p></div>";
-          }).join("")
-      });
+  /* field guide tips, woven into the day where they matter */
+  var GUIDE = {
+    kitchens: { title: "Kitchens", photo: "heathland_kitchen", tips: [5] },
+    roads: { title: "Wind, ice, and daylight", photo: "kerid_rim", tips: [3, 4, 6] },
+    nye: { title: "New Year's Eve", photo: "bonfire", tips: [0, 1, 2] },
+    lagoons: { title: "Lagoons", photo: "blue_lagoon", tips: [7] }
+  };
+  function tipPage(day, key) {
+    var g = GUIDE[key];
+    if (!g) return;
+    addPage({
+      id: "tip-" + day.id + "-" + key, day: day.id, label: "Field guide: " + g.title, chapter: "Day " + day.num + " · " + day.date, layout: "split",
+      media: '<div class="media-img">' + imgTag(g.photo) + '<p class="media-cap">' + esc(label(g.photo)) + "</p></div>",
+      text:
+        '<p class="eyebrow rv">Field guide &middot; ' + esc(day.date) + "</p>" +
+        '<h2 class="rv">' + esc(g.title) + "</h2>" +
+        g.tips.map(function (n) {
+          var t = TIPS[n];
+          return '<div class="tipblock rv"><h3>' + esc(t.title) + "</h3><p>" + esc(t.text) + "</p></div>";
+        }).join("")
     });
   }
 
@@ -771,7 +780,7 @@
   function bookingPage() {
     addPage({
       id: "booking", label: "Booking pages", chapter: "Booking pages", layout: "split",
-      media: '<div class="media-img">' + imgTag("blue_lagoon") + '<p class="media-cap">' + esc(label("blue_lagoon")) + "</p></div>",
+      media: '<div class="media-img">' + imgTag("reykjavik_from_church") + '<p class="media-cap">' + esc(label("reykjavik_from_church")) + "</p></div>",
       text:
         '<p class="eyebrow rv">Booking pages</p>' +
         '<h2 class="rv">Every flight, stay, and rental car, all still unbooked.</h2>' +
@@ -800,14 +809,13 @@
   function buildPages() {
     coverPage();
     weekPage();
+    mapPage();
     daylightPage();
+    preparePage();
     DAYS.forEach(function (day) {
       dayOpener(day);
       day.stops.forEach(function (id) { stopPage(day, id); });
     });
-    mapPage();
-    guidePages();
-    preparePage();
     numbersPage();
     foodBudgetPage();
     bookingPage();
@@ -835,13 +843,13 @@
       return '<li><button type="button" data-go="' + id + '"><span class="c-a">' + a + '</span><span class="c-b">' + esc(b) + "</span></button></li>";
     }
     var html = '<div class="c-group"><p class="c-head">Start</p><ul>' +
-      item("cover", "Cover", "Countdown and live weather") + item("week", "The week", "All eight days") + item("daylight", "Daylight", "About four hours of sun") + "</ul></div>";
+      item("cover", "Cover", "Countdown and live weather") + item("week", "The week", "All eight days") + item("route", "The route", "Map and Apple Maps driving") +
+      item("daylight", "Daylight", "About four hours of sun") + item("prepare", "Before you go", "Roads and packing") + "</ul></div>";
     html += '<div class="c-group c-days"><p class="c-head">Day by day</p><ul>' + DAYS.map(function (d) {
       return item("day-" + d.id, esc(d.weekday.slice(0, 3)) + ", " + esc(d.date), d.title);
     }).join("") + "</ul></div>";
-    html += '<div class="c-group"><p class="c-head">After the days</p><ul>' +
-      item("route", "The route", "Map and Apple Maps driving") + item("guide-1", "Field guide", "Bonfires, wind, kitchens, lagoons") +
-      item("prepare", "Before you go", "Roads and packing") + item("numbers", "The numbers", "Cash totals for two") +
+    html += '<div class="c-group"><p class="c-head">At the end</p><ul>' +
+      item("numbers", "The numbers", "Cash totals for two") +
       item("food-budget", "Food budget", "Meals day by day") + item("booking", "Booking pages", "Official sites") + "</ul></div>";
     el.innerHTML = html;
   }
@@ -1334,7 +1342,7 @@
     var cur = PAGES[NAV.index];
     c.querySelectorAll("[data-go]").forEach(function (b) {
       var id = b.getAttribute("data-go");
-      var on = id === cur.id || (cur.day && id === "day-" + cur.day) || (cur.id.indexOf("guide-") === 0 && id === "guide-1");
+      var on = id === cur.id || (cur.day && id === "day-" + cur.day);
       b.classList.toggle("is-on", !!on);
       if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });

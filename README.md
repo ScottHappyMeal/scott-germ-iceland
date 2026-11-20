@@ -4,7 +4,7 @@ A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026
 
 Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 20, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $15,379 cash total for two, a day-by-day food budget, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
+The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It reads in trip order. It opens with a cover with a departure countdown and live Reykjavik weather, the week at a glance, an interactive route map that flies to each day, a winter daylight chart, and packing notes. Then come the eight days, each with an opening page with times, drives and a "Drive in Apple Maps" button, a page for every stop with its own photo gallery, and field guide tips on the day they matter. It closes with a calm summary of the $15,379 cash total for two, a day-by-day food budget, and the official booking pages. No photo appears twice anywhere in the book. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
 
 It is a static site with no build step. GitHub Pages serves it straight from `main`.
 
@@ -138,6 +138,15 @@ Ishestar (official, ishestar.is):
 - `images/places/ishestar-winter.jpg`: official winter ride from the saddle.
 
 The Reykjavik EDITION Deluxe Suite living area (`images/stays/edition-deluxe-suite.jpg`) is an official Marriott / EDITION photo already in the repo, and is shown on the EDITION page. `images/stays/edition-harbor-king.jpg` is an official Marriott / EDITION photo of a Deluxe King bedroom with a Scenic harbor view.
+
+## Photos added Nov 20, 2026 (book16, no repeated photos)
+
+- `images/places/reykjavik-aerial.jpg` (Dec 29 arrival cover): Eric Kilby, Wikimedia Commons, File:Approaching Reykjavik - aerial 2021-10-05.jpg, CC BY-SA 2.0.
+- `images/places/denver-airport.jpg` (Dec 28 cover): Peterquinn925, Wikimedia Commons, File:Denver International Airport Main Terminal at dusk.jpg, CC BY-SA 4.0.
+- `images/places/keflavik-terminal.jpg` (Jan 4 flight home): APK, Wikimedia Commons, File:Keflavík International Airport terminal viewed from tarmac.jpg, CC BY 4.0.
+- `images/places/reykjavik-old-harbour.jpg` (Jan 2 cover): Ypsilon from Finland, Wikimedia Commons, File:Boats in Reykjavik's Old Harbour.JPG, CC0.
+- `images/places/reykjavik-from-hallgrimskirkja.jpg` (booking pages): Andrew Smales, Wikimedia Commons, File:Reykjavik, Iceland aerial cityscape (Unsplash).jpg, CC0.
+- `images/cars/duster-2.jpg` (Jan 4 car drop-off): Vauxford, Wikimedia Commons, File:2018 Dacia Duster Comfort 1.6.jpg, CC BY-SA 4.0.
 
 ## Icons
 
