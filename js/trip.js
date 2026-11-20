@@ -179,7 +179,7 @@ window.ICELAND_TRIP = (function () {
     harpa_walk: "Harpa",
     shopping_downtown: "Downtown",
     wool_shops: "Wool shops",
-    baejarins: "Hot dog",
+    baejarins: "Baejarins Beztu",
     tides: "Tides",
     grotta: "Grotta",
     nl_guided: "Lights tour",

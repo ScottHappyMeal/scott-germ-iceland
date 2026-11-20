@@ -24,11 +24,11 @@
     spa_restaurant: ["spa_restaurant", "spa_restaurant_table", "spa_restaurant_plate", "spa_restaurant_sushi"],
     edition: ["edition_ext", "edition_harbor_king", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
-    nye_dinner: ["nye_dinner", "harpa", "baejarins"],
+    nye_dinner: ["nye_dinner", "harpa"],
     tides: ["tides", "edition_int"],
-    cheap_eats: ["baejarins", "baejarins_street", "baejarins_dog", "sandholt"],
+    cheap_eats: ["sandholt"],
     retreat_massage: ["retreat_massage"],
-    reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "baejarins_street", "baejarins_dog", "wool", "kolaportid", "aurora_self"],
+    reykjavik: ["harpa", "laugavegur", "grotta", "wool", "kolaportid", "aurora_self"],
     golden: ["gullfoss", "silfra", "fridheimar", "ishestar", "ishestar_winter", "horses"],
     seljalandsfoss: ["seljalandsfoss", "seljalandsfoss_wide", "seljalandsfoss_behind"],
     skogafoss: ["skogafoss", "skogafoss_wide", "skogafoss_below"],
@@ -150,8 +150,8 @@
     skogafoss_lunch: {
       title: "A cheap lunch by the waterfalls", status: "Planned stop", gallery: "skogafoss",
       price: "About $15 to $55 for two",
-      sub: "Gas-station hot dogs on the low end, or soup at Hotel Skogafoss. Not in the $16,030 trip total.",
-      desc: "Eat near Skogafoss before you drive back to Midgard for dinner. You do not need to go on to Vik. Hotel Skogafoss Bistro, beside the falls, is open 12:00 PM to 9:00 PM, with leek and potato soup at 2,750 ISK (about $22) and Icelandic meat soup at 3,250 ISK (about $26). A hot dog and a Coke at N1 is 750 ISK (about $6). Olis has two hot dogs and a Pepsi for 1,299 ISK (about $10). There is also a Baejarins Beztu stand in Hella, 10:00 AM to 10:00 PM, on the way toward the cottages.",
+      sub: "Soup at Hotel Skogafoss, or a cheap stop nearby. Not in the $16,030 trip total.",
+      desc: "Eat near Skogafoss before you drive back to Midgard for dinner. You do not need to go on to Vik. Hotel Skogafoss Bistro, beside the falls, is open 12:00 PM to 9:00 PM, with leek and potato soup at 2,750 ISK (about $22) and Icelandic meat soup at 3,250 ISK (about $26).",
       winter: "Holiday hours can change, so peek at the door on the day. Midgard dinner is later, around 4:00 PM, so keep this lunch light.",
       url: "https://www.hotelskogafoss.is/restaurant/", urlLabel: "Hotel Skogafoss", place: "hotel_skogafoss"
     },
@@ -166,9 +166,9 @@
     cheap_eats: {
       title: "Cheap eats in Reykjavik", status: "Planned stop", gallery: "cheap_eats",
       price: "About $15 to $50 for two",
-      sub: "Hot dogs, soup, or a bakery meal. For Jan 1 and Jan 2 dinners, and for breakfasts if you skip the hotel. Not in the $16,030 trip total.",
-      desc: "The other Reykjavik dinners and breakfasts can stay cheap. Baejarins Beztu is about a 2-minute walk from the EDITION.",
-      winter: "Many places close or shorten hours on Jan 1. Shop groceries on Dec 31 before about 4:00 PM. Most Bonus and Kronan stores are closed on Jan 1. Hagkaup at Skeifan is listed as opening from 12:00 PM. Confirm bakery and hot-dog hours before you walk over."
+      sub: "Soup, a bakery meal, or groceries. For Jan 1 and Jan 2 dinners, and for breakfasts if you skip the hotel. Not in the $16,030 trip total.",
+      desc: "The other Reykjavik dinners and breakfasts can stay cheap.",
+      winter: "Many places close or shorten hours on Jan 1. Shop groceries on Dec 31 before about 4:00 PM. Most Bonus and Kronan stores are closed on Jan 1. Hagkaup at Skeifan is listed as opening from 12:00 PM. Confirm bakery hours before you walk over."
     },
     nye: {
       title: "New Year's Eve in Reykjavik", status: "Free", gallery: "nye",
@@ -178,8 +178,8 @@
     },
     reykjavik: {
       title: "A loose day around the harbor", status: "Free", gallery: "reykjavik",
-      desc: "Walk the Old Harbour and into Harpa next door, wander Laugavegur and the shops at Hafnartorg, grab a Baejarins Beztu hot dog with everything, and try Grotta lighthouse after dark for the northern lights. Kolaportid flea market usually runs on weekends.",
-      winter: "Many shops and restaurants shut or shorten hours on New Year's Day. Sidewalks get slushy, so wear shoes with grip. Keep dinner cheap: hot dogs, soup, or groceries.",
+      desc: "Walk the Old Harbour and into Harpa next door, wander Laugavegur and the shops at Hafnartorg, and try Grotta lighthouse after dark for the northern lights. Kolaportid flea market usually runs on weekends.",
+      winter: "Many shops and restaurants shut or shorten hours on New Year's Day. Sidewalks get slushy, so wear shoes with grip. Keep dinner cheap: soup, a bakery meal, or groceries.",
       url: "https://visitreykjavik.is/", urlLabel: "Visit Reykjavik", place: "laugavegur"
     },
     golden: {
@@ -213,10 +213,10 @@
     {
       id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "icelandair",
       title: "Land at Keflavik, then pick up the car",
-      note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a gas-station hot dog or a bakery stop. Reykjabod opens at 10:00 AM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop. Winter daylight is about 11:20 AM to 3:30 PM.",
+      note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a bakery or gas-station stop. Reykjabod opens at 10:00 AM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop. Winter daylight is about 11:20 AM to 3:30 PM.",
       times: [
         { when: "6:05 AM", what: "Land at Keflavik and pick up the 4WD SUV." },
-        { when: "Morning", what: "Cheap breakfast on the way south, at N1, Olis, or a bakery." },
+        { when: "Morning", what: "Cheap breakfast on the way south, a bakery or gas-station stop." },
         { when: "After 10:00 AM", what: "Soak at Reykjabod Hot Springs in Hveragerdi." },
         { when: "Afternoon", what: "Quick groceries in Selfoss for the dome kitchen." },
         { when: "3:00 PM", what: "Self check-in at Golden Circle Domes." },
@@ -308,8 +308,7 @@
     { tag: "Wind and ice", photo: "skogafoss", title: "Sneaker waves are real", text: "If you go to Reynisfjara on the South Coast, stay well up the beach and never turn your back on the water. Parking lots and waterfall spray freeze, so shoes with grip help everywhere." },
     { tag: "Kitchens", photo: "domes_int", title: "Neither cottage stay serves breakfast", text: "The domes have a full kitchenette and Thrastalundur on site. Glass Cottages has only coffee, tea, and oil in the kitchen. Do one grocery run in Selfoss on Dec 29 for both mornings." },
     { tag: "Daylight", photo: "aurora_self", title: "Use the dark on purpose", text: "Sunrise is around 11:20 AM and sunset around 3:30 PM, so drive in the blue twilight and save the outdoor stops for midday. On clear nights, check the vedur.is cloud map for the northern lights. Grotta is about 10 minutes from downtown." },
-    { tag: "Lagoons", photo: "retreat_lagoon", title: "Protect your hair from the silica", text: "At the Blue Lagoon and The Retreat, put conditioner in and keep your hair out of the water. Leave every lagoon 30 minutes before it closes." },
-    { tag: "Food", photo: "baejarins", title: "The hot dog order", text: "At Baejarins Beztu, order one with everything (ein med ollu): remoulade, mustard, raw onion, and crunchy fried onion. A dog is 920 ISK, about $7, or 1,370 ISK, about $11, with a Coke. The stand stays open in winter, and you eat outside." }
+    { tag: "Lagoons", photo: "retreat_lagoon", title: "Protect your hair from the silica", text: "At the Blue Lagoon and The Retreat, put conditioner in and keep your hair out of the water. Leave every lagoon 30 minutes before it closes." }
   ];
 
   /* ---------- helpers ---------- */
@@ -570,7 +569,7 @@
     var opts = [
       {
         title: "Baejarins Beztu",
-        text: "A hot dog with everything is 920 ISK, about $7, or 1,370 ISK, about $11, with a Coke. About a 2-minute walk, on Tryggvagata. Usual hours are 9:00 AM to 2:00 AM on Thursday, and 9:00 AM to 6:00 AM on Friday and Saturday. Confirm them for Jan 1.",
+        text: "920 ISK, about $7.",
         url: "https://bbp.is/", urlLabel: "Baejarins Beztu", place: "baejarins"
       },
       {
@@ -630,11 +629,10 @@
       }
     ];
     return '<h3 class="rv">Casual NYE options</h3>' +
-      '<p class="fine rv">Casual a la carte spots for Dec 31, before the bonfires and fireworks. Hlemmur Matholl and Grandi Matholl are closed on Dec 31. Grandi Matholl confirmed that for 2026.</p>' +
+      '<p class="fine rv">Casual a la carte spots for Dec 31, before the bonfires and fireworks. Hlemmur Matholl and Grandi Matholl are closed on Dec 31. Grandi Matholl confirmed that for 2026. Confirm hours before you go, especially where only 2025 hours are listed.</p>' +
       '<ul class="booklist rv">' + opts.map(function (o) {
         return "<li><h3>" + esc(o.title) + "</h3><p class=\"fine\">" + esc(o.text) + "</p>" + optionLinks(o.url, o.urlLabel, o.place) + "</li>";
-      }).join("") + "</ul>" +
-      '<p class="fine rv">If you only want a late snack, Baejarins Beztu is about a 3-minute walk. A hot dog is about 920 ISK (about $7), or 1,370 ISK (about $11) with a drink. Usual Thursday hours at the Tryggvagata stand are 9:00 AM to 2:00 AM. 2026 NYE hours were not posted separately. Confirm hours before you go, especially where only 2025 hours are listed.</p>';
+      }).join("") + "</ul>";
   }
   function editionRatesHtml(id) {
     if (id !== "stay-edition") return "";
@@ -663,7 +661,7 @@
     { title: "New Year's Eve", photo: "nye_fireworks", tips: [0, 1, 2] },
     { title: "Wind and ice", photo: "skogafoss", tips: [3, 4] },
     { title: "Kitchens and daylight", photo: "domes_int", tips: [5, 6] },
-    { title: "Lagoons and food", photo: "baejarins", tips: [7, 8] }
+    { title: "Lagoons", photo: "retreat_lagoon", tips: [7] }
   ];
   function guidePages() {
     GUIDE.forEach(function (g, i) {
