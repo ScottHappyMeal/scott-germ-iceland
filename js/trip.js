@@ -301,14 +301,14 @@ window.ICELAND_TRIP = (function () {
   };
 
   var DAY_ROADS = {
-    dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver at 3:40 PM MT." },
-    dec29: { drive: "Keflavik to Reykjabod Hot Springs is about 88 km and 1 hr 24 min, approx. Reykjabod to Selfoss is about 17 km and 18 min, and Selfoss to Heathland Lodge is about 23 km and 29 min. A straight drive to the lodge is about 116 km and 1 hr 52 min.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. Reykjabod opens at 10:00 AM on Tuesday. Check-in at Heathland Lodge is from 3:00 PM to midnight, and you need to tell them your arrival time in advance. The last 1.3 km is a slow track that is hard to find in the dark, so try to arrive in daylight before dinner." },
-    dec30: { drive: "The day is 186.5 km and 2 hr 59 min, approx, in this order: Heathland Lodge to Kerid crater, about 9 km and 15 min; Kerid to Seljalandsfoss parking, about 85 km and 78 min; Seljalandsfoss to Skogafoss parking, about 30 km and 29 min; Skogafoss to Midgard Restaurant, about 49 km and 44 min; then Midgard to Glass Cottages, about 13 km and 13 min. Going to Midgard before the cottages saves about 12 km of backtracking.", risk: "South coast roads can ice over. Check umferdin.is before you leave. The path behind Seljalandsfoss is often icy or closed in winter. Check out by 11:00 AM so you reach the falls in midday light and Midgard around its 4:00 PM opening and twilight." },
-    dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
-    jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "A slow day in Reykjavik from the EDITION. Short drives around town are fine.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
-    jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
-    jan4: { drive: "The Retreat to Keflavik is about 22.5 km and 24 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
+    dec28: { drive: "", risk: "No driving in Iceland. Departs Denver 3:40 PM MT." },
+    dec29: { drive: "Keflavik to Reykjabod Hot Springs: about 88 km, 1 hr 24 min, approx. Reykjabod to Selfoss: about 17 km, 18 min. Selfoss to Heathland Lodge: about 23 km, 29 min. Direct to the lodge: about 116 km, 1 hr 52 min.", risk: "Reykjanesbraut and Hellisheidi can ice over. Drive slow after the overnight flight. Reykjabod opens 10:00 AM Tuesday. Heathland Lodge check-in 3:00 PM to midnight; send arrival time in advance. Last 1.3 km is a slow track, hard to find in the dark. Arrive in daylight, before dinner." },
+    dec30: { drive: "186.5 km, 2 hr 59 min, approx. Heathland Lodge to Kerid crater: about 9 km, 15 min. Kerid to Seljalandsfoss parking: about 85 km, 78 min. Seljalandsfoss to Skogafoss parking: about 30 km, 29 min. Skogafoss to Midgard Restaurant: about 49 km, 44 min. Midgard to Glass Cottages: about 13 km, 13 min. Midgard before the cottages saves about 12 km of backtracking.", risk: "South Coast roads can ice over. Check umferdin.is before leaving. Path behind Seljalandsfoss often icy or closed in winter. Check out by 11:00 AM: falls in midday light, Midgard at its 4:00 PM opening." },
+    dec31: { drive: "Glass Cottages to The Reykjavik EDITION: about 96 km, 1 hr 30 min, approx.", risk: "Downtown busy on New Year's Eve. Park after check-in and leave the car." },
+    jan1: { drive: "Reykjavik day from the EDITION. Optional Golden Circle loop: about 282 km, 4 hrs 41 min driving, approx, before stops.", risk: "If driving: watch Mosfellsheidi and Lyngdalsheidi in high wind." },
+    jan2: { drive: "Reykjavik day from the EDITION. Short drives around town only.", risk: "Downtown streets and sidewalks can be icy. Wear shoes with grip." },
+    jan3: { drive: "The EDITION to The Retreat at Blue Lagoon: about 51 km, 51 min, approx.", risk: "Reykjanes: spray and wind. Leave buffer time if soaking before check-in." },
+    jan4: { drive: "The Retreat to Keflavik, car return: about 22.5 km, 24 min, approx.", risk: "Reykjanes: spray and sudden wind. Leave buffer time for the 4:55 PM flight." }
   };
 
   var ROAD_LINKS = [
@@ -317,10 +317,10 @@ window.ICELAND_TRIP = (function () {
   ];
 
   var BOOKING = {
-    "stay-edition": { text: "Marriott Stay Longer on Us Member rate for a Deluxe King, Scenic view, all taxes included. Free cancellation through Dec 1, 2026.", urgency: "early" },
-    "stay-heathland": { text: "About $720 cash for Dec 29, total for two. Free cancellation until Nov 29, 2026.", urgency: "deadline" },
-    "stay-glass": { text: "Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.", urgency: "deadline" },
-    "stay-retreat": { text: "Lava View Junior Suite, about 8 left when checked. Holiday suite nights book up. Book early.", urgency: "early" },
+    "stay-edition": { text: "Marriott Stay Longer on Us Member rate. Deluxe King, Scenic view, taxes included. Free cancellation through Dec 1, 2026.", urgency: "early" },
+    "stay-heathland": { text: "About $720 cash, Dec 29, total for 2. Free cancellation until Nov 29, 2026.", urgency: "deadline" },
+    "stay-glass": { text: "Last cottage left when checked. Free cancellation until Nov 30, 2026, once booked.", urgency: "deadline" },
+    "stay-retreat": { text: "Lava View Junior Suite, about 8 left when checked. Holiday nights sell out. Book early.", urgency: "early" },
     "ice-plan": { text: "Ice caves sell out around the holidays. Book early.", urgency: "early" },
     lava_tunnel: { text: "The 9:00 AM tour is a fixed stop on Dec 29. Book the morning slot early.", urgency: "asap" },
     horses: { text: "Holiday rides book up. Book ASAP.", urgency: "asap" },
@@ -330,11 +330,11 @@ window.ICELAND_TRIP = (function () {
     nl_guided: { text: "Northern lights tours book up over the holidays. Book ASAP.", urgency: "asap" },
     blue_lagoon: { text: "Holiday lagoon slots book up. Book ASAP.", urgency: "asap" },
     hvammsvik: { text: "Holiday soak slots book up. Book ASAP.", urgency: "asap" },
-    nye_dinner: { text: "These are walk-in spots. Confirm hours before you go.", urgency: "" },
-    spa_restaurant: { text: "Reservations are not required at Spa Restaurant.", urgency: "" },
-    retreat_massage: { text: "The in-water massage is the chosen extra. It is not booked yet.", urgency: "" },
-    flight: { text: "Holiday seats go first, especially Saga. Book early.", urgency: "early" },
-    car: { text: "Holiday 4x4s go early. Book early.", urgency: "early" }
+    nye_dinner: { text: "Walk-in only. Confirm hours before going.", urgency: "" },
+    spa_restaurant: { text: "No reservation needed.", urgency: "" },
+    retreat_massage: { text: "Chosen extra. Not booked.", urgency: "" },
+    flight: { text: "Holiday seats sell out first, especially Saga. Book early.", urgency: "early" },
+    car: { text: "Holiday 4x4s sell out. Book early.", urgency: "early" }
   };
 
   var SPA_IDS = ["blue_lagoon", "fontana", "hvammsvik", "retreat_massage", "stay-retreat"];
@@ -343,17 +343,17 @@ window.ICELAND_TRIP = (function () {
   var NYE_IDS = ["nye_dinner", "nye_bonfire", "nye_fireworks"];
 
   var PACK_BASE = [
-    { id: "layers", label: "Base layers." },
-    { id: "boots", label: "Waterproof boots with grip." },
-    { id: "hat", label: "A warm hat." },
-    { id: "gloves", label: "Insulated gloves." },
-    { id: "shell", label: "A waterproof shell." },
-    { id: "socks", label: "Warm socks, extra pairs." }
+    { id: "layers", label: "Base layers" },
+    { id: "boots", label: "Waterproof boots with grip" },
+    { id: "hat", label: "Warm hat" },
+    { id: "gloves", label: "Insulated gloves" },
+    { id: "shell", label: "Waterproof shell" },
+    { id: "socks", label: "Warm socks, extra pairs" }
   ];
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261120-book17";
+  var ROUTES_URL = "maps/routes.geojson?v=20261120-book18";
   var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"];
   var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_heathland", "heathland_kerid", "kerid_seljalandsfoss", "seljalandsfoss_skogafoss", "skogafoss_midgard", "midgard_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
@@ -386,7 +386,7 @@ window.ICELAND_TRIP = (function () {
   var APPLE_ROUTES = {
     full: {
       keys: ["kef", "reykjabod", "selfoss", "heathland", "kerid", "seljalandsfoss", "skogafoss", "midgard", "glass_cottages", "edition", "retreat"],
-      label: "Open route in Apple Maps (KEF to Blue Lagoon)"
+      label: "Full route in Apple Maps (KEF to Blue Lagoon)"
     },
     dec29: {
       keys: ["kef", "reykjabod", "selfoss", "heathland"],

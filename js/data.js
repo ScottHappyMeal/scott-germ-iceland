@@ -124,7 +124,7 @@ window.ICELAND_DATA = (function () {
     icelandair: "An Icelandair Boeing 737 MAX",
     economy_aisle: "The Icelandair Economy cabin, looking down the aisle",
     economy_row: "Icelandair Economy seats, a closer angle under cabin light",
-    saga_seat: "A Saga Premium seat on Icelandair, with the pillow and the little console",
+    saga_seat: "A Saga Premium seat on Icelandair, with pillow and console",
     edition_superior: "A Superior King room at The Reykjavik EDITION, with a floor to ceiling window",
     edition_suite: "The living area of a Deluxe Suite at The Reykjavik EDITION, looking toward Harpa at night",
     edition_harbor_king: "A Deluxe King bedroom at The Reykjavik EDITION, with a Scenic harbor view",
@@ -236,7 +236,7 @@ window.ICELAND_DATA = (function () {
     denver_airport: "Denver International Airport at dusk",
     keflavik_terminal: "Keflavik International Airport, seen from the tarmac",
     old_harbour: "Boats in Reykjavik's Old Harbour",
-    car_duster_return: "A Dacia Duster, the same model as the rental",
+    car_duster_return: "Dacia Duster, same model as the rental",
     reykjavik_from_church: "Reykjavik from the top of Hallgrimskirkja, looking toward the harbor"
   };
 
