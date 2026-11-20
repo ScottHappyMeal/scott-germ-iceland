@@ -434,9 +434,10 @@ html.fx .page:not(.is-current) .rv { opacity: 0; }
   .layout-split .media, .layout-split.side-right .media, .layout-map .media { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 50vh; height: 50svh; }
   .layout-full .media { inset: 0 0 auto 0; height: 68vh; height: 68svh; }
   .page-cover .media, .page-end .media { height: 100%; }
-  .layout-split .scroller, .layout-split.side-right .scroller, .layout-map .scroller, .layout-full .scroller { inset: 0; width: auto; pointer-events: none; }
-  .scroller .text { pointer-events: auto; }
-  .layout-split .spacer, .layout-map .spacer { display: block; height: calc(50vh - 2px); height: calc(50svh - 2px); }
+  .layout-split .scroller, .layout-split.side-right .scroller, .layout-full .scroller { inset: 0; width: auto; }
+  .layout-map .scroller { left: 0; right: 0; bottom: 0; top: 50vh; top: 50svh; width: auto; -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - var(--bot-h) - 30px), transparent calc(100% - var(--bot-h) + 6px)); mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - var(--bot-h) - 30px), transparent calc(100% - var(--bot-h) + 6px)); }
+  .layout-map .text { padding-top: 26px; }
+  .layout-split .spacer { display: block; height: calc(50vh - 2px); height: calc(50svh - 2px); cursor: zoom-in; }
   .layout-full .spacer { display: block; height: 46vh; height: 46svh; }
   .page-cover .spacer, .page-end .spacer { display: none; }
   .layout-split .text, .layout-map .text, .layout-full .text {
@@ -485,8 +486,6 @@ html.fx .page:not(.is-current) .rv { opacity: 0; }
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
   .layout-full .media { inset: 0 0 auto 0; height: 62vh; height: 62svh; }
   .page-cover .media, .page-end .media { height: 100%; }
-  .layout-full .scroller { pointer-events: none; }
-  .layout-full .scroller .text { pointer-events: auto; }
   .layout-full .spacer { display: block; height: 44vh; height: 44svh; }
   .page-cover .spacer, .page-end .spacer { display: none; }
   .page-cover .scroller, .page-end .scroller { pointer-events: auto; }

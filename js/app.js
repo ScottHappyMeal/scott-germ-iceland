@@ -1103,6 +1103,20 @@
       var t = e.target.closest("[data-turn]");
       if (t) { step(t.getAttribute("data-turn") === "prev" ? -1 : 1); }
     });
+    /* on a phone the words scroll over the photo; a tap on the photo area still opens the photo it sits on */
+    document.getElementById("book").addEventListener("click", function (e) {
+      var sp = e.target.closest(".spacer");
+      if (!sp) return;
+      var page = sp.closest(".page");
+      var hit = null;
+      var under = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+      for (var k = 0; k < under.length; k++) {
+        var g = under[k].closest && under[k].closest("[data-gallery]");
+        if (g && page.contains(g)) { hit = g; break; }
+      }
+      if (!hit) hit = page.querySelector(".media-hit");
+      if (hit) lbOpen(hit.getAttribute("data-gallery"), Number(hit.getAttribute("data-index")) || 0, hit);
+    });
     window.addEventListener("hashchange", function () {
       var id = location.hash.replace(/^#/, "");
       var i = indexOfId(id);
