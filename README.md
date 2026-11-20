@@ -4,7 +4,18 @@ A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026
 
 Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-The page is a single scrolling itinerary: an overview with the unsplit cash total, flights, the 4WD SUV, and the four stays; an interactive map with an Apple Maps driving link from Keflavik to The Retreat at Blue Lagoon; day-by-day cards from Dec 28 to Jan 4; and a logistics reference for other cash options, hot springs prices for two, packing, and official booking pages.
+The page is a full-screen winter field guide: a live hero with a departure countdown and Reykjavik weather, the unsplit $15,218 cash total for two with the four stays, a winter daylight chart, eight day chapters with photo galleries of every stop and per-day "Drive in Apple Maps" buttons, an interactive route map that flies to each day, insider tips, hot springs prices for two, and logistics.
+
+It is a static site with no build step. GitHub Pages serves it straight from `main`.
+
+## Libraries and fonts (self-hosted)
+
+- Motion 12.23.24 (motion.dev), MIT, in `vendor/motion-12.23.24.min.js`. Drives the scroll-linked parallax, progress bar, reveals, spring gallery and lightbox transitions. Everything animates `transform` and `opacity` only, and nothing moves when `prefers-reduced-motion` is set.
+- Leaflet 1.9.4, BSD-2-Clause, in `vendor/leaflet/`. Map tiles from OpenStreetMap.
+- Fraunces and Inter variable fonts, SIL Open Font License, in `fonts/` (from Fontsource).
+- Live weather from Open-Meteo.
+
+Small preview copies of every photo live in `images/thumbs/` (640 px wide). The full photos in `images/` are used for heroes and the photo viewer.
 
 ## Photo credits
 

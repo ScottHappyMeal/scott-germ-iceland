@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261119-site1 -->
+  <!-- build: 20261120-guide2 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b17">
   <title>Scott &amp; Jerm's Iceland</title>
-  <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 4, 2027. The plan is verified and not booked yet.">
+  <meta name="description" content="A winter field guide for Scott and Jerm, Dec 28, 2026 to Jan 4, 2027. Cash totals for two. Nothing is booked yet.">
   <meta property="og:title" content="Scott &amp; Jerm's Iceland">
-  <meta property="og:description" content="Dec 28, 2026 to Jan 4, 2027. Sunrise around 11:20 AM, sunset around 3:35 PM.">
+  <meta property="og:description" content="Dec 28, 2026 to Jan 4, 2027. Hot springs, glass cottages, New Year's Eve in Reykjavik, and about four hours of winter sun a day.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="images/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -15,147 +16,220 @@
   <meta name="twitter:description" content="A winter week in Iceland for two, Dec 28, 2026 to Jan 4, 2027.">
   <meta name="twitter:image" content="images/og.jpg">
   <link rel="icon" href="images/og.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261119-site1">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="preload" href="fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261120-guide2">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <symbol id="icon-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M15 3h6v6" />
-      <path d="M10 14 21 3" />
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    </symbol>
-    <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-      <circle cx="12" cy="10" r="3" />
-    </symbol>
-    <symbol id="icon-navigation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="3 11 22 2 13 21 11 13 3 11" />
-    </symbol>
+    <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
   </svg>
-  <div class="sky" aria-hidden="true"></div>
-  <div class="app">
-    <header class="top">
-      <a class="brand" href="#top">Scott &amp; Jerm's Iceland</a>
-      <div class="top-actions">
-        <div class="chip" aria-label="Planned total">
-          <span>
-            <b id="chipTotal">$15,218</b>
-            <small>planned</small>
-          </span>
-        </div>
+
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#top">Scott <span>&amp;</span> Jerm's Iceland</a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#plan">The plan</a>
+      <a href="#days">Day by day</a>
+      <a href="#map">Map</a>
+      <a href="#guide">Field guide</a>
+      <a href="#springs">Hot springs</a>
+      <a href="#logistics">Logistics</a>
+    </nav>
+    <a class="total-chip" href="#plan" aria-label="Planned total for two, $15,218"><b>$15,218</b><small>planned for two</small></a>
+    <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu"><span class="menu-lines" aria-hidden="true"><i></i><i></i></span><span class="menu-word">Menu</span></button>
+  </header>
+
+  <div class="menu" id="menu" hidden>
+    <div class="menu-backdrop" data-menu-close></div>
+    <nav class="menu-links" aria-label="Sections">
+      <a href="#plan" data-menu-close>The plan</a>
+      <a href="#days" data-menu-close>Day by day</a>
+      <a href="#map" data-menu-close>Map</a>
+      <a href="#guide" data-menu-close>Field guide</a>
+      <a href="#springs" data-menu-close>Hot springs</a>
+      <a href="#logistics" data-menu-close>Logistics</a>
+    </nav>
+  </div>
+
+  <main id="top">
+    <section class="hero" id="hero">
+      <div class="hero-media" aria-hidden="true">
+        <img id="heroImg" src="images/hero-aurora.jpg" alt="" width="1280" height="853" fetchpriority="high">
       </div>
-    </header>
-    <div class="trip-status" id="tripStatus">
-      <p id="countdown">Time until departure at 3:40 PM MT, Dec 28.</p>
-      <p id="weather">Loading weather for Reykjavik now.</p>
-    </div>
-    <main class="stage">
-      <section class="pad" id="top">
-        <p class="kicker">The trip</p>
-        <h1>Scott &amp; Jerm's Iceland</h1>
-        <p class="lede">Dec 28, 2026 to Jan 4, 2027. Cash totals for two adults, one king or double bed. Nothing is booked yet.</p>
-        <div class="totals-card" id="planTotals">
-          <p class="kicker">Trip totals for two</p>
-          <h2>Nothing is booked yet</h2>
-          <p class="lede">Cash rates only, full totals for two. Lodging is $8,437 with the Stay Longer Flexible Member rate at The Reykjavik EDITION.</p>
-          <p class="price-line">$15,218 <small>Saga Premium, the Duster, and lodging</small></p>
-          <ul class="totals-list">
-            <li class="is-current"><span>Saga Premium and the Duster</span><b>$15,218</b></li>
-            <li><span>Economy and the Duster</span><b>$13,294</b></li>
-            <li><span>Saga Premium and the Defender 110, est.</span><b>est. $16,647</b></li>
-            <li><span>Economy and the Defender 110, est.</span><b>est. $14,723</b></li>
-          </ul>
-          <p class="sub">Meals, activities, and fuel are not included in these totals.</p>
+      <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="hero-inner" id="heroInner">
+        <p class="eyebrow"><span class="dot"></span> A winter field guide, Dec 28, 2026 to Jan 4, 2027</p>
+        <h1 class="hero-title"><span class="line"><span class="li">Scott &amp; Jerm's</span></span> <span class="line accent"><span class="li">Iceland</span></span></h1>
+        <p class="hero-lede">Hot springs on the first morning, a glass cottage in the lava fields, New Year's Eve bonfires in Reykjavik, and a last night at the Blue Lagoon. About four hours of low winter sun a day.</p>
+        <div class="hero-badges">
+          <span class="badge badge-warn">Nothing is booked yet</span>
+          <span class="badge">Cash rates, full totals for 2 adults</span>
+          <span class="badge">1 king or double bed everywhere</span>
         </div>
-        <nav class="jump-nav" aria-label="On this page">
-          <a href="#overview">The plan</a>
-          <a href="#mapBlock">Map</a>
-          <a href="#days">Days</a>
-          <a href="#spaCompare">Hot springs</a>
-          <a href="#logistics">Logistics</a>
-        </nav>
-        <div id="overview">
-          <h2>Flights, car, and stays</h2>
-          <p class="sub">The working plan is Icelandair Saga Premium, a Dacia Duster 4x4 for six days, and these four stays. Other cash options are in Logistics.</p>
-          <div id="overviewCards"></div>
-        </div>
-      </section>
-
-      <div class="pad">
-        <div class="map-block" id="mapBlock">
-          <h2>Map</h2>
-          <p class="sub">Pins mark the stops. The green line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, with the planned stays and Dec 29 to Dec 30 stops along the way. The Jan 4 drive back to the airport is on that day. Tap the map to move it. That keeps one-finger scrolling on the page.</p>
-          <div class="map-route-links" id="fullRouteLinks"></div>
-          <div class="map-frame" id="overviewMapWrap">
-            <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
-            <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
+        <div class="live" id="live">
+          <div class="live-card glass countdown">
+            <p class="live-label">Until FI670 leaves Denver, 3:40 PM MT, Dec 28</p>
+            <div class="count" id="countdown">
+              <span><b data-k="d">0</b><small>days</small></span>
+              <span><b data-k="h">0</b><small>hrs</small></span>
+              <span><b data-k="m">0</b><small>min</small></span>
+              <span><b data-k="s">0</b><small>sec</small></span>
+            </div>
           </div>
-        </div>
-
-        <div id="days">
-          <h2>Day by day</h2>
-          <p class="sub">Dec 28 to Jan 4, with times, drives, stays, and dinners. Winter daylight is about 11:20 AM to 3:30 PM.</p>
-          <div id="planDays"></div>
-        </div>
-
-        <div class="spa-compare" id="spaCompare">
-          <h2>Hot springs, prices for two</h2>
-          <p class="sub">Nothing here is booked yet, and these tickets are not included in the trip total. Prices are cash totals for two adults.</p>
-          <article class="spa-card">
-            <h3>Reykjabod Hot Springs, Hveragerdi</h3>
-            <p>Opened September 2026. A quieter mountain-valley soak right on the Dec 29 drive, about 15 minutes from the domes.</p>
-            <p><strong>Winter hours:</strong> Monday to Thursday 10:00 AM to 9:00 PM, Friday to Sunday 10:00 AM to 10:00 PM. Leave the water 30 minutes before close. The restaurant is open 11:30 AM to 8:30 PM.</p>
-            <ul>
-              <li><strong>Classic 17,800 ISK (about $142) for two.</strong> Lagoon, outdoor sauna, cold plunge, Kneipp, and a towel.</li>
-              <li><strong>Signature 33,800 ISK (about $270) for two.</strong> Adds the adults-only indoor Bathhouse Spa with 10 sensory rooms, bathrobes, slippers, and 1 drink each.</li>
-            </ul>
-            <p class="links card-links"><a class="link-out" href="https://reykjabod.is/" target="_blank" rel="noopener">Reykjabod website</a></p>
-          </article>
-          <article class="spa-card">
-            <h3>Sky Lagoon, Kopavogur</h3>
-            <p>About 15 minutes from The Reykjavik EDITION. A larger, busier 70 m ocean-edge infinity lagoon with the 7-step Skjol ritual.</p>
-            <p><strong>Winter hours (October 21 to April 30):</strong> 10:00 AM to 9:00 PM daily. On December 31: 9:00 AM to 8:00 PM. Leave the water 30 minutes before close.</p>
-            <ul>
-              <li><strong>Saman from 29,980 ISK (about $240) for two.</strong> Floor price, which varies by time slot. Shared changing, the ritual, and a towel.</li>
-              <li><strong>Ser from 35,980 ISK (about $288) for two.</strong> Floor price, which varies by time slot. Private changing cabin, plus lotion and a bag.</li>
-            </ul>
-            <p class="links card-links"><a class="link-out" href="https://www.skylagoon.com/" target="_blank" rel="noopener">Sky Lagoon website</a></p>
-          </article>
-        </div>
-
-        <div class="logistics" id="logistics">
-          <h2>Logistics</h2>
-          <div id="logisticsBody"></div>
-          <div class="winter-notes">
-            <h2>Winter conditions</h2>
-            <p>Sunrise is around 11:20 AM, and sunset is around 3:30 to 3:50 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
-          </div>
-          <div class="pack-block" id="packBlock"></div>
-          <div class="ready-block" id="readyBlock">
-            <h2>Official booking pages</h2>
-            <p class="sub">Every flight, stay, and rental car, with the official page and a deadline when there is one. All are unbooked.</p>
-            <div id="readyList"></div>
+          <div class="live-card glass weather" id="weather">
+            <p class="live-label">Right now in Reykjavik</p>
+            <p class="wx-main"><b id="wxTemp">--</b><span id="wxWind">Loading the live weather</span></p>
+            <p class="wx-sub" id="wxSub">Sunrise and sunset for today, from Open-Meteo.</p>
           </div>
         </div>
       </div>
-    </main>
-  </div>
+      <a class="scroll-cue" href="#plan" aria-label="Scroll to the plan"><span></span></a>
+    </section>
 
-  <div class="map-layer" id="mapLayer" hidden>
-    <div class="map-layer-bar">
-      <h2 id="mapLayerTitle">Day map</h2>
-      <button type="button" class="ghost" id="closeMapLayer">Close</button>
+    <section class="section plan" id="plan">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">The plan at a glance</p>
+          <h2>One planned total, unsplit, for the two of you.</h2>
+          <p class="section-lede">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere. Meals, activities, and fuel are not included. Nothing is booked yet.</p>
+        </header>
+        <div class="totals reveal">
+          <div class="total-main">
+            <p class="kicker">Planned total for two</p>
+            <p class="big-number" data-count="15218">$15,218</p>
+            <p class="total-note">Icelandair Saga Premium, a Dacia Duster 4x4 for 6 days, and four stays.</p>
+          </div>
+          <div class="total-parts">
+            <div class="part reveal-child"><small>Icelandair Saga Premium</small><b data-count="6062">$6,062</b><span>FI670 and FI671, nonstop</span></div>
+            <div class="part reveal-child"><small>Dacia Duster 4x4, 6 days</small><b data-count="719">$719</b><span>Blue Car Rental, Dec 29 to Jan 4</span></div>
+            <div class="part reveal-child"><small>Lodging, 6 nights</small><b data-count="8437">$8,437</b><span>Domes, Glass Cottages, EDITION, Retreat</span></div>
+          </div>
+        </div>
+        <aside class="book-soon reveal" id="bookSoon">
+          <button type="button" class="book-soon-img" data-gallery="glass" data-index="0" aria-label="See Glass Cottages photos"><img src="images/thumbs/stays/glass-cottages.jpg" alt="Glass Cottages at dusk, with the private hot tub on the deck" loading="lazy"></button>
+          <div>
+            <p class="kicker kicker-warn">Book soon</p>
+            <h3>Glass Cottages, Cottage Blar, Dec 30</h3>
+            <p>$559 for the night. It was the last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.</p>
+            <a class="btn btn-warn" href="https://glasscottages.com/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-external"/></svg> Glass Cottages website</a>
+          </div>
+        </aside>
+        <div class="stays" id="stays"></div>
+      </div>
+    </section>
+
+    <section class="section daylight" id="daylight">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">Winter daylight</p>
+          <h2>The sun is up from about 11:20 AM to 3:30 PM.</h2>
+          <p class="section-lede">Typical Reykjavik daylight for each day of the trip, computed for these dates, not a forecast. Gold is sun, blue is twilight, which is still bright enough to drive and walk.</p>
+        </header>
+        <div class="daylight-chart reveal" id="daylightChart"></div>
+      </div>
+    </section>
+
+    <section class="days" id="days">
+      <nav class="dayrail" id="dayrail" aria-label="Jump to a day"></nav>
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">Day by day</p>
+          <h2>Eight days, Dec 28 to Jan 4.</h2>
+          <p class="section-lede">Times, drives, stays, and dinners for each day, with photos of every stop. Tap any photo to see it big.</p>
+        </header>
+      </div>
+      <div id="dayChapters"></div>
+    </section>
+
+    <section class="section map-section" id="map">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">The route</p>
+          <h2>Keflavik, the Golden Circle, the south, Reykjavik, and the Blue Lagoon.</h2>
+          <p class="section-lede">The green line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, through the planned stays and the Dec 29 and Dec 30 stops. The Jan 4 drive back to the airport is on that day. Pick a day to fly the map there.</p>
+        </header>
+        <div class="map-shell reveal">
+          <div class="map-chips" id="mapChips" aria-label="Focus the map on a day"></div>
+          <div class="map-frame" id="mapFrame">
+            <div id="tripMap" class="trip-map" role="region" aria-label="Interactive map of the trip"></div>
+            <button type="button" class="map-activate" id="mapActivate">Tap to move the map</button>
+          </div>
+          <div class="map-foot">
+            <div id="fullRouteLink"></div>
+            <p class="fine">Driving buttons open Apple Maps with road-snapped points.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section guide" id="guide">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">Field guide</p>
+          <h2>Things worth knowing before you go.</h2>
+          <p class="section-lede">Insider notes for a late-December week: bonfires, fireworks, wind, ice, and what to eat when the kitchen is yours.</p>
+        </header>
+        <div class="tips" id="tips"></div>
+      </div>
+    </section>
+
+    <section class="section springs" id="springs">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">Hot springs, prices for two</p>
+          <h2>Two soaks: one on the first drive, one by the city.</h2>
+          <p class="section-lede">Nothing here is booked yet, and these tickets are not in the trip total. Prices are cash totals for two adults.</p>
+        </header>
+        <div class="springs-grid" id="springsGrid"></div>
+      </div>
+    </section>
+
+    <section class="section logistics" id="logistics">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <p class="kicker">Logistics</p>
+          <h2>Other cash options, packing, and booking pages.</h2>
+        </header>
+        <div class="logi-grid" id="logisticsBody"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="brand">Scott <span>&amp;</span> Jerm's Iceland</p>
+      <p>Dec 28, 2026 to Jan 4, 2027. Cash totals for two adults, checked Nov 19, 2026. Nothing is booked yet.</p>
+      <p class="fine">Photos are of the actual places, from the hotels' and restaurants' own sites and Wikimedia Commons. Full credits are in the project README. Live weather from Open-Meteo. Map data &copy; OpenStreetMap contributors.</p>
     </div>
-    <div id="mapLayerMap" class="map-layer-map"></div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="lb-backdrop" data-lb-close></div>
+    <figure class="lb-stage" id="lbStage">
+      <div class="lb-imgwrap" id="lbImgWrap"><img id="lbImg" alt=""></div>
+      <figcaption><span id="lbCaption"></span><span class="lb-count" id="lbCount"></span></figcaption>
+    </figure>
+    <button type="button" class="lb-btn lb-close" data-lb-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+    <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Previous photo"><svg class="icon" aria-hidden="true"><use href="#i-left"/></svg></button>
+    <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Next photo"><svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></button>
+    <div class="lb-strip" id="lbStrip"></div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261119-site1"></script>
-  <script src="js/trip.js?v=20261119-site1"></script>
-  <script src="js/app.js?v=20261119-site1"></script>
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/motion-12.23.24.min.js"></script>
+  <script src="js/data.js?v=20261120-guide2"></script>
+  <script src="js/trip.js?v=20261120-guide2"></script>
+  <script src="js/app.js?v=20261120-guide2"></script>
+  <script src="js/motion-fx.js?v=20261120-guide2"></script>
 </body>
 </html>
