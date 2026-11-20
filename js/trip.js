@@ -291,13 +291,13 @@ window.ICELAND_TRIP = (function () {
 
   var DAY_STOP_ORDER = {
     dec28: ["flight"],
-    dec29: ["flight", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
+    dec29: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
     dec30: ["stay-domes", "kerid", "seljalandsfoss", "skogafoss", "skogafoss_lunch", "midgard", "stay-glass", "golden_circle", "fridheimar", "nl_guided", "nl_self"],
     dec31: ["stay-edition", "tides", "nye_dinner", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "tides", "cheap_eats", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik"],
     jan2: ["stay-edition", "tides", "cheap_eats", "kolaportid", "wool_shops", "shopping_downtown"],
     jan3: ["stay-retreat", "spa_restaurant", "retreat_massage", "blue_lagoon"],
-    jan4: ["stay-retreat", "flight"]
+    jan4: ["stay-retreat", "car", "flight"]
   };
 
   var DAY_ROADS = {

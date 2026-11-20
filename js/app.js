@@ -211,9 +211,9 @@
       stops: ["flight"]
     },
     {
-      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "reykjabod",
-      title: "Light arrival day: Reykjabod, then the domes",
-      note: "Pick up the 4WD after the 6:05 AM landing and grab a cheap breakfast on the way, a gas-station hot dog or a bakery stop. Reykjabod opens at 10:00 AM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop. Winter daylight is about 11:20 AM to 3:30 PM.",
+      id: "dec29", num: 2, date: "Dec 29", weekday: "Tuesday", cover: "icelandair",
+      title: "Land at Keflavik, then pick up the car",
+      note: "FI670 lands at 6:05 AM. Pick up the 4WD, then grab a cheap breakfast on the way, a gas-station hot dog or a bakery stop. Reykjabod opens at 10:00 AM. Check-in at the domes is 3:00 PM, with no front desk for an early bag drop. Winter daylight is about 11:20 AM to 3:30 PM.",
       times: [
         { when: "6:05 AM", what: "Land at Keflavik and pick up the 4WD SUV." },
         { when: "Morning", what: "Cheap breakfast on the way south, at N1, Olis, or a bakery." },
@@ -222,7 +222,7 @@
         { when: "3:00 PM", what: "Self check-in at Golden Circle Domes." },
         { when: "Evening", what: "Dinner at Froken Selfoss, about 10 to 15 minutes away." }
       ],
-      stops: ["car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"]
+      stops: ["flight", "car", "reykjabod", "mjolkurbuid", "stay-domes", "froken"]
     },
     {
       id: "dec30", num: 3, date: "Dec 30", weekday: "Wednesday", cover: "seljalandsfoss",
@@ -287,14 +287,14 @@
     },
     {
       id: "jan4", num: 8, date: "Jan 4", weekday: "Monday", cover: "retreat_lagoon",
-      title: "Drop off the car, then a 4:55 PM flight home",
+      title: "Check out, drop off the car, then fly home",
       note: "The Retreat to Keflavik is about 22.5 km and 24 min, approx. FI671 leaves at 4:55 PM and lands in Denver at 6:00 PM MT, 8 hours 5 minutes, nonstop. A car return after 8:00 AM bills a 7th rental day.",
       times: [
         { when: "Morning", what: "One more soak, then check out." },
         { when: "Afternoon", what: "Drive to Keflavik and drop off the car." },
         { when: "4:55 PM", what: "FI671 to Denver, landing 6:00 PM MT." }
       ],
-      stops: ["flight"]
+      stops: ["stay-retreat", "car", "flight"]
     }
   ];
 
@@ -521,9 +521,12 @@
   function stopPage(day, id) {
     var it = ITEMS[id];
     if (!it) return;
-    var flightNote = "";
-    if (id === "flight" && day.id === "jan4") flightNote = '<p class="today rv">Today: FI671 leaves Keflavik at 4:55 PM and lands in Denver at 6:00 PM MT.</p>';
-    if (id === "flight" && day.id === "dec28") flightNote = '<p class="today rv">Today: FI670 leaves Denver at 3:40 PM MT and lands at Keflavik at 6:05 AM on Dec 29.</p>';
+    var todayNote = "";
+    if (id === "flight" && day.id === "jan4") todayNote = '<p class="today rv">Today: FI671 leaves Keflavik at 4:55 PM and lands in Denver at 6:00 PM MT.</p>';
+    if (id === "flight" && day.id === "dec28") todayNote = '<p class="today rv">Today: FI670 leaves Denver at 3:40 PM MT and lands at Keflavik at 6:05 AM on Dec 29.</p>';
+    if (id === "flight" && day.id === "dec29") todayNote = '<p class="today rv">Today: FI670 lands at Keflavik at 6:05 AM. Pick up the 4WD next.</p>';
+    if (id === "car" && day.id === "jan4") todayNote = '<p class="today rv">Today: Drop the car at Keflavik before the 4:55 PM flight. A return after 8:00 AM bills a 7th day, about $41 more.</p>';
+    if (id === "stay-retreat" && day.id === "jan4") todayNote = '<p class="today rv">Today: Check out, then drive about 24 minutes to Keflavik to drop off the car.</p>';
     var soon = it.status === "Book soon";
     var status = '<p class="eyebrow rv"><span class="' + (soon ? "warn" : "") + '">' + esc(it.status) + "</span>" + (it.nights ? " &middot; " + esc(it.nights) : "") + "</p>";
     addPage({
@@ -533,7 +536,7 @@
       text:
         status +
         '<h2 class="rv">' + esc(it.title) + "</h2>" +
-        flightNote +
+        todayNote +
         (it.desc ? '<p class="lede rv">' + esc(it.desc) + "</p>" : "") +
         (it.winter ? '<p class="insider rv"><span class="lbl">Insider</span>' + esc(it.winter) + "</p>" : "") +
         (soon ? '<p class="soon rv"><span class="soon-label">Book soon</span> Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.</p>' : "") +
