@@ -14,7 +14,7 @@
   var GALLERIES = {
     flight: ["icelandair", "saga_seat"],
     flight_home: ["keflavik_terminal"],
-    car: ["car_duster"],
+    car: ["car_duster", "car_duster_gravel"],
     car_return: ["car_duster_return"],
     reykjabod: ["reykjabod", "reykjabod_lagoon", "reykjabod_evening", "reykjabod_corridor"],
     mjolkurbuid: ["mjolkurbuid", "mjolkurbuid_bar", "mjolkurbuid_hall", "mjolkurbuid_counter", "mjolkurbuid_coffee"],

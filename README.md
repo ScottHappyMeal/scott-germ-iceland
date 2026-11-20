@@ -146,7 +146,14 @@ The Reykjavik EDITION Deluxe Suite living area (`images/stays/edition-deluxe-sui
 - `images/places/keflavik-terminal.jpg` (Jan 4 flight home): APK, Wikimedia Commons, File:Keflavík International Airport terminal viewed from tarmac.jpg, CC BY 4.0.
 - `images/places/reykjavik-old-harbour.jpg` (Jan 2 cover): Ypsilon from Finland, Wikimedia Commons, File:Boats in Reykjavik's Old Harbour.JPG, CC0.
 - `images/places/reykjavik-from-hallgrimskirkja.jpg` (booking pages): Andrew Smales, Wikimedia Commons, File:Reykjavik, Iceland aerial cityscape (Unsplash).jpg, CC0.
-- `images/cars/duster-2.jpg` (Jan 4 car drop-off): Vauxford, Wikimedia Commons, File:2018 Dacia Duster Comfort 1.6.jpg, CC BY-SA 4.0.
+
+## Car photos, Nov 20, 2026 (book19)
+
+Official Dacia press photos of the current-generation Duster, All-new Dacia Duster TCe 130 Extreme 4x4, from the "More Duster still Duster" press kit (Apr 25, 2024), media.dacia.com, Dacia media use:
+
+- `images/cars/duster-4x4-dust.jpg` (Dec 29 car pickup, lead photo): front view on a dirt track.
+- `images/cars/duster-4x4-gravel.jpg` (Dec 29 car pickup, second photo): side view on a gravel road.
+- `images/cars/duster-4x4-offroad.jpg` (Jan 4 car drop-off): off-road over tree roots.
 
 ## Icons
 

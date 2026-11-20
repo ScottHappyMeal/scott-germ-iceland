@@ -59,7 +59,8 @@ window.ICELAND_DATA = (function () {
     hofn: "images/stays/hofn-ext.jpg",
     hofn_room: "images/stays/hofn-room.jpg",
     car_defender: "images/cars/defender.jpg",
-    car_duster: "images/cars/duster.jpg",
+    car_duster: "images/cars/duster-4x4-dust.jpg",
+    car_duster_gravel: "images/cars/duster-4x4-gravel.jpg",
     car_yaris: "images/cars/yaris.jpg",
     car_none: "images/places/laugavegur.jpg",
     heathland: "images/stays/heathland-lodge.jpg",
@@ -116,7 +117,7 @@ window.ICELAND_DATA = (function () {
     denver_airport: "images/places/denver-airport.jpg",
     keflavik_terminal: "images/places/keflavik-terminal.jpg",
     old_harbour: "images/places/reykjavik-old-harbour.jpg",
-    car_duster_return: "images/cars/duster-2.jpg",
+    car_duster_return: "images/cars/duster-4x4-offroad.jpg",
     reykjavik_from_church: "images/places/reykjavik-from-hallgrimskirkja.jpg"
   };
 
@@ -179,7 +180,8 @@ window.ICELAND_DATA = (function () {
     hofn: "Hotel Hofn",
     hofn_room: "A room at Hotel Hofn",
     car_defender: "A Land Rover Defender 110",
-    car_duster: "A Dacia Duster 4x4",
+    car_duster: "Dacia Duster 4x4, current generation, on a dirt track",
+    car_duster_gravel: "Dacia Duster 4x4, current generation, on a gravel road",
     car_yaris: "A Toyota Yaris",
     car_none: "A Reykjavik street, for the no-car plan",
     heathland: "Heathland Lodge, a mirror-glass cabin with a private hot tub on the deck",
@@ -236,7 +238,7 @@ window.ICELAND_DATA = (function () {
     denver_airport: "Denver International Airport at dusk",
     keflavik_terminal: "Keflavik International Airport, seen from the tarmac",
     old_harbour: "Boats in Reykjavik's Old Harbour",
-    car_duster_return: "Dacia Duster, same model as the rental",
+    car_duster_return: "Dacia Duster 4x4, current generation, off-road over tree roots",
     reykjavik_from_church: "Reykjavik from the top of Hallgrimskirkja, looking toward the harbor"
   };
 
