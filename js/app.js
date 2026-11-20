@@ -105,9 +105,9 @@
     },
     froken: {
       title: "Dinner at Froken Selfoss", status: "Reserve ahead", gallery: "froken",
-      price: "About $65 to $170 for two",
-      sub: "A la carte, not a set menu. Not in the $16,030 trip total.",
-      desc: "Downtown Selfoss, about 10 to 15 minutes from the domes. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. The regular a la carte menu is available on Dec 29. A hamburger is 3,999 ISK (about $32), Icelandic meat soup is 4,099 ISK (about $33), seafood pasta is 4,999 ISK (about $40), and lamb is 8,299 ISK (about $66). Two mains are about $65 to $135, or about $90 to $170 with drinks. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
+      price: "About $160 to $225 for two, with drinks",
+      sub: "Not in the trip total.",
+      desc: "Downtown Selfoss, about 10 to 15 minutes from the domes. Open 12:00 PM to 10:00 PM daily, and the kitchen closes at 9:30 PM. Modern Icelandic food. Tryggvaskali is closed Monday and Tuesday, so this is the Tuesday pick.",
       url: "https://www.frokenselfoss.is/en", urlLabel: "Froken Selfoss", place: "froken"
     },
     kerid: {
@@ -119,16 +119,16 @@
     },
     midgard: {
       title: "Dinner at Midgard Restaurant, Hvolsvollur", status: "Reserve ahead", gallery: "midgard",
-      price: "About $60 to $130 for two",
-      sub: "A la carte, not the 3-course offer. Not in the $16,030 trip total.",
-      desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. A relaxed a la carte room at Midgard Base Camp. The Adventure Burger, with fries, is 3,800 ISK (about $30). Pasta is 3,700 to 4,100 ISK (about $30 to $33). Arctic char is 5,600 ISK (about $45), and a lamb shank is 6,300 ISK (about $50). Two mains are about $60 to $100, or about $85 to $130 with drinks. The dining room is small, so a reservation still helps.",
+      price: "26,000 ISK (about $208) for two",
+      sub: "Glass Cottages 3-course partner offer, before drinks. Not in the trip total.",
+      desc: "On the Dec 30 drive, after Skogafoss and about 13 minutes from Glass Cottages. Open 4:00 PM to 9:00 PM daily. From-scratch Icelandic food in a small dining room, so reserve ahead.",
       url: "https://midgardbasecamp.is/midgard-base-camp-restaurant/", urlLabel: "Midgard", place: "midgard"
     },
     spa_restaurant: {
       title: "Dinner at Spa Restaurant, The Retreat", status: "Optional", gallery: "spa_restaurant",
-      price: "About $70 to $180 for two",
-      sub: "Light a la carte. Not in the $16,030 trip total.",
-      desc: "Spa Restaurant is inside the Retreat Spa, which is included with the hotel stay. Light a la carte dishes, and you can dine in a robe or dressed. Reservations are not required. Miso soup is 3,900 ISK (about $31), chicken, sushi, or a Caesar salad is 5,900 ISK (about $47), and beef striploin is 7,900 ISK (about $63). Two mains are about $70 to $125, or about $110 to $180 with desserts or drinks. The official main menu is served from 12:00 PM to 8:00 PM daily, including January 3.",
+      price: "About $146 to $178 for two, without drinks",
+      sub: "Two mains and two desserts, from the official menu. Not in the trip total.",
+      desc: "Spa Restaurant is inside the Retreat Spa, which is included with the hotel stay. Light a la carte dishes, and you can dine in a robe or dressed. Reservations are not required. The official main menu is served from 12:00 PM to 8:00 PM daily, including January 3.",
       winter: "A Blue Lagoon support page, updated September 12, 2025, lists the Wednesday to Sunday kitchen as closing at 7:00 PM. The current official hours pages say 8:00 PM daily. Go a little early to be safe.",
       url: "https://www.bluelagoon.com/accommodation/in-room/restaurants/spa-restaurant", urlLabel: "Spa Restaurant", place: "retreat"
     },
@@ -725,20 +725,20 @@
         '<h3 class="rv">Meals, soaks, and extras</h3>' +
         '<p class="fine rv">These are not in the $16,030 planned total. The Retreat in-water massage is the chosen extra. Sky Lagoon and the EDITION massage are out of the plan. The day-by-day food budget is on the next page. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + [
-          ["Food and drinks for two", "about $480 to $1,310"],
+          ["Food and drinks for two", "about $820 to $1,600"],
           ["Reykjabod Classic, Dec 29", "about $142"],
           ["Retreat in-water massage for two, chosen extra", "about $463"],
           ["Ishestar Horses and Waffles, optional", "about $271"],
           ["Gas, estimate", "about $95"],
           ["EDITION valet, if used", "about $168"]
         ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") + "</dl>" +
-        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $17,600 to $18,500 for two. The $16,030 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>All in, with the Retreat massage, the food budget, and the extras above, the week is about $18,000 to $18,800 for two. The $16,030 ledger does not change. Skipping the three EDITION breakfasts keeps you near the low end.</p>' +
         '<h3 class="rv">Where you can still save</h3>' +
         '<ul class="plain rv">' +
           "<li>Icelandair Economy on the same flights saves $1,924, and brings the planned total to $14,106.</li>" +
           "<li>The EDITION Deluxe King prepay non-refundable rate saves $119.</li>" +
           "<li>A Courtyard King at the EDITION starts at $4,015, which saves $820 against the Deluxe King.</li>" +
-          "<li>With Economy flights and a Courtyard King, the all-in range is about $14,900 to $15,700.</li>" +
+          "<li>With Economy flights and a Courtyard King, the all-in range is about $15,200 to $16,000.</li>" +
         "</ul>"
     });
   }
@@ -750,20 +750,20 @@
       text:
         '<p class="eyebrow rv">Food budget</p>' +
         '<h2 class="rv">What the two of you eat, day by day.</h2>' +
-        '<p class="lede rv">The relaxed a la carte dinners are Froken, Midgard, and Spa Restaurant, plus a casual New Year\'s Eve meal in Reykjavik. Everything else is cheap eats, groceries, or the Tides credit. Nothing is booked yet.</p>' +
+        '<p class="lede rv">The dinners at Froken, Midgard, and Spa Restaurant stay as planned. New Year\'s Eve is a casual a la carte meal in Reykjavik, about $60 to $150 for two. Everything else is cheap eats, groceries, or the Tides credit. Nothing is booked yet.</p>' +
         '<dl class="ledger rv">' + [
-          ["Dec 29, road breakfast and Froken", "$95 to $200"],
-          ["Dec 30, cheap lunch and Midgard", "$80 to $190"],
+          ["Dec 29, road breakfast and Froken", "$180 to $260"],
+          ["Dec 30, cheap lunch and Midgard", "$225 to $280"],
           ["Dec 31, Tides lunch and casual NYE dinner", "$60 to $150"],
           ["Jan 1, Tides lunch and cheap dinner", "$15 to $150"],
           ["Jan 2, Tides lunch and cheap dinner", "$40 to $150"],
-          ["Jan 3, cheap lunch and Spa Restaurant", "$90 to $230"],
+          ["Jan 3, cheap lunch and Spa Restaurant", "$160 to $310"],
           ["Jan 4, Retreat breakfast included", "$0 to $20"],
           ["Groceries, Selfoss and Reykjavik", "$60 to $100"],
-          ["Drinks, beyond the dinners", "$40 to $120"]
+          ["Drinks, beyond the dinners", "$80 to $180"]
         ].map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
-        '<div class="ledger-total"><dt>Food and drinks for two</dt><dd>about $480 to $1,310</dd></div></dl>' +
-        '<p class="price-note rv"><span class="pn-label">Cost</span>Converted at 124.82 ISK per USD, checked Nov 20, 2026. The low end uses grocery or bakery breakfasts, casual a la carte dinners, and cheap lunches. The high end adds EDITION breakfasts at $77 to $98 a morning, drinks, and fuller mains at Froken, Midgard, and Spa Restaurant. Tides lunches on Dec 31, Jan 1, and Jan 2 are already in the room rate, about $168 total.</p>' 
+        '<div class="ledger-total"><dt>Food and drinks for two</dt><dd>about $820 to $1,600</dd></div></dl>' +
+        '<p class="price-note rv"><span class="pn-label">Cost</span>Converted at 124.82 ISK per USD, checked Nov 20, 2026. The low end uses grocery or bakery breakfasts, a casual NYE dinner, and cheap lunches. The high end adds EDITION breakfasts at $77 to $98 a morning, drinks, and fuller meals at Froken, Midgard, and Spa Restaurant. Tides lunches on Dec 31, Jan 1, and Jan 2 are already in the room rate, about $168 total.</p>' 
     });
   }
 
