@@ -1,5 +1,5 @@
-/* Scott & Jerm's Iceland: a full-screen winter field guide. Rendering, maps, weather, countdown, galleries.
-   Animation choreography lives in js/motion-fx.js. No pick or vote UI. */
+/* Scott & Jerm's Iceland: a full-screen winter guide you page through like a book.
+   Pages, navigation, map, weather, countdown, photo viewer. Page-turn motion lives in js/motion-fx.js. */
 (function () {
   "use strict";
 
@@ -21,7 +21,7 @@
     kerid: ["kerid"],
     glass: ["glass_cottages", "glass_cottages_int"],
     midgard: ["midgard"],
-    edition: ["edition_ext", "edition_room", "edition_suite", "edition_int", "tides", "nye_dinner", "edition_spa"],
+    edition: ["edition_ext", "edition_room", "edition_int", "tides", "nye_dinner", "edition_spa"],
     nye: ["nye_hallgrimskirkja", "bonfire", "nye_fireworks", "nye_dinner", "ruv"],
     sky_lagoon: ["sky_lagoon"],
     reykjavik: ["harpa", "laugavegur", "grotta", "baejarins", "wool", "kolaportid", "aurora_self"],
@@ -306,100 +306,102 @@
     return "is-plan";
   }
 
-  /* ---------- gallery markup ---------- */
-  function mosaicHtml(gKey, opts) {
+
+  /* ---------- small pieces ---------- */
+  function imgTag(key, opts) {
     opts = opts || {};
+    var src = opts.thumb ? thumb(key) : full(key);
+    if (!src) return "";
+    return '<img data-src="' + esc(src) + '" alt="' + esc(opts.alt != null ? opts.alt : label(key)) + '" decoding="async">';
+  }
+  function fine(text, cls) { return text ? '<p class="fine' + (cls ? " " + cls : "") + '">' + esc(text) + "</p>" : ""; }
+  function priceNote(it) {
+    if (!it.price && !it.sub) return "";
+    return '<p class="price-note rv"><span class="pn-label">Cost</span>' + (it.price ? esc(it.price) + ". " : "") + (it.sub ? esc(it.sub) : "") + "</p>";
+  }
+  function yearFor(dayId) { return dayId.indexOf("dec") === 0 ? "2026" : "2027"; }
+
+  /* photo panel: one big photo, with small thumbnails for the rest of the gallery */
+  function mediaPhotos(gKey, coverKey) {
     var photos = GALLERIES[gKey] || [];
-    if (!photos.length) return "";
-    var max = opts.max || 5;
-    var shown = photos.slice(0, max);
-    var extra = photos.length - shown.length;
-    var cls = "mosaic n" + Math.min(shown.length, 5) + (opts.cls ? " " + opts.cls : "");
-    var html = '<div class="' + cls + '">';
-    shown.forEach(function (key, i) {
-      var src = i === 0 && opts.leadFull ? full(key) : thumb(key);
-      var more = (i === shown.length - 1 && extra > 0) ? '<span class="more">+' + extra + " photos</span>" : "";
-      html += '<button type="button" class="tile" data-gallery="' + esc(gKey) + '" data-index="' + i + '" aria-label="Open photo: ' + esc(label(key)) + '">' +
-        '<img src="' + esc(src) + '" alt="' + esc(label(key)) + '" loading="lazy" decoding="async">' + more + "</button>";
-    });
-    html += "</div>";
-    if (photos.length > 1 && !opts.noCount) html += '<p class="photo-count">' + photos.length + " photos. Tap to browse.</p>";
+    var lead = coverKey || photos[0];
+    var leadIndex = Math.max(0, photos.indexOf(lead));
+    var html = '<button type="button" class="media-hit" data-gallery="' + esc(gKey) + '" data-index="' + leadIndex + '" aria-label="Open photos: ' + esc(label(lead)) + '">' + imgTag(lead) + "</button>";
+    if (photos.length > 1) {
+      html += '<div class="thumbs" aria-label="More photos">' + photos.map(function (k, i) {
+        return '<button type="button" class="thumb' + (i === leadIndex ? " is-lead" : "") + '" data-gallery="' + esc(gKey) + '" data-index="' + i + '" aria-label="Photo ' + (i + 1) + ": " + esc(label(k)) + '">' + imgTag(k, { thumb: true, alt: "" }) + "</button>";
+      }).join("") + '<span class="thumbs-count">' + photos.length + " photos</span></div>";
+    }
     return html;
   }
-  function filmstripHtml(keysByGallery) {
-    var tiles = "";
-    keysByGallery.forEach(function (g) {
-      (GALLERIES[g] || []).forEach(function (key, i) {
-        tiles += '<button type="button" class="film" data-gallery="' + esc(g) + '" data-index="' + i + '">' +
-          '<img src="' + esc(thumb(key)) + '" alt="' + esc(label(key)) + '" loading="lazy" decoding="async">' +
-          '<span class="film-cap">' + esc(label(key)) + "</span></button>";
-      });
-    });
-    return '<div class="filmstrip" tabindex="0" aria-label="Photos for this day, scroll sideways">' + tiles + "</div>";
+
+  function linksHtml(it) {
+    var out = [];
+    if (it.url) out.push(siteHtml(it.url, it.urlLabel));
+    if (it.place) out.push(applePinHtml(it.place));
+    return out.length ? '<div class="links rv">' + out.join("") + "</div>" : "";
   }
 
-  function stopHtml(id, dayId) {
-    var it = ITEMS[id];
-    if (!it) return "";
-    var links = [];
-    if (it.url) links.push(siteHtml(it.url, it.urlLabel));
-    if (it.place) links.push(applePinHtml(it.place));
-    var isStay = id.indexOf("stay-") === 0;
-    var kicker = '<p class="status ' + statusClass(it.status) + '">' + esc(it.status) + (it.nights ? '<span class="nights">' + esc(it.nights) + "</span>" : "") + "</p>";
-    var flightNote = "";
-    if (id === "flight" && dayId === "jan4") flightNote = '<p class="callout">Today: FI671 leaves Keflavik at 4:55 PM and lands in Denver at 6:00 PM MT.</p>';
-    if (id === "flight" && dayId === "dec28") flightNote = '<p class="callout">Today: FI670 leaves Denver at 3:40 PM MT and lands at Keflavik at 6:05 AM on Dec 29.</p>';
-    return '<article class="stop reveal' + (isStay ? " is-stay" : "") + '">' +
-      '<div class="stop-media">' + mosaicHtml(it.gallery, { max: isStay ? 5 : 3, leadFull: true }) + "</div>" +
-      '<div class="stop-text">' + kicker +
-      "<h3>" + esc(it.title) + "</h3>" +
-      (it.price ? '<p class="price">' + esc(it.price) + "</p>" : "") +
-      (it.sub ? '<p class="sub">' + esc(it.sub) + "</p>" : "") +
-      flightNote +
-      (it.desc ? "<p>" + esc(it.desc) + "</p>" : "") +
-      (it.winter ? '<p class="tip"><strong>Insider:</strong> ' + esc(it.winter) + "</p>" : "") +
-      (links.length ? '<div class="links">' + links.join("") + "</div>" : "") +
-      "</div></article>";
+  /* ---------- page builders ---------- */
+  var PAGES = [];
+  function addPage(p) { PAGES.push(p); return p; }
+
+  function coverPage() {
+    addPage({
+      id: "cover", label: "Cover", chapter: "Dec 28 to Jan 4", layout: "full", cls: "page-cover",
+      media: '<div class="media-img">' + '<img data-src="images/hero-aurora.jpg" alt="" decoding="async" fetchpriority="high">' + "</div>",
+      text:
+        '<p class="eyebrow rv">Dec 28, 2026 to Jan 4, 2027</p>' +
+        '<h1 class="rv">Scott &amp; Jerm\'s<br>Iceland</h1>' +
+        '<p class="lede rv">Hot springs on the first morning, a glass cottage in the lava fields, New Year\'s Eve bonfires in Reykjavik, and a last night at the Blue Lagoon. About four hours of low winter sun a day.</p>' +
+        '<p class="facts rv"><span class="warn">Nothing is booked yet.</span> Cash rates, full totals for 2 adults. 1 king or double bed everywhere.</p>' +
+        '<div class="live rv">' +
+          '<div class="live-row"><p class="live-label">Until FI670 leaves Denver, 3:40 PM MT, Dec 28</p>' +
+            '<p class="count" id="countdown"><span><b data-k="d">0</b> days</span> <span><b data-k="h">0</b> hrs</span> <span><b data-k="m">0</b> min</span> <span><b data-k="s">0</b> sec</span></p></div>' +
+          '<div class="live-row" id="weather"><p class="live-label">Right now in Reykjavik</p>' +
+            '<p class="wx"><b id="wxTemp">--</b> <span id="wxWind">Loading the live weather</span></p>' +
+            '<p class="wx-sub" id="wxSub">Sunrise and sunset for today, from Open-Meteo.</p></div>' +
+        "</div>" +
+        '<button type="button" class="begin rv" data-turn="next">Turn the page ' + icon("right") + "</button>" +
+        '<p class="hint rv">Swipe, or use the arrow keys.</p>'
+    });
   }
 
-  /* ---------- sections ---------- */
-  function renderStays() {
-    var el = document.getElementById("stays");
-    if (!el) return;
-    var html = '<div class="stays-head reveal"><p class="kicker">Where you sleep</p><h3>Four stays, six nights, one bed each night.</h3></div>';
-    html += '<div class="stay-grid">';
-    STAY_IDS.forEach(function (id) {
-      var it = ITEMS[id];
-      html += '<article class="stay-card reveal">' +
-        mosaicHtml(it.gallery, { max: 4, noCount: true, cls: "stay-mosaic" }) +
-        '<div class="stay-body">' +
-        '<p class="status ' + statusClass(it.status) + '">' + esc(it.status) + '<span class="nights">' + esc(it.nights) + "</span></p>" +
-        "<h4>" + esc(it.title) + "</h4>" +
-        '<p class="price">' + esc(it.price) + "</p>" +
-        '<p class="sub">' + esc(it.sub) + "</p>" +
-        '<div class="links">' + siteHtml(it.url, it.urlLabel) + applePinHtml(it.place) + "</div>" +
-        "</div></article>";
+  function weekPage() {
+    var rows = DAYS.map(function (d) {
+      return '<li><button type="button" data-go="day-' + d.id + '"><span class="wk-num">' + (d.num < 10 ? "0" : "") + d.num + "</span>" +
+        '<span class="wk-date">' + esc(d.weekday.slice(0, 3)) + ", " + esc(d.date) + "</span>" +
+        '<span class="wk-title">' + esc(d.title) + "</span></button></li>";
+    }).join("");
+    addPage({
+      id: "week", label: "The week", chapter: "The week", layout: "split",
+      media: '<div class="media-img">' + imgTag("grotta") + "</div>",
+      text:
+        '<p class="eyebrow rv">The week</p>' +
+        '<h2 class="rv">Eight days, Dec 28 to Jan 4.</h2>' +
+        '<ol class="week rv">' + rows + "</ol>" +
+        '<p class="soon rv"><span class="soon-label">Book soon</span> Glass Cottages, Cottage Blar, for Dec 30. It was the last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.</p>'
     });
-    html += "</div>";
-    html += '<div class="getting-there">';
-    ["flight", "car"].forEach(function (id) {
-      var it = ITEMS[id];
-      html += '<article class="mini-card reveal">' +
-        '<button type="button" class="mini-img" data-gallery="' + it.gallery + '" data-index="0" aria-label="Open photo: ' + esc(label(GALLERIES[it.gallery][0])) + '"><img src="' + esc(thumb(GALLERIES[it.gallery][0])) + '" alt="' + esc(label(GALLERIES[it.gallery][0])) + '" loading="lazy"></button>' +
-        '<div><p class="status is-plan">' + esc(it.status) + "</p><h4>" + esc(it.title) + '</h4><p class="price">' + esc(it.price) + '</p><p class="sub">' + esc(it.sub) + "</p>" +
-        '<div class="links">' + siteHtml(it.url, it.urlLabel) + "</div></div></article>";
+  }
+
+  function daylightPage() {
+    addPage({
+      id: "daylight", label: "Winter daylight", chapter: "Winter daylight", layout: "wide", cls: "page-sky",
+      media: '<div class="sky" aria-hidden="true"><i class="sun"></i></div>',
+      text:
+        '<p class="eyebrow rv">Winter daylight</p>' +
+        '<h2 class="rv">The sun is up from about 11:20 AM to 3:30 PM.</h2>' +
+        '<p class="lede rv">Typical Reykjavik daylight for each day of the trip, computed for these dates, not a forecast. Gold is sun. Blue is twilight, still bright enough to drive and walk.</p>' +
+        '<div class="daylight rv" id="daylightChart">' + daylightHtml() + "</div>"
     });
-    html += "</div>";
-    el.innerHTML = html;
   }
 
   function fmtMin(m) {
     var h = Math.floor(m / 60), mm = m % 60, ap = h < 12 ? "AM" : "PM", h12 = h % 12 || 12;
     return h12 + ":" + (mm < 10 ? "0" : "") + mm + " " + ap;
   }
-  function renderDaylight() {
-    var el = document.getElementById("daylightChart");
-    if (!el || !T.DAYLIGHT) return;
+  function daylightHtml() {
+    if (!T.DAYLIGHT) return "";
     var start = 8 * 60, end = 18 * 60, span = end - start;
     function pct(m) { return Math.max(0, Math.min(100, (m - start) / span * 100)); }
     var axis = '<div class="dl-axis" aria-hidden="true">';
@@ -412,153 +414,235 @@
       var d = T.DAYLIGHT[day.id];
       if (!d) return;
       rows += '<div class="dl-row" role="img" aria-label="' + esc(day.date + ": sunrise " + d.rise + ", sunset " + d.set) + '">' +
-        '<span class="dl-day"><b>' + esc(day.date) + "</b><small>" + esc(day.weekday.slice(0, 3)) + "</small></span>" +
+        '<span class="dl-day">' + esc(day.date) + "</span>" +
         '<span class="dl-track">' +
         '<i class="dl-twilight" style="left:' + pct(d.civilDawn) + "%;width:" + (pct(d.civilDusk) - pct(d.civilDawn)) + '%"></i>' +
         '<i class="dl-sun" style="left:' + pct(d.riseMin) + "%;width:" + (pct(d.setMin) - pct(d.riseMin)) + '%"></i>' +
-        '<i class="dl-noon" style="left:' + pct(d.noonMin) + '%"></i>' +
         "</span>" +
         '<span class="dl-times">' + esc(d.rise) + " to " + esc(d.set) + "</span></div>";
     });
-    el.innerHTML = axis + '<div class="dl-rows">' + rows + "</div>" +
+    return axis + '<div class="dl-rows">' + rows + "</div>" +
       '<p class="fine">Sunrise and sunset use the usual solar altitude of -0.833 degrees. Twilight is civil twilight, about 10:04 AM to 4:54 PM.</p>';
-  }
-
-  function renderDayRail() {
-    var el = document.getElementById("dayrail");
-    if (!el) return;
-    el.innerHTML = '<div class="rail-inner"><span class="rail-pill" id="railPill" aria-hidden="true"></span>' + DAYS.map(function (d) {
-      return '<a href="#day-' + d.id + '" data-rail="' + d.id + '"><b>' + esc(d.date) + "</b><small>Day " + d.num + "</small></a>";
-    }).join("") + "</div>";
-  }
-
-  function roadsHtml(dayId) {
-    var meta = (T.DAY_ROADS || {})[dayId] || {};
-    var out = "";
-    if (meta.drive) out += '<p><strong>Drive:</strong> ' + esc(meta.drive) + "</p>";
-    if (meta.risk) out += '<p><strong>Watch for:</strong> ' + esc(meta.risk) + "</p>";
-    if (!out) return "";
-    var chips = (T.ROAD_LINKS || []).map(function (l) {
-      return '<a class="chip" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(l.label) + "</a>";
-    }).join("");
-    return '<div class="roads">' + out + (chips ? '<div class="chips">' + chips + "</div>" : "") + "</div>";
   }
 
   var MAP_DAYS = { dec29: true, dec30: true, dec31: true, jan3: true, jan4: true };
 
-  function renderDays() {
-    var root = document.getElementById("dayChapters");
-    if (!root) return;
-    var html = "";
-    DAYS.forEach(function (day) {
-      var d = (T.DAYLIGHT || {})[day.id];
-      var galleries = [];
-      day.stops.forEach(function (id) { var g = ITEMS[id] && ITEMS[id].gallery; if (g && galleries.indexOf(g) === -1) galleries.push(g); });
-      var photoCount = galleries.reduce(function (n, g) { return n + (GALLERIES[g] || []).length; }, 0);
-      var times = '<ol class="timeline">' + day.times.map(function (t) {
-        return '<li><span class="t-when">' + esc(t.when) + '</span><span class="t-what">' + esc(t.what) + "</span></li>";
-      }).join("") + "</ol>";
-      var actions = "";
-      var drive = appleRouteHtml(day.id);
-      if (drive) actions += drive;
-      if (MAP_DAYS[day.id]) actions += '<button type="button" class="btn btn-ghost" data-focus-day="' + day.id + '">' + icon("map") + " Show on the map</button>";
-
-      html += '<article class="chapter" id="day-' + day.id + '" data-day="' + day.id + '">' +
-        '<header class="chapter-cover">' +
-        '<div class="cover-media"><img src="' + esc(full(day.cover)) + '" alt="' + esc(label(day.cover)) + '" loading="lazy" decoding="async"></div>' +
-        '<div class="cover-shade"></div>' +
-        '<div class="cover-text wrap">' +
-        '<p class="cover-num" aria-hidden="true">' + (day.num < 10 ? "0" : "") + day.num + "</p>" +
-        '<p class="cover-date">Day ' + day.num + " &middot; " + esc(day.weekday) + ", " + esc(day.date) + (day.id === "dec28" ? ", 2026" : day.id.indexOf("dec") === 0 ? ", 2026" : ", 2027") + "</p>" +
-        "<h2>" + esc(day.title) + "</h2>" +
-        (d ? '<p class="cover-sun"><span class="sun-dot"></span> Sunrise ' + esc(d.rise) + ", sunset " + esc(d.set) + "</p>" : "") +
-        "</div></header>" +
-        '<div class="chapter-body wrap">' +
-        '<aside class="chapter-side"><div class="side-inner reveal">' +
-        '<p class="kicker">The day</p>' + times +
-        roadsHtml(day.id) +
-        (actions ? '<div class="actions">' + actions + "</div>" : "") +
-        "</div></aside>" +
-        '<div class="chapter-main">' +
-        '<p class="day-note reveal">' + esc(day.note) + "</p>" +
-        (photoCount >= 4 ? '<div class="reveal">' + filmstripHtml(galleries) + "</div>" : "") +
-        day.stops.map(function (id) { return stopHtml(id, day.id); }).join("") +
-        "</div></div></article>";
+  function dayOpener(day) {
+    var d = (T.DAYLIGHT || {})[day.id];
+    var meta = (T.DAY_ROADS || {})[day.id] || {};
+    var times = '<ol class="times rv">' + day.times.map(function (t) {
+      return '<li><span class="t-when">' + esc(t.when) + '</span><span class="t-what">' + esc(t.what) + "</span></li>";
+    }).join("") + "</ol>";
+    var roads = "";
+    if (meta.drive || meta.risk) {
+      roads = '<div class="roads rv">' +
+        (meta.drive ? "<p><span class=\"lbl\">Drive</span>" + esc(meta.drive) + "</p>" : "") +
+        (meta.risk ? "<p><span class=\"lbl\">Watch for</span>" + esc(meta.risk) + "</p>" : "") +
+        '<p class="road-links">' + (T.ROAD_LINKS || []).map(function (l) {
+          return '<a class="link" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + icon("external") + " " + esc(l.label) + "</a>";
+        }).join("") + "</p></div>";
+    }
+    var actions = "";
+    var drive = appleRouteHtml(day.id, "btn-primary");
+    if (drive) actions += drive;
+    if (MAP_DAYS[day.id]) actions += '<button type="button" class="btn-text" data-focus-day="' + day.id + '">' + icon("pin") + " Show on the map</button>";
+    addPage({
+      id: "day-" + day.id, day: day.id, opener: true, label: "Day " + day.num + ", " + day.date, chapter: "Day " + day.num + " · " + day.date,
+      layout: "full",
+      media: '<div class="media-img">' + imgTag(day.cover) + "</div>",
+      text:
+        '<p class="eyebrow rv">Day ' + day.num + " &middot; " + esc(day.weekday) + ", " + esc(day.date) + ", " + yearFor(day.id) + "</p>" +
+        '<h2 class="rv">' + esc(day.title) + "</h2>" +
+        (d ? '<p class="sunline rv"><i class="sun-dot" aria-hidden="true"></i>Sunrise ' + esc(d.rise) + ", sunset " + esc(d.set) + "</p>" : "") +
+        '<p class="lede rv">' + esc(day.note) + "</p>" + times + roads +
+        (actions ? '<div class="actions rv">' + actions + "</div>" : "")
     });
-    root.innerHTML = html;
-    var full_ = document.getElementById("fullRouteLink");
-    if (full_) full_.innerHTML = appleRouteHtml("full", "btn-aurora");
   }
 
-  function renderTips() {
-    var el = document.getElementById("tips");
-    if (!el) return;
-    el.innerHTML = TIPS.map(function (t, i) {
-      return '<article class="tip-card reveal">' +
-        '<div class="tip-img"><img src="' + esc(thumb(t.photo)) + '" alt="' + esc(label(t.photo)) + '" loading="lazy"></div>' +
-        '<div class="tip-body"><p class="tag">' + esc(t.tag) + "</p><h3>" + esc(t.title) + "</h3><p>" + esc(t.text) + "</p></div></article>";
-    }).join("");
+  function stopPage(day, id) {
+    var it = ITEMS[id];
+    if (!it) return;
+    var flightNote = "";
+    if (id === "flight" && day.id === "jan4") flightNote = '<p class="today rv">Today: FI671 leaves Keflavik at 4:55 PM and lands in Denver at 6:00 PM MT.</p>';
+    if (id === "flight" && day.id === "dec28") flightNote = '<p class="today rv">Today: FI670 leaves Denver at 3:40 PM MT and lands at Keflavik at 6:05 AM on Dec 29.</p>';
+    var soon = it.status === "Book soon";
+    var status = '<p class="eyebrow rv"><span class="' + (soon ? "warn" : "") + '">' + esc(it.status) + "</span>" + (it.nights ? " &middot; " + esc(it.nights) : "") + "</p>";
+    addPage({
+      id: "stop-" + day.id + "-" + id, day: day.id, label: it.title, chapter: "Day " + day.num + " · " + day.date,
+      layout: "split",
+      media: '<div class="media-img">' + mediaPhotos(it.gallery) + "</div>",
+      text:
+        status +
+        '<h2 class="rv">' + esc(it.title) + "</h2>" +
+        flightNote +
+        (it.desc ? '<p class="lede rv">' + esc(it.desc) + "</p>" : "") +
+        (it.winter ? '<p class="insider rv"><span class="lbl">Insider</span>' + esc(it.winter) + "</p>" : "") +
+        (soon ? '<p class="soon rv"><span class="soon-label">Book soon</span> Last cottage left when checked. Once booked, free cancellation ends Nov 30, 2026.</p>' : "") +
+        linksHtml(it) +
+        priceNote(it)
+    });
   }
 
-  function renderSprings() {
-    var el = document.getElementById("springsGrid");
-    if (!el) return;
-    var cards = [
-      { id: "reykjabod", where: "Hveragerdi, on the Dec 29 drive",
-        rows: [["Classic", "17,800 ISK", "about $142 for two", "Lagoon, outdoor sauna, cold plunge, Kneipp, and a towel."],
-               ["Signature", "33,800 ISK", "about $270 for two", "Adds the adults-only indoor Bathhouse Spa with 10 sensory rooms, bathrobes, slippers, and 1 drink each."]],
-        hours: "Winter: Monday to Thursday 10:00 AM to 9:00 PM, Friday to Sunday 10:00 AM to 10:00 PM. Out of the water 30 minutes before close. The restaurant is open 11:30 AM to 8:30 PM." },
-      { id: "sky_lagoon", where: "Kopavogur, about 15 minutes from the EDITION",
-        rows: [["Saman", "from 29,980 ISK", "about $240 for two", "Shared changing, the 7-step Skjol ritual, and a towel. Floor price, varies by time slot."],
-               ["Ser", "from 35,980 ISK", "about $288 for two", "Private changing cabin, plus lotion and a bag. Floor price, varies by time slot."]],
-        hours: "Winter, October 21 to April 30: 10:00 AM to 9:00 PM daily. December 31: 9:00 AM to 8:00 PM. Out of the water 30 minutes before close." }
-    ];
-    el.innerHTML = cards.map(function (c) {
-      var it = ITEMS[c.id];
-      return '<article class="spring reveal">' +
-        mosaicHtml(it.gallery, { max: 1, noCount: true, cls: "spring-img", leadFull: true }) +
-        '<div class="spring-body"><p class="kicker">' + esc(c.where) + "</p><h3>" + esc(it.title) + "</h3>" +
-        '<div class="tiers">' + c.rows.map(function (r) {
-          return '<div class="tier"><p class="tier-name">' + esc(r[0]) + '</p><p class="tier-price">' + esc(r[1]) + "<small>" + esc(r[2]) + "</small></p><p>" + esc(r[3]) + "</p></div>";
-        }).join("") + "</div>" +
-        '<p class="tip"><strong>Hours:</strong> ' + esc(c.hours) + "</p>" +
-        '<div class="links">' + siteHtml(it.url, it.urlLabel + " website") + applePinHtml(it.place) + "</div></div></article>";
-    }).join("");
+  function mapPage() {
+    addPage({
+      id: "route", label: "The route", chapter: "The route", layout: "map",
+      media: '<div class="map-frame" id="mapFrame"><div id="tripMap" class="trip-map" role="region" aria-label="Interactive map of the trip"></div>' +
+        '<button type="button" class="map-activate" id="mapActivate">Tap to move the map</button></div>',
+      text:
+        '<p class="eyebrow rv">The route</p>' +
+        '<h2 class="rv">Keflavik, the Golden Circle, the south, Reykjavik, and the Blue Lagoon.</h2>' +
+        '<p class="lede rv">The line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, through the planned stays and the Dec 29 and Dec 30 stops. The Jan 4 drive back to the airport is on that day. Pick a day to fly the map there.</p>' +
+        '<div class="map-chips rv" id="mapChips" aria-label="Focus the map on a day"></div>' +
+        '<div class="rv" id="fullRouteLink"></div>' +
+        '<p class="fine rv">Driving buttons open Apple Maps with road-snapped points.</p>'
+    });
   }
 
-  function renderLogistics() {
-    var el = document.getElementById("logisticsBody");
-    if (!el) return;
-    var plan = '<article class="logi reveal"><h3>The working plan</h3><ul>' +
-      "<li><strong>Flights:</strong> Icelandair Saga Premium, $6,062 for two, FI670 and FI671, Dec 28 to Jan 4.</li>" +
-      "<li><strong>Car:</strong> Blue Car Rental Dacia Duster 4x4, $719 for six days, Dec 29 to Jan 4.</li>" +
-      "<li><strong>Dec 29:</strong> Golden Circle Domes, $1,371. No breakfast, full kitchenette, Thrastalundur on site.</li>" +
-      "<li><strong>Dec 30:</strong> Glass Cottages, Cottage Blar, $559. Book soon. Free cancellation ends Nov 30, 2026, once you book.</li>" +
-      "<li><strong>Dec 31 to Jan 3:</strong> The Reykjavik EDITION King Room, $4,023, Stay Longer Flexible Member.</li>" +
-      "<li><strong>Jan 3:</strong> The Retreat at Blue Lagoon, Lava View Junior Suite, est. $2,484 (about 310,000 ISK).</li>" +
-      "<li><strong>Lodging:</strong> $8,437. <strong>Planned total:</strong> $15,218 for two.</li></ul></article>";
-    var other = '<article class="logi reveal"><h3>Other cash options</h3><ul>' +
-      "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $13,294.</li>" +
-      "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $16,647, and with Economy about $14,723.</li>" +
-      "<li>Other EDITION King cash rates for the three nights: Superior King $4,283, standard Flexible Member $4,583, or Prepay Non-refundable $3,933 (lodging $8,347).</li>" +
-      "</ul><p class=\"fine\">Hot springs and dinners are not in the trip total.</p></article>";
-    var winter = '<article class="logi reveal"><h3>Winter conditions</h3><p>Sunrise is around 11:20 AM, and sunset is around 3:30 to 3:50 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves, so stay well up the beach.</p>' +
-      '<div class="chips">' + (T.ROAD_LINKS || []).map(function (l) { return '<a class="chip" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + esc(l.label) + "</a>"; }).join("") + "</div></article>";
+  var GUIDE = [
+    { title: "New Year's Eve", photo: "nye_fireworks", tips: [0, 1, 2] },
+    { title: "Wind and ice", photo: "katla", tips: [3, 4] },
+    { title: "Kitchens and daylight", photo: "domes_int", tips: [5, 6] },
+    { title: "Lagoons and food", photo: "baejarins", tips: [7, 8] }
+  ];
+  function guidePages() {
+    GUIDE.forEach(function (g, i) {
+      addPage({
+        id: "guide-" + (i + 1), label: "Field guide: " + g.title, chapter: "Field guide", layout: "split",
+        media: '<div class="media-img">' + imgTag(g.photo) + '<p class="media-cap">' + esc(label(g.photo)) + "</p></div>",
+        text:
+          '<p class="eyebrow rv">Field guide, ' + (i + 1) + " of " + GUIDE.length + "</p>" +
+          '<h2 class="rv">' + esc(g.title) + "</h2>" +
+          g.tips.map(function (n) {
+            var t = TIPS[n];
+            return '<div class="tipblock rv"><h3>' + esc(t.title) + "</h3><p>" + esc(t.text) + "</p></div>";
+          }).join("")
+      });
+    });
+  }
+
+  function preparePage() {
     var packItems = (T.PACK_BASE || []).concat([
       { label: "A swimsuit." }, { label: "Flip-flops for wet decks." },
       { label: "An ice scraper for the car." }, { label: "A warm outfit for New Year's Eve." }
     ]);
-    var pack = '<article class="logi reveal"><h3>What to pack</h3><ul class="pack">' + packItems.map(function (p) { return "<li>" + esc(p.label) + "</li>"; }).join("") + "</ul></article>";
-    var book = '<article class="logi logi-wide reveal"><h3>Official booking pages</h3><p class="fine">Every flight, stay, and rental car. All are unbooked.</p><div class="book-list">' +
-      ["flight", "car"].concat(STAY_IDS).map(function (id) {
-        var it = ITEMS[id];
-        var b = (T.BOOKING || {})[id];
-        return '<div class="book-row"><div><p class="status ' + statusClass(it.status) + '">' + esc(it.status) + "</p><h4>" + esc(it.title) + "</h4>" +
-          (b ? '<p class="fine">' + esc(b.text) + "</p>" : "") + "</div>" + siteHtml(it.url, it.urlLabel) + "</div>";
-      }).join("") + "</div></article>";
-    el.innerHTML = plan + other + winter + pack + book;
+    addPage({
+      id: "prepare", label: "Before you go", chapter: "Before you go", layout: "split",
+      media: '<div class="media-img">' + imgTag("horses") + '<p class="media-cap">' + esc(label("horses")) + "</p></div>",
+      text:
+        '<p class="eyebrow rv">Before you go</p>' +
+        '<h2 class="rv">Winter conditions, and what to pack.</h2>' +
+        '<p class="lede rv">Sunrise is around 11:20 AM, and sunset is around 3:30 to 3:50 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves, so stay well up the beach.</p>' +
+        '<p class="road-links rv">' + (T.ROAD_LINKS || []).map(function (l) { return '<a class="link" href="' + esc(l.href) + '" target="_blank" rel="noopener">' + icon("external") + " " + esc(l.label) + "</a>"; }).join("") + "</p>" +
+        '<h3 class="rv">What to pack</h3>' +
+        '<ul class="pack rv">' + packItems.map(function (p) { return "<li>" + esc(p.label) + "</li>"; }).join("") + "</ul>"
+    });
   }
 
+  function numbersPage() {
+    var lines = [
+      ["Icelandair Saga Premium, FI670 and FI671", "$6,062"],
+      ["Dacia Duster 4x4, Blue Car Rental, 6 days", "$719"],
+      ["Golden Circle Domes, Dec 29", "$1,371"],
+      ["Glass Cottages, Cottage Blar, Dec 30", "$559"],
+      ["The Reykjavik EDITION, King Room, Dec 31 to Jan 3", "$4,023"],
+      ["The Retreat at Blue Lagoon, Lava View Junior Suite, Jan 3", "est. $2,484 (about 310,000 ISK)"],
+      ["Lodging, 6 nights", "$8,437"]
+    ];
+    addPage({
+      id: "numbers", label: "The numbers", chapter: "The numbers", layout: "text", cls: "page-numbers",
+      media: "",
+      text:
+        '<p class="eyebrow rv">The numbers</p>' +
+        '<h2 class="rv">What the week costs, all in one place.</h2>' +
+        '<p class="lede rv">Cash rates only. Full totals for 2 adults with 1 king or double bed everywhere, checked Nov 19, 2026. Meals, activities, and fuel are not included. Nothing is booked yet.</p>' +
+        '<dl class="ledger rv">' + lines.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") +
+        '<div class="ledger-total"><dt>Planned total for two</dt><dd>$15,218</dd></div></dl>' +
+        '<h3 class="rv">Other cash options</h3>' +
+        '<ul class="plain rv">' +
+          "<li>Icelandair Economy on the same flights is $4,138 for two, which brings the total to $13,294.</li>" +
+          "<li>A Land Rover Defender 110 is about $2,148 estimated for six days. With Saga Premium that is about $16,647, and with Economy about $14,723.</li>" +
+          "<li>Other EDITION King cash rates for the three nights: Superior King $4,283, standard Flexible Member $4,583, or Prepay Non-refundable $3,933 (lodging $8,347).</li>" +
+        "</ul>" +
+        '<p class="fine rv">Hot springs and dinners are not in the trip total.</p>'
+    });
+  }
+
+  function bookingPage() {
+    addPage({
+      id: "booking", label: "Booking pages", chapter: "Booking pages", layout: "split",
+      media: '<div class="media-img">' + imgTag("blue_lagoon") + '<p class="media-cap">' + esc(label("blue_lagoon")) + "</p></div>",
+      text:
+        '<p class="eyebrow rv">Booking pages</p>' +
+        '<h2 class="rv">Every flight, stay, and rental car, all still unbooked.</h2>' +
+        '<ul class="booklist rv">' + ["flight", "car"].concat(STAY_IDS).map(function (id) {
+          var it = ITEMS[id];
+          var b = (T.BOOKING || {})[id];
+          return "<li><p class=\"bk-status\"><span class=\"" + (it.status === "Book soon" ? "warn" : "") + "\">" + esc(it.status) + "</span></p>" +
+            "<h3>" + esc(it.title) + "</h3>" + (b ? fine(b.text) : "") + siteHtml(it.url, it.urlLabel) + "</li>";
+        }).join("") + "</ul>"
+    });
+  }
+
+  function endPage() {
+    addPage({
+      id: "end", label: "The end", chapter: "The end", layout: "full", cls: "page-end",
+      media: '<div class="media-img">' + imgTag("aurora_self") + "</div>",
+      text:
+        '<p class="eyebrow rv">Dec 28, 2026 to Jan 4, 2027</p>' +
+        '<h2 class="rv">Have a wonderful week.</h2>' +
+        '<p class="lede rv">Cash totals for two adults, checked Nov 19, 2026. Nothing is booked yet.</p>' +
+        '<p class="fine rv">Photos are of the actual places, from the hotels\' and restaurants\' own sites and Wikimedia Commons. Full credits are in the project README. Live weather from Open-Meteo. Map data &copy; OpenStreetMap contributors.</p>' +
+        '<button type="button" class="begin rv" data-go="cover">' + icon("left") + " Back to the first page</button>"
+    });
+  }
+
+  function buildPages() {
+    coverPage();
+    weekPage();
+    daylightPage();
+    DAYS.forEach(function (day) {
+      dayOpener(day);
+      day.stops.forEach(function (id) { stopPage(day, id); });
+    });
+    mapPage();
+    guidePages();
+    preparePage();
+    numbersPage();
+    bookingPage();
+    endPage();
+    PAGES.forEach(function (p, i) { p.index = i; p.theme = i % 2 === 0 ? "dark" : "light"; });
+  }
+
+  function renderBook() {
+    var book = document.getElementById("book");
+    book.innerHTML = PAGES.map(function (p) {
+      return '<section class="page layout-' + p.layout + " theme-" + p.theme + (p.cls ? " " + p.cls : "") + (p.index % 4 === 3 ? " side-right" : "") +
+        '" id="p-' + p.id + '" data-id="' + p.id + '"' + (p.day ? ' data-day="' + p.day + '"' : "") + (p.opener ? ' data-opener="1"' : "") +
+        ' aria-roledescription="page" aria-label="' + esc((p.index + 1) + " of " + PAGES.length + ": " + p.label) + '" hidden>' +
+        (p.media ? '<div class="media">' + p.media + "</div>" : "") +
+        '<div class="shade" aria-hidden="true"></div>' +
+        '<div class="scroller"><div class="spacer" aria-hidden="true"></div><div class="text">' + p.text + "</div></div>" +
+        '<div class="dim" aria-hidden="true"></div>' +
+        "</section>";
+    }).join("");
+  }
+
+  function renderContents() {
+    var el = document.getElementById("contentsList");
+    function item(id, a, b) {
+      return '<li><button type="button" data-go="' + id + '"><span class="c-a">' + a + '</span><span class="c-b">' + esc(b) + "</span></button></li>";
+    }
+    var html = '<div class="c-group"><p class="c-head">Start</p><ul>' +
+      item("cover", "Cover", "Countdown and live weather") + item("week", "The week", "All eight days") + item("daylight", "Daylight", "About four hours of sun") + "</ul></div>";
+    html += '<div class="c-group c-days"><p class="c-head">Day by day</p><ul>' + DAYS.map(function (d) {
+      return item("day-" + d.id, esc(d.weekday.slice(0, 3)) + ", " + esc(d.date), d.title);
+    }).join("") + "</ul></div>";
+    html += '<div class="c-group"><p class="c-head">After the days</p><ul>' +
+      item("route", "The route", "Map and Apple Maps driving") + item("guide-1", "Field guide", "Bonfires, wind, kitchens, lagoons") +
+      item("prepare", "Before you go", "Roads and packing") + item("numbers", "The numbers", "Cash totals for two") +
+      item("booking", "Booking pages", "Official sites") + "</ul></div>";
+    el.innerHTML = html;
+  }
   /* ---------- lightbox ---------- */
   var LB = { gallery: null, index: 0, open: false, lastFocus: null };
   function lbEls() {
@@ -644,26 +728,6 @@
       else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) lbClose();
     });
   }
-
-  /* ---------- filmstrip drag to scroll (mouse) ---------- */
-  function bindFilmstrips() {
-    document.querySelectorAll(".filmstrip").forEach(function (strip) {
-      var down = false, startX = 0, startLeft = 0, moved = false;
-      strip.addEventListener("pointerdown", function (e) {
-        if (e.pointerType !== "mouse") return;
-        down = true; moved = false; startX = e.clientX; startLeft = strip.scrollLeft;
-      });
-      window.addEventListener("pointermove", function (e) {
-        if (!down) return;
-        var dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) { moved = true; strip.classList.add("is-dragging"); }
-        strip.scrollLeft = startLeft - dx;
-      });
-      window.addEventListener("pointerup", function () { down = false; setTimeout(function () { strip.classList.remove("is-dragging"); }, 0); });
-      strip.addEventListener("click", function (e) { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
-    });
-  }
-
   /* ---------- map ---------- */
   var routes = null, map = null, legLayers = {}, mapActive = false;
   var MAP_PLACES = ["kef", "reykjabod", "selfoss", "froken", "domes", "kerid", "glass_cottages", "midgard", "edition", "retreat"];
@@ -714,7 +778,7 @@
         var f = byId[id];
         if (!f || !f.geometry) return;
         var ll = f.geometry.coordinates.map(function (c) { return [c[1], c[0]]; });
-        legLayers[id] = L.polyline(ll, { color: "#7dffa8", weight: 3, opacity: 0.85, className: "leg" }).addTo(map);
+        legLayers[id] = L.polyline(ll, { color: "#e8873a", weight: 3, opacity: 0.85, className: "leg" }).addTo(map);
       });
       styleLegs("all");
     });
@@ -727,8 +791,8 @@
     DAY_FOCUS.all.legs.forEach(function (id) { baseOn[id] = true; });
     Object.keys(legLayers).forEach(function (id) {
       var lyr = legLayers[id];
-      if (focus === "all") lyr.setStyle({ opacity: baseOn[id] ? 0.9 : 0, weight: 3, color: "#7dffa8" });
-      else lyr.setStyle({ opacity: on[id] ? 1 : (baseOn[id] ? 0.22 : 0), weight: on[id] ? 5 : 3, color: on[id] ? "#a6ffc4" : "#7dffa8" });
+      if (focus === "all") lyr.setStyle({ opacity: baseOn[id] ? 0.9 : 0, weight: 3, color: "#e8873a" });
+      else lyr.setStyle({ opacity: on[id] ? 1 : (baseOn[id] ? 0.22 : 0), weight: on[id] ? 5 : 3, color: on[id] ? "#d9661f" : "#e8873a" });
       if (on[id] && focus !== "all") lyr.bringToFront();
     });
   }
@@ -747,7 +811,7 @@
     });
     moveChipPill(true);
     var route = document.getElementById("fullRouteLink");
-    if (route) route.innerHTML = focus === "all" ? appleRouteHtml("full") : appleRouteHtml(focus);
+    if (route) route.innerHTML = focus === "all" ? appleRouteHtml("full", "btn-primary") : appleRouteHtml(focus, "btn-primary");
   }
   function moveChipPill(animated) {
     var pill = document.getElementById("chipPill");
@@ -784,9 +848,8 @@
       var fd = e.target.closest("[data-focus-day]");
       if (fd) {
         var id = fd.getAttribute("data-focus-day");
-        var sec = document.getElementById("map");
-        if (sec) sec.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-        setTimeout(function () { focusDay(id); }, 650);
+        if (map && PAGES[NAV.index].id === "route") focusDay(id);
+        else { NAV.pendingFocus = id; go("route"); }
         return;
       }
       if (e.target.closest("#mapActivate")) setMapActive(true);
@@ -795,7 +858,6 @@
       if (mapActive && !e.target.closest("#mapFrame") && !e.target.closest("#mapChips")) setMapActive(false);
     });
   }
-
   /* ---------- countdown and weather ---------- */
   function renderCountdown() {
     var el = document.getElementById("countdown");
@@ -839,77 +901,276 @@
     });
   }
 
-  /* ---------- active day in the rail ---------- */
-  function bindRail() {
-    var links = {};
-    document.querySelectorAll("[data-rail]").forEach(function (a) { links[a.getAttribute("data-rail")] = a; });
-    var chapters = Array.prototype.slice.call(document.querySelectorAll(".chapter"));
-    var current = null, ticking = false;
-    function update() {
-      ticking = false;
-      var line = window.innerHeight * 0.42, id = null;
-      chapters.forEach(function (c) { if (c.getBoundingClientRect().top <= line) id = c.getAttribute("data-day"); });
-      if (!id) id = chapters.length ? chapters[0].getAttribute("data-day") : null;
-      if (!id || id === current) return;
-      current = id;
-      Object.keys(links).forEach(function (k) { links[k].classList.toggle("is-on", k === id); });
-      if (window.TripFX && window.TripFX.railTo) window.TripFX.railTo(links[id]);
-      else moveRailPill(links[id]);
-    }
-    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    window.addEventListener("resize", function () { current = null; update(); });
-    update();
+
+  /* ---------- the book: one page at a time ---------- */
+  var NAV = { index: 0, busy: false, els: [], suppressClick: false };
+  function reduceMotion() { return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }
+
+  function hydrate(i) {
+    var el = NAV.els[i];
+    if (!el || el._hydrated) return;
+    el._hydrated = true;
+    el.querySelectorAll("img[data-src]").forEach(function (img) {
+      img.src = img.getAttribute("data-src");
+      img.removeAttribute("data-src");
+    });
   }
-  function moveRailPill(link) {
-    var pill = document.getElementById("railPill");
-    if (!pill || !link) return;
-    pill.style.width = link.offsetWidth + "px";
-    pill.style.transform = "translateX(" + link.offsetLeft + "px)";
-    var rail = link.parentElement.parentElement;
-    if (rail && rail.scrollTo) rail.scrollTo({ left: link.offsetLeft - rail.clientWidth / 2 + link.offsetWidth / 2, behavior: "smooth" });
+  function indexOfId(id) {
+    for (var i = 0; i < PAGES.length; i++) if (PAGES[i].id === id) return i;
+    return -1;
+  }
+  function chromeFor(i) {
+    var p = PAGES[i];
+    document.body.setAttribute("data-theme", p.theme);
+    document.getElementById("chapterLabel").textContent = p.chapter;
+    document.getElementById("pageCount").textContent = (i + 1) + " / " + PAGES.length;
+    document.getElementById("prevBtn").disabled = i === 0;
+    document.getElementById("nextBtn").disabled = i === PAGES.length - 1;
+    var fill = document.getElementById("progressFill");
+    var to = "scaleX(" + ((i + 1) / PAGES.length) + ")";
+    if (window.TripFX && window.TripFX.progress) window.TripFX.progress(fill, (i + 1) / PAGES.length); else fill.style.transform = to;
+    sides(p);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", p.theme === "dark" ? "#0b1120" : "#f3eadc");
   }
 
-  function bindMenu() {
-    var btn = document.getElementById("menuBtn"), menu = document.getElementById("menu");
-    if (!btn || !menu) return;
-    function set(open) {
-      btn.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) {
-        menu.hidden = false;
-        if (window.TripFX && window.TripFX.menuIn) window.TripFX.menuIn(menu);
-      } else if (!menu.hidden) {
-        if (window.TripFX && window.TripFX.menuOut) window.TripFX.menuOut(menu, function () { menu.hidden = true; });
-        else menu.hidden = true;
-      }
+  /* what sits under each corner of the header and footer, so the controls stay readable over photos */
+  function sides(p) {
+    p = p || PAGES[NAV.index];
+    if (!p) return;
+    var phone = window.innerWidth < 600;
+    var stackFull = phone || (window.innerWidth <= 900 && window.innerHeight > window.innerWidth);
+    var el = NAV.els[p.index];
+    var right = el && el.classList.contains("side-right");
+    var tl = "text", tr = "text", bl = "text", br = "text";
+    if (p.layout === "split") {
+      if (phone) { tl = tr = "photo"; }
+      else if (right) { tr = br = "photo"; }
+      else { tl = bl = "photo"; }
+    } else if (p.layout === "full") {
+      tr = "photo";
+      if (stackFull) tl = "photo"; else br = "photo";
+      if (p.cls) { tl = tr = "photo"; br = stackFull ? "text" : "photo"; }
+    } else if (p.layout === "map") {
+      if (phone) { tl = tr = "map"; }
+      else { tr = br = "map"; }
     }
-    btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
-    menu.addEventListener("click", function (e) { if (e.target.closest("[data-menu-close]")) set(false); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+    var b = document.body;
+    b.setAttribute("data-tl", tl); b.setAttribute("data-tr", tr); b.setAttribute("data-bl", bl); b.setAttribute("data-br", br);
+  }
+
+  function show(i, dir, fromPx) {
+    i = Math.max(0, Math.min(PAGES.length - 1, i));
+    var fx = window.TripFX;
+    if (NAV.busy && fx && fx.finish) fx.finish();
+    var prev = NAV.els[NAV.index];
+    var next = NAV.els[i];
+    if (i === NAV.index && !next.hidden) { if (fx && fx.settle) fx.settle(next); return; }
+    hydrate(i); hydrate(i + 1); hydrate(i - 1);
+    var oldIndex = NAV.index;
+    NAV.index = i;
+    next.hidden = false;
+    next.scrollTop = 0;
+    var sc = next.querySelector(".scroller"); if (sc) sc.scrollTop = 0;
+    chromeFor(i);
+    try { history.replaceState(null, "", "#" + PAGES[i].id); } catch (e) {}
+    var finish = function () {
+      NAV.busy = false;
+      NAV.els.forEach(function (el, k) {
+        if (k !== NAV.index) { el.hidden = true; el.classList.remove("is-current"); }
+      });
+      next.classList.add("is-current");
+      afterShow(i);
+    };
+    if (prev && prev !== next && fx && fx.turn && !reduceMotion()) {
+      NAV.busy = true;
+      fx.turn(prev, next, dir || (i > oldIndex ? 1 : -1), fromPx || 0, finish);
+    } else {
+      if (prev && prev !== next) { prev.style.transform = ""; }
+      finish();
+    }
+  }
+  function afterShow(i) {
+    var p = PAGES[i];
+    var el = NAV.els[i];
+    if (p.id === "route") {
+      if (!map) initMap();
+      setTimeout(function () { try { map && map.invalidateSize(); moveChipPill(false); } catch (e) {} }, 60);
+      if (NAV.pendingFocus) { var f = NAV.pendingFocus; NAV.pendingFocus = null; setTimeout(function () { focusDay(f); }, 120); }
+    } else if (mapActive) setMapActive(false);
+    var h = el.querySelector("h1, h2");
+    if (NAV.focusHeading && h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+    NAV.focusHeading = false;
+  }
+  function go(id) { var i = indexOfId(id); if (i >= 0) show(i); }
+  function step(d, fromPx) { var i = NAV.index + d; if (i < 0 || i >= PAGES.length) { if (window.TripFX && window.TripFX.settle) window.TripFX.settle(NAV.els[NAV.index]); return; } show(i, d, fromPx); }
+
+  function currentScroller() { return NAV.els[NAV.index] && NAV.els[NAV.index].querySelector(".scroller"); }
+  function canScroll(dir) {
+    var s = currentScroller();
+    if (!s) return false;
+    if (dir > 0) return s.scrollTop + s.clientHeight < s.scrollHeight - 2;
+    return s.scrollTop > 2;
+  }
+  function overlayOpen() { return LB.open || !document.getElementById("contents").hidden; }
+
+  function bindKeys() {
+    document.addEventListener("keydown", function (e) {
+      if (overlayOpen() || e.defaultPrevented) return;
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      var tag = (e.target && e.target.tagName) || "";
+      if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+      if (e.target.closest && e.target.closest(".leaflet-container")) return;
+      var k = e.key;
+      if (k === "ArrowRight" || k === "PageDown") { e.preventDefault(); step(1); }
+      else if (k === "ArrowLeft" || k === "PageUp") { e.preventDefault(); step(-1); }
+      else if (k === " " || k === "ArrowDown") { if (!canScroll(1)) { e.preventDefault(); if (k === " " && e.shiftKey) step(-1); else step(1); } }
+      else if (k === "ArrowUp") { if (!canScroll(-1)) { e.preventDefault(); step(-1); } }
+      else if (k === "Home") { e.preventDefault(); show(0, -1); }
+      else if (k === "End") { e.preventDefault(); show(PAGES.length - 1, 1); }
+    });
+  }
+
+  function bindWheel() {
+    var acc = 0, lockUntil = 0, quietTimer = null, locked = false;
+    document.getElementById("book").addEventListener("wheel", function (e) {
+      if (overlayOpen()) return;
+      if (e.target.closest && e.target.closest(".leaflet-container") && mapActive) return;
+      var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      var dir = d > 0 ? 1 : -1;
+      if (Math.abs(e.deltaY) >= Math.abs(e.deltaX) && canScroll(dir)) { acc = 0; return; }
+      e.preventDefault();
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(function () { locked = false; acc = 0; }, 220);
+      if (locked || Date.now() < lockUntil) return;
+      acc += d;
+      if (Math.abs(acc) > 40) { locked = true; lockUntil = Date.now() + 650; acc = 0; step(dir); }
+    }, { passive: false });
+  }
+
+  function bindSwipe() {
+    var book = document.getElementById("book");
+    var s = null;
+    book.addEventListener("pointerdown", function (e) {
+      if (overlayOpen() || NAV.busy) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (mapActive && e.target.closest(".map-frame")) return;
+      if (e.target.closest(".thumbs")) return;
+      s = { x: e.clientX, y: e.clientY, t: Date.now(), id: e.pointerId, dragging: false, dx: 0 };
+    });
+    book.addEventListener("pointermove", function (e) {
+      if (!s || e.pointerId !== s.id) return;
+      var dx = e.clientX - s.x, dy = e.clientY - s.y;
+      if (!s.dragging) {
+        if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) s.dragging = true;
+        else if (Math.abs(dy) > 12) { s = null; return; }
+        else return;
+      }
+      s.dx = dx;
+      var edge = (dx > 0 && NAV.index === 0) || (dx < 0 && NAV.index === PAGES.length - 1);
+      var shift = edge ? dx * 0.15 : dx * 0.45;
+      NAV.els[NAV.index].style.transform = "translate3d(" + shift + "px,0,0)";
+    });
+    function end(e) {
+      if (!s || (e && e.pointerId !== s.id)) return;
+      var st = s; s = null;
+      if (!st.dragging) return;
+      NAV.suppressClick = true;
+      setTimeout(function () { NAV.suppressClick = false; }, 60);
+      var v = Math.abs(st.dx) / Math.max(1, Date.now() - st.t);
+      var shift = parseFloat((NAV.els[NAV.index].style.transform.match(/-?[\d.]+/) || [0])[0]) || 0;
+      if (Math.abs(st.dx) > 70 || (v > 0.45 && Math.abs(st.dx) > 24)) step(st.dx < 0 ? 1 : -1, shift);
+      else if (window.TripFX && window.TripFX.settle && !reduceMotion()) window.TripFX.settle(NAV.els[NAV.index]);
+      else NAV.els[NAV.index].style.transform = "";
+    }
+    book.addEventListener("pointerup", end);
+    book.addEventListener("pointercancel", function (e) {
+      if (!s || e.pointerId !== s.id) return;
+      s = null;
+      NAV.els[NAV.index].style.transform = "";
+    });
+    document.addEventListener("click", function (e) {
+      if (NAV.suppressClick) { e.preventDefault(); e.stopPropagation(); NAV.suppressClick = false; }
+    }, true);
+  }
+
+  function bindButtons() {
+    document.getElementById("prevBtn").addEventListener("click", function () { step(-1); });
+    document.getElementById("nextBtn").addEventListener("click", function () { step(1); });
+    document.addEventListener("click", function (e) {
+      var g = e.target.closest("[data-go]");
+      if (g) { e.preventDefault(); closeContents(true); NAV.focusHeading = true; go(g.getAttribute("data-go")); return; }
+      var t = e.target.closest("[data-turn]");
+      if (t) { step(t.getAttribute("data-turn") === "prev" ? -1 : 1); }
+    });
+    window.addEventListener("hashchange", function () {
+      var id = location.hash.replace(/^#/, "");
+      var i = indexOfId(id);
+      if (i >= 0 && i !== NAV.index) show(i);
+    });
+  }
+
+  /* ---------- contents ---------- */
+  function openContents() {
+    var c = document.getElementById("contents"), btn = document.getElementById("contentsBtn");
+    c.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    var cur = PAGES[NAV.index];
+    c.querySelectorAll("[data-go]").forEach(function (b) {
+      var id = b.getAttribute("data-go");
+      var on = id === cur.id || (cur.day && id === "day-" + cur.day) || (cur.id.indexOf("guide-") === 0 && id === "guide-1");
+      b.classList.toggle("is-on", !!on);
+      if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+    if (window.TripFX && window.TripFX.menuIn) window.TripFX.menuIn(c);
+    var first = c.querySelector(".is-on") || c.querySelector("[data-go]");
+    if (first) first.focus({ preventScroll: true });
+  }
+  function closeContents(instant) {
+    var c = document.getElementById("contents"), btn = document.getElementById("contentsBtn");
+    if (c.hidden) return;
+    btn.setAttribute("aria-expanded", "false");
+    if (!instant && window.TripFX && window.TripFX.menuOut) window.TripFX.menuOut(c, function () { c.hidden = true; });
+    else c.hidden = true;
+    if (!instant) btn.focus({ preventScroll: true });
+  }
+  function bindContents() {
+    document.getElementById("contentsBtn").addEventListener("click", function () {
+      if (document.getElementById("contents").hidden) openContents(); else closeContents();
+    });
+    document.getElementById("contentsClose").addEventListener("click", function () { closeContents(); });
+    document.getElementById("contents").addEventListener("click", function (e) { if (e.target.id === "contents") closeContents(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !document.getElementById("contents").hidden) closeContents();
+    });
   }
 
   function init() {
-    renderStays();
-    renderDaylight();
-    renderDayRail();
-    renderDays();
-    renderTips();
-    renderSprings();
-    renderLogistics();
+    buildPages();
+    renderBook();
+    renderContents();
+    NAV.els = Array.prototype.slice.call(document.querySelectorAll("#book .page"));
     renderMapChips();
+    var fr = document.getElementById("fullRouteLink");
+    if (fr) fr.innerHTML = appleRouteHtml("full", "btn-primary");
     bindLightbox();
-    bindFilmstrips();
     bindMap();
-    bindRail();
-    bindMenu();
+    bindKeys();
+    bindWheel();
+    bindSwipe();
+    bindButtons();
+    bindContents();
+    var start = indexOfId(location.hash.replace(/^#/, ""));
+    NAV.index = start >= 0 ? start : 0;
+    show(NAV.index);
     if (renderCountdown()) setInterval(renderCountdown, 1000);
     loadWeather();
-    initMap();
-    moveChipPill(false);
-    window.addEventListener("resize", function () { moveChipPill(false); });
+    window.addEventListener("resize", function () { sides(); moveChipPill(false); if (map) try { map.invalidateSize(); } catch (e) {} });
     document.documentElement.classList.add("is-ready");
+    if (window.TripFX && window.TripFX.intro && !reduceMotion()) window.TripFX.intro(NAV.els[NAV.index]);
   }
 
-  window.TripGuide = { focusDay: focusDay, moveRailPill: moveRailPill, GALLERIES: GALLERIES, PLAN_TOTAL: PLAN_TOTAL, appleDirectionsUrl: appleDirectionsUrl };
+  window.TripGuide = { go: go, step: step, focusDay: focusDay, pages: function () { return PAGES.map(function (p) { return p.id; }); }, index: function () { return NAV.index; }, GALLERIES: GALLERIES, appleDirectionsUrl: appleDirectionsUrl };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })();

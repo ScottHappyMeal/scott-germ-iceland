@@ -4,15 +4,15 @@ A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026
 
 Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-The page is a full-screen winter field guide: a live hero with a departure countdown and Reykjavik weather, the unsplit $15,218 cash total for two with the four stays, a winter daylight chart, eight day chapters with photo galleries of every stop and per-day "Drive in Apple Maps" buttons, an interactive route map that flies to each day, insider tips, hot springs prices for two, and logistics.
+The page is a full-screen winter guide you page through like a book, one scene per page. Swipe on a phone, or use the arrow keys, and the Contents button jumps to any day. Pages alternate between warm low-sun light scenes and night scenes, with big photos of every stop. It has a cover with a departure countdown and live Reykjavik weather, the week at a glance, a winter daylight chart, an opening page for each of the eight days with times, drives and a "Drive in Apple Maps" button, a page for every stop with its photo gallery, an interactive route map that flies to each day, a field guide, packing notes, a calm summary of the $15,218 cash total for two, and the official booking pages. It is designed phone-first, and on a wide or unfolded screen each page becomes a two-page spread.
 
 It is a static site with no build step. GitHub Pages serves it straight from `main`.
 
 ## Libraries and fonts (self-hosted)
 
-- Motion 12.23.24 (motion.dev), MIT, in `vendor/motion-12.23.24.min.js`. Drives the scroll-linked parallax, progress bar, reveals, spring gallery and lightbox transitions. Everything animates `transform` and `opacity` only, and nothing moves when `prefers-reduced-motion` is set.
+- Motion 12.23.24 (motion.dev), MIT, in `vendor/motion-12.23.24.min.js`. Drives the page turns, the words arriving on each page, the progress line, the contents menu and the photo viewer. Everything animates `transform` and `opacity` only, and nothing moves when `prefers-reduced-motion` is set.
 - Leaflet 1.9.4, BSD-2-Clause, in `vendor/leaflet/`. Map tiles from OpenStreetMap.
-- Fraunces and Inter variable fonts, SIL Open Font License, in `fonts/` (from Fontsource).
+- Jost and Inter variable fonts, SIL Open Font License, in `fonts/` (from Fontsource).
 - Live weather from Open-Meteo.
 
 Small preview copies of every photo live in `images/thumbs/` (640 px wide). The full photos in `images/` are used for heroes and the photo viewer.
