@@ -1096,7 +1096,22 @@
   function loadWeather() {
     var t = document.getElementById("wxTemp"), w = document.getElementById("wxWind"), s = document.getElementById("wxSub");
     if (!t) return;
-    fetch(T.WEATHER_URL).then(function (r) { if (!r.ok) throw new Error("wx"); return r.json(); }).then(function (data) {
+    var tries = 0;
+    function get() {
+      tries++;
+      var ctl = window.AbortController ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 8000);
+      var url = T.WEATHER_URL + "&_=" + Math.floor(Date.now() / 300000);
+      return fetch(url, ctl ? { signal: ctl.signal, cache: "no-store" } : { cache: "no-store" }).then(function (r) {
+        clearTimeout(timer); if (!r.ok) throw new Error("wx"); return r.json();
+      }).catch(function (e) {
+        clearTimeout(timer);
+        if (tries < 3) return new Promise(function (res) { setTimeout(res, 1500 * tries); }).then(get);
+        throw e;
+      });
+    }
+    get().then(function (data) {
+      if (!data || !data.current) throw new Error("wx");
       var cur = data.current || {}, day = data.daily || {};
       var c = Math.round(cur.temperature_2m), f = Math.round(cur.temperature_2m * 9 / 5 + 32);
       t.textContent = c + " C";
@@ -1389,6 +1404,8 @@
     show(NAV.index);
     if (renderCountdown()) setInterval(renderCountdown, 1000);
     loadWeather();
+    setInterval(loadWeather, 15 * 60 * 1000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) loadWeather(); });
     window.addEventListener("resize", function () { sides(); moveChipPill(false); if (map) try { map.invalidateSize(); } catch (e) {} });
     document.documentElement.classList.add("is-ready");
     if (window.TripFX && window.TripFX.intro && !reduceMotion()) window.TripFX.intro(NAV.els[NAV.index]);
