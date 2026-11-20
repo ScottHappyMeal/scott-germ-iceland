@@ -1,10 +1,10 @@
 # Scott & Jerm's Iceland
 
-A static trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 4, 2027.
+A static day-by-day trip page for a late-December visit to Iceland, Dec 28, 2026 to Jan 4, 2027.
 
 Headline lodging, flight, and car prices are verified cash totals for two adults as of Nov 19, 2026, except the Retreat suite and the Defender 110, which are estimates. The Retreat estimate uses 124.785 ISK per USD. This is not a booking confirmation. Nothing is booked yet.
 
-Picking is one card at a time, with I'm in and Pass. Choose who is using the phone, Scott or Jerm. Picks save to a shared trip record, so each person sees the other's picks on any phone, with no links to send and no login. An item locks when you both say yes to the same option. Different choices go to Negotiate on the Compare tab.
+The page is a single scrolling itinerary: an overview with the unsplit cash total, flights, the 4WD SUV, and the four stays; an interactive map with an Apple Maps driving link from Keflavik to The Retreat at Blue Lagoon; day-by-day cards from Dec 28 to Jan 4; and a logistics reference for other cash options, hot springs prices for two, packing, and official booking pages.
 
 ## Photo credits
 
@@ -58,3 +58,5 @@ UI icons are Lucide, vendored in `icons/` under the ISC License.
 - Mjolkurbuid / The Old Dairy, Selfoss: official, mjolkurbuid.is (Mikael Lundblad).
 - Reykjabod Hot Springs: official, reykjabod.is, the bathhouse.
 - Sandholt: official bakery photo, sandholt.is.
+- Froken Selfoss: official dining-room photo, frokenselfoss.is.
+- Midgard Restaurant: dining-room photo via Visit South Iceland / Midgard Base Camp.

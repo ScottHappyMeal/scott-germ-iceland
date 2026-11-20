@@ -30,12 +30,14 @@ window.ICELAND_TRIP = (function () {
     sandholt: { lat: 64.1459, lon: -21.9288, name: "Sandholt bakery", photo: "sandholt", url: "https://sandholt.is/en/", urlLabel: "Website", maps: "Sandholt Laugavegur Reykjavik" },
     lava_tunnel: { lat: 63.9397, lon: -21.3967, name: "Raufarholshellir Lava Tunnel", photo: "lava_tunnel", url: "https://www.iceland.org/caves/raufarholshellir", urlLabel: "Book it", maps: "Raufarholshellir Lava Tunnel" },
     almar: { lat: 64.0003, lon: -21.1833, name: "Almar Bakari, Hveragerdi", photo: "sandholt", url: "https://sandholt.is/en/", urlLabel: "Website", maps: "Almar Bakari Hveragerdi" },
-    reykjabod: { lat: 64.0476, lon: -21.2220, name: "Reykjabod Hot Springs", photo: "reykjabod", url: "https://reykjabod.is/", urlLabel: "Website", maps: "Reykjabod Hot Springs Hveragerdi" },
+    reykjabod: { lat: 64.022922, lon: -21.211112, name: "Reykjabod Hot Springs", photo: "reykjabod", url: "https://reykjabod.is/", urlLabel: "Website", maps: "Reykjabod Hot Springs Arholmar Hveragerdi" },
     selfoss: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
     mjolkurbuid: { lat: 63.9371, lon: -21.0041, name: "Mjolkurbuid Food Hall, Selfoss", photo: "mjolkurbuid", url: "https://mjolkurbuid.is/en", urlLabel: "Website", maps: "Mjolkurbuid Food Hall Selfoss" },
     domes: { lat: 64.0279, lon: -20.9285, name: "Golden Circle Domes", photo: "domes", url: "https://property.godo.is/booking2.php?propid=175431&cur=USD", urlLabel: "Book it", maps: "Golden Circle Domes Thrastalundur Selfoss" },
     kerid: { lat: 64.0413, lon: -20.8851, name: "Kerid crater", photo: "kerid", url: "https://www.keridcratericeland.is/en/visiting-hours", urlLabel: "Website", maps: "Kerid crater Iceland" },
     glass_cottages: { lat: 63.8340, lon: -20.3910, name: "Glass Cottages, Cottage Blar", photo: "glass_cottages", url: "https://glasscottages.com/", urlLabel: "Book it", maps: "Glass Cottages Klettamork Hella" },
+    froken: { lat: 63.936664, lon: -21.003740, name: "Froken Selfoss", photo: "froken", url: "https://www.frokenselfoss.is/en", urlLabel: "Website", maps: "Froken Selfoss Bruarstraeti" },
+    midgard: { lat: 63.745736, lon: -20.227928, name: "Midgard Restaurant, Hvolsvollur", photo: "midgard", url: "https://midgardbasecamp.is/midgard-base-camp-restaurant/", urlLabel: "Website", maps: "Midgard Restaurant Hvolsvollur" },
     dill: { lat: 64.1456, lon: -21.9274, name: "Dill", photo: "dill", url: "https://dillrestaurant.is/", urlLabel: "Book it", maps: "Dill Reykjavik" },
     grillmarkadurinn: { lat: 64.1468, lon: -21.9358, name: "Grillmarkadurinn", photo: "grillmarkadurinn", url: "https://www.grillmarkadurinn.is/", urlLabel: "Book it", maps: "Grillmarkadurinn Reykjavik" },
     kolaportid: { lat: 64.1487, lon: -21.9378, name: "Kolaportid", photo: "kolaportid", url: "https://www.kolaportid.is/", urlLabel: "Website", maps: "Kolaportid Reykjavik" },
@@ -157,10 +159,12 @@ window.ICELAND_TRIP = (function () {
     lava_tunnel: 9 * 60,
     reykjabod: 11 * 60,
     sky_lagoon: 11 * 60,
-    mjolkurbuid: 12 * 60,
-    kerid: 14 * 60,
+    mjolkurbuid: 13 * 60 + 30,
+    froken: 19 * 60,
+    kerid: 11 * 60,
+    midgard: 18 * 60 + 30,
     "stay-domes": 15 * 60,
-    "stay-glass": 16 * 60
+    "stay-glass": 15 * 60
   };
 
   var BAR_LABELS = {
@@ -198,8 +202,10 @@ window.ICELAND_TRIP = (function () {
     sandholt: "Breakfast",
     lava_tunnel: "Lava tunnel",
     reykjabod: "Reykjabod",
-    mjolkurbuid: "Food hall",
+    mjolkurbuid: "Groceries",
+    froken: "Froken",
     kerid: "Kerid",
+    midgard: "Midgard",
     "stay-domes": "Check-in",
     "stay-glass": "Glass Cottages",
     drive: "Drive"
@@ -236,6 +242,8 @@ window.ICELAND_TRIP = (function () {
     lava_tunnel: "lava_tunnel",
     reykjabod: "reykjabod",
     mjolkurbuid: "selfoss",
+    froken: "froken",
+    midgard: "midgard",
     kerid: "kerid",
     "sky-cabin:pano-standard": "panorama",
     "sky-cabin:pano-premium": "panorama",
@@ -274,8 +282,8 @@ window.ICELAND_TRIP = (function () {
 
   var DAY_STOP_ORDER = {
     dec28: ["flight"],
-    dec29: ["flight", "sandholt", "lava_tunnel", "reykjabod", "sky_lagoon", "mjolkurbuid", "kerid", "stay-domes"],
-    dec30: ["stay-glass", "kerid", "golden_circle", "fridheimar", "south_coast", "nl_guided", "nl_self"],
+    dec29: ["flight", "reykjabod", "mjolkurbuid", "stay-domes", "froken"],
+    dec30: ["stay-domes", "kerid", "stay-glass", "midgard", "golden_circle", "fridheimar", "south_coast", "nl_guided", "nl_self"],
     dec31: ["stay-edition", "nye_dinner", "dill", "grillmarkadurinn", "aramotaskaup", "nye_bonfire", "nye_fireworks", "harpa_walk", "grotta"],
     jan1: ["stay-edition", "horses", "golden_circle", "silfra", "fridheimar", "fontana", "hvammsvik", "tides"],
     jan2: ["stay-edition", "south_coast", "kolaportid", "wool_shops", "shopping_downtown"],
@@ -285,11 +293,11 @@ window.ICELAND_TRIP = (function () {
 
   var DAY_ROADS = {
     dec28: { drive: "", risk: "No driving in Iceland today. The departure is from Denver at 3:40 PM MT." },
-    dec29: { drive: "Keflavik to the Golden Circle Domes is about 105 km and 1 hr 38 min, approx, if you drive straight. The planned stops add time: Sandholt is about 51 min from the airport, the lava tunnel is about 40 min from Sandholt, and Kerid is about 5 min from the domes.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. There is no front desk at the domes, so plan to arrive at or after 3:00 PM." },
-    dec30: { drive: "The domes to Glass Cottages, near Hella, is about 50 km and 47 min, approx. Seljalandsfoss is about 34 km and 31 min farther if you continue along the South Coast.", risk: "Hellisheidi and the south coast roads can ice over. Check umferdin.is before you leave." },
+    dec29: { drive: "Keflavik to Reykjabod Hot Springs is about 88 km and 1 hr 24 min, approx. Reykjabod to Selfoss is about 17 km and 18 min, and Selfoss to the domes is about 13 km and 14 min. A straight drive to the domes is about 105 km and 1 hr 38 min.", risk: "Reykjanesbraut and Hellisheidi can glaze over. Take it slow after an overnight flight. Reykjabod opens at 10:00 AM on Tuesday. There is no front desk at the domes, so plan to arrive at or after 3:00 PM." },
+    dec30: { drive: "The domes to Kerid crater is about 4 km and 5 min, approx. Kerid to Glass Cottages, near Hella, is about 52 km and 48 min. Midgard Restaurant in Hvolsvollur is about 13 km and 13 min from the cottages.", risk: "South coast roads can ice over. Check umferdin.is before you leave." },
     dec31: { drive: "Glass Cottages to The Reykjavik EDITION is about 96 km and 1 hr 30 min, approx.", risk: "Downtown will be busy on New Year's Eve. Leave the car parked after you check in." },
-    jan1: { drive: "The Golden Circle loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a horse ride or a hot spring.", risk: "Watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
-    jan2: { drive: "The South Coast out and back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. If you keep going east, watch the wind between Vik and Jokulsarlon." },
+    jan1: { drive: "A loose day in Reykjavik from the EDITION. If you want a Golden Circle drive, the loop is about 282 km and 4 hrs 41 min of driving, approx, before you add a stop.", risk: "If you do drive, watch Mosfellsheidi and Lyngdalsheidi if the wind picks up." },
+    jan2: { drive: "Another flexible day from the EDITION. If you want the South Coast, the out-and-back from Reykjavik is about 394 km and 6 hrs 7 min of driving, approx.", risk: "Hellisheidi and Threngsli ice over first. Only go if the forecast is friendly." },
     jan3: { drive: "The EDITION to The Retreat at Blue Lagoon is about 51 km and 51 min, approx.", risk: "Reykjanes can throw spray and wind. Leave a cushion if you soak before check-in." },
     jan4: { drive: "The Retreat to Keflavik is about 23 km and 25 min, approx, to drop off the car.", risk: "Reykjanes can throw spray and wind at the last minute. Leave a cushion for the 4:55 PM flight." }
   };
@@ -338,9 +346,9 @@ window.ICELAND_TRIP = (function () {
 
   var DEPART = "2026-12-28T15:40:00-07:00";
   var WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=64.1466&longitude=-21.9426&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset,daylight_duration&timezone=Atlantic%2FReykjavik&wind_speed_unit=kmh";
-  var ROUTES_URL = "maps/routes.geojson?v=20261119-maps1";
-  var PREVIEW_PLACES = ["kef", "sandholt", "lava_tunnel", "reykjabod", "selfoss", "kerid", "domes", "glass_cottages", "edition", "retreat"];
-  var PREVIEW_ROUTES = ["kef_sandholt", "sandholt_lava_tunnel", "lava_tunnel_reykjabod", "reykjabod_selfoss", "selfoss_kerid", "kerid_domes", "domes_glass", "glass_edition", "edition_retreat", "blue_lagoon_kef"];
+  var ROUTES_URL = "maps/routes.geojson?v=20261119-site1";
+  var PREVIEW_PLACES = ["kef", "reykjabod", "selfoss", "domes", "kerid", "glass_cottages", "edition", "retreat"];
+  var PREVIEW_ROUTES = ["kef_reykjabod", "reykjabod_selfoss", "selfoss_domes", "domes_kerid", "kerid_glass", "glass_edition", "edition_retreat"];
   /* Carto dark_all and Voyager now return an "API KEY REQUIRED" watermark
      without a key, so this uses OSM tiles (no key) plus a CSS filter for a dark look. */
   var TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -352,12 +360,14 @@ window.ICELAND_TRIP = (function () {
     kef: { lat: 63.99582, lon: -22.608041 },
     sandholt: { lat: 64.145937, lon: -21.92907 },
     lava_tunnel: { lat: 63.939513, lon: -21.396578 },
-    reykjabod: { lat: 64.058161, lon: -21.220115 },
+    reykjabod: { lat: 64.021341, lon: -21.211008 },
     selfoss: { lat: 63.937221, lon: -21.004327 },
     mjolkurbuid: { lat: 63.937221, lon: -21.004327 },
+    froken: { lat: 63.936648, lon: -21.003396 },
     kerid: { lat: 64.041693, lon: -20.886757 },
     domes: { lat: 64.027869, lon: -20.930683 },
-    glass_cottages: { lat: 63.833974, lon: -20.390922 },
+    glass_cottages: { lat: 63.833974, lon: -20.390923 },
+    midgard: { lat: 63.745931, lon: -20.228226 },
     edition: { lat: 64.150176, lon: -21.940045 },
     retreat: { lat: 63.881341, lon: -22.452174 }
   };
@@ -366,14 +376,14 @@ window.ICELAND_TRIP = (function () {
      Do not loop KEF to KEF; Apple Maps collapses that to a single pin. */
   var APPLE_ROUTES = {
     full: {
-      keys: ["kef", "sandholt", "lava_tunnel", "reykjabod", "mjolkurbuid", "kerid", "domes", "glass_cottages", "edition", "retreat"],
+      keys: ["kef", "reykjabod", "selfoss", "domes", "kerid", "glass_cottages", "edition", "retreat"],
       label: "Open route in Apple Maps (KEF to Blue Lagoon)"
     },
     dec29: {
-      keys: ["kef", "sandholt", "lava_tunnel", "reykjabod", "mjolkurbuid", "kerid", "domes"],
+      keys: ["kef", "reykjabod", "selfoss", "domes"],
       label: "Drive in Apple Maps"
     },
-    dec30: { keys: ["domes", "glass_cottages"], label: "Drive in Apple Maps" },
+    dec30: { keys: ["domes", "kerid", "glass_cottages"], label: "Drive in Apple Maps" },
     dec31: { keys: ["glass_cottages", "edition"], label: "Drive in Apple Maps" },
     jan3: { keys: ["edition", "retreat"], label: "Drive in Apple Maps" },
     jan4: { keys: ["retreat", "kef"], label: "Drive in Apple Maps" }

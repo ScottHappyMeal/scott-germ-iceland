@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- build: 20261119-maps1 -->
+  <!-- build: 20261119-site1 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Scott &amp; Jerm's Iceland</title>
   <meta name="description" content="A late-December Iceland trip for two, Dec 28, 2026 to Jan 4, 2027. The plan is verified and not booked yet.">
@@ -18,30 +18,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,600;0,700;0,800;1,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=20261119-maps1">
+  <link rel="stylesheet" href="css/styles.css?v=20261119-site1">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
   <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <symbol id="icon-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-    </symbol>
-    <symbol id="icon-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8 2v3" />
-      <path d="M16 2v3" />
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <path d="M3 9h18" />
-    </symbol>
-    <symbol id="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="18" cy="18" r="3" />
-      <circle cx="6" cy="6" r="3" />
-      <path d="M13 6h3a2 2 0 0 1 2 2v7" />
-      <path d="M11 18H8a2 2 0 0 1-2-2V9" />
-    </symbol>
-    <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </symbol>
     <symbol id="icon-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M15 3h6v6" />
       <path d="M10 14 21 3" />
@@ -58,146 +39,110 @@
   <div class="sky" aria-hidden="true"></div>
   <div class="app">
     <header class="top">
-      <a class="brand" href="#plan">Scott &amp; Jerm's Iceland</a>
+      <a class="brand" href="#top">Scott &amp; Jerm's Iceland</a>
       <div class="top-actions">
-      <button type="button" class="help-btn" id="helpBtn" aria-label="How this works">?</button>
-      <button type="button" class="chip" id="lockedChip" aria-label="Planned total">
-        <span class="chip-lock" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-lock"></use></svg></span>
-        <span>
-          <b id="chipTotal">$0</b>
-          <small>planned</small>
-        </span>
-      </button>
+        <div class="chip" aria-label="Planned total">
+          <span>
+            <b id="chipTotal">$15,218</b>
+            <small>planned</small>
+          </span>
+        </div>
       </div>
     </header>
     <div class="trip-status" id="tripStatus">
       <p id="countdown">Time until departure at 3:40 PM MT, Dec 28.</p>
       <p id="weather">Loading weather for Reykjavik now.</p>
-      <p class="sync-note" id="syncNote" hidden>Not synced. Will retry.</p>
     </div>
-
     <main class="stage">
-      <section class="view" id="view-plan" data-view="plan" hidden>
-        <div class="pad">
-          <p class="kicker">The plan</p>
-          <h1>The full plan</h1>
-          <p class="lede">Dec 28, 2026 to Jan 4, 2027. Cash totals for two, one king or double bed. Nothing is booked yet.</p>
-          <div id="planEmpty" class="empty-card">
-            <p>The verified plan is below. Use Pick only if you want to change a fare, car, or EDITION rate, or add optional extras.</p>
-            <a class="btn primary" href="#pick">Start picking</a>
+      <section class="pad" id="top">
+        <p class="kicker">The trip</p>
+        <h1>Scott &amp; Jerm's Iceland</h1>
+        <p class="lede">Dec 28, 2026 to Jan 4, 2027. Cash totals for two adults, one king or double bed. Nothing is booked yet.</p>
+        <div class="totals-card" id="planTotals">
+          <p class="kicker">Trip totals for two</p>
+          <h2>Nothing is booked yet</h2>
+          <p class="lede">Cash rates only, full totals for two. Lodging is $8,437 with the Stay Longer Flexible Member rate at The Reykjavik EDITION.</p>
+          <p class="price-line">$15,218 <small>Saga Premium, the Duster, and lodging</small></p>
+          <ul class="totals-list">
+            <li class="is-current"><span>Saga Premium and the Duster</span><b>$15,218</b></li>
+            <li><span>Economy and the Duster</span><b>$13,294</b></li>
+            <li><span>Saga Premium and the Defender 110, est.</span><b>est. $16,647</b></li>
+            <li><span>Economy and the Defender 110, est.</span><b>est. $14,723</b></li>
+          </ul>
+          <p class="sub">Meals, activities, and fuel are not included in these totals.</p>
+        </div>
+        <nav class="jump-nav" aria-label="On this page">
+          <a href="#overview">The plan</a>
+          <a href="#mapBlock">Map</a>
+          <a href="#days">Days</a>
+          <a href="#spaCompare">Hot springs</a>
+          <a href="#logistics">Logistics</a>
+        </nav>
+        <div id="overview">
+          <h2>Flights, car, and stays</h2>
+          <p class="sub">The working plan is Icelandair Saga Premium, a Dacia Duster 4x4 for six days, and these four stays. Other cash options are in Logistics.</p>
+          <div id="overviewCards"></div>
+        </div>
+      </section>
+
+      <div class="pad">
+        <div class="map-block" id="mapBlock">
+          <h2>Map</h2>
+          <p class="sub">Pins mark the stops. The green line is the driving route from Keflavik Airport to The Retreat at Blue Lagoon, with the planned stays and Dec 29 to Dec 30 stops along the way. The Jan 4 drive back to the airport is on that day. Tap the map to move it. That keeps one-finger scrolling on the page.</p>
+          <div class="map-route-links" id="fullRouteLinks"></div>
+          <div class="map-frame" id="overviewMapWrap">
+            <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
+            <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
           </div>
+        </div>
+
+        <div id="days">
+          <h2>Day by day</h2>
+          <p class="sub">Dec 28 to Jan 4, with times, drives, stays, and dinners. Winter daylight is about 11:20 AM to 3:30 PM.</p>
           <div id="planDays"></div>
-          <div class="map-block" id="mapBlock">
-            <h2>Map</h2>
-            <p class="sub">Pins mark the stops. The green line is the driving route. Tap the map to move it. That keeps one-finger scrolling on the page.</p>
-            <div class="map-route-links" id="fullRouteLinks"></div>
-            <div class="map-frame" id="overviewMapWrap">
-              <div id="overviewMap" class="overview-map" role="img" aria-label="Interactive map of the trip"></div>
-              <button type="button" class="map-activate" id="overviewActivate">Tap to explore the map</button>
-            </div>
-          </div>
+        </div>
+
+        <div class="spa-compare" id="spaCompare">
+          <h2>Hot springs, prices for two</h2>
+          <p class="sub">Nothing here is booked yet, and these tickets are not included in the trip total. Prices are cash totals for two adults.</p>
+          <article class="spa-card">
+            <h3>Reykjabod Hot Springs, Hveragerdi</h3>
+            <p>Opened September 2026. A quieter mountain-valley soak right on the Dec 29 drive, about 15 minutes from the domes.</p>
+            <p><strong>Winter hours:</strong> Monday to Thursday 10:00 AM to 9:00 PM, Friday to Sunday 10:00 AM to 10:00 PM. Leave the water 30 minutes before close. The restaurant is open 11:30 AM to 8:30 PM.</p>
+            <ul>
+              <li><strong>Classic 17,800 ISK (about $142) for two.</strong> Lagoon, outdoor sauna, cold plunge, Kneipp, and a towel.</li>
+              <li><strong>Signature 33,800 ISK (about $270) for two.</strong> Adds the adults-only indoor Bathhouse Spa with 10 sensory rooms, bathrobes, slippers, and 1 drink each.</li>
+            </ul>
+            <p class="links card-links"><a class="link-out" href="https://reykjabod.is/" target="_blank" rel="noopener">Reykjabod website</a></p>
+          </article>
+          <article class="spa-card">
+            <h3>Sky Lagoon, Kopavogur</h3>
+            <p>About 15 minutes from The Reykjavik EDITION. A larger, busier 70 m ocean-edge infinity lagoon with the 7-step Skjol ritual.</p>
+            <p><strong>Winter hours (October 21 to April 30):</strong> 10:00 AM to 9:00 PM daily. On December 31: 9:00 AM to 8:00 PM. Leave the water 30 minutes before close.</p>
+            <ul>
+              <li><strong>Saman from 29,980 ISK (about $240) for two.</strong> Floor price, which varies by time slot. Shared changing, the ritual, and a towel.</li>
+              <li><strong>Ser from 35,980 ISK (about $288) for two.</strong> Floor price, which varies by time slot. Private changing cabin, plus lotion and a bag.</li>
+            </ul>
+            <p class="links card-links"><a class="link-out" href="https://www.skylagoon.com/" target="_blank" rel="noopener">Sky Lagoon website</a></p>
+          </article>
+        </div>
+
+        <div class="logistics" id="logistics">
+          <h2>Logistics</h2>
+          <div id="logisticsBody"></div>
           <div class="winter-notes">
             <h2>Winter conditions</h2>
             <p>Sunrise is around 11:20 AM, and sunset is around 3:30 to 3:50 PM, about four hours of daylight. Temperatures often sit between -3 and 3 C, with wind, snow, and ice. Check umferdin.is and safetravel.is before any drive. Reynisfjara has sneaker waves. Stay well up the beach.</p>
           </div>
-          <div id="planVideos" class="vid-block" hidden>
-            <h2>Videos</h2>
-            <p class="sub">Videos for locked items. The player loads only after you press play.</p>
-            <div id="videoRow" class="video-row"></div>
-          </div>
+          <div class="pack-block" id="packBlock"></div>
           <div class="ready-block" id="readyBlock">
-            <h2>Ready to book</h2>
-            <p class="sub">Every flight, stay, and rental car, with the official booking page, a deadline when there is one, and a checkbox to mark after you book. All are unbooked until you check them off.</p>
+            <h2>Official booking pages</h2>
+            <p class="sub">Every flight, stay, and rental car, with the official page and a deadline when there is one. All are unbooked.</p>
             <div id="readyList"></div>
           </div>
         </div>
-      </section>
-
-      <section class="view view-pick" id="view-pick" data-view="pick" hidden>
-        <div class="pick-head">
-          <p class="progress" id="pickProg">0 of 0</p>
-          <div class="pick-head-actions">
-            <button type="button" class="ghost" id="undoBtn">Undo</button>
-            <button type="button" class="ghost" id="resetBtn">Start over</button>
-          </div>
-        </div>
-        <div class="deck-wrap" id="deckWrap">
-          <div class="deck" id="deck" aria-live="polite"></div>
-          <div class="deck-end" id="deckEnd" hidden></div>
-        </div>
-      </section>
-
-      <section class="view" id="view-compare" data-view="compare" hidden>
-        <div class="pad">
-          <p class="kicker">Compare</p>
-          <h1>Who is using this phone?</h1>
-          <div id="howCard" class="how-card"></div>
-          <div id="usWho" class="us-who"></div>
-          <div class="us-actions">
-            <button type="button" class="btn" id="editCostsBtn">Edit costs</button>
-            <button type="button" class="btn ghost" id="switchPlayer">Switch player</button>
-          </div>
-          <p class="toast-slot" id="toast" hidden></p>
-          <div id="usBoard"></div>
-          <div class="pack-block" id="packBlock"></div>
-        </div>
-      </section>
+      </div>
     </main>
-
-    <div class="pick-actions" id="pickActions">
-      <button type="button" class="swipe-btn pass" id="btnPass">Pass</button>
-      <button type="button" class="swipe-btn in" id="btnIn">I'm in</button>
-    </div>
-
-    <nav class="tabs" aria-label="App">
-      <span class="tabs-pill" id="tabsPill" aria-hidden="true"></span>
-      <a class="tab" href="#pick" data-tab="pick">
-        <span class="tab-ico" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-heart"></use></svg></span>
-        <span>Pick</span>
-      </a>
-      <a class="tab" href="#plan" data-tab="plan">
-        <span class="tab-ico" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-calendar"></use></svg></span>
-        <span>Plan</span>
-      </a>
-      <a class="tab" href="#compare" data-tab="compare">
-        <span class="tab-ico" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-compare"></use></svg></span>
-        <span>Compare</span>
-      </a>
-    </nav>
-  </div>
-
-  <div class="welcome-layer" id="welcome" hidden>
-    <video class="welcome-video" id="welcomeVideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-    <div class="welcome-sheet" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
-      <div class="welcome-track" id="welcomeTrack"></div>
-      <div class="welcome-footer">
-        <div class="welcome-dots" id="welcomeDots" role="tablist" aria-label="Welcome screens"></div>
-        <div class="welcome-nav">
-          <button type="button" class="ghost" id="welcomeSkip">Skip</button>
-          <button type="button" class="btn primary" id="welcomeNext">Next</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="confirm-layer" id="resetConfirm" hidden>
-    <div class="confirm-sheet" role="dialog" aria-modal="true" aria-labelledby="resetConfirmTitle">
-      <p id="resetConfirmTitle">Clear all picks on this phone and start at card 1?</p>
-      <div class="confirm-actions">
-        <button type="button" class="ghost" id="resetCancel">Cancel</button>
-        <button type="button" class="btn primary" id="resetOk">Start over</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="costs-layer" id="costs" hidden>
-    <div class="costs-sheet" role="dialog" aria-labelledby="costsTitle">
-      <div class="costs-head">
-        <h2 id="costsTitle">Edit costs</h2>
-        <button type="button" class="ghost" id="closeCosts">Close</button>
-      </div>
-      <div class="costs-body" id="costsBody"></div>
-    </div>
   </div>
 
   <div class="map-layer" id="mapLayer" hidden>
@@ -209,8 +154,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="js/data.js?v=20261119-maps1"></script>
-  <script src="js/trip.js?v=20261119-maps1"></script>
-  <script src="js/app.js?v=20261119-maps1"></script>
+  <script src="js/data.js?v=20261119-site1"></script>
+  <script src="js/trip.js?v=20261119-site1"></script>
+  <script src="js/app.js?v=20261119-site1"></script>
 </body>
 </html>

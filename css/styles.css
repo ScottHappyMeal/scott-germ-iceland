@@ -1479,3 +1479,89 @@ html.view-pinned body {
 .plan-item .lock.is-soon { color: #ffb45c; font-weight: 700; }
 .plan-item .lock.is-booked { color: #c6e87a; font-weight: 700; }
 .change-link { margin-left: 4px; }
+
+.spa-compare { margin-top: 28px; }
+.spa-compare h2 { margin: 0 0 8px; }
+.spa-compare > .sub { margin: 0 0 16px; }
+.spa-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  margin: 0 0 12px;
+  min-width: 0;
+}
+.spa-card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+.spa-card p, .spa-card li { margin: 0 0 10px; color: var(--muted); }
+.spa-card ul { margin: 0 0 8px; padding: 0 0 0 1.1em; }
+.spa-card li { padding-left: 0.1em; }
+.spa-card .card-links { margin-top: 4px; }
+
+/* Day-by-day microsite shell: no tab bar, no pick UI. */
+.chip { cursor: default; touch-action: auto; }
+.stage { padding-bottom: calc(24px + var(--safe-b)); }
+.jump-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 4px 0 24px;
+  max-width: 100%;
+}
+.jump-nav a {
+  color: var(--ice);
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#overview { margin-top: 8px; }
+#overviewCards .plan-item,
+#days .plan-item { padding: 14px 0; }
+#days .day-block { margin: 0 0 28px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+#days .day-block:last-child { border-bottom: 0; }
+#days .day-block .when { padding: 8px 0 0; }
+#days .day-block h2 { padding: 4px 0 10px; }
+.day-times {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  max-width: 100%;
+}
+.day-times li {
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+.day-times li strong {
+  display: block;
+  color: var(--gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.daylight-note { padding: 0; }
+.logistics { margin-top: 28px; min-width: 0; max-width: 100%; }
+.logistics h3 { margin: 18px 0 8px; }
+.logistics-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.logistics-list li {
+  margin: 0 0 10px;
+  padding: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.logistics-list li strong { color: var(--ink); }
+.pack-list li {
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.ready-item { padding: 10px 0; border-top: 1px solid var(--line); }
+.ready-item .deadline { color: var(--warn); font-style: normal; font-size: 0.85rem; }
